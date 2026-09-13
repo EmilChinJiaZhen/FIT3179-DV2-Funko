@@ -1,0 +1,257 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 720,
+  "height": 430,
+  "padding": {
+    "top": 10,
+    "left": 10,
+    "right": 10,
+    "bottom": 55
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "Where Is Funko Pop Most Popular?",
+    "subtitle": [
+      "Relative Google search interest by country",
+      "13 Sep 2025 – 13 Sep 2026"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": [
+    {
+      "name": "trends",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/geoMap.csv",
+
+      "format": {
+        "type": "tsv"
+      },
+
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "datum['Category: All categories']",
+          "as": "Line"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.Line) && indexof(datum.Line, ',') >= 0"
+        },
+
+        {
+          "type": "formula",
+          "expr": "trim(split(datum.Line, ',')[0])",
+          "as": "CountryRaw"
+        },
+
+        {
+          "type": "formula",
+          "expr": "trim(split(datum.Line, ',')[1])",
+          "as": "InterestRaw"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.CountryRaw != 'Country' && datum.InterestRaw != ''"
+        },
+
+        {
+          "type": "formula",
+          "expr": "toNumber(datum.InterestRaw)",
+          "as": "Interest"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.Interest)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.CountryRaw == 'United States' ? 'United States of America' : datum.CountryRaw == 'Türkiye' ? 'Turkey' : datum.CountryRaw == 'St Helena' ? 'Saint Helena' : datum.CountryRaw",
+          "as": "Country"
+        }
+      ]
+    },
+
+    {
+      "name": "world",
+
+      "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json",
+
+      "format": {
+        "type": "topojson",
+        "feature": "countries"
+      },
+
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "trends",
+          "key": "Country",
+          "fields": [
+            "properties.name"
+          ],
+          "values": [
+            "Interest",
+            "CountryRaw"
+          ],
+          "as": [
+            "Interest",
+            "TrendCountry"
+          ]
+        }
+      ]
+    }
+  ],
+
+  "projections": [
+    {
+      "name": "projection",
+      "type": "equalEarth",
+      "scale": 145,
+      "translate": [
+        {
+          "signal": "width / 2"
+        },
+        {
+          "signal": "height / 2 + 10"
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "colour",
+      "type": "linear",
+      "domain": [
+        1,
+        100
+      ],
+      "range": {
+        "scheme": "viridis"
+      },
+      "zero": false,
+      "nice": false
+    }
+  ],
+
+  "legends": [
+    {
+      "fill": "colour",
+      "type": "gradient",
+      "title": "Relative search interest",
+      "orient": "bottom",
+      "direction": "horizontal",
+      "gradientLength": 300,
+      "gradientThickness": 14,
+      "titleFont": "Arial",
+      "titleFontSize": 12,
+      "labelFont": "Arial",
+      "labelFontSize": 11,
+      "values": [
+        1,
+        25,
+        50,
+        75,
+        100
+      ]
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "shape",
+
+      "from": {
+        "data": "world"
+      },
+
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ],
+
+      "encode": {
+        "enter": {
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 0.6
+          }
+        },
+
+        "update": {
+          "fill": [
+            {
+              "test": "isValid(datum.Interest)",
+              "scale": "colour",
+              "field": "Interest"
+            },
+            {
+              "value": "#E6E6E6"
+            }
+          ],
+
+          "stroke": [
+            {
+              "test": "datum.properties.name == 'Malaysia'",
+              "value": "#111111"
+            },
+            {
+              "value": "white"
+            }
+          ],
+
+          "strokeWidth": [
+            {
+              "test": "datum.properties.name == 'Malaysia'",
+              "value": 1.8
+            },
+            {
+              "value": 0.6
+            }
+          ],
+
+          "tooltip": {
+            "signal": "isValid(datum.Interest) ? {'Country': datum.TrendCountry, 'Relative search interest': datum.Interest} : {'Country': datum.properties.name, 'Relative search interest': 'No reported data'}"
+          }
+        },
+
+        "hover": {
+          "stroke": {
+            "value": "#111111"
+          },
+
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white"
+  }
+}
