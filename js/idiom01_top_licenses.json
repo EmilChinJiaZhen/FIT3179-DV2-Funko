@@ -1,1 +1,152 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
 
+  "title": {
+    "text": "Funko Pop! Figures by License",
+    "subtitle": "Top 10 licenses by number of products, 2019–2022",
+    "anchor": "start",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "subtitlePadding": 8
+  },
+
+  "width": 600,
+  "height": 360,
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+
+  "transform": [
+    {
+      "filter": "isValid(datum.license) && datum.license != ''"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "Product_Count"
+        }
+      ],
+      "groupby": [
+        "license"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "Rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Product_Count",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.Rank <= 10"
+    }
+  ],
+
+  "encoding": {
+    "y": {
+      "field": "license",
+      "type": "nominal",
+      "sort": {
+        "field": "Product_Count",
+        "order": "descending"
+      },
+      "title": null,
+      "axis": {
+        "labelFontSize": 12,
+        "labelLimit": 200
+      }
+    },
+
+    "x": {
+      "field": "Product_Count",
+      "type": "quantitative",
+      "title": "Number of Funko products",
+      "axis": {
+        "grid": true,
+        "tickMinStep": 1
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "size": 3
+      }
+    },
+
+    {
+      "mark": {
+        "type": "circle",
+        "size": 130
+      },
+
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "license",
+            "type": "nominal",
+            "title": "License"
+          },
+          {
+            "field": "Product_Count",
+            "type": "quantitative",
+            "title": "Number of products"
+          },
+          {
+            "field": "Rank",
+            "type": "ordinal",
+            "title": "Rank"
+          }
+        ]
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 9,
+        "fontSize": 11
+      },
+
+      "encoding": {
+        "text": {
+          "field": "Product_Count",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial",
+      "titleFontSize": 13
+    },
+
+    "title": {
+      "font": "Arial",
+      "subtitleFont": "Arial"
+    }
+  }
+}
