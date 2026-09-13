@@ -1,0 +1,460 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 700,
+  "height": 450,
+
+  "padding": {
+    "top": 10,
+    "left": 5,
+    "right": 5,
+    "bottom": 5
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "Funko Products by Product Type",
+    "subtitle": "Distribution of products across categories, 2019–2022",
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": [
+    {
+      "name": "source",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+
+      "format": {
+        "type": "csv",
+        "parse": {
+          "price": "number"
+        }
+      },
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum.product_type) && datum.product_type != ''"
+        }
+      ]
+    },
+
+    {
+      "name": "summary",
+
+      "source": "source",
+
+      "transform": [
+        {
+          "type": "aggregate",
+
+          "groupby": [
+            "product_type"
+          ],
+
+          "fields": [
+            "uid",
+            "price",
+            "price",
+            "price"
+          ],
+
+          "ops": [
+            "count",
+            "average",
+            "min",
+            "max"
+          ],
+
+          "as": [
+            "Product_Count",
+            "Average_Price",
+            "Minimum_Price",
+            "Maximum_Price"
+          ]
+        },
+
+        {
+          "type": "joinaggregate",
+
+          "fields": [
+            "Product_Count"
+          ],
+
+          "ops": [
+            "sum"
+          ],
+
+          "as": [
+            "Total_Products"
+          ]
+        },
+
+        {
+          "type": "formula",
+
+          "expr": "datum.Product_Count / datum.Total_Products",
+
+          "as": "Share"
+        },
+
+        {
+          "type": "collect",
+
+          "sort": {
+            "field": "Product_Count",
+            "order": "descending"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "tree",
+
+      "source": "source",
+
+      "transform": [
+        {
+          "type": "nest",
+
+          "keys": [
+            "product_type"
+          ],
+
+          "generate": true
+        },
+
+        {
+          "type": "treemap",
+
+          "sort": {
+            "field": "value",
+            "order": "descending"
+          },
+
+          "round": true,
+
+          "method": "squarify",
+
+          "ratio": 1.6,
+
+          "paddingInner": 3,
+
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "categories",
+
+      "source": "tree",
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.depth === 1"
+        },
+
+        {
+          "type": "lookup",
+
+          "from": "summary",
+
+          "key": "product_type",
+
+          "fields": [
+            "key"
+          ],
+
+          "values": [
+            "Product_Count",
+            "Average_Price",
+            "Minimum_Price",
+            "Maximum_Price",
+            "Share"
+          ],
+
+          "as": [
+            "Product_Count",
+            "Average_Price",
+            "Minimum_Price",
+            "Maximum_Price",
+            "Share"
+          ]
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+
+      "type": "ordinal",
+
+      "domain": {
+        "data": "summary",
+        "field": "product_type"
+      },
+
+      "range": {
+        "scheme": "tableau20"
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "rect",
+
+      "from": {
+        "data": "categories"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x0"
+          },
+
+          "y": {
+            "field": "y0"
+          },
+
+          "x2": {
+            "field": "x1"
+          },
+
+          "y2": {
+            "field": "y1"
+          },
+
+          "fill": {
+            "scale": "color",
+            "field": "key"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 3
+          },
+
+          "cornerRadius": {
+            "value": 2
+          },
+
+          "tooltip": {
+            "signal": "{'Product Type': datum.key, 'Number of Products': datum.Product_Count, 'Share of Catalogue': format(datum.Share, '.1%'), 'Average Price': isValid(datum.Average_Price) ? '$' + format(datum.Average_Price, '.2f') : 'N/A', 'Minimum Price': isValid(datum.Minimum_Price) ? '$' + format(datum.Minimum_Price, '.2f') : 'N/A', 'Maximum Price': isValid(datum.Maximum_Price) ? '$' + format(datum.Maximum_Price, '.2f') : 'N/A'}"
+          }
+        },
+
+        "update": {
+          "fillOpacity": {
+            "value": 0.85
+          }
+        },
+
+        "hover": {
+          "fillOpacity": {
+            "value": 1
+          },
+
+          "stroke": {
+            "value": "#333333"
+          },
+
+          "strokeWidth": {
+            "value": 2
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "categories"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "(datum.x0 + datum.x1) / 2"
+          },
+
+          "y": {
+            "signal": "(datum.y0 + datum.y1) / 2 - 8"
+          },
+
+          "text": {
+            "field": "key"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "white"
+          },
+
+          "limit": {
+            "signal": "max(0, datum.x1 - datum.x0 - 12)"
+          }
+        },
+
+        "update": {
+          "fontSize": {
+            "signal": "(datum.x1 - datum.x0) > 180 && (datum.y1 - datum.y0) > 100 ? 17 : 13"
+          },
+
+          "opacity": {
+            "signal": "(datum.x1 - datum.x0) >= 80 && (datum.y1 - datum.y0) >= 38 ? 1 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "categories"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "(datum.x0 + datum.x1) / 2"
+          },
+
+          "y": {
+            "signal": "(datum.y0 + datum.y1) / 2 + 13"
+          },
+
+          "text": {
+            "signal": "format(datum.Product_Count, ',') + ' products'"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "white"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "(datum.x1 - datum.x0) >= 105 && (datum.y1 - datum.y0) >= 65 ? 0.95 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "categories"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "(datum.x0 + datum.x1) / 2"
+          },
+
+          "y": {
+            "signal": "(datum.y0 + datum.y1) / 2 + 30"
+          },
+
+          "text": {
+            "signal": "format(datum.Share, '.1%')"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 10
+          },
+
+          "fill": {
+            "value": "white"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "(datum.x1 - datum.x0) >= 120 && (datum.y1 - datum.y0) >= 85 ? 0.9 : 0"
+          }
+        }
+      }
+    }
+  ]
+}
