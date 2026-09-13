@@ -1,0 +1,667 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 720,
+  "height": 420,
+
+  "padding": {
+    "top": 10,
+    "left": 10,
+    "right": 10,
+    "bottom": 70
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "How Did Funko's Product Mix Change?",
+    "subtitle": [
+      "Product type composition by year, 2019–2022",
+      "Column width represents the total number of products released"
+    ],
+    "orient": "top",
+    "anchor": "start",
+    "offset": 12,
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 7
+  },
+
+  "data": [
+    {
+      "name": "source",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+
+      "format": {
+        "type": "csv",
+        "parse": {
+          "price": "number"
+        }
+      },
+
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "toDate(datum.published_at)",
+          "as": "ReleaseDate"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.ReleaseDate)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "year(datum.ReleaseDate)",
+          "as": "ReleaseYear"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.product_type) && datum.product_type != ''"
+        }
+      ]
+    },
+
+    {
+      "name": "global_types",
+
+      "source": "source",
+
+      "transform": [
+        {
+          "type": "aggregate",
+
+          "groupby": [
+            "product_type"
+          ],
+
+          "ops": [
+            "count"
+          ],
+
+          "as": [
+            "Product_Count"
+          ]
+        },
+
+        {
+          "type": "window",
+
+          "ops": [
+            "row_number"
+          ],
+
+          "as": [
+            "Type_Rank"
+          ],
+
+          "sort": {
+            "field": "Product_Count",
+            "order": "descending"
+          }
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.Type_Rank <= 6 ? datum.product_type : 'Other'",
+          "as": "DisplayType"
+        }
+      ]
+    },
+
+    {
+      "name": "year_totals",
+
+      "source": "source",
+
+      "transform": [
+        {
+          "type": "aggregate",
+
+          "groupby": [
+            "ReleaseYear"
+          ],
+
+          "ops": [
+            "count"
+          ],
+
+          "as": [
+            "Year_Total"
+          ]
+        },
+
+        {
+          "type": "joinaggregate",
+
+          "fields": [
+            "Year_Total"
+          ],
+
+          "ops": [
+            "sum"
+          ],
+
+          "as": [
+            "Grand_Total"
+          ]
+        },
+
+        {
+          "type": "window",
+
+          "fields": [
+            "Year_Total"
+          ],
+
+          "ops": [
+            "sum"
+          ],
+
+          "as": [
+            "Cumulative_Total"
+          ],
+
+          "sort": {
+            "field": "ReleaseYear",
+            "order": "ascending"
+          },
+
+          "frame": [
+            null,
+            0
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "(datum.Cumulative_Total - datum.Year_Total) / datum.Grand_Total",
+          "as": "x0n"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.Cumulative_Total / datum.Grand_Total",
+          "as": "x1n"
+        }
+      ]
+    },
+
+    {
+      "name": "product_year",
+
+      "source": "source",
+
+      "transform": [
+        {
+          "type": "lookup",
+
+          "from": "global_types",
+
+          "key": "product_type",
+
+          "fields": [
+            "product_type"
+          ],
+
+          "values": [
+            "DisplayType",
+            "Type_Rank"
+          ],
+
+          "as": [
+            "DisplayType",
+            "Type_Rank"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.Type_Rank <= 6 ? datum.Type_Rank : 999",
+          "as": "Category_Rank"
+        },
+
+        {
+          "type": "aggregate",
+
+          "groupby": [
+            "ReleaseYear",
+            "DisplayType",
+            "Category_Rank"
+          ],
+
+          "ops": [
+            "count"
+          ],
+
+          "as": [
+            "Product_Count"
+          ]
+        },
+
+        {
+          "type": "lookup",
+
+          "from": "year_totals",
+
+          "key": "ReleaseYear",
+
+          "fields": [
+            "ReleaseYear"
+          ],
+
+          "values": [
+            "Year_Total",
+            "x0n",
+            "x1n"
+          ],
+
+          "as": [
+            "Year_Total",
+            "x0n",
+            "x1n"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.Product_Count / datum.Year_Total",
+          "as": "Year_Share"
+        },
+
+        {
+          "type": "stack",
+
+          "groupby": [
+            "ReleaseYear"
+          ],
+
+          "field": "Product_Count",
+
+          "sort": {
+            "field": "Category_Rank",
+            "order": "ascending"
+          },
+
+          "offset": "normalize",
+
+          "as": [
+            "y0",
+            "y1"
+          ]
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+
+      "type": "ordinal",
+
+      "domain": {
+        "data": "product_year",
+        "field": "DisplayType"
+      },
+
+      "range": {
+        "scheme": "tableau10"
+      }
+    }
+  ],
+
+  "legends": [
+    {
+      "fill": "color",
+      "title": "Product type",
+      "orient": "right",
+      "offset": 15,
+      "titleFont": "Arial",
+      "titleFontSize": 13,
+      "labelFont": "Arial",
+      "labelFontSize": 11,
+      "symbolType": "square"
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "rect",
+
+      "from": {
+        "data": "product_year"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.x0n * width"
+          },
+
+          "x2": {
+            "signal": "datum.x1n * width"
+          },
+
+          "y": {
+            "signal": "datum.y0 * height"
+          },
+
+          "y2": {
+            "signal": "datum.y1 * height"
+          },
+
+          "fill": {
+            "scale": "color",
+            "field": "DisplayType"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 2
+          },
+
+          "tooltip": {
+            "signal": "{'Year': datum.ReleaseYear, 'Product type': datum.DisplayType, 'Products': datum.Product_Count, 'Share of year': format(datum.Year_Share, '.1%'), 'Total products that year': datum.Year_Total}"
+          }
+        },
+
+        "update": {
+          "fillOpacity": {
+            "value": 0.88
+          }
+        },
+
+        "hover": {
+          "fillOpacity": {
+            "value": 1
+          },
+
+          "stroke": {
+            "value": "#333333"
+          },
+
+          "strokeWidth": {
+            "value": 2
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "product_year"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "((datum.x0n + datum.x1n) / 2) * width"
+          },
+
+          "y": {
+            "signal": "((datum.y0 + datum.y1) / 2) * height - 7"
+          },
+
+          "text": {
+            "field": "DisplayType"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "white"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "((datum.x1n - datum.x0n) * width >= 90) && ((datum.y1 - datum.y0) * height >= 42) ? 1 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "product_year"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "((datum.x0n + datum.x1n) / 2) * width"
+          },
+
+          "y": {
+            "signal": "((datum.y0 + datum.y1) / 2) * height + 9"
+          },
+
+          "text": {
+            "signal": "datum.Product_Count + ' products'"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 10
+          },
+
+          "fill": {
+            "value": "white"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "((datum.x1n - datum.x0n) * width >= 100) && ((datum.y1 - datum.y0) * height >= 52) ? 0.95 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "year_totals"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "((datum.x0n + datum.x1n) / 2) * width"
+          },
+
+          "y": {
+            "signal": "height + 23"
+          },
+
+          "text": {
+            "field": "ReleaseYear"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 13
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "(datum.x1n - datum.x0n) * width >= 55 ? 1 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "year_totals"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "((datum.x0n + datum.x1n) / 2) * width"
+          },
+
+          "y": {
+            "signal": "height + 42"
+          },
+
+          "text": {
+            "signal": "datum.Year_Total + ' products'"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 10
+          },
+
+          "fill": {
+            "value": "#555555"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "(datum.x1n - datum.x0n) * width >= 70 ? 1 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "year_totals"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 0
+          },
+
+          "y": {
+            "signal": "datum.ReleaseYear == 2019 ? height + 24 : height + 42"
+          },
+
+          "text": {
+            "signal": "datum.ReleaseYear + ': ' + datum.Year_Total + ' products'"
+          },
+
+          "align": {
+            "value": "left"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 10
+          },
+
+          "fill": {
+            "value": "#555555"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "(datum.x1n - datum.x0n) * width < 55 ? 1 : 0"
+          }
+        }
+      }
+    }
+  ]
+}
