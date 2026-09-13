@@ -1,0 +1,425 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
+  "width": 760,
+  "height": 430,
+
+  "padding": {
+    "top": 10,
+    "left": 10,
+    "right": 200,
+    "bottom": 55
+  },
+
+  "title": {
+    "text": "How Did Funko's Top Licenses Change Rank?",
+    "subtitle": [
+      "Quarterly rank movement of the leading licenses",
+      "Based on number of products in the dataset, 2019–2022"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+
+  "transform": [
+    {
+      "filter": "isValid(datum.license) && datum.license != '' && isValid(datum.published_at)"
+    },
+
+    {
+      "calculate": "toDate(datum.published_at)",
+      "as": "ReleaseDate"
+    },
+
+    {
+      "filter": "isValid(datum.ReleaseDate)"
+    },
+
+    {
+      "calculate": "year(datum.ReleaseDate)",
+      "as": "ReleaseYear"
+    },
+
+    {
+      "filter": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
+    },
+
+    {
+      "calculate": "floor(month(datum.ReleaseDate) / 3) + 1",
+      "as": "Quarter"
+    },
+
+    {
+      "calculate": "(datum.ReleaseYear - 2019) * 4 + datum.Quarter",
+      "as": "QuarterIndex"
+    },
+
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "field": "uid",
+          "as": "Quarterly_Product_Count"
+        }
+      ],
+      "groupby": [
+        "QuarterIndex",
+        "license"
+      ]
+    },
+
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "Quarterly_Product_Count",
+          "as": "Overall_Product_Count"
+        }
+      ],
+      "groupby": [
+        "license"
+      ]
+    },
+
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "Overall_Rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Overall_Product_Count",
+          "order": "descending"
+        }
+      ]
+    },
+
+    {
+      "filter": "datum.Overall_Rank <= 6"
+    },
+
+    {
+      "impute": "Quarterly_Product_Count",
+      "key": "QuarterIndex",
+      "groupby": [
+        "license"
+      ],
+      "keyvals": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "value": 0
+    },
+
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "Quarterly_Product_Count",
+          "as": "Overall_Product_Count"
+        }
+      ],
+      "groupby": [
+        "license"
+      ]
+    },
+
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "Overall_Rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Overall_Product_Count",
+          "order": "descending"
+        }
+      ]
+    },
+
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "Quarterly_Product_Count",
+          "as": "Quarter_Total"
+        }
+      ],
+      "groupby": [
+        "QuarterIndex"
+      ]
+    },
+
+    {
+      "filter": "datum.Quarter_Total > 0"
+    },
+
+    {
+      "calculate": "2019 + floor((datum.QuarterIndex - 1) / 4)",
+      "as": "QuarterYear"
+    },
+
+    {
+      "calculate": "((datum.QuarterIndex - 1) % 4) + 1",
+      "as": "QuarterNumber"
+    },
+
+    {
+      "calculate": "'Q' + datum.QuarterNumber + ' ' + datum.QuarterYear",
+      "as": "QuarterLabel"
+    },
+
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "Quarterly_Rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Quarterly_Product_Count",
+          "order": "descending"
+        },
+        {
+          "field": "license",
+          "order": "ascending"
+        }
+      ],
+      "groupby": [
+        "QuarterIndex"
+      ]
+    },
+
+    {
+      "window": [
+        {
+          "op": "lag",
+          "field": "Quarterly_Rank",
+          "as": "Previous_Rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "QuarterIndex",
+          "order": "ascending"
+        }
+      ],
+      "groupby": [
+        "license"
+      ]
+    },
+
+    {
+      "calculate": "isValid(datum.Previous_Rank) ? datum.Previous_Rank - datum.Quarterly_Rank : null",
+      "as": "Rank_Change"
+    },
+
+    {
+      "calculate": "!isValid(datum.Previous_Rank) ? 'First quarter' : datum.Rank_Change > 0 ? 'Up ' + datum.Rank_Change + (datum.Rank_Change == 1 ? ' rank' : ' ranks') : datum.Rank_Change < 0 ? 'Down ' + abs(datum.Rank_Change) + (abs(datum.Rank_Change) == 1 ? ' rank' : ' ranks') : 'No change'",
+      "as": "Movement"
+    }
+  ],
+
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "opacity": 0.85,
+        "interpolate": "monotone"
+      },
+
+      "encoding": {
+        "x": {
+          "field": "QuarterIndex",
+          "type": "quantitative",
+          "title": "Quarter",
+          "scale": {
+            "domain": [4, 16]
+          },
+          "axis": {
+            "values": [4, 6, 8, 10, 12, 14, 16],
+            "labelExpr": "'Q' + (((datum.value - 1) % 4) + 1) + ' ' + (2019 + floor((datum.value - 1) / 4))",
+            "labelAngle": 0,
+            "labelFont": "Arial",
+            "labelFontSize": 10,
+            "labelPadding": 8,
+            "titleFont": "Arial",
+            "titleFontSize": 13,
+            "grid": false,
+            "tickSize": 4
+          }
+        },
+
+        "y": {
+          "field": "Quarterly_Rank",
+          "type": "quantitative",
+          "title": "Quarterly rank",
+          "scale": {
+            "domain": [7.5, 0.5]
+          },
+          "axis": {
+            "values": [1, 2, 3, 4, 5, 6, 7],
+            "format": "d",
+            "labelFont": "Arial",
+            "labelFontSize": 11,
+            "titleFont": "Arial",
+            "titleFontSize": 13,
+            "titlePadding": 10,
+            "grid": true,
+            "gridColor": "#D9D9D9",
+            "tickSize": 4
+          }
+        },
+
+        "color": {
+          "field": "license",
+          "type": "nominal",
+          "title": "License",
+          "scale": {
+            "scheme": "tableau10"
+          },
+          "legend": {
+            "orient": "right",
+            "titleFont": "Arial",
+            "titleFontSize": 12,
+            "labelFont": "Arial",
+            "labelFontSize": 10,
+            "labelLimit": 180,
+            "symbolStrokeWidth": 3
+          }
+        },
+
+        "detail": {
+          "field": "license"
+        }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "circle",
+        "size": 95,
+        "stroke": "white",
+        "strokeWidth": 1.3,
+        "opacity": 1
+      },
+
+      "encoding": {
+        "x": {
+          "field": "QuarterIndex",
+          "type": "quantitative"
+        },
+
+        "y": {
+          "field": "Quarterly_Rank",
+          "type": "quantitative",
+          "scale": {
+            "domain": [7.5, 0.5]
+          }
+        },
+
+        "color": {
+          "field": "license",
+          "type": "nominal",
+          "scale": {
+            "scheme": "tableau10"
+          },
+          "legend": null
+        },
+
+        "tooltip": [
+          {
+            "field": "license",
+            "type": "nominal",
+            "title": "License"
+          },
+          {
+            "field": "QuarterLabel",
+            "type": "nominal",
+            "title": "Quarter"
+          },
+          {
+            "field": "Quarterly_Rank",
+            "type": "quantitative",
+            "title": "Quarterly rank",
+            "format": "d"
+          },
+          {
+            "field": "Quarterly_Product_Count",
+            "type": "quantitative",
+            "title": "Products this quarter",
+            "format": ","
+          },
+          {
+            "field": "Quarter_Total",
+            "type": "quantitative",
+            "title": "Total products in that quarter",
+            "format": ","
+          },
+          {
+            "field": "Movement",
+            "type": "nominal",
+            "title": "Rank movement"
+          },
+          {
+            "field": "Previous_Rank",
+            "type": "quantitative",
+            "title": "Previous quarter rank",
+            "format": "d"
+          },
+          {
+            "field": "Overall_Product_Count",
+            "type": "quantitative",
+            "title": "Total products, 2019–2022",
+            "format": ","
+          },
+          {
+            "field": "Overall_Rank",
+            "type": "quantitative",
+            "title": "Overall rank",
+            "format": "d"
+          }
+        ]
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false
+    }
+  }
+}
