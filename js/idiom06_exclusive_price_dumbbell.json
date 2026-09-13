@@ -1,0 +1,413 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
+  "width": 650,
+  "height": 360,
+
+  "title": {
+    "text": "Do Exclusive Funko Products Cost More?",
+    "subtitle": "Average listed price by product type for exclusive-tagged and other products",
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "price": "number"
+      }
+    }
+  },
+
+  "transform": [
+    {
+      "filter": "isValid(datum.product_type) && datum.product_type != ''"
+    },
+
+    {
+      "filter": "isValid(datum.price) && datum.price > 0"
+    },
+
+    {
+      "calculate": "indexof(lower(toString(datum.tags)), 'exclusive') >= 0 ? 'Exclusive-tagged' : 'No exclusive tag'",
+      "as": "Exclusive_Status"
+    },
+
+    {
+      "aggregate": [
+        {
+          "op": "mean",
+          "field": "price",
+          "as": "Average_Price"
+        },
+        {
+          "op": "median",
+          "field": "price",
+          "as": "Median_Price"
+        },
+        {
+          "op": "min",
+          "field": "price",
+          "as": "Minimum_Price"
+        },
+        {
+          "op": "max",
+          "field": "price",
+          "as": "Maximum_Price"
+        },
+        {
+          "op": "count",
+          "field": "uid",
+          "as": "Product_Count"
+        }
+      ],
+
+      "groupby": [
+        "product_type",
+        "Exclusive_Status"
+      ]
+    },
+
+    {
+      "calculate": "datum.Exclusive_Status == 'Exclusive-tagged' ? datum.Average_Price : 0",
+      "as": "Exclusive_Avg_Part"
+    },
+
+    {
+      "calculate": "datum.Exclusive_Status == 'No exclusive tag' ? datum.Average_Price : 0",
+      "as": "No_Exclusive_Avg_Part"
+    },
+
+    {
+      "calculate": "datum.Exclusive_Status == 'Exclusive-tagged' ? datum.Product_Count : 0",
+      "as": "Exclusive_Count_Part"
+    },
+
+    {
+      "calculate": "datum.Exclusive_Status == 'No exclusive tag' ? datum.Product_Count : 0",
+      "as": "No_Exclusive_Count_Part"
+    },
+
+    {
+      "joinaggregate": [
+        {
+          "op": "max",
+          "field": "Exclusive_Avg_Part",
+          "as": "Exclusive_Average"
+        },
+        {
+          "op": "max",
+          "field": "No_Exclusive_Avg_Part",
+          "as": "No_Exclusive_Average"
+        },
+        {
+          "op": "max",
+          "field": "Exclusive_Count_Part",
+          "as": "Exclusive_Count"
+        },
+        {
+          "op": "max",
+          "field": "No_Exclusive_Count_Part",
+          "as": "No_Exclusive_Count"
+        },
+        {
+          "op": "sum",
+          "field": "Product_Count",
+          "as": "Total_Products"
+        }
+      ],
+
+      "groupby": [
+        "product_type"
+      ]
+    },
+
+    {
+      "filter": "datum.Exclusive_Count > 0 && datum.No_Exclusive_Count > 0"
+    },
+
+    {
+      "calculate": "datum.Exclusive_Average - datum.No_Exclusive_Average",
+      "as": "Price_Difference"
+    },
+
+    {
+      "calculate": "datum.Price_Difference / datum.No_Exclusive_Average",
+      "as": "Price_Difference_Percent"
+    },
+
+    {
+      "calculate": "datum.Product_Count / datum.Total_Products",
+      "as": "Group_Share"
+    },
+
+    {
+      "calculate": "(datum.Exclusive_Average + datum.No_Exclusive_Average) / 2",
+      "as": "Mid_Price"
+    },
+
+    {
+      "calculate": "(datum.Price_Difference >= 0 ? '+$' : '-$') + format(abs(datum.Price_Difference), '.2f')",
+      "as": "Difference_Label"
+    },
+
+    {
+      "calculate": "(datum.Price_Difference >= 0 ? '+' : '') + format(datum.Price_Difference_Percent, '.1%')",
+      "as": "Difference_Percent_Label"
+    },
+
+    {
+      "calculate": "'$' + format(datum.Minimum_Price, '.2f') + ' – $' + format(datum.Maximum_Price, '.2f')",
+      "as": "Price_Range"
+    },
+
+    {
+      "calculate": "format(datum.Group_Share, '.1%')",
+      "as": "Group_Share_Label"
+    },
+
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "ProductType_Rank"
+        }
+      ],
+
+      "sort": [
+        {
+          "field": "Total_Products",
+          "order": "descending"
+        }
+      ]
+    },
+
+    {
+      "filter": "datum.ProductType_Rank <= 6"
+    }
+  ],
+
+  "encoding": {
+    "y": {
+      "field": "product_type",
+      "type": "nominal",
+      "title": null,
+
+      "sort": {
+        "field": "Total_Products",
+        "order": "descending"
+      },
+
+      "axis": {
+        "labelFont": "Arial",
+        "labelFontSize": 12,
+        "labelLimit": 180
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.Exclusive_Status == 'Exclusive-tagged'"
+        }
+      ],
+
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 4,
+        "color": "#CFCFCF"
+      },
+
+      "encoding": {
+        "x": {
+          "field": "No_Exclusive_Average",
+          "type": "quantitative",
+          "title": "Average listed price (USD)",
+
+          "axis": {
+            "format": "$.0f",
+            "grid": true,
+            "labelFont": "Arial",
+            "labelFontSize": 11,
+            "titleFont": "Arial",
+            "titleFontSize": 13
+          }
+        },
+
+        "x2": {
+          "field": "Exclusive_Average"
+        }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 190,
+        "stroke": "white",
+        "strokeWidth": 1.5
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Average_Price",
+          "type": "quantitative",
+          "title": "Average listed price (USD)"
+        },
+
+        "color": {
+          "field": "Exclusive_Status",
+          "type": "nominal",
+          "title": "Product status",
+
+          "scale": {
+            "domain": [
+              "No exclusive tag",
+              "Exclusive-tagged"
+            ],
+
+            "range": [
+              "#4E79A7",
+              "#F28E2B"
+            ]
+          },
+
+          "legend": {
+            "titleFont": "Arial",
+            "labelFont": "Arial"
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "product_type",
+            "type": "nominal",
+            "title": "Product type"
+          },
+
+          {
+            "field": "Exclusive_Status",
+            "type": "nominal",
+            "title": "Status"
+          },
+
+          {
+            "field": "Average_Price",
+            "type": "quantitative",
+            "title": "Average price",
+            "format": "$.2f"
+          },
+
+          {
+            "field": "Median_Price",
+            "type": "quantitative",
+            "title": "Median price",
+            "format": "$.2f"
+          },
+
+          {
+            "field": "Price_Range",
+            "type": "nominal",
+            "title": "Price range"
+          },
+
+          {
+            "field": "Product_Count",
+            "type": "quantitative",
+            "title": "Products in this group",
+            "format": ","
+          },
+
+          {
+            "field": "Group_Share_Label",
+            "type": "nominal",
+            "title": "Share of product type"
+          },
+
+          {
+            "field": "Exclusive_Average",
+            "type": "quantitative",
+            "title": "Exclusive-tagged avg.",
+            "format": "$.2f"
+          },
+
+          {
+            "field": "No_Exclusive_Average",
+            "type": "quantitative",
+            "title": "No-exclusive-tag avg.",
+            "format": "$.2f"
+          },
+
+          {
+            "field": "Difference_Label",
+            "type": "nominal",
+            "title": "Exclusive price difference"
+          },
+
+          {
+            "field": "Difference_Percent_Label",
+            "type": "nominal",
+            "title": "Exclusive difference (%)"
+          },
+
+          {
+            "field": "Total_Products",
+            "type": "quantitative",
+            "title": "Total products in type",
+            "format": ","
+          }
+        ]
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "filter": "datum.Exclusive_Status == 'Exclusive-tagged'"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "dy": -13,
+        "font": "Arial",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#333333"
+      },
+
+      "encoding": {
+        "x": {
+          "field": "Mid_Price",
+          "type": "quantitative"
+        },
+
+        "text": {
+          "field": "Difference_Label"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    }
+  }
+}
