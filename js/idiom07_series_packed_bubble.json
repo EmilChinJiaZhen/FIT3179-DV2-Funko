@@ -1,0 +1,421 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 700,
+  "height": 500,
+
+  "padding": {
+    "top": 10,
+    "left": 10,
+    "right": 10,
+    "bottom": 10
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "Which Funko Series Appear Most Often?",
+    "subtitle": "Top 15 series labels across the Funko collection dataset",
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": [
+    {
+      "name": "source",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_pop.csv",
+
+      "format": {
+        "type": "csv"
+      },
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum.series) && datum.series != ''"
+        },
+
+        {
+          "type": "formula",
+          "expr": "replace(replace(replace(datum.series, '[', ''), ']', ''), '\"', '')",
+          "as": "CleanSeries"
+        },
+
+        {
+          "type": "formula",
+          "expr": "split(datum.CleanSeries, ';')",
+          "as": "SeriesArray"
+        },
+
+        {
+          "type": "flatten",
+          "fields": [
+            "SeriesArray"
+          ],
+          "as": [
+            "SeriesLabel"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "trim(datum.SeriesLabel)",
+          "as": "SeriesLabel"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.SeriesLabel != ''"
+        }
+      ]
+    },
+
+    {
+      "name": "summary",
+
+      "source": "source",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "SeriesLabel"
+          ],
+          "ops": [
+            "count"
+          ],
+          "as": [
+            "Entry_Count"
+          ]
+        },
+
+        {
+          "type": "window",
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "Rank"
+          ],
+          "sort": {
+            "field": "Entry_Count",
+            "order": "descending"
+          }
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.Rank <= 15"
+        },
+
+        {
+          "type": "joinaggregate",
+          "fields": [
+            "Entry_Count"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "Selected_Total"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.Entry_Count / datum.Selected_Total",
+          "as": "Selected_Share"
+        }
+      ]
+    },
+
+    {
+      "name": "tree",
+
+      "source": "summary",
+
+      "transform": [
+        {
+          "type": "nest",
+          "keys": [
+            "SeriesLabel"
+          ],
+          "generate": true
+        },
+
+        {
+          "type": "pack",
+          "field": "Entry_Count",
+          "sort": {
+            "field": "value",
+            "order": "descending"
+          },
+          "padding": 8,
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "bubbles",
+
+      "source": "tree",
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.depth === 1"
+        },
+
+        {
+          "type": "lookup",
+          "from": "summary",
+          "key": "SeriesLabel",
+          "fields": [
+            "key"
+          ],
+          "values": [
+            "Entry_Count",
+            "Rank",
+            "Selected_Share"
+          ],
+          "as": [
+            "Entry_Count",
+            "Rank",
+            "Selected_Share"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "split(datum.key, ' ')",
+          "as": "LabelWords"
+        },
+
+        {
+          "type": "formula",
+          "expr": "length(datum.LabelWords)",
+          "as": "WordCount"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.WordCount <= 2 ? [join(datum.LabelWords, ' ')] : datum.WordCount == 3 ? [datum.LabelWords[0] + ' ' + datum.LabelWords[1], datum.LabelWords[2]] : datum.WordCount == 4 ? [datum.LabelWords[0] + ' ' + datum.LabelWords[1], datum.LabelWords[2] + ' ' + datum.LabelWords[3]] : [datum.LabelWords[0] + ' ' + datum.LabelWords[1], datum.LabelWords[2] + ' ' + datum.LabelWords[3], join(slice(datum.LabelWords, 4), ' ')]",
+          "as": "WrappedLabel"
+        },
+
+        {
+          "type": "formula",
+          "expr": "length(datum.WrappedLabel)",
+          "as": "LineCount"
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {
+        "data": "summary",
+        "field": "SeriesLabel"
+      },
+      "range": {
+        "scheme": "tableau20"
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "symbol",
+
+      "from": {
+        "data": "bubbles"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x"
+          },
+
+          "y": {
+            "field": "y"
+          },
+
+          "shape": {
+            "value": "circle"
+          },
+
+          "size": {
+            "signal": "PI * pow(datum.r, 2)"
+          },
+
+          "fill": {
+            "scale": "color",
+            "field": "key"
+          },
+
+          "tooltip": {
+            "signal": "{'Series': datum.key, 'Number of entries': datum.Entry_Count, 'Rank': datum.Rank, 'Share of top 15': format(datum.Selected_Share, '.1%')}"
+          }
+        },
+
+        "update": {
+          "fillOpacity": {
+            "value": 0.85
+          }
+        },
+
+        "hover": {
+          "fillOpacity": {
+            "value": 1
+          },
+
+          "stroke": {
+            "value": "#333333"
+          },
+
+          "strokeWidth": {
+            "value": 3
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "bubbles"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x"
+          },
+
+          "y": {
+            "signal": "datum.y - (datum.LineCount >= 3 ? 10 : datum.LineCount == 2 ? 7 : 4)"
+          },
+
+          "text": {
+            "field": "WrappedLabel"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "white"
+          },
+
+          "fontSize": {
+            "signal": "datum.r >= 90 ? 15 : datum.r >= 70 ? 13 : datum.r >= 55 ? 11 : datum.r >= 42 ? 9 : 7"
+          },
+
+          "lineHeight": {
+            "signal": "datum.r >= 90 ? 17 : datum.r >= 70 ? 15 : datum.r >= 55 ? 13 : datum.r >= 42 ? 11 : 9"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "datum.r >= 24 ? 1 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "bubbles"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x"
+          },
+
+          "y": {
+            "signal": "datum.y + (datum.LineCount >= 3 ? 18 : datum.LineCount == 2 ? 14 : 11)"
+          },
+
+          "text": {
+            "signal": "format(datum.Entry_Count, ',') + ' entries'"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontWeight": {
+            "value": "normal"
+          },
+
+          "fill": {
+            "value": "white"
+          },
+
+          "fontSize": {
+            "signal": "datum.r >= 60 ? 10 : datum.r >= 42 ? 8 : 7"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "datum.r >= 34 ? 1 : 0"
+          }
+        }
+      }
+    }
+  ]
+}
