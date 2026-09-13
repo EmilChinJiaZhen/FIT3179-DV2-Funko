@@ -1,0 +1,216 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
+  "width": 620,
+  "height": 420,
+
+  "title": {
+    "text": "When Are Funko Products Released?",
+    "subtitle": "Monthly release activity by year, 2019–2022",
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "price": "number"
+      }
+    }
+  },
+
+  "transform": [
+    {
+      "calculate": "toDate(datum.published_at)",
+      "as": "ReleaseDate"
+    },
+
+    {
+      "filter": "isValid(datum.ReleaseDate)"
+    },
+
+    {
+      "filter": "year(datum.ReleaseDate) >= 2019 && year(datum.ReleaseDate) <= 2022"
+    },
+
+    {
+      "calculate": "year(datum.ReleaseDate)",
+      "as": "ReleaseYear"
+    },
+
+    {
+      "calculate": "month(datum.ReleaseDate)",
+      "as": "MonthNumber"
+    },
+
+    {
+      "calculate": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.MonthNumber]",
+      "as": "MonthName"
+    },
+
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "field": "uid",
+          "as": "Release_Count"
+        },
+        {
+          "op": "mean",
+          "field": "price",
+          "as": "Average_Price"
+        }
+      ],
+
+      "groupby": [
+        "ReleaseYear",
+        "MonthNumber",
+        "MonthName"
+      ]
+    }
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "ReleaseYear",
+      "type": "ordinal",
+      "title": "Year",
+
+      "axis": {
+        "labelAngle": 0,
+        "labelFont": "Arial",
+        "labelFontSize": 12,
+        "titleFont": "Arial",
+        "titleFontSize": 13
+      }
+    },
+
+    "y": {
+      "field": "MonthName",
+      "type": "ordinal",
+      "title": "Month",
+
+      "sort": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+
+      "axis": {
+        "labelFont": "Arial",
+        "labelFontSize": 12,
+        "titleFont": "Arial",
+        "titleFontSize": 13
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "white",
+        "strokeWidth": 2,
+        "cornerRadius": 3
+      },
+
+      "encoding": {
+        "color": {
+          "field": "Release_Count",
+          "type": "quantitative",
+          "title": "Products released",
+
+          "scale": {
+            "scheme": "blues"
+          },
+
+          "legend": {
+            "titleFont": "Arial",
+            "labelFont": "Arial"
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "ReleaseYear",
+            "type": "ordinal",
+            "title": "Year"
+          },
+
+          {
+            "field": "MonthName",
+            "type": "nominal",
+            "title": "Month"
+          },
+
+          {
+            "field": "Release_Count",
+            "type": "quantitative",
+            "title": "Products released",
+            "format": ","
+          },
+
+          {
+            "field": "Average_Price",
+            "type": "quantitative",
+            "title": "Average price",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "font": "Arial",
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+
+      "encoding": {
+        "text": {
+          "field": "Release_Count",
+          "type": "quantitative",
+          "format": ","
+        },
+
+        "color": {
+          "condition": {
+            "test": "datum.Release_Count >= 35",
+            "value": "white"
+          },
+
+          "value": "black"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+
+    "axis": {
+      "grid": false
+    }
+  }
+}
