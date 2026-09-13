@@ -1,0 +1,245 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+
+  "width": 700,
+  "height": 400,
+
+  "title": {
+    "text": "Funko Product Releases Over Time",
+    "subtitle": "Monthly number of products released, 2019–2022",
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "price": "number"
+      }
+    }
+  },
+
+  "transform": [
+    {
+      "calculate": "toDate(datum.published_at)",
+      "as": "ReleaseDate"
+    },
+
+    {
+      "filter": "isValid(datum.ReleaseDate)"
+    },
+
+    {
+      "filter": "year(datum.ReleaseDate) >= 2019 && year(datum.ReleaseDate) <= 2022"
+    },
+
+    {
+      "timeUnit": "yearmonth",
+      "field": "ReleaseDate",
+      "as": "YearMonth"
+    },
+
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "field": "uid",
+          "as": "Release_Count"
+        },
+        {
+          "op": "mean",
+          "field": "price",
+          "as": "Average_Price"
+        }
+      ],
+
+      "groupby": [
+        "YearMonth"
+      ]
+    },
+
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "Release_Rank"
+        }
+      ],
+
+      "sort": [
+        {
+          "field": "Release_Count",
+          "order": "descending"
+        }
+      ]
+    }
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "YearMonth",
+      "type": "temporal",
+      "title": "Release date",
+
+      "axis": {
+        "format": "%b %Y",
+        "labelAngle": -45,
+        "labelFont": "Arial",
+        "labelFontSize": 11,
+        "titleFont": "Arial",
+        "titleFontSize": 13
+      }
+    },
+
+    "y": {
+      "field": "Release_Count",
+      "type": "quantitative",
+      "title": "Number of products released",
+
+      "scale": {
+        "zero": true
+      },
+
+      "axis": {
+        "grid": true,
+        "labelFont": "Arial",
+        "labelFontSize": 11,
+        "titleFont": "Arial",
+        "titleFontSize": 13
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "mark": {
+        "type": "area",
+        "opacity": 0.18,
+        "line": false
+      }
+    },
+
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
+      }
+    },
+
+    {
+      "mark": {
+        "type": "circle",
+        "size": 55,
+        "filled": true
+      },
+
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "YearMonth",
+            "type": "temporal",
+            "title": "Month",
+            "format": "%B %Y"
+          },
+
+          {
+            "field": "Release_Count",
+            "type": "quantitative",
+            "title": "Products released",
+            "format": ","
+          },
+
+          {
+            "field": "Average_Price",
+            "type": "quantitative",
+            "title": "Average price",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "filter": "datum.Release_Rank == 1"
+        }
+      ],
+
+      "mark": {
+        "type": "circle",
+        "size": 190,
+        "filled": true,
+        "stroke": "black",
+        "strokeWidth": 2
+      },
+
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "YearMonth",
+            "type": "temporal",
+            "title": "Month",
+            "format": "%B %Y"
+          },
+          {
+            "field": "Release_Count",
+            "type": "quantitative",
+            "title": "Products released",
+            "format": ","
+          },
+          {
+            "field": "Average_Price",
+            "type": "quantitative",
+            "title": "Average price",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+
+    {
+      "transform": [
+        {
+          "filter": "datum.Release_Rank == 1"
+        },
+
+        {
+          "calculate": "'Peak: ' + datum.Release_Count + ' products'",
+          "as": "Peak_Label"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dx": 10,
+        "dy": -8,
+        "font": "Arial",
+        "fontSize": 12,
+        "fontWeight": "bold"
+      },
+
+      "encoding": {
+        "text": {
+          "field": "Peak_Label"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}
