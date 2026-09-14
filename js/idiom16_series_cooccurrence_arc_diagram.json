@@ -1,0 +1,997 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 980,
+  "height": 560,
+
+  "padding": {
+    "top": 15,
+    "left": 15,
+    "right": 15,
+    "bottom": 20
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "Which Funko Series Labels Appear Together?",
+    "subtitle": [
+      "Strongest co-occurrences among the 25 most common series labels",
+      "Arc width represents the number of products sharing both labels"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 24,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "signals": [
+    {
+      "name": "plotLeft",
+      "value": 120
+    },
+    {
+      "name": "plotRight",
+      "value": 860
+    },
+    {
+      "name": "baselineY",
+      "value": 390
+    }
+  ],
+
+  "data": [
+    {
+      "name": "base",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_pop.csv",
+
+      "format": {
+        "type": "csv"
+      },
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum.handle) && isValid(datum.series) && trim(toString(datum.series)) != ''"
+        },
+
+        {
+          "type": "formula",
+          "expr": "replace(replace(replace(toString(datum.series), '[', ''), ']', ''), '\"', '')",
+          "as": "CleanSeries"
+        },
+
+        {
+          "type": "formula",
+          "expr": "split(datum.CleanSeries, ';')",
+          "as": "SeriesArray"
+        }
+      ]
+    },
+
+    {
+      "name": "label_instances",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "flatten",
+          "fields": [
+            "SeriesArray"
+          ],
+          "as": [
+            "SeriesLabelRaw"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "trim(toString(datum.SeriesLabelRaw))",
+          "as": "SeriesLabel"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.SeriesLabel != '' && lower(datum.SeriesLabel) != 'pop! vinyl'"
+        },
+
+        {
+          "type": "aggregate",
+          "groupby": [
+            "handle",
+            "SeriesLabel"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "handle"
+          ],
+          "as": [
+            "InstanceCount"
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "label_totals",
+
+      "source": "label_instances",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "SeriesLabel"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "handle"
+          ],
+          "as": [
+            "LabelCount"
+          ]
+        },
+
+        {
+          "type": "window",
+
+          "sort": {
+            "field": [
+              "LabelCount",
+              "SeriesLabel"
+            ],
+
+            "order": [
+              "descending",
+              "ascending"
+            ]
+          },
+
+          "ops": [
+            "row_number"
+          ],
+
+          "as": [
+            "Rank"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.Rank <= 25"
+        }
+      ]
+    },
+
+    {
+      "name": "pair_instances",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "flatten",
+          "fields": [
+            "SeriesArray"
+          ],
+          "as": [
+            "SeriesAraw"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "trim(toString(datum.SeriesAraw))",
+          "as": "SeriesA"
+        },
+
+        {
+          "type": "flatten",
+          "fields": [
+            "SeriesArray"
+          ],
+          "as": [
+            "SeriesBraw"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "trim(toString(datum.SeriesBraw))",
+          "as": "SeriesB"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.SeriesA != '' && datum.SeriesB != ''"
+        },
+
+        {
+          "type": "filter",
+          "expr": "lower(datum.SeriesA) != 'pop! vinyl' && lower(datum.SeriesB) != 'pop! vinyl'"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.SeriesA < datum.SeriesB"
+        },
+
+        {
+          "type": "lookup",
+          "from": "label_totals",
+          "key": "SeriesLabel",
+
+          "fields": [
+            "SeriesA"
+          ],
+
+          "values": [
+            "Rank",
+            "LabelCount"
+          ],
+
+          "as": [
+            "RankA",
+            "CountA"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.RankA)"
+        },
+
+        {
+          "type": "lookup",
+          "from": "label_totals",
+          "key": "SeriesLabel",
+
+          "fields": [
+            "SeriesB"
+          ],
+
+          "values": [
+            "Rank",
+            "LabelCount"
+          ],
+
+          "as": [
+            "RankB",
+            "CountB"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.RankB)"
+        },
+
+        {
+          "type": "aggregate",
+
+          "groupby": [
+            "handle",
+            "SeriesA",
+            "SeriesB",
+            "RankA",
+            "RankB",
+            "CountA",
+            "CountB"
+          ],
+
+          "ops": [
+            "count"
+          ],
+
+          "fields": [
+            "handle"
+          ],
+
+          "as": [
+            "ProductPairInstance"
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "pairs_raw",
+
+      "source": "pair_instances",
+
+      "transform": [
+        {
+          "type": "aggregate",
+
+          "groupby": [
+            "SeriesA",
+            "SeriesB",
+            "RankA",
+            "RankB",
+            "CountA",
+            "CountB"
+          ],
+
+          "ops": [
+            "count"
+          ],
+
+          "fields": [
+            "handle"
+          ],
+
+          "as": [
+            "PairCount"
+          ]
+        },
+
+        {
+          "type": "window",
+
+          "sort": {
+            "field": [
+              "PairCount",
+              "SeriesA",
+              "SeriesB"
+            ],
+
+            "order": [
+              "descending",
+              "ascending",
+              "ascending"
+            ]
+          },
+
+          "ops": [
+            "row_number"
+          ],
+
+          "as": [
+            "PairRank"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.PairRank <= 25"
+        }
+      ]
+    },
+
+    {
+      "name": "connected_labels",
+
+      "source": "pairs_raw",
+
+      "transform": [
+        {
+          "type": "fold",
+          "fields": [
+            "SeriesA",
+            "SeriesB"
+          ],
+          "as": [
+            "Side",
+            "SeriesLabel"
+          ]
+        },
+
+        {
+          "type": "aggregate",
+          "groupby": [
+            "SeriesLabel"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "SeriesLabel"
+          ],
+          "as": [
+            "ConnectionCount"
+          ]
+        },
+
+        {
+          "type": "lookup",
+          "from": "label_totals",
+          "key": "SeriesLabel",
+
+          "fields": [
+            "SeriesLabel"
+          ],
+
+          "values": [
+            "LabelCount",
+            "Rank"
+          ],
+
+          "as": [
+            "LabelCount",
+            "OriginalRank"
+          ]
+        },
+
+        {
+          "type": "window",
+
+          "sort": {
+            "field": [
+              "OriginalRank"
+            ],
+
+            "order": [
+              "ascending"
+            ]
+          },
+
+          "ops": [
+            "row_number"
+          ],
+
+          "as": [
+            "DisplayRank"
+          ]
+        },
+
+        {
+          "type": "joinaggregate",
+
+          "ops": [
+            "count"
+          ],
+
+          "fields": [
+            "SeriesLabel"
+          ],
+
+          "as": [
+            "VisibleNodeCount"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "plotLeft + (datum.DisplayRank - 1) * ((plotRight - plotLeft) / max(1, datum.VisibleNodeCount - 1))",
+          "as": "NodeX"
+        }
+      ]
+    },
+
+    {
+      "name": "pairs",
+
+      "source": "pairs_raw",
+
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "connected_labels",
+          "key": "SeriesLabel",
+
+          "fields": [
+            "SeriesA"
+          ],
+
+          "values": [
+            "NodeX",
+            "DisplayRank"
+          ],
+
+          "as": [
+            "SourceX",
+            "DisplayRankA"
+          ]
+        },
+
+        {
+          "type": "lookup",
+          "from": "connected_labels",
+          "key": "SeriesLabel",
+
+          "fields": [
+            "SeriesB"
+          ],
+
+          "values": [
+            "NodeX",
+            "DisplayRank"
+          ],
+
+          "as": [
+            "TargetX",
+            "DisplayRankB"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.SourceX) && isValid(datum.TargetX)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "(datum.SourceX + datum.TargetX) / 2",
+          "as": "MidX"
+        },
+
+        {
+          "type": "formula",
+          "expr": "abs(datum.TargetX - datum.SourceX)",
+          "as": "Distance"
+        },
+
+        {
+          "type": "formula",
+          "expr": "max(28, datum.Distance * 0.38)",
+          "as": "ArcHeight"
+        },
+
+        {
+          "type": "formula",
+          "expr": "'M' + datum.SourceX + ',' + baselineY + ' Q' + datum.MidX + ',' + (baselineY - datum.ArcHeight) + ' ' + datum.TargetX + ',' + baselineY",
+          "as": "ArcPath"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.PairCount / min(datum.CountA, datum.CountB)",
+          "as": "PairShare"
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "nodeColor",
+      "type": "ordinal",
+
+      "domain": {
+        "data": "connected_labels",
+        "field": "SeriesLabel"
+      },
+
+      "range": {
+        "scheme": "tableau20"
+      }
+    },
+
+    {
+      "name": "nodeSize",
+      "type": "sqrt",
+
+      "domain": {
+        "data": "connected_labels",
+        "field": "LabelCount"
+      },
+
+      "range": [
+        130,
+        520
+      ]
+    },
+
+    {
+      "name": "linkWidth",
+      "type": "sqrt",
+
+      "domain": {
+        "data": "pairs",
+        "field": "PairCount"
+      },
+
+      "range": [
+        1.5,
+        11
+      ]
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "plotLeft"
+          },
+
+          "y": {
+            "value": 35
+          },
+
+          "text": {
+            "value": "Higher and thicker arcs indicate stronger co-occurrence"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "#666666"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "rule",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "plotLeft"
+          },
+
+          "x2": {
+            "signal": "plotRight"
+          },
+
+          "y": {
+            "signal": "baselineY"
+          },
+
+          "stroke": {
+            "value": "#B8B8B8"
+          },
+
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      }
+    },
+
+    {
+      "type": "path",
+
+      "from": {
+        "data": "pairs"
+      },
+
+      "encode": {
+        "enter": {
+          "path": {
+            "field": "ArcPath"
+          },
+
+          "fill": {
+            "value": null
+          },
+
+          "stroke": {
+            "scale": "nodeColor",
+            "field": "SeriesA"
+          },
+
+          "strokeWidth": {
+            "scale": "linkWidth",
+            "field": "PairCount"
+          },
+
+          "strokeOpacity": {
+            "value": 0.32
+          },
+
+          "strokeCap": {
+            "value": "round"
+          },
+
+          "tooltip": {
+            "signal": "{'Series label 1': datum.SeriesA, 'Series label 2': datum.SeriesB, 'Shared products': datum.PairCount, 'Label 1 products': datum.CountA, 'Label 2 products': datum.CountB, 'Shared relative to smaller label': format(datum.PairShare, '.1%'), 'Relationship rank': datum.PairRank}"
+          }
+        },
+
+        "hover": {
+          "strokeOpacity": {
+            "value": 0.9
+          },
+
+          "strokeWidth": {
+            "signal": "scale('linkWidth', datum.PairCount) + 2"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "symbol",
+
+      "from": {
+        "data": "connected_labels"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "NodeX"
+          },
+
+          "y": {
+            "signal": "baselineY"
+          },
+
+          "size": {
+            "scale": "nodeSize",
+            "field": "LabelCount"
+          },
+
+          "shape": {
+            "value": "circle"
+          },
+
+          "fill": {
+            "scale": "nodeColor",
+            "field": "SeriesLabel"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 2
+          },
+
+          "tooltip": {
+            "signal": "{'Series label': datum.SeriesLabel, 'Products': datum.LabelCount, 'Frequency rank': datum.OriginalRank, 'Displayed relationships': datum.ConnectionCount}"
+          }
+        },
+
+        "hover": {
+          "stroke": {
+            "value": "#222222"
+          },
+
+          "strokeWidth": {
+            "value": 2.5
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "connected_labels"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "NodeX"
+          },
+
+          "y": {
+            "signal": "baselineY + 18"
+          },
+
+          "text": {
+            "field": "SeriesLabel"
+          },
+
+          "angle": {
+            "value": -45
+          },
+
+          "align": {
+            "value": "right"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#333333"
+          },
+
+          "limit": {
+            "value": 135
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "connected_labels"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "NodeX"
+          },
+
+          "y": {
+            "signal": "baselineY + 31"
+          },
+
+          "text": {
+            "signal": "'n=' + datum.LabelCount"
+          },
+
+          "angle": {
+            "value": -45
+          },
+
+          "align": {
+            "value": "right"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 9
+          },
+
+          "fill": {
+            "value": "#777777"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "width / 2"
+          },
+
+          "y": {
+            "signal": "height - 38"
+          },
+
+          "text": {
+            "value": "Each arc connects two series labels recorded on the same Funko product."
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "#666666"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "width / 2"
+          },
+
+          "y": {
+            "signal": "height - 21"
+          },
+
+          "text": {
+            "value": "Only labels participating in the strongest displayed relationships are shown."
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 10
+          },
+
+          "fontStyle": {
+            "value": "italic"
+          },
+
+          "fill": {
+            "value": "#777777"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "width / 2"
+          },
+
+          "y": {
+            "signal": "height - 4"
+          },
+
+          "text": {
+            "value": "The generic “Pop! Vinyl” format label is excluded to reduce clutter and highlight more specific co-occurrence relationships."
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 10
+          },
+
+          "fontStyle": {
+            "value": "italic"
+          },
+
+          "fill": {
+            "value": "#777777"
+          }
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white"
+  }
+}
