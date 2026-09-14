@@ -1,0 +1,837 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 980,
+  "height": 560,
+
+  "padding": {
+    "top": 15,
+    "left": 15,
+    "right": 20,
+    "bottom": 45
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "How Do Funko Prices Vary Across Product Types?",
+    "subtitle": [
+      "Price distributions for the six most common product types, 2019–2022",
+      "Cloud = distribution • Box = middle 50% • Dots = individual products"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 24,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "signals": [
+    {
+      "name": "plotLeft",
+      "value": 165
+    },
+    {
+      "name": "plotRight",
+      "update": "width - 30"
+    },
+    {
+      "name": "firstRowY",
+      "value": 75
+    },
+    {
+      "name": "rowGap",
+      "value": 82
+    },
+    {
+      "name": "cloudHeight",
+      "value": 31
+    }
+  ],
+
+  "data": [
+    {
+      "name": "base",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+
+      "format": {
+        "type": "csv"
+      },
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum.uid) && isValid(datum.product_type) && datum.product_type != '' && isValid(datum.price) && datum.price != '' && isValid(datum.published_at)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "toDate(datum.published_at)",
+          "as": "ReleaseDate"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.ReleaseDate)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "year(datum.ReleaseDate)",
+          "as": "ReleaseYear"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
+        },
+
+        {
+          "type": "formula",
+          "expr": "toNumber(datum.price)",
+          "as": "PriceValue"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.PriceValue) && datum.PriceValue > 0"
+        },
+
+        {
+          "type": "formula",
+          "expr": "trim(toString(datum.product_type))",
+          "as": "ProductType"
+        },
+
+        {
+          "type": "formula",
+          "expr": "indexof(lower(toString(datum.tags)), 'exclusive') >= 0 ? 'Exclusive-tagged' : 'No exclusive tag'",
+          "as": "ExclusiveStatus"
+        }
+      ]
+    },
+
+    {
+      "name": "product_totals",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "ProductType"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "uid"
+          ],
+          "as": [
+            "ProductTypeCount"
+          ]
+        },
+
+        {
+          "type": "window",
+          "sort": {
+            "field": [
+              "ProductTypeCount",
+              "ProductType"
+            ],
+            "order": [
+              "descending",
+              "ascending"
+            ]
+          },
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "ProductTypeRank"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.ProductTypeRank <= 6"
+        }
+      ]
+    },
+
+    {
+      "name": "selected",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "product_totals",
+          "key": "ProductType",
+          "fields": [
+            "ProductType"
+          ],
+          "values": [
+            "ProductTypeRank",
+            "ProductTypeCount"
+          ],
+          "as": [
+            "ProductTypeRank",
+            "ProductTypeCount"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.ProductTypeRank)"
+        },
+
+        {
+          "type": "window",
+          "groupby": [
+            "ProductType"
+          ],
+          "sort": {
+            "field": [
+              "PriceValue",
+              "uid"
+            ],
+            "order": [
+              "ascending",
+              "ascending"
+            ]
+          },
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "PointOrder"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "firstRowY + (datum.ProductTypeRank - 1) * rowGap",
+          "as": "BaseY"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.BaseY + 15 + ((datum.PointOrder - 1) % 5) * 5",
+          "as": "PointY"
+        }
+      ]
+    },
+
+    {
+      "name": "stats",
+
+      "source": "selected",
+
+      "transform": [
+        {
+          "type": "aggregate",
+
+          "groupby": [
+            "ProductType",
+            "ProductTypeRank",
+            "ProductTypeCount"
+          ],
+
+          "ops": [
+            "min",
+            "q1",
+            "median",
+            "mean",
+            "q3",
+            "max",
+            "count"
+          ],
+
+          "fields": [
+            "PriceValue",
+            "PriceValue",
+            "PriceValue",
+            "PriceValue",
+            "PriceValue",
+            "PriceValue",
+            "uid"
+          ],
+
+          "as": [
+            "MinPrice",
+            "Q1",
+            "MedianPrice",
+            "MeanPrice",
+            "Q3",
+            "MaxPrice",
+            "ProductCount"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "firstRowY + (datum.ProductTypeRank - 1) * rowGap",
+          "as": "BaseY"
+        }
+      ]
+    },
+
+    {
+      "name": "density",
+
+      "source": "selected",
+
+      "transform": [
+        {
+          "type": "kde",
+          "field": "PriceValue",
+
+          "groupby": [
+            "ProductType",
+            "ProductTypeRank"
+          ],
+
+          "steps": 120,
+
+          "as": [
+            "DensityPrice",
+            "Density"
+          ]
+        },
+
+        {
+          "type": "joinaggregate",
+          "groupby": [
+            "ProductType"
+          ],
+
+          "ops": [
+            "max"
+          ],
+
+          "fields": [
+            "Density"
+          ],
+
+          "as": [
+            "MaxDensity"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.MaxDensity > 0 ? datum.Density / datum.MaxDensity : 0",
+          "as": "NormalisedDensity"
+        },
+
+        {
+          "type": "formula",
+          "expr": "firstRowY + (datum.ProductTypeRank - 1) * rowGap",
+          "as": "BaseY"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.BaseY - datum.NormalisedDensity * cloudHeight",
+          "as": "CloudY"
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "xscale",
+      "type": "linear",
+
+      "domain": {
+        "data": "selected",
+        "field": "PriceValue"
+      },
+
+      "range": [
+        {
+          "signal": "plotLeft"
+        },
+        {
+          "signal": "plotRight"
+        }
+      ],
+
+      "zero": true,
+      "nice": true
+    },
+
+    {
+      "name": "productColor",
+      "type": "ordinal",
+
+      "domain": {
+        "data": "product_totals",
+        "field": "ProductType"
+      },
+
+      "range": {
+        "scheme": "tableau10"
+      }
+    }
+  ],
+
+  "axes": [
+    {
+      "orient": "bottom",
+      "scale": "xscale",
+      "title": "Listed price ($)",
+      "format": "$,.0f",
+      "grid": true,
+      "gridColor": "#E4E4E4",
+      "gridOpacity": 0.7,
+      "domainColor": "#999999",
+      "tickColor": "#999999",
+      "labelFont": "Arial",
+      "labelFontSize": 11,
+      "labelPadding": 6,
+      "titleFont": "Arial",
+      "titleFontSize": 13,
+      "titleFontWeight": "bold",
+      "titlePadding": 12
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "group",
+
+      "from": {
+        "facet": {
+          "name": "densityFacet",
+          "data": "density",
+          "groupby": [
+            "ProductType"
+          ]
+        }
+      },
+
+      "marks": [
+        {
+          "type": "area",
+
+          "from": {
+            "data": "densityFacet"
+          },
+
+          "sort": {
+            "field": "DensityPrice"
+          },
+
+          "encode": {
+            "enter": {
+              "x": {
+                "scale": "xscale",
+                "field": "DensityPrice"
+              },
+
+              "y": {
+                "field": "CloudY"
+              },
+
+              "y2": {
+                "field": "BaseY"
+              },
+
+              "fill": {
+                "scale": "productColor",
+                "field": "ProductType"
+              },
+
+              "fillOpacity": {
+                "value": 0.48
+              },
+
+              "stroke": {
+                "scale": "productColor",
+                "field": "ProductType"
+              },
+
+              "strokeWidth": {
+                "value": 1.5
+              },
+
+              "interpolate": {
+                "value": "monotone"
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "rule",
+
+      "from": {
+        "data": "stats"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "scale": "xscale",
+            "field": "MinPrice"
+          },
+
+          "x2": {
+            "scale": "xscale",
+            "field": "MaxPrice"
+          },
+
+          "y": {
+            "field": "BaseY"
+          },
+
+          "stroke": {
+            "value": "#555555"
+          },
+
+          "strokeWidth": {
+            "value": 1.4
+          },
+
+          "tooltip": {
+            "signal": "{'Product type': datum.ProductType, 'Products': datum.ProductCount, 'Minimum price': '$' + format(datum.MinPrice, ',.2f'), '25th percentile': '$' + format(datum.Q1, ',.2f'), 'Median price': '$' + format(datum.MedianPrice, ',.2f'), 'Average price': '$' + format(datum.MeanPrice, ',.2f'), '75th percentile': '$' + format(datum.Q3, ',.2f'), 'Maximum price': '$' + format(datum.MaxPrice, ',.2f')}"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "rect",
+
+      "from": {
+        "data": "stats"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "scale": "xscale",
+            "field": "Q1"
+          },
+
+          "x2": {
+            "scale": "xscale",
+            "field": "Q3"
+          },
+
+          "y": {
+            "signal": "datum.BaseY - 5"
+          },
+
+          "y2": {
+            "signal": "datum.BaseY + 5"
+          },
+
+          "fill": {
+            "scale": "productColor",
+            "field": "ProductType"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 1.2
+          },
+
+          "cornerRadius": {
+            "value": 2
+          },
+
+          "tooltip": {
+            "signal": "{'Product type': datum.ProductType, 'Products': datum.ProductCount, 'Q1': '$' + format(datum.Q1, ',.2f'), 'Median': '$' + format(datum.MedianPrice, ',.2f'), 'Q3': '$' + format(datum.Q3, ',.2f'), 'Average': '$' + format(datum.MeanPrice, ',.2f')}"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "rule",
+
+      "from": {
+        "data": "stats"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "scale": "xscale",
+            "field": "MedianPrice"
+          },
+
+          "y": {
+            "signal": "datum.BaseY - 7"
+          },
+
+          "y2": {
+            "signal": "datum.BaseY + 7"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 2.5
+          }
+        }
+      }
+    },
+
+    {
+      "type": "symbol",
+
+      "from": {
+        "data": "selected"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "scale": "xscale",
+            "field": "PriceValue"
+          },
+
+          "y": {
+            "field": "PointY"
+          },
+
+          "size": {
+            "value": 28
+          },
+
+          "shape": {
+            "value": "circle"
+          },
+
+          "fill": {
+            "scale": "productColor",
+            "field": "ProductType"
+          },
+
+          "fillOpacity": {
+            "value": 0.48
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 0.4
+          },
+
+          "tooltip": {
+            "signal": "{'Product': datum.title, 'Product type': datum.ProductType, 'License': isValid(datum.license) && datum.license != '' ? datum.license : 'Not available', 'Listed price': '$' + format(datum.PriceValue, ',.2f'), 'Exclusive status': datum.ExclusiveStatus, 'Release year': datum.ReleaseYear}"
+          }
+        },
+
+        "hover": {
+          "size": {
+            "value": 85
+          },
+
+          "fillOpacity": {
+            "value": 1
+          },
+
+          "stroke": {
+            "value": "#222222"
+          },
+
+          "strokeWidth": {
+            "value": 1
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "stats"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "plotLeft - 14"
+          },
+
+          "y": {
+            "field": "BaseY"
+          },
+
+          "text": {
+            "field": "ProductType"
+          },
+
+          "align": {
+            "value": "right"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 13
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#333333"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "stats"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "plotLeft - 14"
+          },
+
+          "y": {
+            "signal": "datum.BaseY + 17"
+          },
+
+          "text": {
+            "signal": "'n = ' + datum.ProductCount"
+          },
+
+          "align": {
+            "value": "right"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 10
+          },
+
+          "fill": {
+            "value": "#777777"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "plotLeft"
+          },
+
+          "y": {
+            "value": 20
+          },
+
+          "text": {
+            "value": "Higher cloud = greater concentration of products around that price"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "#666666"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "width / 2"
+          },
+
+          "y": {
+            "signal": "height - 8"
+          },
+
+          "text": {
+            "value": "Dots represent individual products; hover over a dot for product details."
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fontStyle": {
+            "value": "italic"
+          },
+
+          "fill": {
+            "value": "#777777"
+          }
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white"
+  }
+}
