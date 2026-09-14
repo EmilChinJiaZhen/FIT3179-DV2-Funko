@@ -1,0 +1,723 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 760,
+  "height": 430,
+
+  "padding": {
+    "top": 15,
+    "left": 20,
+    "right": 20,
+    "bottom": 35
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "How Common Are Exclusives Among Higher-Priced Funko Products?",
+    "subtitle": [
+      "Exclusive-tagged status among the 100 highest-priced products, 2019–2022",
+      "Each square represents one individual Funko product"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "data": [
+    {
+      "name": "base",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+
+      "format": {
+        "type": "csv"
+      },
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum.published_at) && isValid(datum.title) && datum.title != '' && isValid(datum.price) && datum.price != ''"
+        },
+
+        {
+          "type": "formula",
+          "expr": "toDate(datum.published_at)",
+          "as": "ReleaseDate"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.ReleaseDate)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "year(datum.ReleaseDate)",
+          "as": "ReleaseYear"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
+        },
+
+        {
+          "type": "formula",
+          "expr": "toNumber(datum.price)",
+          "as": "PriceValue"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.PriceValue) && datum.PriceValue > 0"
+        },
+
+        {
+          "type": "formula",
+          "expr": "indexof(lower(toString(datum.tags)), 'exclusive') >= 0 ? 1 : 0",
+          "as": "ExclusiveFlag"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.ExclusiveFlag == 1 ? 'Exclusive-tagged' : 'No exclusive tag'",
+          "as": "ExclusiveStatus"
+        }
+      ]
+    },
+
+    {
+      "name": "top100",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "window",
+
+          "sort": {
+            "field": [
+              "PriceValue",
+              "title"
+            ],
+
+            "order": [
+              "descending",
+              "ascending"
+            ]
+          },
+
+          "ops": [
+            "row_number"
+          ],
+
+          "as": [
+            "Rank"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.Rank <= 100"
+        },
+
+        {
+          "type": "formula",
+          "expr": "(datum.Rank - 1) % 10",
+          "as": "Column"
+        },
+
+        {
+          "type": "formula",
+          "expr": "floor((datum.Rank - 1) / 10)",
+          "as": "Row"
+        }
+      ]
+    },
+
+    {
+      "name": "summary",
+
+      "source": "top100",
+
+      "transform": [
+        {
+          "type": "aggregate",
+
+          "ops": [
+            "count",
+            "sum"
+          ],
+
+          "fields": [
+            "uid",
+            "ExclusiveFlag"
+          ],
+
+          "as": [
+            "TotalProducts",
+            "ExclusiveProducts"
+          ]
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.TotalProducts - datum.ExclusiveProducts",
+          "as": "OtherProducts"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.ExclusiveProducts / datum.TotalProducts",
+          "as": "ExclusiveShare"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.OtherProducts / datum.TotalProducts",
+          "as": "OtherShare"
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "statusColor",
+
+      "type": "ordinal",
+
+      "domain": [
+        "Exclusive-tagged",
+        "No exclusive tag"
+      ],
+
+      "range": [
+        "#F28E2B",
+        "#D9D9D9"
+      ]
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "rect",
+
+      "from": {
+        "data": "top100"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "40 + datum.Column * 34"
+          },
+
+          "y": {
+            "signal": "35 + datum.Row * 34"
+          },
+
+          "width": {
+            "value": 28
+          },
+
+          "height": {
+            "value": 28
+          },
+
+          "cornerRadius": {
+            "value": 4
+          },
+
+          "fill": {
+            "scale": "statusColor",
+            "field": "ExclusiveStatus"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 1.5
+          },
+
+          "tooltip": {
+            "signal": "{'Product': datum.title, 'Price rank': datum.Rank, 'Price': '$' + format(datum.PriceValue, '.2f'), 'License': isValid(datum.license) && datum.license != '' ? datum.license : 'Not available', 'Product type': isValid(datum.product_type) && datum.product_type != '' ? datum.product_type : 'Not available', 'Status': datum.ExclusiveStatus, 'Release year': datum.ReleaseYear}"
+          }
+        },
+
+        "hover": {
+          "stroke": {
+            "value": "#222222"
+          },
+
+          "strokeWidth": {
+            "value": 2.5
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "summary"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 75
+          },
+
+          "text": {
+            "signal": "format(datum.ExclusiveShare, '.1%')"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 46
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#F28E2B"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 107
+          },
+
+          "text": {
+            "value": "of these 100 products"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 14
+          },
+
+          "fill": {
+            "value": "#555555"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 130
+          },
+
+          "text": {
+            "value": "are exclusive-tagged"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 17
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#F28E2B"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "rect",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 180
+          },
+
+          "width": {
+            "value": 18
+          },
+
+          "height": {
+            "value": 18
+          },
+
+          "cornerRadius": {
+            "value": 3
+          },
+
+          "fill": {
+            "value": "#F28E2B"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "summary"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 475
+          },
+
+          "y": {
+            "value": 189
+          },
+
+          "text": {
+            "signal": "'Exclusive-tagged: ' + datum.ExclusiveProducts + ' products'"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 13
+          },
+
+          "fill": {
+            "value": "#333333"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "rect",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 215
+          },
+
+          "width": {
+            "value": 18
+          },
+
+          "height": {
+            "value": 18
+          },
+
+          "cornerRadius": {
+            "value": 3
+          },
+
+          "fill": {
+            "value": "#D9D9D9"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "summary"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 475
+          },
+
+          "y": {
+            "value": 224
+          },
+
+          "text": {
+            "signal": "'No exclusive tag: ' + datum.OtherProducts + ' products'"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 13
+          },
+
+          "fill": {
+            "value": "#333333"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "rule",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "x2": {
+            "value": 705
+          },
+
+          "y": {
+            "value": 270
+          },
+
+          "stroke": {
+            "value": "#D9D9D9"
+          },
+
+          "strokeWidth": {
+            "value": 1
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 300
+          },
+
+          "text": {
+            "value": "How to read the grid"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 13
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#444444"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 325
+          },
+
+          "text": {
+            "value": "Each tile is one different product."
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "#666666"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 344
+          },
+
+          "text": {
+            "value": "Products are ordered by price,"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "#666666"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 363
+          },
+
+          "text": {
+            "value": "from highest to lower."
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "#666666"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 445
+          },
+
+          "y": {
+            "value": 398
+          },
+
+          "text": {
+            "value": "Hover over any tile for product details."
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fontStyle": {
+            "value": "italic"
+          },
+
+          "fill": {
+            "value": "#777777"
+          }
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white"
+  }
+}
