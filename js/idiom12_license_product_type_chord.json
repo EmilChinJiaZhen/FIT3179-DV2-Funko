@@ -1,0 +1,769 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+
+  "width": 820,
+  "height": 560,
+
+  "padding": {
+    "top": 15,
+    "left": 190,
+    "right": 190,
+    "bottom": 45
+  },
+
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+
+  "title": {
+    "text": "How Are Funko's Top Licenses Connected to Product Types?",
+    "subtitle": [
+      "Connections between the six leading licenses and six most common product types",
+      "Link width represents the number of products, 2019–2022"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+
+  "signals": [
+    {
+      "name": "cx",
+      "update": "width / 2"
+    },
+    {
+      "name": "cy",
+      "update": "height / 2"
+    },
+    {
+      "name": "radius",
+      "value": 215
+    }
+  ],
+
+  "data": [
+    {
+      "name": "base",
+
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+
+      "format": {
+        "type": "csv"
+      },
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum.license) && datum.license != '' && isValid(datum.product_type) && datum.product_type != '' && isValid(datum.published_at)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "toDate(datum.published_at)",
+          "as": "ReleaseDate"
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.ReleaseDate)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "year(datum.ReleaseDate)",
+          "as": "ReleaseYear"
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
+        }
+      ]
+    },
+
+    {
+      "name": "license_totals",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "license"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "uid"
+          ],
+          "as": [
+            "Total_Products"
+          ]
+        },
+
+        {
+          "type": "window",
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "Rank"
+          ],
+          "sort": {
+            "field": [
+              "Total_Products",
+              "license"
+            ],
+            "order": [
+              "descending",
+              "ascending"
+            ]
+          }
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.Rank <= 6"
+        }
+      ]
+    },
+
+    {
+      "name": "type_totals",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "product_type"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "uid"
+          ],
+          "as": [
+            "Total_Products"
+          ]
+        },
+
+        {
+          "type": "window",
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "Rank"
+          ],
+          "sort": {
+            "field": [
+              "Total_Products",
+              "product_type"
+            ],
+            "order": [
+              "descending",
+              "ascending"
+            ]
+          }
+        },
+
+        {
+          "type": "filter",
+          "expr": "datum.Rank <= 6"
+        }
+      ]
+    },
+
+    {
+      "name": "license_nodes",
+
+      "source": "license_totals",
+
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "(110 + (datum.Rank - 1) * 28) * 0.017453292519943295",
+          "as": "Angle"
+        },
+
+        {
+          "type": "formula",
+          "expr": "cx + radius * cos(datum.Angle)",
+          "as": "x"
+        },
+
+        {
+          "type": "formula",
+          "expr": "cy + radius * sin(datum.Angle)",
+          "as": "y"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.x - 16",
+          "as": "LabelX"
+        }
+      ]
+    },
+
+    {
+      "name": "type_nodes",
+
+      "source": "type_totals",
+
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "(-70 + (datum.Rank - 1) * 28) * 0.017453292519943295",
+          "as": "Angle"
+        },
+
+        {
+          "type": "formula",
+          "expr": "cx + radius * cos(datum.Angle)",
+          "as": "x"
+        },
+
+        {
+          "type": "formula",
+          "expr": "cy + radius * sin(datum.Angle)",
+          "as": "y"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.x + 16",
+          "as": "LabelX"
+        }
+      ]
+    },
+
+    {
+      "name": "links",
+
+      "source": "base",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "license",
+            "product_type"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "uid"
+          ],
+          "as": [
+            "Connection_Count"
+          ]
+        },
+
+        {
+          "type": "lookup",
+          "from": "license_nodes",
+          "key": "license",
+          "fields": [
+            "license"
+          ],
+          "values": [
+            "Rank",
+            "x",
+            "y",
+            "Total_Products"
+          ],
+          "as": [
+            "License_Rank",
+            "SourceX",
+            "SourceY",
+            "License_Total"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.License_Rank)"
+        },
+
+        {
+          "type": "lookup",
+          "from": "type_nodes",
+          "key": "product_type",
+          "fields": [
+            "product_type"
+          ],
+          "values": [
+            "Rank",
+            "x",
+            "y",
+            "Total_Products"
+          ],
+          "as": [
+            "Type_Rank",
+            "TargetX",
+            "TargetY",
+            "Type_Total"
+          ]
+        },
+
+        {
+          "type": "filter",
+          "expr": "isValid(datum.Type_Rank)"
+        },
+
+        {
+          "type": "formula",
+          "expr": "datum.Connection_Count / datum.License_Total",
+          "as": "License_Share"
+        },
+
+        {
+          "type": "formula",
+          "expr": "'M' + datum.SourceX + ',' + datum.SourceY + ' Q' + cx + ',' + cy + ' ' + datum.TargetX + ',' + datum.TargetY",
+          "as": "Path"
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "licenseColor",
+      "type": "ordinal",
+
+      "domain": {
+        "data": "license_nodes",
+        "field": "license"
+      },
+
+      "range": {
+        "scheme": "tableau10"
+      }
+    },
+
+    {
+      "name": "linkWidth",
+      "type": "sqrt",
+
+      "domain": {
+        "data": "links",
+        "field": "Connection_Count"
+      },
+
+      "range": [
+        1.5,
+        13
+      ],
+
+      "zero": true
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "arc",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "cx"
+          },
+
+          "y": {
+            "signal": "cy"
+          },
+
+          "startAngle": {
+            "value": 0
+          },
+
+          "endAngle": {
+            "signal": "2 * PI"
+          },
+
+          "innerRadius": {
+            "signal": "radius - 2"
+          },
+
+          "outerRadius": {
+            "signal": "radius + 2"
+          },
+
+          "fill": {
+            "value": "#B8B8B8"
+          },
+
+          "opacity": {
+            "value": 0.8
+          }
+        }
+      }
+    },
+
+    {
+      "type": "path",
+
+      "from": {
+        "data": "links"
+      },
+
+      "encode": {
+        "enter": {
+          "path": {
+            "field": "Path"
+          },
+
+          "fill": {
+            "value": null
+          },
+
+          "stroke": {
+            "scale": "licenseColor",
+            "field": "license"
+          },
+
+          "strokeWidth": {
+            "scale": "linkWidth",
+            "field": "Connection_Count"
+          },
+
+          "strokeOpacity": {
+            "value": 0.28
+          },
+
+          "strokeCap": {
+            "value": "round"
+          },
+
+          "tooltip": {
+            "signal": "{'License': datum.license, 'Product type': datum.product_type, 'Products': datum.Connection_Count, 'Share of license': format(datum.License_Share, '.1%'), 'License total': datum.License_Total, 'Product type total': datum.Type_Total}"
+          }
+        },
+
+        "hover": {
+          "strokeOpacity": {
+            "value": 0.85
+          },
+
+          "strokeWidth": {
+            "signal": "scale('linkWidth', datum.Connection_Count) + 2"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "symbol",
+
+      "from": {
+        "data": "license_nodes"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x"
+          },
+
+          "y": {
+            "field": "y"
+          },
+
+          "size": {
+            "value": 430
+          },
+
+          "fill": {
+            "scale": "licenseColor",
+            "field": "license"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 2
+          },
+
+          "tooltip": {
+            "signal": "{'License': datum.license, 'Overall rank': datum.Rank, 'Products': datum.Total_Products}"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "symbol",
+
+      "from": {
+        "data": "type_nodes"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x"
+          },
+
+          "y": {
+            "field": "y"
+          },
+
+          "size": {
+            "value": 430
+          },
+
+          "fill": {
+            "value": "#505050"
+          },
+
+          "stroke": {
+            "value": "white"
+          },
+
+          "strokeWidth": {
+            "value": 2
+          },
+
+          "tooltip": {
+            "signal": "{'Product type': datum.product_type, 'Overall rank': datum.Rank, 'Products': datum.Total_Products}"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "license_nodes"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "LabelX"
+          },
+
+          "y": {
+            "field": "y"
+          },
+
+          "text": {
+            "field": "license"
+          },
+
+          "align": {
+            "value": "right"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 12
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#222222"
+          },
+
+          "limit": {
+            "value": 180
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "from": {
+        "data": "type_nodes"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "LabelX"
+          },
+
+          "y": {
+            "field": "y"
+          },
+
+          "text": {
+            "field": "product_type"
+          },
+
+          "align": {
+            "value": "left"
+          },
+
+          "baseline": {
+            "value": "middle"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 12
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#222222"
+          },
+
+          "limit": {
+            "value": 180
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 15
+          },
+
+          "y": {
+            "value": 15
+          },
+
+          "text": {
+            "value": "Top licenses"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 13
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#555555"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "width - 15"
+          },
+
+          "y": {
+            "value": 15
+          },
+
+          "text": {
+            "value": "Top product types"
+          },
+
+          "align": {
+            "value": "right"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 13
+          },
+
+          "fontWeight": {
+            "value": "bold"
+          },
+
+          "fill": {
+            "value": "#555555"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "width / 2"
+          },
+
+          "y": {
+            "signal": "height - 5"
+          },
+
+          "text": {
+            "value": "Thicker connections represent more products"
+          },
+
+          "align": {
+            "value": "center"
+          },
+
+          "font": {
+            "value": "Arial"
+          },
+
+          "fontSize": {
+            "value": 11
+          },
+
+          "fill": {
+            "value": "#666666"
+          }
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "background": "white"
+  }
+}
