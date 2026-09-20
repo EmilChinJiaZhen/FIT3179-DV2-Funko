@@ -1,0 +1,12 @@
+Convention,City,Country,Region,Year,Attendance,Latitude,Longitude,CountingMethod,AttendanceSource,CoordinateSource
+Comiket,Tokyo,Japan,Asia-Pacific,2019,750000,35.63028,139.79361,Reported total attendance across event days,https://en.wikipedia.org/wiki/Comiket,https://en.wikipedia.org/wiki/Tokyo_Big_Sight
+Gamescom,Cologne,Germany,Europe,2019,373000,50.94586,6.97929,Reported visitors,https://www.wikidata.org/wiki/Q66599212,https://www.openstreetmap.org/way/23104999
+Anime Expo,Los Angeles,United States,North America,2019,350000,34.039737,-118.270293,Estimated turnstile attendance across show days,https://www.anime-expo.org/2019/06/21/anime-expo-2019-thrills-fans-japanese-pop-culture-four-day-show-los-angeles/,https://en.wikipedia.org/wiki/Los_Angeles_Convention_Center
+CCXP,São Paulo,Brazil,Latin America,2019,280000,-23.64489,-46.62922,Reported visitors,https://s3.us-east-1.amazonaws.com/omeletecompany-production-static/media/ccxp19_release_en.pdf,https://www.openstreetmap.org/way/49734449
+Lucca Comics & Games,Lucca,Italy,Europe,2019,270000,43.8,10.5,Reported attendance,https://commons.wikimedia.org/wiki/Data:Lucca_Comics_Attendance.tab,https://www.wikidata.org/wiki/Q1070962
+Japan Expo,Villepinte / Paris,France,Europe,2019,252510,48.97222,2.51639,Reported visitors,https://en.wikipedia.org/wiki/Japan_Expo,https://en.wikipedia.org/wiki/Japan_Expo
+New York Comic Con,New York City,United States,North America,2019,250000,40.7575,-74.0025,Reported attendance; ticket/day counting,https://www.comicsbeat.com/nycc-21-wrap-up-the-joy-of-community-returns/,https://en.wikipedia.org/wiki/Javits_Center
+San Diego Comic-Con,San Diego,United States,North America,2019,130000,32.70639,-117.16139,Approximate actual attendance,https://connect.sandiego.org/wp-content/uploads/2022/06/Comic-Con-Convention-Profile.pdf,https://en.wikipedia.org/wiki/San_Diego_Comic-Con
+Fan Expo Canada,Toronto,Canada,North America,2019,129000,43.64384,-79.38664,"Reported as over 129,000 people",https://fancons.ca/events/info/11943/fanexpo-canada-2019,https://www.openstreetmap.org/way/32023077
+MCM London Comic Con,London,United Kingdom,Europe,2019,100000,51.50813,0.02972,Approximate visitors over three days,https://www.celsys.com/en/clipsolution/mcmcomiccon/,https://www.openstreetmap.org/way/10371164
+Comic Fiesta,Kuala Lumpur,Malaysia,Asia-Pacific,2019,65000,3.15432,101.71353,Reported visitors,https://en.wikipedia.org/wiki/Comic_Fiesta,https://www.openstreetmap.org/way/23034402
