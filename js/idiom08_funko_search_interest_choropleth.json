@@ -80,7 +80,7 @@
           "type": "quantitative",
           "title": "Relative search interest",
           "scale": {
-            "scheme": "viridis",
+            "scheme": "blues",
             "domain": [
               1,
               100
@@ -103,20 +103,6 @@
               100
             ]
           }
-        },
-        "stroke": {
-          "condition": {
-            "test": "datum.properties.NAME == 'Malaysia'",
-            "value": "#111111"
-          },
-          "value": "white"
-        },
-        "strokeWidth": {
-          "condition": {
-            "test": "datum.properties.NAME == 'Malaysia'",
-            "value": 1.8
-          },
-          "value": 0.6
         },
         "tooltip": [
           {
