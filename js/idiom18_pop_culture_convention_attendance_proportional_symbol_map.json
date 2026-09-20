@@ -1,0 +1,189 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 720,
+  "height": 430,
+  "title": {
+    "text": "Where Did Major Pop-Culture Conventions Draw the Largest Crowds?",
+    "subtitle": [
+      "Reported attendance at selected major conventions in 2019",
+      "Circle area represents attendance; counting methods differ between events"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+  "projection": {
+    "type": "equalEarth"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_admin_0_countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ECECEC",
+        "stroke": "white",
+        "strokeWidth": 0.6
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/pop_culture_conventions_2019.csv"
+      },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.72,
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "Attendance",
+          "type": "quantitative",
+          "title": "Reported attendance",
+          "scale": {
+            "type": "sqrt",
+            "domain": [
+              65000,
+              750000
+            ],
+            "range": [
+              120,
+              3000
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "values": [
+              100000,
+              250000,
+              500000,
+              750000
+            ],
+            "format": ",.0f",
+            "titleFont": "Arial",
+            "titleFontSize": 12,
+            "labelFont": "Arial",
+            "labelFontSize": 11
+          }
+        },
+        "color": {
+          "field": "Region",
+          "type": "nominal",
+          "title": "Region",
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "titleFont": "Arial",
+            "titleFontSize": 12,
+            "labelFont": "Arial",
+            "labelFontSize": 11
+          }
+        },
+        "stroke": {
+          "condition": {
+            "test": "datum.Country == 'Malaysia'",
+            "value": "#111111"
+          },
+          "value": "white"
+        },
+        "strokeWidth": {
+          "condition": {
+            "test": "datum.Country == 'Malaysia'",
+            "value": 2.8
+          },
+          "value": 1.0
+        },
+        "tooltip": [
+          {
+            "field": "Convention",
+            "type": "nominal",
+            "title": "Convention"
+          },
+          {
+            "field": "City",
+            "type": "nominal",
+            "title": "Host city"
+          },
+          {
+            "field": "Country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "Attendance",
+            "type": "quantitative",
+            "title": "Reported attendance",
+            "format": ","
+          },
+          {
+            "field": "CountingMethod",
+            "type": "nominal",
+            "title": "Counting note"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/pop_culture_conventions_2019.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.Country == 'Malaysia'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dx": 8,
+        "dy": -8,
+        "align": "left",
+        "font": "Arial",
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "Convention",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "white",
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    }
+  }
+}
