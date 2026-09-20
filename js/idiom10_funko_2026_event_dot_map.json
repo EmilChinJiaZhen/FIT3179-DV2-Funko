@@ -1,0 +1,132 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 720,
+  "height": 430,
+  "title": {
+    "text": "Where Are Funko's 2026 Event Edition Locations?",
+    "subtitle": [
+      "One fixed-size dot represents one participating event or store location",
+      "Only locations with a published city or venue are plotted"
+    ],
+    "anchor": "start",
+    "font": "Arial",
+    "fontSize": 22,
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontSize": 13,
+    "subtitleFontWeight": "normal",
+    "subtitlePadding": 8
+  },
+  "projection": {
+    "type": "equalEarth"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_admin_0_countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ECECEC",
+        "stroke": "white",
+        "strokeWidth": 0.6
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_2026_event_locations.csv"
+      },
+      "mark": {
+        "type": "circle",
+        "size": 95,
+        "opacity": 0.86,
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "Region",
+          "type": "nominal",
+          "title": "Region",
+          "scale": {
+            "domain": [
+              "Europe",
+              "Middle East",
+              "Asia & Pacific",
+              "Latin America",
+              "Canada"
+            ],
+            "range": [
+              "#4E79A7",
+              "#F28E2B",
+              "#59A14F",
+              "#E15759",
+              "#B07AA1"
+            ]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "titleFont": "Arial",
+            "titleFontSize": 12,
+            "labelFont": "Arial",
+            "labelFontSize": 11
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Event",
+            "type": "nominal",
+            "title": "Event / location"
+          },
+          {
+            "field": "Venue",
+            "type": "nominal",
+            "title": "Venue"
+          },
+          {
+            "field": "City",
+            "type": "nominal",
+            "title": "City"
+          },
+          {
+            "field": "Country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "Dates",
+            "type": "nominal",
+            "title": "Dates"
+          },
+          {
+            "field": "Region",
+            "type": "nominal",
+            "title": "Region"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "background": "white",
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    }
+  }
+}
