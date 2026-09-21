@@ -16,9 +16,11 @@
     "resize": true
   },
 
+  "background": "white",
+
   "title": {
-    "text": "Funko Products by Product Type",
-    "subtitle": "Distribution of products across categories, 2019–2022",
+    "text": "Funko Product Hierarchy by Product Type and License",
+    "subtitle": "Top 5 product types → Top 5 licenses within each type, 2019–2022",
     "anchor": "start",
     "font": "Arial",
     "fontSize": 22,
@@ -45,77 +47,284 @@
       "transform": [
         {
           "type": "filter",
-          "expr": "isValid(datum.product_type) && datum.product_type != ''"
+          "expr": "isValid(datum.product_type) && datum.product_type != '' && isValid(datum.license) && datum.license != ''"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.product_type + '|||' + datum.license",
+          "as": "TypeLicenseKey"
         }
       ]
     },
 
     {
-      "name": "summary",
+      "name": "type_counts",
 
       "source": "source",
 
       "transform": [
         {
           "type": "aggregate",
-
           "groupby": [
             "product_type"
           ],
+          "fields": [
+            "uid"
+          ],
+          "ops": [
+            "count"
+          ],
+          "as": [
+            "TypeProductCount"
+          ]
+        },
+        {
+          "type": "window",
+          "sort": {
+            "field": "TypeProductCount",
+            "order": "descending"
+          },
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "TypeRank"
+          ]
+        }
+      ]
+    },
 
+    {
+      "name": "top_types",
+
+      "source": "type_counts",
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.TypeRank <= 5"
+        }
+      ]
+    },
+
+    {
+      "name": "license_source",
+
+      "source": "source",
+
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "top_types",
+          "key": "product_type",
+          "fields": [
+            "product_type"
+          ],
+          "values": [
+            "TypeRank",
+            "TypeProductCount"
+          ],
+          "as": [
+            "TypeRank",
+            "OriginalTypeProductCount"
+          ]
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum.TypeRank)"
+        }
+      ]
+    },
+
+    {
+      "name": "license_counts",
+
+      "source": "license_source",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "product_type",
+            "license",
+            "TypeLicenseKey"
+          ],
+          "fields": [
+            "uid"
+          ],
+          "ops": [
+            "count"
+          ],
+          "as": [
+            "LicenseProductCount"
+          ]
+        },
+        {
+          "type": "window",
+          "groupby": [
+            "product_type"
+          ],
+          "sort": {
+            "field": "LicenseProductCount",
+            "order": "descending"
+          },
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "LicenseRank"
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "top_licenses",
+
+      "source": "license_counts",
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.LicenseRank <= 5"
+        }
+      ]
+    },
+
+    {
+      "name": "filtered_source",
+
+      "source": "license_source",
+
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "top_licenses",
+          "key": "TypeLicenseKey",
+          "fields": [
+            "TypeLicenseKey"
+          ],
+          "values": [
+            "LicenseRank",
+            "LicenseProductCount"
+          ],
+          "as": [
+            "LicenseRank",
+            "OriginalLicenseProductCount"
+          ]
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum.LicenseRank)"
+        }
+      ]
+    },
+
+    {
+      "name": "type_summary",
+
+      "source": "filtered_source",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "product_type"
+          ],
+          "fields": [
+            "uid",
+            "price",
+            "price",
+            "price",
+            "OriginalTypeProductCount"
+          ],
+          "ops": [
+            "count",
+            "average",
+            "min",
+            "max",
+            "max"
+          ],
+          "as": [
+            "DisplayedProductCount",
+            "AveragePrice",
+            "MinimumPrice",
+            "MaximumPrice",
+            "TotalTypeProductCount"
+          ]
+        },
+        {
+          "type": "joinaggregate",
+          "fields": [
+            "DisplayedProductCount"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "TotalDisplayedProducts"
+          ]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.DisplayedProductCount / datum.TotalDisplayedProducts",
+          "as": "DisplayedShare"
+        }
+      ]
+    },
+
+    {
+      "name": "license_summary",
+
+      "source": "filtered_source",
+
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "TypeLicenseKey",
+            "product_type",
+            "license",
+            "LicenseRank"
+          ],
           "fields": [
             "uid",
             "price",
             "price",
             "price"
           ],
-
           "ops": [
             "count",
             "average",
             "min",
             "max"
           ],
-
           "as": [
-            "Product_Count",
-            "Average_Price",
-            "Minimum_Price",
-            "Maximum_Price"
+            "ProductCount",
+            "AveragePrice",
+            "MinimumPrice",
+            "MaximumPrice"
           ]
         },
-
         {
           "type": "joinaggregate",
-
-          "fields": [
-            "Product_Count"
+          "groupby": [
+            "product_type"
           ],
-
+          "fields": [
+            "ProductCount"
+          ],
           "ops": [
             "sum"
           ],
-
           "as": [
-            "Total_Products"
+            "DisplayedTypeTotal"
           ]
         },
-
         {
           "type": "formula",
-
-          "expr": "datum.Product_Count / datum.Total_Products",
-
-          "as": "Share"
-        },
-
-        {
-          "type": "collect",
-
-          "sort": {
-            "field": "Product_Count",
-            "order": "descending"
-          }
+          "expr": "datum.ProductCount / datum.DisplayedTypeTotal",
+          "as": "ShareWithinDisplayedType"
         }
       ]
     },
@@ -123,35 +332,29 @@
     {
       "name": "tree",
 
-      "source": "source",
+      "source": "filtered_source",
 
       "transform": [
         {
           "type": "nest",
-
           "keys": [
-            "product_type"
+            "product_type",
+            "TypeLicenseKey"
           ],
-
           "generate": true
         },
-
         {
           "type": "treemap",
-
           "sort": {
             "field": "value",
             "order": "descending"
           },
-
           "round": true,
-
           "method": "squarify",
-
           "ratio": 1.6,
-
           "paddingInner": 3,
-
+          "paddingOuter": 2,
+          "paddingTop": 25,
           "size": [
             {
               "signal": "width"
@@ -165,7 +368,7 @@
     },
 
     {
-      "name": "categories",
+      "name": "product_types",
 
       "source": "tree",
 
@@ -174,32 +377,83 @@
           "type": "filter",
           "expr": "datum.depth === 1"
         },
-
         {
           "type": "lookup",
-
-          "from": "summary",
-
+          "from": "type_summary",
           "key": "product_type",
-
           "fields": [
             "key"
           ],
-
           "values": [
-            "Product_Count",
-            "Average_Price",
-            "Minimum_Price",
-            "Maximum_Price",
-            "Share"
+            "DisplayedProductCount",
+            "TotalTypeProductCount",
+            "AveragePrice",
+            "MinimumPrice",
+            "MaximumPrice",
+            "DisplayedShare"
           ],
-
           "as": [
-            "Product_Count",
-            "Average_Price",
-            "Minimum_Price",
-            "Maximum_Price",
-            "Share"
+            "DisplayedProductCount",
+            "TotalTypeProductCount",
+            "AveragePrice",
+            "MinimumPrice",
+            "MaximumPrice",
+            "DisplayedShare"
+          ]
+        },
+        {
+          "type": "lookup",
+          "from": "top_types",
+          "key": "product_type",
+          "fields": [
+            "key"
+          ],
+          "values": [
+            "TypeRank"
+          ],
+          "as": [
+            "TypeRank"
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "licenses",
+
+      "source": "tree",
+
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.depth === 2"
+        },
+        {
+          "type": "lookup",
+          "from": "license_summary",
+          "key": "TypeLicenseKey",
+          "fields": [
+            "key"
+          ],
+          "values": [
+            "product_type",
+            "license",
+            "LicenseRank",
+            "ProductCount",
+            "AveragePrice",
+            "MinimumPrice",
+            "MaximumPrice",
+            "ShareWithinDisplayedType"
+          ],
+          "as": [
+            "product_type",
+            "license",
+            "LicenseRank",
+            "ProductCount",
+            "AveragePrice",
+            "MinimumPrice",
+            "MaximumPrice",
+            "ShareWithinDisplayedType"
           ]
         }
       ]
@@ -209,16 +463,13 @@
   "scales": [
     {
       "name": "color",
-
       "type": "ordinal",
-
       "domain": {
-        "data": "summary",
+        "data": "top_types",
         "field": "product_type"
       },
-
       "range": {
-        "scheme": "tableau20"
+        "scheme": "tableau10"
       }
     }
   ],
@@ -228,7 +479,7 @@
       "type": "rect",
 
       "from": {
-        "data": "categories"
+        "data": "product_types"
       },
 
       "encode": {
@@ -236,44 +487,83 @@
           "x": {
             "field": "x0"
           },
-
           "y": {
             "field": "y0"
           },
-
           "x2": {
             "field": "x1"
           },
-
           "y2": {
             "field": "y1"
           },
-
           "fill": {
             "scale": "color",
             "field": "key"
           },
-
+          "fillOpacity": {
+            "value": 0.2
+          },
           "stroke": {
             "value": "white"
           },
-
           "strokeWidth": {
+            "value": 4
+          },
+          "cornerRadius": {
             "value": 3
           },
+          "tooltip": {
+            "signal": "{'Product Type': datum.key, 'Product Type Rank': datum.TypeRank, 'Products in Top 5 Licenses': datum.DisplayedProductCount, 'Total Products in Product Type': datum.TotalTypeProductCount, 'Share of Displayed Products': format(datum.DisplayedShare, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
+          }
+        }
+      }
+    },
 
+    {
+      "type": "rect",
+
+      "from": {
+        "data": "licenses"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "product_type"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          },
           "cornerRadius": {
             "value": 2
           },
-
+          "cursor": {
+            "value": "pointer"
+          },
           "tooltip": {
-            "signal": "{'Product Type': datum.key, 'Number of Products': datum.Product_Count, 'Share of Catalogue': format(datum.Share, '.1%'), 'Average Price': isValid(datum.Average_Price) ? '$' + format(datum.Average_Price, '.2f') : 'N/A', 'Minimum Price': isValid(datum.Minimum_Price) ? '$' + format(datum.Minimum_Price, '.2f') : 'N/A', 'Maximum Price': isValid(datum.Maximum_Price) ? '$' + format(datum.Maximum_Price, '.2f') : 'N/A'}"
+            "signal": "{'Product Type': datum.product_type, 'License': datum.license, 'License Rank Within Type': datum.LicenseRank, 'Number of Products': datum.ProductCount, 'Share Within Displayed Type': format(datum.ShareWithinDisplayedType, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
           }
         },
 
         "update": {
           "fillOpacity": {
-            "value": 0.85
+            "value": 0.82
           }
         },
 
@@ -281,11 +571,9 @@
           "fillOpacity": {
             "value": 1
           },
-
           "stroke": {
             "value": "#333333"
           },
-
           "strokeWidth": {
             "value": 2
           }
@@ -299,43 +587,86 @@
       "interactive": false,
 
       "from": {
-        "data": "categories"
+        "data": "product_types"
       },
 
       "encode": {
         "enter": {
           "x": {
-            "signal": "(datum.x0 + datum.x1) / 2"
+            "signal": "datum.x0 + 7"
           },
-
           "y": {
-            "signal": "(datum.y0 + datum.y1) / 2 - 8"
+            "signal": "datum.y0 + 6"
           },
-
           "text": {
-            "field": "key"
+            "signal": "'#' + datum.TypeRank + '  ' + datum.key"
           },
-
           "align": {
-            "value": "center"
+            "value": "left"
           },
-
           "baseline": {
-            "value": "middle"
+            "value": "top"
           },
-
           "font": {
             "value": "Arial"
           },
-
+          "fontSize": {
+            "value": 13
+          },
           "fontWeight": {
             "value": "bold"
           },
+          "fill": {
+            "value": "#222222"
+          },
+          "limit": {
+            "signal": "max(0, datum.x1 - datum.x0 - 14)"
+          }
+        },
 
+        "update": {
+          "opacity": {
+            "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 35 ? 1 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "licenses"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.x0 + 6"
+          },
+          "y": {
+            "signal": "datum.y0 + 6"
+          },
+          "text": {
+            "field": "license"
+          },
+          "align": {
+            "value": "left"
+          },
+          "baseline": {
+            "value": "top"
+          },
+          "font": {
+            "value": "Arial"
+          },
+          "fontWeight": {
+            "value": "bold"
+          },
           "fill": {
             "value": "white"
           },
-
           "limit": {
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
           }
@@ -343,11 +674,10 @@
 
         "update": {
           "fontSize": {
-            "signal": "(datum.x1 - datum.x0) > 180 && (datum.y1 - datum.y0) > 100 ? 17 : 13"
+            "signal": "(datum.x1 - datum.x0) > 150 && (datum.y1 - datum.y0) > 80 ? 14 : 11"
           },
-
           "opacity": {
-            "signal": "(datum.x1 - datum.x0) >= 80 && (datum.y1 - datum.y0) >= 38 ? 1 : 0"
+            "signal": "(datum.x1 - datum.x0) >= 65 && (datum.y1 - datum.y0) >= 28 ? 1 : 0"
           }
         }
       }
@@ -359,99 +689,91 @@
       "interactive": false,
 
       "from": {
-        "data": "categories"
+        "data": "licenses"
       },
 
       "encode": {
         "enter": {
           "x": {
-            "signal": "(datum.x0 + datum.x1) / 2"
+            "signal": "datum.x0 + 6"
           },
-
           "y": {
-            "signal": "(datum.y0 + datum.y1) / 2 + 13"
+            "signal": "datum.y0 + 24"
           },
-
           "text": {
-            "signal": "format(datum.Product_Count, ',') + ' products'"
+            "signal": "format(datum.ProductCount, ',') + ' products'"
           },
-
           "align": {
-            "value": "center"
+            "value": "left"
           },
-
           "baseline": {
-            "value": "middle"
+            "value": "top"
           },
-
           "font": {
             "value": "Arial"
           },
-
-          "fontSize": {
-            "value": 11
-          },
-
-          "fill": {
-            "value": "white"
-          }
-        },
-
-        "update": {
-          "opacity": {
-            "signal": "(datum.x1 - datum.x0) >= 105 && (datum.y1 - datum.y0) >= 65 ? 0.95 : 0"
-          }
-        }
-      }
-    },
-
-    {
-      "type": "text",
-
-      "interactive": false,
-
-      "from": {
-        "data": "categories"
-      },
-
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "(datum.x0 + datum.x1) / 2"
-          },
-
-          "y": {
-            "signal": "(datum.y0 + datum.y1) / 2 + 30"
-          },
-
-          "text": {
-            "signal": "format(datum.Share, '.1%')"
-          },
-
-          "align": {
-            "value": "center"
-          },
-
-          "baseline": {
-            "value": "middle"
-          },
-
-          "font": {
-            "value": "Arial"
-          },
-
           "fontSize": {
             "value": 10
           },
-
           "fill": {
             "value": "white"
+          },
+          "limit": {
+            "signal": "max(0, datum.x1 - datum.x0 - 12)"
           }
         },
 
         "update": {
           "opacity": {
-            "signal": "(datum.x1 - datum.x0) >= 120 && (datum.y1 - datum.y0) >= 85 ? 0.9 : 0"
+            "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 45 ? 0.95 : 0"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "text",
+
+      "interactive": false,
+
+      "from": {
+        "data": "licenses"
+      },
+
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.x0 + 6"
+          },
+          "y": {
+            "signal": "datum.y0 + 39"
+          },
+          "text": {
+            "signal": "'#' + datum.LicenseRank + ' within type'"
+          },
+          "align": {
+            "value": "left"
+          },
+          "baseline": {
+            "value": "top"
+          },
+          "font": {
+            "value": "Arial"
+          },
+          "fontSize": {
+            "value": 9
+          },
+          "fill": {
+            "value": "white"
+          },
+          "limit": {
+            "signal": "max(0, datum.x1 - datum.x0 - 12)"
+          }
+        },
+
+        "update": {
+          "opacity": {
+            "signal": "(datum.x1 - datum.x0) >= 100 && (datum.y1 - datum.y0) >= 62 ? 0.9 : 0"
           }
         }
       }
