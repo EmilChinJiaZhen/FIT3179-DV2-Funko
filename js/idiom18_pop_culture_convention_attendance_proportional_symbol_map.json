@@ -3,10 +3,10 @@
   "width": 720,
   "height": 430,
   "title": {
-    "text": "Where Did Major Pop-Culture Conventions Draw the Largest Crowds?",
+    "text": "Where Do Verified Funko Licenses in the Dataset Originate?",
     "subtitle": [
-      "Reported attendance at selected major conventions in 2019",
-      "Circle area represents attendance; counting methods differ between events"
+      "All 380 unique license strings from data_cleaned_wide.csv are retained in the lookup",
+      "Circle area represents product records for licenses with a verified origin mapping"
     ],
     "anchor": "start",
     "font": "Arial",
@@ -38,11 +38,77 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/pop_culture_conventions_2019.csv"
+        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+        "format": {
+          "type": "csv"
+        }
       },
+      "transform": [
+        {
+          "lookup": "license",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_franchise_origin_lookup_all_licenses.csv",
+              "format": {
+                "type": "csv"
+              }
+            },
+            "key": "License",
+            "fields": [
+              "Franchise",
+              "Country",
+              "Region",
+              "Latitude",
+              "Longitude",
+              "CountryWikidata",
+              "CoordinateSource",
+              "FranchiseOriginSource"
+            ]
+          }
+        },
+        {
+          "filter": "isValid(datum.Latitude) && isValid(datum.Longitude)"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "count",
+              "as": "ProductCount"
+            },
+            {
+              "op": "distinct",
+              "field": "license",
+              "as": "LicenseCount"
+            }
+          ],
+          "groupby": [
+            "Country",
+            "Region",
+            "Latitude",
+            "Longitude",
+            "CountryWikidata",
+            "CoordinateSource"
+          ]
+        },
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "CountryRank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "ProductCount",
+              "order": "descending"
+            }
+          ]
+        }
+      ],
       "mark": {
         "type": "circle",
-        "opacity": 0.72,
+        "opacity": 0.78,
+        "stroke": "white",
         "strokeWidth": 1.2
       },
       "encoding": {
@@ -55,30 +121,19 @@
           "type": "quantitative"
         },
         "size": {
-          "field": "Attendance",
+          "field": "ProductCount",
           "type": "quantitative",
-          "title": "Reported attendance",
+          "title": "Funko product records",
           "scale": {
             "type": "sqrt",
-            "domain": [
-              65000,
-              750000
-            ],
             "range": [
-              120,
-              3000
+              100,
+              3200
             ]
           },
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
-            "values": [
-              100000,
-              250000,
-              500000,
-              750000
-            ],
-            "format": ",.0f",
             "titleFont": "Arial",
             "titleFontSize": 12,
             "labelFont": "Arial",
@@ -88,7 +143,7 @@
         "color": {
           "field": "Region",
           "type": "nominal",
-          "title": "Region",
+          "title": "Origin region",
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
@@ -98,81 +153,29 @@
             "labelFontSize": 11
           }
         },
-        "stroke": {
-          "condition": {
-            "test": "datum.Country == 'Malaysia'",
-            "value": "#111111"
-          },
-          "value": "white"
-        },
-        "strokeWidth": {
-          "condition": {
-            "test": "datum.Country == 'Malaysia'",
-            "value": 2.8
-          },
-          "value": 1.0
-        },
         "tooltip": [
-          {
-            "field": "Convention",
-            "type": "nominal",
-            "title": "Convention"
-          },
-          {
-            "field": "City",
-            "type": "nominal",
-            "title": "Host city"
-          },
           {
             "field": "Country",
             "type": "nominal",
-            "title": "Country"
+            "title": "Origin country"
           },
           {
-            "field": "Attendance",
+            "field": "ProductCount",
             "type": "quantitative",
-            "title": "Reported attendance",
+            "title": "Product records",
             "format": ","
           },
           {
-            "field": "CountingMethod",
-            "type": "nominal",
-            "title": "Counting note"
-          }
+            "field": "LicenseCount",
+            "type": "quantitative",
+            "title": "Unique mapped licenses"
+          },
+          {
+            "field": "CountryRank",
+            "type": "quantitative",
+            "title": "Rank"
+          },
         ]
-      }
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/pop_culture_conventions_2019.csv"
-      },
-      "transform": [
-        {
-          "filter": "datum.Country == 'Malaysia'"
-        }
-      ],
-      "mark": {
-        "type": "text",
-        "dx": 8,
-        "dy": -8,
-        "align": "left",
-        "font": "Arial",
-        "fontSize": 11,
-        "fontWeight": "bold"
-      },
-      "encoding": {
-        "longitude": {
-          "field": "Longitude",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "Latitude",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "Convention",
-          "type": "nominal"
-        }
       }
     }
   ],
