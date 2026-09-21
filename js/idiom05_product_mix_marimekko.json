@@ -19,8 +19,7 @@
   "title": {
     "text": "How Did Funko's Product Mix Change?",
     "subtitle": [
-      "Product type composition by year, 2019–2022",
-      "Column width represents the total number of products released"
+      "Product type composition by year, 2019–2022"
     ],
     "orient": "top",
     "anchor": "start",
@@ -53,23 +52,19 @@
           "expr": "toDate(datum.published_at)",
           "as": "ReleaseDate"
         },
-
         {
           "type": "filter",
           "expr": "isValid(datum.ReleaseDate)"
         },
-
         {
           "type": "formula",
           "expr": "year(datum.ReleaseDate)",
           "as": "ReleaseYear"
         },
-
         {
           "type": "filter",
           "expr": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
         },
-
         {
           "type": "filter",
           "expr": "isValid(datum.product_type) && datum.product_type != ''"
@@ -85,37 +80,29 @@
       "transform": [
         {
           "type": "aggregate",
-
           "groupby": [
             "product_type"
           ],
-
           "ops": [
             "count"
           ],
-
           "as": [
             "Product_Count"
           ]
         },
-
         {
           "type": "window",
-
           "ops": [
             "row_number"
           ],
-
           "as": [
             "Type_Rank"
           ],
-
           "sort": {
             "field": "Product_Count",
             "order": "descending"
           }
         },
-
         {
           "type": "formula",
           "expr": "datum.Type_Rank <= 6 ? datum.product_type : 'Other'",
@@ -132,71 +119,64 @@
       "transform": [
         {
           "type": "aggregate",
-
           "groupby": [
             "ReleaseYear"
           ],
-
           "ops": [
             "count"
           ],
-
           "as": [
             "Year_Total"
           ]
         },
-
         {
           "type": "joinaggregate",
-
           "fields": [
+            "Year_Total",
             "Year_Total"
           ],
-
           "ops": [
-            "sum"
+            "sum",
+            "count"
           ],
-
           "as": [
-            "Grand_Total"
+            "Grand_Total",
+            "Year_Count"
           ]
         },
-
+        {
+          "type": "formula",
+          "expr": "(0.32 / datum.Year_Count) + (0.68 * datum.Year_Total / datum.Grand_Total)",
+          "as": "WidthWeight"
+        },
         {
           "type": "window",
-
           "fields": [
-            "Year_Total"
+            "WidthWeight"
           ],
-
           "ops": [
             "sum"
           ],
-
           "as": [
-            "Cumulative_Total"
+            "CumulativeWidth"
           ],
-
           "sort": {
             "field": "ReleaseYear",
             "order": "ascending"
           },
-
           "frame": [
             null,
             0
           ]
         },
-
         {
           "type": "formula",
-          "expr": "(datum.Cumulative_Total - datum.Year_Total) / datum.Grand_Total",
+          "expr": "datum.CumulativeWidth - datum.WidthWeight",
           "as": "x0n"
         },
-
         {
           "type": "formula",
-          "expr": "datum.Cumulative_Total / datum.Grand_Total",
+          "expr": "datum.CumulativeWidth",
           "as": "x1n"
         }
       ]
@@ -210,96 +190,73 @@
       "transform": [
         {
           "type": "lookup",
-
           "from": "global_types",
-
           "key": "product_type",
-
           "fields": [
             "product_type"
           ],
-
           "values": [
             "DisplayType",
             "Type_Rank"
           ],
-
           "as": [
             "DisplayType",
             "Type_Rank"
           ]
         },
-
         {
           "type": "formula",
           "expr": "datum.Type_Rank <= 6 ? datum.Type_Rank : 999",
           "as": "Category_Rank"
         },
-
         {
           "type": "aggregate",
-
           "groupby": [
             "ReleaseYear",
             "DisplayType",
             "Category_Rank"
           ],
-
           "ops": [
             "count"
           ],
-
           "as": [
             "Product_Count"
           ]
         },
-
         {
           "type": "lookup",
-
           "from": "year_totals",
-
           "key": "ReleaseYear",
-
           "fields": [
             "ReleaseYear"
           ],
-
           "values": [
             "Year_Total",
             "x0n",
             "x1n"
           ],
-
           "as": [
             "Year_Total",
             "x0n",
             "x1n"
           ]
         },
-
         {
           "type": "formula",
           "expr": "datum.Product_Count / datum.Year_Total",
           "as": "Year_Share"
         },
-
         {
           "type": "stack",
-
           "groupby": [
             "ReleaseYear"
           ],
-
           "field": "Product_Count",
-
           "sort": {
             "field": "Category_Rank",
             "order": "ascending"
           },
-
           "offset": "normalize",
-
           "as": [
             "y0",
             "y1"
@@ -312,14 +269,11 @@
   "scales": [
     {
       "name": "color",
-
       "type": "ordinal",
-
       "domain": {
         "data": "product_year",
         "field": "DisplayType"
       },
-
       "range": {
         "scheme": "tableau10"
       }
@@ -353,32 +307,25 @@
           "x": {
             "signal": "datum.x0n * width"
           },
-
           "x2": {
             "signal": "datum.x1n * width"
           },
-
           "y": {
             "signal": "datum.y0 * height"
           },
-
           "y2": {
             "signal": "datum.y1 * height"
           },
-
           "fill": {
             "scale": "color",
             "field": "DisplayType"
           },
-
           "stroke": {
             "value": "white"
           },
-
           "strokeWidth": {
             "value": 2
           },
-
           "tooltip": {
             "signal": "{'Year': datum.ReleaseYear, 'Product type': datum.DisplayType, 'Products': datum.Product_Count, 'Share of year': format(datum.Year_Share, '.1%'), 'Total products that year': datum.Year_Total}"
           }
@@ -394,11 +341,9 @@
           "fillOpacity": {
             "value": 1
           },
-
           "stroke": {
             "value": "#333333"
           },
-
           "strokeWidth": {
             "value": 2
           }
@@ -426,7 +371,7 @@
           },
 
           "text": {
-            "field": "DisplayType"
+            "signal": "((datum.x1n - datum.x0n) * width < 85 && indexof(datum.DisplayType, ' ') >= 0) ? replace(datum.DisplayType, ' ', '\\n') : datum.DisplayType"
           },
 
           "align": {
@@ -449,6 +394,10 @@
             "value": "bold"
           },
 
+          "lineHeight": {
+            "value": 12
+          },
+
           "fill": {
             "value": "white"
           }
@@ -456,7 +405,7 @@
 
         "update": {
           "opacity": {
-            "signal": "((datum.x1n - datum.x0n) * width >= 90) && ((datum.y1 - datum.y0) * height >= 42) ? 1 : 0"
+            "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 42) ? 1 : 0"
           }
         }
       }
@@ -478,7 +427,7 @@
           },
 
           "y": {
-            "signal": "((datum.y0 + datum.y1) / 2) * height + 9"
+            "signal": "((datum.y0 + datum.y1) / 2) * height + 11"
           },
 
           "text": {
@@ -508,7 +457,7 @@
 
         "update": {
           "opacity": {
-            "signal": "((datum.x1n - datum.x0n) * width >= 100) && ((datum.y1 - datum.y0) * height >= 52) ? 0.95 : 0"
+            "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 52) ? 0.95 : 0"
           }
         }
       }
@@ -558,7 +507,7 @@
 
         "update": {
           "opacity": {
-            "signal": "(datum.x1n - datum.x0n) * width >= 55 ? 1 : 0"
+            "signal": "(datum.x1n - datum.x0n) * width >= 45 ? 1 : 0"
           }
         }
       }
@@ -608,7 +557,7 @@
 
         "update": {
           "opacity": {
-            "signal": "(datum.x1n - datum.x0n) * width >= 70 ? 1 : 0"
+            "signal": "(datum.x1n - datum.x0n) * width >= 50 ? 1 : 0"
           }
         }
       }
@@ -658,7 +607,7 @@
 
         "update": {
           "opacity": {
-            "signal": "(datum.x1n - datum.x0n) * width < 55 ? 1 : 0"
+            "signal": "(datum.x1n - datum.x0n) * width < 45 ? 1 : 0"
           }
         }
       }
