@@ -19,10 +19,10 @@
       "Higher ridge areas indicate greater concentration of products at that price"
     ],
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 21,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 12,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -335,10 +335,10 @@
       "gridOpacity": 0.7,
       "domainColor": "#999999",
       "tickColor": "#999999",
-      "labelFont": "Arial",
+      "labelFont": "Inter",
       "labelFontSize": 11,
       "labelPadding": 6,
-      "titleFont": "Arial",
+      "titleFont": "Inter",
       "titleFontSize": 13,
       "titleFontWeight": "bold",
       "titlePadding": 12
@@ -546,7 +546,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 13
@@ -586,7 +586,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 10
@@ -611,7 +611,7 @@
             "value": "Ridge height shows relative price concentration within each license"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 11
@@ -639,7 +639,7 @@
             "value": "center"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 11
@@ -655,6 +655,22 @@
     }
   ],
   "config": {
-    "background": "white"
+    "background": "white",
+    "axis": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "title": {
+      "font": "Inter",
+      "subtitleFont": "Inter"
+    },
+    "header": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    }
   }
 }
