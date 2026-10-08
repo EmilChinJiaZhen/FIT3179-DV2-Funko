@@ -4,7 +4,7 @@
     "text": "Funko Pop! Figures by License",
     "subtitle": "Top 10 licenses by number of products, 2019–2022",
     "anchor": "start",
-    "fontSize": 22,
+    "fontSize": 20,
     "subtitleFontSize": 13,
     "subtitlePadding": 8,
     "font": "Inter",
@@ -134,21 +134,31 @@
     "axis": {
       "labelFont": "Inter",
       "titleFont": "Inter",
-      "titleFontSize": 13
+      "titleFontSize": 13,
+      "labelFontSize": 12,
+      "titleFontWeight": 600
     },
     "title": {
       "font": "Inter",
       "subtitleFont": "Inter",
       "fontWeight": "bold",
-      "subtitleFontWeight": "normal"
+      "subtitleFontWeight": "normal",
+      "fontSize": 20,
+      "subtitleFontSize": 13
     },
     "legend": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "header": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "background": "transparent"
   },
