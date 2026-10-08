@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 720,
+  "width": "container",
   "height": 430,
   "title": {
     "text": "Where Is Funko Pop Search Interest Highest?",
@@ -142,5 +142,10 @@
       "labelFont": "Arial",
       "titleFont": "Arial"
     }
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding",
+    "resize": true
   }
 }
