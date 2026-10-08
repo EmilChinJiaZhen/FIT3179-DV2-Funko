@@ -255,10 +255,16 @@
           "type": "quantitative",
           "title": "Relative search interest",
           "scale": {
-            "scheme": "blues",
             "domain": [
               1,
               100
+            ],
+            "range": [
+              "#FFF7D6",
+              "#FFE29A",
+              "#FFC857",
+              "#F59E0B",
+              "#D97706"
             ]
           },
           "legend": {
