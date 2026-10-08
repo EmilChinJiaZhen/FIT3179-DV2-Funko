@@ -17,10 +17,10 @@
     "text": "Funko Product Hierarchy by Product Type and License",
     "subtitle": "Top 5 product types → Top 5 licenses within each type, 2019–2022",
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -553,7 +553,7 @@
             "value": "top"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 13
@@ -573,7 +573,7 @@
             "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 35 ? 1 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -602,7 +602,7 @@
             "value": "top"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontWeight": {
             "value": "bold"
@@ -622,7 +622,7 @@
             "signal": "(datum.x1 - datum.x0) >= 65 && (datum.y1 - datum.y0) >= 28 ? 1 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -651,7 +651,7 @@
             "value": "top"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 10
@@ -668,7 +668,7 @@
             "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 45 ? 0.95 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -697,7 +697,7 @@
             "value": "top"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 9
@@ -714,7 +714,7 @@
             "signal": "(datum.x1 - datum.x0) >= 100 && (datum.y1 - datum.y0) >= 62 ? 0.9 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -722,12 +722,20 @@
   ],
   "config": {
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "title": {
+      "font": "Inter",
+      "subtitleFont": "Inter"
+    },
+    "header": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   }
 }
