@@ -1139,7 +1139,7 @@
     }
   ],
   "config": {
-    "background": "white",
+    "background": "transparent",
     "axis": {
       "labelFont": "Inter",
       "titleFont": "Inter"
@@ -1155,6 +1155,11 @@
     "header": {
       "labelFont": "Inter",
       "titleFont": "Inter"
+    },
+    "view": {
+      "fill": null,
+      "stroke": null
     }
-  }
+  },
+  "background": "transparent"
 }
