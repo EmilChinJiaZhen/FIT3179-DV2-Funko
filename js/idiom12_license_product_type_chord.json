@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 820,
-  "height": 560,
+  "width": 560,
+  "height": 500,
   "padding": {
     "top": 15,
-    "left": 190,
-    "right": 190,
-    "bottom": 45
+    "left": 75,
+    "right": 75,
+    "bottom": 35
   },
   "autosize": {
     "type": "pad",
@@ -20,10 +20,10 @@
     ],
     "anchor": "start",
     "font": "Georgia",
-    "fontSize": 22,
+    "fontSize": 19,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
-    "subtitleFontSize": 13,
+    "subtitleFontSize": 12,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
@@ -38,7 +38,7 @@
     },
     {
       "name": "radius",
-      "value": 215
+      "update": "min(width, height) / 2 - 65"
     }
   ],
   "data": [
@@ -416,7 +416,7 @@
             "field": "y"
           },
           "size": {
-            "value": 430
+            "value": 360
           },
           "fill": {
             "scale": "licenseColor",
@@ -448,7 +448,7 @@
             "field": "y"
           },
           "size": {
-            "value": 430
+            "value": 360
           },
           "fill": {
             "value": "#505050"
@@ -500,7 +500,7 @@
             "value": "#222222"
           },
           "limit": {
-            "value": 180
+            "value": 125
           }
         }
       }
@@ -540,7 +540,7 @@
             "value": "#222222"
           },
           "limit": {
-            "value": 180
+            "value": 125
           }
         }
       }
