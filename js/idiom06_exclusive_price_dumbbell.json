@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 650,
+  "width": "container",
   "height": 360,
   "title": {
     "text": "Do Exclusive Funko Products Cost More?",
@@ -365,5 +365,10 @@
       "labelFont": "Arial",
       "titleFont": "Arial"
     }
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding",
+    "resize": true
   }
 }
