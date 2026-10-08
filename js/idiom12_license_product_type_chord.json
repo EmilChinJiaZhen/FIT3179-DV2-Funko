@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 560,
-  "height": 500,
+  "width": 500,
+  "height": 470,
   "padding": {
     "top": 15,
-    "left": 75,
-    "right": 75,
-    "bottom": 35
+    "left": 20,
+    "right": 20,
+    "bottom": 30
   },
   "autosize": {
     "type": "pad",
@@ -38,7 +38,7 @@
     },
     {
       "name": "radius",
-      "update": "min(width, height) / 2 - 65"
+      "update": "min(width, height) / 2 - 60"
     }
   ],
   "data": [
