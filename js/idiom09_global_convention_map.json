@@ -203,7 +203,7 @@
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#EEEEEE",
+        "fill": "lightgray",
         "stroke": "white",
         "strokeWidth": 0.7
       }
