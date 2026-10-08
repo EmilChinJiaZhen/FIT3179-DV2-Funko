@@ -209,7 +209,8 @@
   ],
   "config": {
     "view": {
-      "stroke": null
+      "stroke": null,
+      "fill": null
     },
     "title": {
       "font": "Inter",
@@ -228,6 +229,8 @@
     "header": {
       "labelFont": "Inter",
       "titleFont": "Inter"
-    }
-  }
+    },
+    "background": "transparent"
+  },
+  "background": "transparent"
 }
