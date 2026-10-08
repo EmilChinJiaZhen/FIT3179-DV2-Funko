@@ -212,7 +212,7 @@ body {
 }
 
 .story-row--reverse {
-  grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
 }
 
 .story-row--reverse .story-insight {
@@ -280,6 +280,11 @@ body {
 }
 
 .story-row--reverse .story-chart {
+  justify-self: start;
+  max-width: 700px;
+}
+
+.story-row--reverse .story-insight {
   justify-self: start;
 }
 
