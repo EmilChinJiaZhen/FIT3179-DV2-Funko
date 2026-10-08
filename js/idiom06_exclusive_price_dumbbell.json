@@ -7,7 +7,7 @@
     "subtitle": "Average listed price by product type for exclusive-tagged and other products",
     "anchor": "start",
     "font": "Inter",
-    "fontSize": 22,
+    "fontSize": 20,
     "fontWeight": "bold",
     "subtitleFont": "Inter",
     "subtitleFontSize": 13,
@@ -350,21 +350,32 @@
     },
     "axis": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 600
     },
     "title": {
       "font": "Inter",
       "fontWeight": "bold",
       "subtitleFont": "Inter",
-      "subtitleFontWeight": "normal"
+      "subtitleFontWeight": "normal",
+      "fontSize": 20,
+      "subtitleFontSize": 13
     },
     "legend": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "header": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "background": "transparent"
   },
