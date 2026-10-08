@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Funko Pop! Dashboard</title>
+
+  <!-- Vega -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+
+  <!-- Pure CSS: same idea as FIT3179 example -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+  >
+
+  <!-- Your dashboard styling -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="hero">
+      <h1>Inside the World of Funko</h1>
+      <p class="subtitle">
+        Exploring Funko's products, licenses, pricing, releases and global presence.
+      </p>
+    </header>
+
+
+    <!-- SECTION 1 -->
+    <section class="dashboard-section">
+
+      <div class="section-heading">
+        <h2>What Does Funko Make?</h2>
+        <p>
+          Explore the licenses, product types and series that shape Funko's
+          product portfolio.
+        </p>
+      </div>
+
+      <div class="chart-grid two-column">
+
+        <div class="chart-card">
+          <div id="idiom01" class="vis-container"></div>
+        </div>
+
+        <div class="chart-card">
+          <div id="idiom02" class="vis-container"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SECTION 2 -->
+    <section class="dashboard-section">
+
+      <div class="section-heading">
+        <h2>How Has Funko Changed Over Time?</h2>
+        <p>
+          Release patterns reveal how Funko's portfolio expanded and changed.
+        </p>
+      </div>
+
+      <div class="chart-card full-width">
+        <div id="idiom03" class="vis-container"></div>
+      </div>
+
+      <div class="chart-grid two-column">
+
+        <div class="chart-card">
+          <div id="idiom04" class="vis-container"></div>
+        </div>
+
+        <div class="chart-card">
+          <div id="idiom05" class="vis-container"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SECTION 3 -->
+    <section class="dashboard-section">
+
+      <div class="section-heading">
+        <h2>What Influences Funko Prices?</h2>
+        <p>
+          Compare prices across exclusivity, product types and major licenses.
+        </p>
+      </div>
+
+      <div class="chart-grid two-column">
+
+        <div class="chart-card">
+          <div id="idiom06" class="vis-container"></div>
+        </div>
+
+        <div class="chart-card">
+          <div id="idiom13" class="vis-container"></div>
+        </div>
+
+      </div>
+
+      <div class="chart-card full-width">
+        <div id="idiom15" class="vis-container"></div>
+      </div>
+
+    </section>
+
+
+    <!-- SECTION 4 -->
+    <section class="dashboard-section">
+
+      <div class="section-heading">
+        <h2>How Global Is Funko?</h2>
+        <p>
+          Search interest, conventions and event locations reveal Funko's
+          international reach.
+        </p>
+      </div>
+
+      <div class="chart-grid two-column">
+
+        <div class="chart-card">
+          <div id="idiom08" class="vis-container"></div>
+        </div>
+
+        <div class="chart-card">
+          <div id="idiom10" class="vis-container"></div>
+        </div>
+
+      </div>
+
+      <div class="chart-card full-width">
+        <div id="idiom09" class="vis-container"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="js/dashboard.js"></script>
+
+</body>
+</html>
