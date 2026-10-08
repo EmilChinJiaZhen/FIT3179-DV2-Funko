@@ -206,7 +206,7 @@
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#E6E6E6",
+        "fill": "lightgray",
         "stroke": "white",
         "strokeWidth": 0.6
       },
@@ -247,7 +247,10 @@
         }
       ],
       "mark": {
-        "type": "geoshape"
+        "type": "geoshape",
+        "fill": "lightgray",
+        "stroke": "white",
+        "strokeWidth": 0.6
       },
       "encoding": {
         "color": {
