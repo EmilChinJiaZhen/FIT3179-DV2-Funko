@@ -4,71 +4,73 @@
 
 body {
   margin: 0;
-  background: #f4f4f4;
-  font-family: Arial, sans-serif;
-  color: #222;
+  background-color: #eeeeee;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #222222;
 }
 
 .page {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 50px;
-  background: white;
+  padding: 45px 55px;
+  background-color: white;
 }
+
+
+/* ---------- HEADER ---------- */
 
 .hero {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 70px;
 }
 
 .hero h1 {
+  margin: 0 0 12px;
   font-size: 42px;
-  margin-bottom: 10px;
+  font-weight: 700;
 }
 
-.subtitle {
+.hero p {
+  margin: 0 auto;
+  max-width: 700px;
   font-size: 18px;
-  color: #666;
+  line-height: 1.5;
+  color: #666666;
 }
+
+
+/* ---------- SECTIONS ---------- */
 
 .dashboard-section {
   margin-bottom: 80px;
 }
 
 .section-heading {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .section-heading h2 {
-  font-size: 28px;
-  margin-bottom: 8px;
+  margin: 0 0 10px;
+  font-size: 27px;
 }
 
 .section-heading p {
-  max-width: 750px;
-  color: #666;
+  max-width: 760px;
+  margin: 0;
   line-height: 1.6;
+  color: #666666;
 }
 
-.chart-grid {
-  display: grid;
-  gap: 30px;
-}
 
-.two-column {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
+/* ---------- VISUALISATIONS ---------- */
 
 .chart-card {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #e5e5e5;
-}
-
-.full-width {
   width: 100%;
-  margin: 30px 0;
+  padding: 20px;
+  margin-top: 25px;
+  background-color: white;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
 }
 
 .vis-container {
@@ -76,14 +78,39 @@ body {
   overflow-x: auto;
 }
 
-@media (max-width: 900px) {
 
-  .two-column {
-    grid-template-columns: 1fr;
-  }
+/* Make Vega containers behave properly */
+
+.vega-embed {
+  width: 100%;
+}
+
+.vega-embed > div {
+  width: 100%;
+}
+
+
+/* ---------- FOOTER ---------- */
+
+footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid #dddddd;
+  font-size: 13px;
+  color: #777777;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 800px) {
 
   .page {
     padding: 25px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
   }
 
 }
