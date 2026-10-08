@@ -9,7 +9,7 @@
       "Circle area represents product records for licenses with a verified origin mapping"
     ],
     "anchor": "start",
-    "font": "Arial",
+    "font": "Georgia",
     "fontSize": 22,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
@@ -185,6 +185,16 @@
       "stroke": null
     },
     "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "title": {
+      "font": "Georgia",
+      "fontWeight": "bold",
+      "subtitleFont": "Arial",
+      "subtitleFontWeight": "normal"
+    },
+    "axis": {
       "labelFont": "Arial",
       "titleFont": "Arial"
     }
