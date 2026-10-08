@@ -19,10 +19,10 @@
       "Link width represents the number of products, 2019–2022"
     ],
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 19,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 12,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -488,7 +488,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 12
@@ -528,7 +528,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 12
@@ -559,7 +559,7 @@
             "value": "Top licenses"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 13
@@ -590,7 +590,7 @@
             "value": "right"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 13
@@ -621,7 +621,7 @@
             "value": "center"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 11
@@ -636,12 +636,20 @@
   "config": {
     "background": "white",
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "title": {
+      "font": "Inter",
+      "subtitleFont": "Inter"
+    },
+    "header": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   }
 }
