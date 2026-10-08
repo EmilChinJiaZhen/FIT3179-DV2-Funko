@@ -9,10 +9,10 @@
       "13 Sep 2025 – 13 Sep 2026 · 100 = highest relative interest in this comparison"
     ],
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -91,9 +91,9 @@
             "direction": "horizontal",
             "gradientLength": 300,
             "gradientThickness": 14,
-            "titleFont": "Arial",
+            "titleFont": "Inter",
             "titleFontSize": 12,
-            "labelFont": "Arial",
+            "labelFont": "Inter",
             "labelFontSize": 11,
             "values": [
               1,
@@ -125,22 +125,22 @@
       "stroke": null
     },
     "title": {
-      "font": "Georgia",
+      "font": "Inter",
       "fontWeight": "bold",
-      "subtitleFont": "Arial",
+      "subtitleFont": "Inter",
       "subtitleFontWeight": "normal"
     },
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "header": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   },
   "autosize": {
