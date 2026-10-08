@@ -1,21 +1,17 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-
   "width": 980,
   "height": 560,
-
   "padding": {
     "top": 15,
     "left": 20,
     "right": 30,
     "bottom": 50
   },
-
   "autosize": {
     "type": "pad",
     "resize": true
   },
-
   "title": {
     "text": "How Do Funko Price Distributions Differ Across Major Licenses?",
     "subtitle": [
@@ -23,7 +19,7 @@
       "Higher ridge areas indicate greater concentration of products at that price"
     ],
     "anchor": "start",
-    "font": "Arial",
+    "font": "Georgia",
     "fontSize": 24,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
@@ -31,7 +27,6 @@
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
-
   "signals": [
     {
       "name": "plotLeft",
@@ -54,62 +49,50 @@
       "value": 42
     }
   ],
-
   "data": [
     {
       "name": "base",
-
       "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
-
       "format": {
         "type": "csv"
       },
-
       "transform": [
         {
           "type": "filter",
           "expr": "isValid(datum.uid) && isValid(datum.license) && trim(toString(datum.license)) != '' && isValid(datum.price) && datum.price != '' && isValid(datum.published_at)"
         },
-
         {
           "type": "formula",
           "expr": "toDate(datum.published_at)",
           "as": "ReleaseDate"
         },
-
         {
           "type": "filter",
           "expr": "isValid(datum.ReleaseDate)"
         },
-
         {
           "type": "formula",
           "expr": "year(datum.ReleaseDate)",
           "as": "ReleaseYear"
         },
-
         {
           "type": "filter",
           "expr": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
         },
-
         {
           "type": "formula",
           "expr": "toNumber(datum.price)",
           "as": "PriceValue"
         },
-
         {
           "type": "filter",
           "expr": "isValid(datum.PriceValue) && datum.PriceValue > 0"
         },
-
         {
           "type": "formula",
           "expr": "trim(toString(datum.license))",
           "as": "LicenseClean"
         },
-
         {
           "type": "formula",
           "expr": "indexof(lower(toString(datum.tags)), 'exclusive') >= 0 ? 'Exclusive-tagged' : 'No exclusive tag'",
@@ -117,12 +100,9 @@
         }
       ]
     },
-
     {
       "name": "license_totals",
-
       "source": "base",
-
       "transform": [
         {
           "type": "aggregate",
@@ -139,69 +119,55 @@
             "LicenseCount"
           ]
         },
-
         {
           "type": "window",
-
           "sort": {
             "field": [
               "LicenseCount",
               "LicenseClean"
             ],
-
             "order": [
               "descending",
               "ascending"
             ]
           },
-
           "ops": [
             "row_number"
           ],
-
           "as": [
             "LicenseRank"
           ]
         },
-
         {
           "type": "filter",
           "expr": "datum.LicenseRank <= 8"
         }
       ]
     },
-
     {
       "name": "selected",
-
       "source": "base",
-
       "transform": [
         {
           "type": "lookup",
           "from": "license_totals",
           "key": "LicenseClean",
-
           "fields": [
             "LicenseClean"
           ],
-
           "values": [
             "LicenseRank",
             "LicenseCount"
           ],
-
           "as": [
             "LicenseRank",
             "LicenseCount"
           ]
         },
-
         {
           "type": "filter",
           "expr": "isValid(datum.LicenseRank)"
         },
-
         {
           "type": "formula",
           "expr": "firstRowY + (datum.LicenseRank - 1) * rowGap",
@@ -209,22 +175,17 @@
         }
       ]
     },
-
     {
       "name": "stats",
-
       "source": "selected",
-
       "transform": [
         {
           "type": "aggregate",
-
           "groupby": [
             "LicenseClean",
             "LicenseRank",
             "LicenseCount"
           ],
-
           "ops": [
             "min",
             "q1",
@@ -234,7 +195,6 @@
             "max",
             "count"
           ],
-
           "fields": [
             "PriceValue",
             "PriceValue",
@@ -244,7 +204,6 @@
             "PriceValue",
             "uid"
           ],
-
           "as": [
             "MinPrice",
             "Q1",
@@ -255,7 +214,6 @@
             "ProductCount"
           ]
         },
-
         {
           "type": "formula",
           "expr": "firstRowY + (datum.LicenseRank - 1) * rowGap",
@@ -263,77 +221,60 @@
         }
       ]
     },
-
     {
       "name": "density",
-
       "source": "selected",
-
       "transform": [
         {
           "type": "kde",
           "field": "PriceValue",
-
           "groupby": [
             "LicenseClean",
             "LicenseRank"
           ],
-
           "steps": 140,
-
           "as": [
             "DensityPrice",
             "Density"
           ]
         },
-
         {
           "type": "joinaggregate",
-
           "groupby": [
             "LicenseClean"
           ],
-
           "ops": [
             "max"
           ],
-
           "fields": [
             "Density"
           ],
-
           "as": [
             "MaxDensity"
           ]
         },
-
         {
           "type": "formula",
           "expr": "datum.MaxDensity > 0 ? datum.Density / datum.MaxDensity : 0",
           "as": "NormalisedDensity"
         },
-
         {
           "type": "formula",
           "expr": "firstRowY + (datum.LicenseRank - 1) * rowGap",
           "as": "BaseY"
         },
-
         {
           "type": "formula",
           "expr": "datum.BaseY - datum.NormalisedDensity * ridgeHeight",
           "as": "RidgeY"
         },
-
         {
           "type": "lookup",
           "from": "stats",
           "key": "LicenseClean",
-
           "fields": [
             "LicenseClean"
           ],
-
           "values": [
             "MedianPrice",
             "MeanPrice",
@@ -341,7 +282,6 @@
             "Q1",
             "Q3"
           ],
-
           "as": [
             "MedianPrice",
             "MeanPrice",
@@ -353,18 +293,14 @@
       ]
     }
   ],
-
   "scales": [
     {
       "name": "xscale",
-
       "type": "linear",
-
       "domain": {
         "data": "selected",
         "field": "PriceValue"
       },
-
       "range": [
         {
           "signal": "plotLeft"
@@ -373,160 +309,124 @@
           "signal": "plotRight"
         }
       ],
-
       "zero": true,
       "nice": true
     },
-
     {
       "name": "licenseColor",
-
       "type": "ordinal",
-
       "domain": {
         "data": "license_totals",
         "field": "LicenseClean"
       },
-
       "range": {
         "scheme": "tableau10"
       }
     }
   ],
-
   "axes": [
     {
       "orient": "bottom",
       "scale": "xscale",
-
       "title": "Listed price ($)",
-
       "format": "$,.0f",
-
       "grid": true,
       "gridColor": "#E5E5E5",
       "gridOpacity": 0.7,
-
       "domainColor": "#999999",
       "tickColor": "#999999",
-
       "labelFont": "Arial",
       "labelFontSize": 11,
       "labelPadding": 6,
-
       "titleFont": "Arial",
       "titleFontSize": 13,
       "titleFontWeight": "bold",
       "titlePadding": 12
     }
   ],
-
   "marks": [
     {
       "type": "rule",
-
       "from": {
         "data": "stats"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "plotLeft"
           },
-
           "x2": {
             "signal": "plotRight"
           },
-
           "y": {
             "field": "BaseY"
           },
-
           "stroke": {
             "value": "#D5D5D5"
           },
-
           "strokeWidth": {
             "value": 1
           }
         }
       }
     },
-
     {
       "type": "group",
-
       "from": {
         "facet": {
           "name": "ridgeFacet",
           "data": "density",
-
           "groupby": [
             "LicenseClean"
           ]
         }
       },
-
       "marks": [
         {
           "type": "area",
-
           "from": {
             "data": "ridgeFacet"
           },
-
           "sort": {
             "field": "DensityPrice"
           },
-
           "encode": {
             "enter": {
               "x": {
                 "scale": "xscale",
                 "field": "DensityPrice"
               },
-
               "y": {
                 "field": "RidgeY"
               },
-
               "y2": {
                 "field": "BaseY"
               },
-
               "fill": {
                 "scale": "licenseColor",
                 "field": "LicenseClean"
               },
-
               "fillOpacity": {
                 "value": 0.58
               },
-
               "stroke": {
                 "scale": "licenseColor",
                 "field": "LicenseClean"
               },
-
               "strokeWidth": {
                 "value": 1.7
               },
-
               "interpolate": {
                 "value": "monotone"
               },
-
               "tooltip": {
                 "signal": "{'License': datum.LicenseClean, 'Price around': '$' + format(datum.DensityPrice, ',.2f'), 'Products in license': datum.ProductCount, 'Median price': '$' + format(datum.MedianPrice, ',.2f'), 'Average price': '$' + format(datum.MeanPrice, ',.2f')}"
               }
             },
-
             "hover": {
               "fillOpacity": {
                 "value": 0.82
               },
-
               "strokeWidth": {
                 "value": 2.5
               }
@@ -535,260 +435,202 @@
         }
       ]
     },
-
     {
       "type": "rule",
-
       "from": {
         "data": "stats"
       },
-
       "encode": {
         "enter": {
           "x": {
             "scale": "xscale",
             "field": "MedianPrice"
           },
-
           "y": {
             "signal": "datum.BaseY - 9"
           },
-
           "y2": {
             "signal": "datum.BaseY + 5"
           },
-
           "stroke": {
             "value": "#333333"
           },
-
           "strokeWidth": {
             "value": 2
           },
-
           "tooltip": {
             "signal": "{'License': datum.LicenseClean, 'Products': datum.ProductCount, 'Minimum price': '$' + format(datum.MinPrice, ',.2f'), 'Q1': '$' + format(datum.Q1, ',.2f'), 'Median': '$' + format(datum.MedianPrice, ',.2f'), 'Average': '$' + format(datum.MeanPrice, ',.2f'), 'Q3': '$' + format(datum.Q3, ',.2f'), 'Maximum price': '$' + format(datum.MaxPrice, ',.2f')}"
           }
         }
       }
     },
-
     {
       "type": "symbol",
-
       "from": {
         "data": "stats"
       },
-
       "encode": {
         "enter": {
           "x": {
             "scale": "xscale",
             "field": "MedianPrice"
           },
-
           "y": {
             "field": "BaseY"
           },
-
           "size": {
             "value": 55
           },
-
           "shape": {
             "value": "circle"
           },
-
           "fill": {
             "value": "white"
           },
-
           "stroke": {
             "value": "#333333"
           },
-
           "strokeWidth": {
             "value": 1.8
           },
-
           "tooltip": {
             "signal": "{'License': datum.LicenseClean, 'Median price': '$' + format(datum.MedianPrice, ',.2f'), 'Average price': '$' + format(datum.MeanPrice, ',.2f'), 'Products': datum.ProductCount}"
           }
         },
-
         "hover": {
           "size": {
             "value": 100
           },
-
           "strokeWidth": {
             "value": 2.5
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "stats"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "plotLeft - 15"
           },
-
           "y": {
             "signal": "datum.BaseY - 4"
           },
-
           "text": {
             "field": "LicenseClean"
           },
-
           "align": {
             "value": "right"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 13
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "fill": {
             "value": "#333333"
           },
-
           "limit": {
             "value": 165
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "stats"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "plotLeft - 15"
           },
-
           "y": {
             "signal": "datum.BaseY + 13"
           },
-
           "text": {
             "signal": "'n = ' + datum.ProductCount"
           },
-
           "align": {
             "value": "right"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 10
           },
-
           "fill": {
             "value": "#777777"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "encode": {
         "enter": {
           "x": {
             "signal": "plotLeft"
           },
-
           "y": {
             "value": 28
           },
-
           "text": {
             "value": "Ridge height shows relative price concentration within each license"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 11
           },
-
           "fill": {
             "value": "#666666"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "encode": {
         "enter": {
           "x": {
             "signal": "width / 2"
           },
-
           "y": {
             "signal": "height - 18"
           },
-
           "text": {
             "value": "White circles mark median listed prices; ridge heights are normalized separately for each license."
           },
-
           "align": {
             "value": "center"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 11
           },
-
           "fontStyle": {
             "value": "italic"
           },
-
           "fill": {
             "value": "#777777"
           }
@@ -796,7 +638,6 @@
       }
     }
   ],
-
   "config": {
     "background": "white"
   }
