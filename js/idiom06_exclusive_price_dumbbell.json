@@ -6,10 +6,10 @@
     "text": "Do Exclusive Funko Products Cost More?",
     "subtitle": "Average listed price by product type for exclusive-tagged and other products",
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -178,7 +178,7 @@
         "order": "descending"
       },
       "axis": {
-        "labelFont": "Arial",
+        "labelFont": "Inter",
         "labelFontSize": 12,
         "labelLimit": 180
       }
@@ -204,9 +204,9 @@
           "axis": {
             "format": "$.0f",
             "grid": true,
-            "labelFont": "Arial",
+            "labelFont": "Inter",
             "labelFontSize": 11,
-            "titleFont": "Arial",
+            "titleFont": "Inter",
             "titleFontSize": 13
           }
         },
@@ -244,8 +244,8 @@
             ]
           },
           "legend": {
-            "titleFont": "Arial",
-            "labelFont": "Arial"
+            "titleFont": "Inter",
+            "labelFont": "Inter"
           }
         },
         "tooltip": [
@@ -327,7 +327,7 @@
       "mark": {
         "type": "text",
         "dy": -13,
-        "font": "Arial",
+        "font": "Inter",
         "fontSize": 11,
         "fontWeight": "bold",
         "color": "#333333"
@@ -348,22 +348,22 @@
       "stroke": null
     },
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "title": {
-      "font": "Georgia",
+      "font": "Inter",
       "fontWeight": "bold",
-      "subtitleFont": "Arial",
+      "subtitleFont": "Inter",
       "subtitleFontWeight": "normal"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "header": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   },
   "autosize": {
