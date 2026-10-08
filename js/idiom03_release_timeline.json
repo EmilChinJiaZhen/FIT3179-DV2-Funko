@@ -6,10 +6,10 @@
     "text": "Funko Product Releases Over Time",
     "subtitle": "Monthly number of products released, 2019–2022",
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -79,9 +79,9 @@
       "axis": {
         "format": "%b %Y",
         "labelAngle": -45,
-        "labelFont": "Arial",
+        "labelFont": "Inter",
         "labelFontSize": 11,
-        "titleFont": "Arial",
+        "titleFont": "Inter",
         "titleFontSize": 13
       }
     },
@@ -94,9 +94,9 @@
       },
       "axis": {
         "grid": true,
-        "labelFont": "Arial",
+        "labelFont": "Inter",
         "labelFontSize": 11,
-        "titleFont": "Arial",
+        "titleFont": "Inter",
         "titleFontSize": 13
       }
     }
@@ -196,7 +196,7 @@
         "baseline": "bottom",
         "dx": 10,
         "dy": -8,
-        "font": "Arial",
+        "font": "Inter",
         "fontSize": 12,
         "fontWeight": "bold"
       },
@@ -212,22 +212,22 @@
       "stroke": null
     },
     "title": {
-      "font": "Georgia",
+      "font": "Inter",
       "fontWeight": "bold",
-      "subtitleFont": "Arial",
+      "subtitleFont": "Inter",
       "subtitleFontWeight": "normal"
     },
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "header": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   }
 }
