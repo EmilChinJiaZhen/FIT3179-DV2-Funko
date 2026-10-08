@@ -307,8 +307,8 @@
             ]
           },
           "legend": {
-            "orient": "bottom",
-            "direction": "horizontal",
+            "orient": "right",
+            "direction": "vertical",
             "titleFont": "Inter",
             "titleFontSize": 12,
             "labelFont": "Inter",
@@ -320,8 +320,8 @@
           "type": "nominal",
           "title": "Origin region",
           "legend": {
-            "orient": "bottom",
-            "direction": "horizontal",
+            "orient": "right",
+            "direction": "vertical",
             "titleFont": "Inter",
             "titleFontSize": 12,
             "labelFont": "Inter",
@@ -361,7 +361,9 @@
     },
     "legend": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "orient": "right",
+      "direction": "vertical"
     },
     "title": {
       "font": "Inter",
