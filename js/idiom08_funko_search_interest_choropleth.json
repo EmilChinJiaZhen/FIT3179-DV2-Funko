@@ -10,7 +10,7 @@
     ],
     "anchor": "start",
     "font": "Inter",
-    "fontSize": 22,
+    "fontSize": 20,
     "fontWeight": "bold",
     "subtitleFont": "Inter",
     "subtitleFontSize": 13,
@@ -312,21 +312,32 @@
       "font": "Inter",
       "fontWeight": "bold",
       "subtitleFont": "Inter",
-      "subtitleFontWeight": "normal"
+      "subtitleFontWeight": "normal",
+      "fontSize": 20,
+      "subtitleFontSize": 13
     },
     "axis": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 600
     },
     "legend": {
       "labelFont": "Inter",
       "titleFont": "Inter",
       "orient": "right",
-      "direction": "vertical"
+      "direction": "vertical",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "header": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     }
   },
   "autosize": {
