@@ -128,7 +128,8 @@
   ],
   "config": {
     "view": {
-      "stroke": null
+      "stroke": null,
+      "fill": null
     },
     "axis": {
       "labelFont": "Inter",
@@ -148,6 +149,8 @@
     "header": {
       "labelFont": "Inter",
       "titleFont": "Inter"
-    }
-  }
+    },
+    "background": "transparent"
+  },
+  "background": "transparent"
 }
