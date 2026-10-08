@@ -102,15 +102,11 @@ body {
 }
 
 .chapter-shell {
-  padding: 28px;
-  border-radius: 28px;
-  border: 1px solid var(--rule);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.83) 0%,
-    rgba(255, 255, 255, 0.94) 100%
-  );
-  box-shadow: var(--shadow);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .chapter--catalogue {
@@ -230,13 +226,13 @@ body {
 .story-insight,
 .story-chart {
   min-width: 0;
-  border-radius: 22px;
+  border-radius: 0;
 }
 
 .story-insight {
-  padding: 24px 22px;
-  background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
-  border: 1px solid rgba(31, 34, 48, 0.08);
+  padding: 8px 0;
+  background: transparent;
+  border: none;
 }
 
 .story-kicker {
@@ -270,10 +266,10 @@ body {
 }
 
 .story-chart {
-  padding: 18px;
-  background: var(--paper);
-  border: 1px solid rgba(28, 36, 52, 0.08);
-  box-shadow: 0 8px 26px rgba(29, 34, 48, 0.05);
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .vis-container {
@@ -336,8 +332,8 @@ body {
   }
 
   .chapter-shell {
-    padding: 18px;
-    border-radius: 22px;
+    padding: 0;
+    border-radius: 0;
   }
 
   .chapter-bar {
@@ -351,10 +347,12 @@ body {
     height: 38px;
   }
 
-  .story-insight,
+  .story-insight {
+    padding: 6px 0;
+  }
+
   .story-chart {
-    padding: 16px;
-    border-radius: 18px;
+    padding: 0;
   }
 
   .hero-copy,
