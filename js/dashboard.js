@@ -14,6 +14,7 @@ const visualisations = [
   ["#idiom11", "js/idiom11_quarterly_license_rank_bump_chart.json"],
 
   ["#idiom06", "js/idiom06_exclusive_price_dumbbell.json"],
+  ["#idiom14", "js/idiom14_product_price_exclusive_sankey.json"],
   ["#idiom15", "js/idiom15_product_type_price_raincloud.json"],
   ["#idiom17", "js/idiom17_license_price_ridgeline.json"],
 
