@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,252 +11,395 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lilita+One&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-  <div class="top-accent" aria-hidden="true"></div>
 
   <main class="page">
 
     <header class="hero">
-      <div class="hero-main">
-        <p class="eyebrow">FIT3179 · Data Visualisation</p>
-        <h1>Inside the World<br>of Funko</h1>
-        <p class="hero-copy">
-          A visual story of Funko's catalogue, growth, pricing
-          and global reach through thirteen visualisation idioms.
-        </p>
-      </div>
-
-      <aside class="hero-meta" aria-label="Dashboard overview">
-        <p class="meta-kicker">Dashboard at a glance</p>
-
-        <div class="meta-stat">
-          <span class="meta-number">13</span>
-          <span class="meta-label">visualisation idioms</span>
-        </div>
-
-        <div class="meta-stat">
-          <span class="meta-number">4</span>
-          <span class="meta-label">story chapters</span>
-        </div>
-
-        <div class="meta-stat">
-          <span class="meta-number">3</span>
-          <span class="meta-label">map idioms</span>
-        </div>
-
-        <p class="meta-note">Catalogue → time → price → place</p>
-      </aside>
+      <p class="eyebrow">FIT3179 Data Visualisation</p>
+      <h1>Inside the World of Funko</h1>
+      <p class="hero-copy">
+        Exploring Funko's catalogue, release patterns, pricing
+        and global reach through data.
+      </p>
     </header>
 
-    <nav class="section-nav" aria-label="Dashboard chapters">
-      <a href="#catalogue"><span>01</span> Catalogue</a>
-      <a href="#time"><span>02</span> Change over time</a>
-      <a href="#pricing"><span>03</span> Pricing</a>
-      <a href="#global"><span>04</span> Global reach</a>
+    <nav class="chapter-nav" aria-label="Dashboard chapters">
+      <a href="#catalogue">01 Catalogue</a>
+      <a href="#time">02 Time</a>
+      <a href="#pricing">03 Price</a>
+      <a href="#global">04 Place</a>
     </nav>
 
+    <section id="catalogue" class="chapter chapter--catalogue">
+      <div class="chapter-shell">
 
-    <!-- CHAPTER 01 -->
-    <section id="catalogue" class="dashboard-section">
-      <div class="section-intro">
-        <p class="chapter-index">01 / 04</p>
-        <h2>What shapes Funko's product catalogue?</h2>
-        <p>
-          Begin with the dominant licenses, then move from hierarchy
-          to relationships between product types and licensed worlds.
-        </p>
+        <div class="chapter-bar">
+          <span class="chapter-no">01</span>
+          <span class="chapter-label">Catalogue</span>
+        </div>
 
-        <div class="chapter-line" aria-hidden="true"></div>
-
-        <p class="chapter-guide">
-          Read from broad composition to detailed connections.
-        </p>
-      </div>
-
-      <div class="section-visuals">
-        <article class="viz-block">
-          <div class="viz-label">
-            <span>01</span>
-            <p>Ranking · major licenses</p>
+        <div class="chapter-intro">
+          <div>
+            <p class="chapter-kicker">Story chapter one</p>
+            <h2>What shapes Funko's product catalogue?</h2>
           </div>
-          <div id="idiom01" class="vis-container"></div>
+
+          <p class="chapter-deck">
+            Start with the licenses that dominate the catalogue,
+            then explore product hierarchy and relationships.
+          </p>
+        </div>
+
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">Lead finding</p>
+
+            <h3>
+              A few
+              <span class="accent-word">blockbuster licenses</span>
+              dominate the catalogue.
+            </h3>
+
+            <p>
+              NBA records the highest number of products,
+              followed by several entertainment franchises.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom01" class="vis-container"></div>
+          </div>
         </article>
 
-        <article class="viz-block">
-          <div class="viz-label">
-            <span>02</span>
-            <p>Hierarchy · product type → license</p>
+        <article class="story-row story-row--reverse">
+          <aside class="story-insight">
+            <p class="story-kicker">Product structure</p>
+
+            <h3>
+              The catalogue is strongly anchored by
+              <span class="accent-word">Pop!</span>
+            </h3>
+
+            <p>
+              The treemap reveals how major licenses sit
+              within Funko's leading product families.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom02" class="vis-container"></div>
           </div>
-          <div id="idiom02" class="vis-container"></div>
         </article>
 
-        <article class="viz-block viz-feature">
-          <div class="viz-label">
-            <span>03</span>
-            <p>Relationships · license ↔ product type</p>
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">Relationships</p>
+
+            <h3>
+              Licenses are
+              <span class="accent-word">not evenly distributed</span>
+              across product types.
+            </h3>
+
+            <p>
+              Some franchises appear across multiple product
+              formats while others remain concentrated.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom12" class="vis-container"></div>
           </div>
-          <div id="idiom12" class="vis-container"></div>
-        </article>
-      </div>
-    </section>
-
-
-    <!-- CHAPTER 02 -->
-    <section id="time" class="dashboard-section">
-      <div class="section-intro">
-        <p class="chapter-index">02 / 04</p>
-        <h2>How has Funko changed over time?</h2>
-        <p>
-          Release volume, seasonality, product mix and ranking shifts
-          reveal how the catalogue evolved between 2019 and 2022.
-        </p>
-
-        <div class="chapter-line" aria-hidden="true"></div>
-
-        <p class="chapter-guide">
-          Follow the story from volume to composition and rank.
-        </p>
-      </div>
-
-      <div class="section-visuals">
-        <article class="viz-block">
-          <div class="viz-label">
-            <span>04</span>
-            <p>Trend · monthly release volume</p>
-          </div>
-          <div id="idiom03" class="vis-container"></div>
         </article>
 
-        <article class="viz-block">
-          <div class="viz-label">
-            <span>05</span>
-            <p>Seasonality · month × year</p>
-          </div>
-          <div id="idiom04" class="vis-container"></div>
-        </article>
-
-        <article class="viz-block">
-          <div class="viz-label">
-            <span>06</span>
-            <p>Composition · yearly product mix</p>
-          </div>
-          <div id="idiom05" class="vis-container"></div>
-        </article>
-
-        <article class="viz-block viz-feature">
-          <div class="viz-label">
-            <span>07</span>
-            <p>Rank movement · leading licenses</p>
-          </div>
-          <div id="idiom11" class="vis-container"></div>
-        </article>
       </div>
     </section>
 
+    <section id="time" class="chapter chapter--time">
+      <div class="chapter-shell">
 
-    <!-- CHAPTER 03 -->
-    <section id="pricing" class="dashboard-section">
-      <div class="section-intro">
-        <p class="chapter-index">03 / 04</p>
-        <h2>What does Funko pricing look like?</h2>
-        <p>
-          Compare exclusive and non-exclusive products, then inspect
-          price distributions across product types and major licenses.
-        </p>
+        <div class="chapter-bar">
+          <span class="chapter-no">02</span>
+          <span class="chapter-label">Time</span>
+        </div>
 
-        <div class="chapter-line" aria-hidden="true"></div>
-
-        <p class="chapter-guide">
-          Move from a direct comparison to full distributions.
-        </p>
-      </div>
-
-      <div class="section-visuals">
-        <article class="viz-block">
-          <div class="viz-label">
-            <span>08</span>
-            <p>Comparison · exclusivity and price</p>
+        <div class="chapter-intro">
+          <div>
+            <p class="chapter-kicker">Story chapter two</p>
+            <h2>How has Funko changed over time?</h2>
           </div>
-          <div id="idiom06" class="vis-container"></div>
+
+          <p class="chapter-deck">
+            Release volume, seasonality, product mix and
+            license rankings reveal how the catalogue evolved.
+          </p>
+        </div>
+
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">Growth</p>
+
+            <h3>
+              Release activity follows a strong
+              <span class="accent-word">upward trajectory.</span>
+            </h3>
+
+            <p>
+              The timeline establishes the wider growth pattern
+              across the four-year period.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom03" class="vis-container"></div>
+          </div>
         </article>
 
-        <article class="viz-block viz-feature">
-          <div class="viz-label">
-            <span>09</span>
-            <p>Distribution · price by product type</p>
+        <article class="story-row story-row--reverse">
+          <aside class="story-insight">
+            <p class="story-kicker">Seasonality</p>
+
+            <h3>
+              Releases cluster into
+              <span class="accent-word">recurring busy periods.</span>
+            </h3>
+
+            <p>
+              The heatmap makes monthly peaks easier to compare
+              across different years.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom04" class="vis-container"></div>
           </div>
-          <div id="idiom15" class="vis-container"></div>
         </article>
 
-        <article class="viz-block viz-feature">
-          <div class="viz-label">
-            <span>10</span>
-            <p>Distribution · price by license</p>
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">Product mix</p>
+
+            <h3>
+              Growth was driven mainly by
+              <span class="accent-word">core product formats.</span>
+            </h3>
+
+            <p>
+              The Marimekko combines total release volume
+              with the product composition of each year.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom05" class="vis-container"></div>
           </div>
-          <div id="idiom17" class="vis-container"></div>
         </article>
+
+        <article class="story-row story-row--reverse">
+          <aside class="story-insight">
+            <p class="story-kicker">Competition</p>
+
+            <h3>
+              Leading licenses
+              <span class="accent-word">change position</span>
+              across quarters.
+            </h3>
+
+            <p>
+              The bump chart highlights which licenses rise,
+              fall or remain consistently prominent.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom11" class="vis-container"></div>
+          </div>
+        </article>
+
       </div>
     </section>
 
+    <section id="pricing" class="chapter chapter--pricing">
+      <div class="chapter-shell">
 
-    <!-- CHAPTER 04 -->
-    <section id="global" class="dashboard-section">
-      <div class="section-intro">
-        <p class="chapter-index">04 / 04</p>
-        <h2>How global is Funko?</h2>
-        <p>
-          Three map idioms separate online interest, convention activity
-          and the geographic origins of licensed entertainment franchises.
-        </p>
+        <div class="chapter-bar">
+          <span class="chapter-no">03</span>
+          <span class="chapter-label">Price</span>
+        </div>
 
-        <div class="chapter-line" aria-hidden="true"></div>
-
-        <p class="chapter-guide">
-          Three geographic questions, three distinct map encodings.
-        </p>
-      </div>
-
-      <div class="section-visuals">
-        <article class="viz-block map-block">
-          <div class="viz-label">
-            <span>11</span>
-            <p>Choropleth · relative search interest</p>
+        <div class="chapter-intro">
+          <div>
+            <p class="chapter-kicker">Story chapter three</p>
+            <h2>What does Funko pricing look like?</h2>
           </div>
-          <div id="idiom08" class="vis-container"></div>
+
+          <p class="chapter-deck">
+            Compare exclusive products, product types and
+            licenses to understand how prices differ.
+          </p>
+        </div>
+
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">Exclusivity</p>
+
+            <h3>
+              <span class="accent-word">Exclusive status</span>
+              changes the pricing comparison.
+            </h3>
+
+            <p>
+              The dumbbell chart directly compares exclusive
+              and non-exclusive products within each group.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom06" class="vis-container"></div>
+          </div>
         </article>
 
-        <article class="viz-block map-block">
-          <div class="viz-label">
-            <span>12</span>
-            <p>Symbol map · convention activity</p>
+        <article class="story-row story-row--reverse">
+          <aside class="story-insight">
+            <p class="story-kicker">Price spread</p>
+
+            <h3>
+              Product types have different
+              <span class="accent-word">price ranges and distributions.</span>
+            </h3>
+
+            <p>
+              The raincloud combines density, observations
+              and summary statistics in one view.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom15" class="vis-container"></div>
           </div>
-          <div id="idiom09" class="vis-container"></div>
         </article>
 
-        <article class="viz-block map-block">
-          <div class="viz-label">
-            <span>13</span>
-            <p>Proportional symbols · license origins</p>
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">License profile</p>
+
+            <h3>
+              Each major license has its own
+              <span class="accent-word">pricing signature.</span>
+            </h3>
+
+            <p>
+              The ridgeline view compares the shape and
+              concentration of listed prices.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom17" class="vis-container"></div>
           </div>
-          <div id="idiom18" class="vis-container"></div>
         </article>
+
       </div>
     </section>
 
+    <section id="global" class="chapter chapter--global">
+      <div class="chapter-shell">
 
-    <footer>
-      <div>
-        <p class="footer-title">Inside the World of Funko</p>
-        <p>FIT3179 Data Visualisation · 13 idioms · 4 chapters</p>
+        <div class="chapter-bar">
+          <span class="chapter-no">04</span>
+          <span class="chapter-label">Place</span>
+        </div>
+
+        <div class="chapter-intro">
+          <div>
+            <p class="chapter-kicker">Story chapter four</p>
+            <h2>How global is Funko?</h2>
+          </div>
+
+          <p class="chapter-deck">
+            Search interest, conventions and franchise origins
+            reveal different dimensions of Funko's global reach.
+          </p>
+        </div>
+
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">Search interest</p>
+
+            <h3>
+              Interest in Funko is
+              <span class="accent-word">geographically uneven.</span>
+            </h3>
+
+            <p>
+              The choropleth reveals where search interest
+              is relatively stronger across countries.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom08" class="vis-container"></div>
+          </div>
+        </article>
+
+        <article class="story-row story-row--reverse">
+          <aside class="story-insight">
+            <p class="story-kicker">Conventions</p>
+
+            <h3>
+              Convention activity clusters around
+              <span class="accent-word">major event hubs.</span>
+            </h3>
+
+            <p>
+              Unlike the choropleth, this map focuses on
+              individual locations and events.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom09" class="vis-container"></div>
+          </div>
+        </article>
+
+        <article class="story-row">
+          <aside class="story-insight">
+            <p class="story-kicker">Franchise origins</p>
+
+            <h3>
+              Funko draws from a
+              <span class="accent-word">multi-regional pop-culture network.</span>
+            </h3>
+
+            <p>
+              The proportional symbols show where verified
+              franchises represented in the dataset originate.
+            </p>
+          </aside>
+
+          <div class="story-chart">
+            <div id="idiom18" class="vis-container"></div>
+          </div>
+        </article>
+
       </div>
-      <p class="footer-end">End of visual story</p>
+    </section>
+
+    <footer class="page-footer">
+      <p>FIT3179 Data Visualisation</p>
     </footer>
 
   </main>
 
   <script src="js/dashboard.js"></script>
+
 </body>
 </html>
