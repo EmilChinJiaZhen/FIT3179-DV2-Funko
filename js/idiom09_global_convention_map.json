@@ -28,7 +28,7 @@
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#DCEFF7"
+        "fill": "skyblue"
       }
     },
     {
