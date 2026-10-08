@@ -7,7 +7,7 @@
     "subtitle": "Convention-associated entries across the Funko collection dataset",
     "anchor": "start",
     "font": "Inter",
-    "fontSize": 22,
+    "fontSize": 20,
     "fontWeight": "bold",
     "subtitleFont": "Inter",
     "subtitleFontSize": 13,
@@ -569,21 +569,32 @@
     },
     "legend": {
       "titleFont": "Inter",
-      "labelFont": "Inter"
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "title": {
       "font": "Inter",
       "fontWeight": "bold",
       "subtitleFont": "Inter",
-      "subtitleFontWeight": "normal"
+      "subtitleFontWeight": "normal",
+      "fontSize": 20,
+      "subtitleFontSize": 13
     },
     "axis": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 600
     },
     "header": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "background": "transparent"
   },
