@@ -430,6 +430,14 @@
               "strokeWidth": {
                 "value": 2.5
               }
+            },
+            "update": {
+              "fillOpacity": {
+                "value": 0.58
+              },
+              "strokeWidth": {
+                "value": 1.7
+              }
             }
           }
         }
@@ -503,6 +511,14 @@
           },
           "strokeWidth": {
             "value": 2.5
+          }
+        },
+        "update": {
+          "size": {
+            "value": 55
+          },
+          "strokeWidth": {
+            "value": 1.8
           }
         }
       }
