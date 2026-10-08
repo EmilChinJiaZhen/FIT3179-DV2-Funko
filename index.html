@@ -5,14 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Funko Pop! Visualisation</title>
+  <title>Inside the World of Funko</title>
 
-  <!-- Vega libraries -->
   <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
 
-  <!-- Dashboard CSS -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -20,26 +18,29 @@
 
   <main class="page">
 
-    <!-- Header -->
     <header class="hero">
+      <p class="eyebrow">FIT3179 Data Visualisation</p>
       <h1>Inside the World of Funko</h1>
-
-      <p>
-        Exploring Funko's licenses, product releases and seasonal patterns.
+      <p class="hero-copy">
+        Exploring Funko's catalogue, growth, pricing and global reach through
+        thirteen visualisation idioms.
       </p>
     </header>
 
+    <nav class="section-nav" aria-label="Dashboard sections">
+      <a href="#catalogue">Catalogue</a>
+      <a href="#time">Change Over Time</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#global">Global Reach</a>
+    </nav>
 
-    <!-- Section 1 -->
-    <section class="dashboard-section">
-
+    <section id="catalogue" class="dashboard-section">
       <div class="section-heading">
+        <p class="section-number">01</p>
         <h2>What Shapes Funko's Product Catalogue?</h2>
-
         <p>
-          Funko collaborates with hundreds of entertainment licenses.
-          The following visualisation highlights the licenses that
-          contribute the most products to the collection.
+          Start with the major licenses, then move into the hierarchy of product
+          types and the relationships between licenses and products.
         </p>
       </div>
 
@@ -47,18 +48,22 @@
         <div id="idiom01" class="vis-container"></div>
       </div>
 
+      <div class="chart-card">
+        <div id="idiom02" class="vis-container"></div>
+      </div>
+
+      <div class="chart-card">
+        <div id="idiom12" class="vis-container"></div>
+      </div>
     </section>
 
-
-    <!-- Section 2 -->
-    <section class="dashboard-section">
-
+    <section id="time" class="dashboard-section">
       <div class="section-heading">
-        <h2>How Has Funko Expanded Over Time?</h2>
-
+        <p class="section-number">02</p>
+        <h2>How Has Funko Changed Over Time?</h2>
         <p>
-          Looking at product releases over time reveals how Funko's
-          catalogue has grown and how release activity has changed.
+          Release volume, seasonality, product mix and license rankings show how
+          Funko's catalogue evolved from 2019 to 2022.
         </p>
       </div>
 
@@ -66,33 +71,67 @@
         <div id="idiom03" class="vis-container"></div>
       </div>
 
-    </section>
-
-
-    <!-- Section 3 -->
-    <section class="dashboard-section">
-
-      <div class="section-heading">
-        <h2>When Are Funko Products Released?</h2>
-
-        <p>
-          Release activity also varies throughout the year.
-          Seasonal patterns can reveal periods where more products
-          are introduced.
-        </p>
-      </div>
-
       <div class="chart-card">
         <div id="idiom04" class="vis-container"></div>
       </div>
 
+      <div class="chart-card">
+        <div id="idiom05" class="vis-container"></div>
+      </div>
+
+      <div class="chart-card">
+        <div id="idiom11" class="vis-container"></div>
+      </div>
     </section>
 
+    <section id="pricing" class="dashboard-section">
+      <div class="section-heading">
+        <p class="section-number">03</p>
+        <h2>What Does Funko Pricing Look Like?</h2>
+        <p>
+          Compare exclusive and non-exclusive products, then examine how price
+          distributions differ across product types and major licenses.
+        </p>
+      </div>
+
+      <div class="chart-card">
+        <div id="idiom06" class="vis-container"></div>
+      </div>
+
+      <div class="chart-card">
+        <div id="idiom15" class="vis-container"></div>
+      </div>
+
+      <div class="chart-card">
+        <div id="idiom17" class="vis-container"></div>
+      </div>
+    </section>
+
+    <section id="global" class="dashboard-section">
+      <div class="section-heading">
+        <p class="section-number">04</p>
+        <h2>How Global Is Funko?</h2>
+        <p>
+          Three map idioms examine Funko from different geographic perspectives:
+          search interest, convention activity and the origins of licensed franchises.
+        </p>
+      </div>
+
+      <div class="chart-card map-card">
+        <div id="idiom08" class="vis-container"></div>
+      </div>
+
+      <div class="chart-card map-card">
+        <div id="idiom09" class="vis-container"></div>
+      </div>
+
+      <div class="chart-card map-card">
+        <div id="idiom18" class="vis-container"></div>
+      </div>
+    </section>
 
     <footer>
-      <p>
-        Data visualisation created for FIT3179 Data Visualisation.
-      </p>
+      <p>Data visualisation created for FIT3179 Data Visualisation.</p>
     </footer>
 
   </main>
@@ -100,5 +139,4 @@
   <script src="js/dashboard.js"></script>
 
 </body>
-
 </html>
