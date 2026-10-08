@@ -1,28 +1,23 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-
   "width": 700,
   "height": 450,
-
   "padding": {
     "top": 10,
     "left": 5,
     "right": 5,
     "bottom": 5
   },
-
   "autosize": {
     "type": "pad",
     "resize": true
   },
-
   "background": "white",
-
   "title": {
     "text": "Funko Product Hierarchy by Product Type and License",
     "subtitle": "Top 5 product types → Top 5 licenses within each type, 2019–2022",
     "anchor": "start",
-    "font": "Arial",
+    "font": "Georgia",
     "fontSize": 22,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
@@ -30,20 +25,16 @@
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
-
   "data": [
     {
       "name": "source",
-
       "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
-
       "format": {
         "type": "csv",
         "parse": {
           "price": "number"
         }
       },
-
       "transform": [
         {
           "type": "filter",
@@ -56,12 +47,9 @@
         }
       ]
     },
-
     {
       "name": "type_counts",
-
       "source": "source",
-
       "transform": [
         {
           "type": "aggregate",
@@ -93,12 +81,9 @@
         }
       ]
     },
-
     {
       "name": "top_types",
-
       "source": "type_counts",
-
       "transform": [
         {
           "type": "filter",
@@ -106,12 +91,9 @@
         }
       ]
     },
-
     {
       "name": "license_source",
-
       "source": "source",
-
       "transform": [
         {
           "type": "lookup",
@@ -135,12 +117,9 @@
         }
       ]
     },
-
     {
       "name": "license_counts",
-
       "source": "license_source",
-
       "transform": [
         {
           "type": "aggregate",
@@ -177,12 +156,9 @@
         }
       ]
     },
-
     {
       "name": "top_licenses",
-
       "source": "license_counts",
-
       "transform": [
         {
           "type": "filter",
@@ -190,12 +166,9 @@
         }
       ]
     },
-
     {
       "name": "filtered_source",
-
       "source": "license_source",
-
       "transform": [
         {
           "type": "lookup",
@@ -219,12 +192,9 @@
         }
       ]
     },
-
     {
       "name": "type_summary",
-
       "source": "filtered_source",
-
       "transform": [
         {
           "type": "aggregate",
@@ -272,12 +242,9 @@
         }
       ]
     },
-
     {
       "name": "license_summary",
-
       "source": "filtered_source",
-
       "transform": [
         {
           "type": "aggregate",
@@ -328,12 +295,9 @@
         }
       ]
     },
-
     {
       "name": "tree",
-
       "source": "filtered_source",
-
       "transform": [
         {
           "type": "nest",
@@ -366,12 +330,9 @@
         }
       ]
     },
-
     {
       "name": "product_types",
-
       "source": "tree",
-
       "transform": [
         {
           "type": "filter",
@@ -417,12 +378,9 @@
         }
       ]
     },
-
     {
       "name": "licenses",
-
       "source": "tree",
-
       "transform": [
         {
           "type": "filter",
@@ -459,7 +417,6 @@
       ]
     }
   ],
-
   "scales": [
     {
       "name": "color",
@@ -473,15 +430,12 @@
       }
     }
   ],
-
   "marks": [
     {
       "type": "rect",
-
       "from": {
         "data": "product_types"
       },
-
       "encode": {
         "enter": {
           "x": {
@@ -518,14 +472,11 @@
         }
       }
     },
-
     {
       "type": "rect",
-
       "from": {
         "data": "licenses"
       },
-
       "encode": {
         "enter": {
           "x": {
@@ -560,13 +511,11 @@
             "signal": "{'Product Type': datum.product_type, 'License': datum.license, 'License Rank Within Type': datum.LicenseRank, 'Number of Products': datum.ProductCount, 'Share Within Displayed Type': format(datum.ShareWithinDisplayedType, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
           }
         },
-
         "update": {
           "fillOpacity": {
             "value": 0.82
           }
         },
-
         "hover": {
           "fillOpacity": {
             "value": 1
@@ -580,16 +529,12 @@
         }
       }
     },
-
     {
       "type": "text",
-
       "interactive": false,
-
       "from": {
         "data": "product_types"
       },
-
       "encode": {
         "enter": {
           "x": {
@@ -623,24 +568,22 @@
             "signal": "max(0, datum.x1 - datum.x0 - 14)"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 35 ? 1 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "interactive": false,
-
       "from": {
         "data": "licenses"
       },
-
       "encode": {
         "enter": {
           "x": {
@@ -671,27 +614,25 @@
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
           }
         },
-
         "update": {
           "fontSize": {
             "signal": "(datum.x1 - datum.x0) > 150 && (datum.y1 - datum.y0) > 80 ? 14 : 11"
           },
           "opacity": {
             "signal": "(datum.x1 - datum.x0) >= 65 && (datum.y1 - datum.y0) >= 28 ? 1 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "interactive": false,
-
       "from": {
         "data": "licenses"
       },
-
       "encode": {
         "enter": {
           "x": {
@@ -722,24 +663,22 @@
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 45 ? 0.95 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "interactive": false,
-
       "from": {
         "data": "licenses"
       },
-
       "encode": {
         "enter": {
           "x": {
@@ -770,13 +709,25 @@
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "(datum.x1 - datum.x0) >= 100 && (datum.y1 - datum.y0) >= 62 ? 0.9 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     }
-  ]
+  ],
+  "config": {
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    }
+  }
 }
