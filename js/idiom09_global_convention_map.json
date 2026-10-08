@@ -6,10 +6,10 @@
     "text": "Where Do Funko Convention Releases Cluster?",
     "subtitle": "Convention-associated entries across the Funko collection dataset",
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -328,8 +328,8 @@
             ]
           },
           "legend": {
-            "titleFont": "Arial",
-            "labelFont": "Arial"
+            "titleFont": "Inter",
+            "labelFont": "Inter"
           }
         },
         "color": {
@@ -340,8 +340,8 @@
             "scheme": "tableau10"
           },
           "legend": {
-            "titleFont": "Arial",
-            "labelFont": "Arial",
+            "titleFont": "Inter",
+            "labelFont": "Inter",
             "labelLimit": 170
           }
         },
@@ -392,22 +392,22 @@
       "stroke": null
     },
     "legend": {
-      "titleFont": "Arial",
-      "labelFont": "Arial"
+      "titleFont": "Inter",
+      "labelFont": "Inter"
     },
     "title": {
-      "font": "Georgia",
+      "font": "Inter",
       "fontWeight": "bold",
-      "subtitleFont": "Arial",
+      "subtitleFont": "Inter",
       "subtitleFontWeight": "normal"
     },
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "header": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   },
   "autosize": {
