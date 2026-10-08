@@ -15,10 +15,10 @@
       "Based on number of products in the dataset, 2019–2022"
     ],
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -252,10 +252,10 @@
             ],
             "labelExpr": "'Q' + (((datum.value - 1) % 4) + 1) + ' ' + (2019 + floor((datum.value - 1) / 4))",
             "labelAngle": 0,
-            "labelFont": "Arial",
+            "labelFont": "Inter",
             "labelFontSize": 10,
             "labelPadding": 8,
-            "titleFont": "Arial",
+            "titleFont": "Inter",
             "titleFontSize": 13,
             "grid": false,
             "tickSize": 4
@@ -282,9 +282,9 @@
               7
             ],
             "format": "d",
-            "labelFont": "Arial",
+            "labelFont": "Inter",
             "labelFontSize": 11,
-            "titleFont": "Arial",
+            "titleFont": "Inter",
             "titleFontSize": 13,
             "titlePadding": 10,
             "grid": true,
@@ -301,9 +301,9 @@
           },
           "legend": {
             "orient": "bottom",
-            "titleFont": "Arial",
+            "titleFont": "Inter",
             "titleFontSize": 12,
-            "labelFont": "Arial",
+            "labelFont": "Inter",
             "labelFontSize": 10,
             "labelLimit": 130,
             "symbolStrokeWidth": 3,
@@ -409,22 +409,22 @@
     },
     "axis": {
       "domain": false,
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "title": {
-      "font": "Georgia",
+      "font": "Inter",
       "fontWeight": "bold",
-      "subtitleFont": "Arial",
+      "subtitleFont": "Inter",
       "subtitleFontWeight": "normal"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "header": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   },
   "autosize": {
