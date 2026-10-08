@@ -9,7 +9,7 @@
       "13 Sep 2025 – 13 Sep 2026 · 100 = highest relative interest in this comparison"
     ],
     "anchor": "start",
-    "font": "Arial",
+    "font": "Georgia",
     "fontSize": 22,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
@@ -123,6 +123,24 @@
     "background": "white",
     "view": {
       "stroke": null
+    },
+    "title": {
+      "font": "Georgia",
+      "fontWeight": "bold",
+      "subtitleFont": "Arial",
+      "subtitleFontWeight": "normal"
+    },
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "header": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
