@@ -355,9 +355,10 @@
     }
   ],
   "config": {
-    "background": "white",
+    "background": "transparent",
     "view": {
-      "stroke": null
+      "stroke": null,
+      "fill": null
     },
     "legend": {
       "labelFont": "Inter",
@@ -384,5 +385,6 @@
     "type": "fit",
     "contains": "padding",
     "resize": true
-  }
+  },
+  "background": "transparent"
 }
