@@ -177,7 +177,8 @@
   ],
   "config": {
     "view": {
-      "stroke": null
+      "stroke": null,
+      "fill": null
     },
     "axis": {
       "grid": false,
@@ -197,6 +198,8 @@
     "header": {
       "labelFont": "Inter",
       "titleFont": "Inter"
-    }
-  }
+    },
+    "background": "transparent"
+  },
+  "background": "transparent"
 }
