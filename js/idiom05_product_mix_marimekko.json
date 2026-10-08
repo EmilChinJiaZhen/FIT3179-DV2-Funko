@@ -20,10 +20,10 @@
     "orient": "top",
     "anchor": "start",
     "offset": 12,
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 7
@@ -267,9 +267,9 @@
       "title": "Product type",
       "orient": "right",
       "offset": 15,
-      "titleFont": "Arial",
+      "titleFont": "Inter",
       "titleFontSize": 13,
-      "labelFont": "Arial",
+      "labelFont": "Inter",
       "labelFontSize": 11,
       "symbolType": "square"
     }
@@ -350,7 +350,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 11
@@ -370,7 +370,7 @@
             "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 42) ? 1 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -399,7 +399,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 10
@@ -413,7 +413,7 @@
             "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 52) ? 0.95 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -441,7 +441,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 13
@@ -455,7 +455,7 @@
             "signal": "(datum.x1n - datum.x0n) * width >= 45 ? 1 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -483,7 +483,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 10
@@ -497,7 +497,7 @@
             "signal": "(datum.x1n - datum.x0n) * width >= 50 ? 1 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -525,7 +525,7 @@
             "value": "middle"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           },
           "fontSize": {
             "value": 10
@@ -539,7 +539,7 @@
             "signal": "(datum.x1n - datum.x0n) * width < 45 ? 1 : 0"
           },
           "font": {
-            "value": "Arial"
+            "value": "Inter"
           }
         }
       }
@@ -547,12 +547,20 @@
   ],
   "config": {
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "title": {
+      "font": "Inter",
+      "subtitleFont": "Inter"
+    },
+    "header": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   }
 }
