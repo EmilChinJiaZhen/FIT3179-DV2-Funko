@@ -1,25 +1,25 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-
   "title": {
     "text": "Funko Pop! Figures by License",
     "subtitle": "Top 10 licenses by number of products, 2019–2022",
     "anchor": "start",
     "fontSize": 22,
     "subtitleFontSize": 13,
-    "subtitlePadding": 8
+    "subtitlePadding": 8,
+    "font": "Georgia",
+    "fontWeight": "bold",
+    "subtitleFont": "Arial",
+    "subtitleFontWeight": "normal"
   },
-
   "width": "container",
   "height": 360,
-
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
     "format": {
       "type": "csv"
     }
   },
-
   "transform": [
     {
       "filter": "isValid(datum.license) && datum.license != ''"
@@ -53,7 +53,6 @@
       "filter": "datum.Rank <= 10"
     }
   ],
-
   "encoding": {
     "y": {
       "field": "license",
@@ -68,7 +67,6 @@
         "labelLimit": 200
       }
     },
-
     "x": {
       "field": "Product_Count",
       "type": "quantitative",
@@ -79,7 +77,6 @@
       }
     }
   },
-
   "layer": [
     {
       "mark": {
@@ -87,13 +84,11 @@
         "size": 3
       }
     },
-
     {
       "mark": {
         "type": "circle",
         "size": 130
       },
-
       "encoding": {
         "tooltip": [
           {
@@ -114,16 +109,15 @@
         ]
       }
     },
-
     {
       "mark": {
         "type": "text",
         "align": "left",
         "baseline": "middle",
         "dx": 9,
-        "fontSize": 11
+        "fontSize": 11,
+        "font": "Arial"
       },
-
       "encoding": {
         "text": {
           "field": "Product_Count",
@@ -132,21 +126,28 @@
       }
     }
   ],
-
   "config": {
     "view": {
       "stroke": null
     },
-
     "axis": {
       "labelFont": "Arial",
       "titleFont": "Arial",
       "titleFontSize": 13
     },
-
     "title": {
-      "font": "Arial",
-      "subtitleFont": "Arial"
+      "font": "Georgia",
+      "subtitleFont": "Arial",
+      "fontWeight": "bold",
+      "subtitleFontWeight": "normal"
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "header": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
