@@ -561,6 +561,12 @@
     "header": {
       "labelFont": "Inter",
       "titleFont": "Inter"
+    },
+    "background": "transparent",
+    "view": {
+      "fill": null,
+      "stroke": null
     }
-  }
+  },
+  "background": "transparent"
 }
