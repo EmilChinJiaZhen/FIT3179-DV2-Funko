@@ -20,6 +20,181 @@
   "layer": [
     {
       "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "oceans"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#DCEFF7"
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_graticules_30"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#AFC6D2",
+        "strokeWidth": 0.55,
+        "opacity": 0.75
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -180,
+                  0
+                ],
+                [
+                  -150,
+                  0
+                ],
+                [
+                  -120,
+                  0
+                ],
+                [
+                  -90,
+                  0
+                ],
+                [
+                  -60,
+                  0
+                ],
+                [
+                  -30,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  30,
+                  0
+                ],
+                [
+                  60,
+                  0
+                ],
+                [
+                  90,
+                  0
+                ],
+                [
+                  120,
+                  0
+                ],
+                [
+                  150,
+                  0
+                ],
+                [
+                  180,
+                  0
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#86A8B8",
+        "strokeWidth": 0.9,
+        "opacity": 0.9
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  0,
+                  -90
+                ],
+                [
+                  0,
+                  -75
+                ],
+                [
+                  0,
+                  -60
+                ],
+                [
+                  0,
+                  -45
+                ],
+                [
+                  0,
+                  -30
+                ],
+                [
+                  0,
+                  -15
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  15
+                ],
+                [
+                  0,
+                  30
+                ],
+                [
+                  0,
+                  45
+                ],
+                [
+                  0,
+                  60
+                ],
+                [
+                  0,
+                  75
+                ],
+                [
+                  0,
+                  90
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#86A8B8",
+        "strokeWidth": 0.9,
+        "opacity": 0.9
+      }
+    },
+    {
+      "data": {
         "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
         "format": {
           "type": "topojson",
