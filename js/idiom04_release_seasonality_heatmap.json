@@ -6,10 +6,10 @@
     "text": "When Are Funko Products Released?",
     "subtitle": "Monthly release activity by year, 2019–2022",
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -73,9 +73,9 @@
       "title": "Year",
       "axis": {
         "labelAngle": 0,
-        "labelFont": "Arial",
+        "labelFont": "Inter",
         "labelFontSize": 12,
-        "titleFont": "Arial",
+        "titleFont": "Inter",
         "titleFontSize": 13
       }
     },
@@ -98,9 +98,9 @@
         "Dec"
       ],
       "axis": {
-        "labelFont": "Arial",
+        "labelFont": "Inter",
         "labelFontSize": 12,
-        "titleFont": "Arial",
+        "titleFont": "Inter",
         "titleFontSize": 13
       }
     }
@@ -122,8 +122,8 @@
             "scheme": "blues"
           },
           "legend": {
-            "titleFont": "Arial",
-            "labelFont": "Arial"
+            "titleFont": "Inter",
+            "labelFont": "Inter"
           }
         },
         "tooltip": [
@@ -155,7 +155,7 @@
     {
       "mark": {
         "type": "text",
-        "font": "Arial",
+        "font": "Inter",
         "fontSize": 11,
         "fontWeight": "bold"
       },
@@ -181,22 +181,22 @@
     },
     "axis": {
       "grid": false,
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "title": {
-      "font": "Georgia",
+      "font": "Inter",
       "fontWeight": "bold",
-      "subtitleFont": "Arial",
+      "subtitleFont": "Inter",
       "subtitleFontWeight": "normal"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "header": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   }
 }
