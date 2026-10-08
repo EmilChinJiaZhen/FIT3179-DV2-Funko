@@ -550,6 +550,20 @@
           "strokeWidth": {
             "value": 1
           }
+        },
+        "update": {
+          "size": {
+            "value": 28
+          },
+          "fillOpacity": {
+            "value": 0.48
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 0.4
+          }
         }
       }
     },
