@@ -276,7 +276,7 @@ body {
 }
 
 .story-row:not(.story-row--reverse) .story-chart {
-  justify-self: end;
+  justify-self: start;
 }
 
 .story-row--reverse .story-chart {
