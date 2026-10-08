@@ -44,7 +44,7 @@ body {
 .hero h1 {
   max-width: 760px;
   margin: 0 auto 18px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, "Times New Roman", serif !important;
   font-size: 52px;
   line-height: 1.05;
   font-weight: 700;
