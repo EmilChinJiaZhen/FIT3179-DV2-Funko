@@ -50,8 +50,9 @@ body {
   max-width: 12ch;
   margin: 0 auto 18px;
   font-family: "Lilita One", "Trebuchet MS", Arial, sans-serif;
-  font-size: clamp(3rem, 6vw, 5.4rem);
+  font-size: 68px;
   line-height: 0.95;
+  font-weight: 400;
   letter-spacing: 0.01em;
   color: #132341;
   text-shadow: 0 3px 0 rgba(255, 255, 255, 0.7);
@@ -61,7 +62,9 @@ body {
   max-width: 58ch;
   margin: 0 auto;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .chapter-nav {
@@ -86,7 +89,8 @@ body {
   background: rgba(255, 255, 255, 0.72);
   color: #24324e;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 14px;
+  line-height: 1.4;
   font-weight: 700;
 }
 
@@ -153,16 +157,17 @@ body {
   height: 42px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.18);
-  font-size: 1rem;
+  font-size: 16px;
+  line-height: 1.2;
   font-weight: 800;
   letter-spacing: 0.06em;
 }
 
 .chapter-label {
-  font-size: clamp(1.05rem, 1.8vw, 1.55rem);
+  font-size: 24px;
+  line-height: 1.2;
   font-weight: 800;
   letter-spacing: 0;
-  line-height: 1.2;
 }
 
 .chapter-intro {
@@ -193,7 +198,9 @@ body {
   max-width: 58ch;
   margin: 0;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 400;
 }
 
 .story-row {
@@ -236,7 +243,8 @@ body {
 .story-kicker {
   margin: 0 0 12px;
   color: var(--accent-strong);
-  font-size: 0.8rem;
+  font-size: 13px;
+  line-height: 1.3;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -246,8 +254,8 @@ body {
   max-width: 18ch;
   margin: 0 0 12px;
   color: #182338;
-  font-size: clamp(1.3rem, 2vw, 1.8rem);
-  line-height: 1.12;
+  font-size: 28px;
+  line-height: 1.15;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
@@ -256,7 +264,9 @@ body {
   max-width: 34ch;
   margin: 0;
   color: var(--muted);
-  font-size: 0.97rem;
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 400;
 }
 
 .accent-word {
