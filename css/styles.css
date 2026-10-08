@@ -272,8 +272,14 @@ body {
 .vis-container {
   width: 100%;
   min-width: 0;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
+}
+
+.vega-embed svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .vega-embed {
