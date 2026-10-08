@@ -45,9 +45,9 @@
       "mark": {
         "type": "geoshape",
         "fill": null,
-        "stroke": "#AFC6D2",
-        "strokeWidth": 0.55,
-        "opacity": 0.75
+        "stroke": "lightgray",
+        "strokeWidth": 0.8,
+        "opacity": 1
       }
     },
     {
@@ -118,9 +118,9 @@
       "mark": {
         "type": "geoshape",
         "fill": null,
-        "stroke": "#86A8B8",
-        "strokeWidth": 0.9,
-        "opacity": 0.9
+        "stroke": "#8C8C8C",
+        "strokeWidth": 1.15,
+        "opacity": 1
       }
     },
     {
@@ -191,9 +191,9 @@
       "mark": {
         "type": "geoshape",
         "fill": null,
-        "stroke": "#86A8B8",
-        "strokeWidth": 0.9,
-        "opacity": 0.9
+        "stroke": "#8C8C8C",
+        "strokeWidth": 1.15,
+        "opacity": 1
       }
     },
     {
