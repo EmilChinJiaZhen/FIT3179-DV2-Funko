@@ -20,10 +20,10 @@
     ],
     "anchor": "start",
     "font": "Inter",
-    "fontSize": 21,
+    "fontSize": 20,
     "fontWeight": "bold",
     "subtitleFont": "Inter",
-    "subtitleFontSize": 12,
+    "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
@@ -589,7 +589,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 10
+            "value": 12
           },
           "fill": {
             "value": "#777777"
@@ -614,7 +614,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 11
+            "value": 12
           },
           "fill": {
             "value": "#666666"
@@ -642,7 +642,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 11
+            "value": 12
           },
           "fontStyle": {
             "value": "italic"
@@ -658,19 +658,32 @@
     "background": "transparent",
     "axis": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 600
     },
     "legend": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "title": {
       "font": "Inter",
-      "subtitleFont": "Inter"
+      "subtitleFont": "Inter",
+      "fontSize": 20,
+      "fontWeight": "bold",
+      "subtitleFontSize": 13,
+      "subtitleFontWeight": "normal"
     },
     "header": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "view": {
       "fill": null,
