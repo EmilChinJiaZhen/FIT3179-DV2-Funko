@@ -9,10 +9,10 @@
       "Circle area represents product records for licenses with a verified origin mapping"
     ],
     "anchor": "start",
-    "font": "Georgia",
+    "font": "Inter",
     "fontSize": 22,
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
@@ -134,9 +134,9 @@
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
-            "titleFont": "Arial",
+            "titleFont": "Inter",
             "titleFontSize": 12,
-            "labelFont": "Arial",
+            "labelFont": "Inter",
             "labelFontSize": 11
           }
         },
@@ -147,9 +147,9 @@
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
-            "titleFont": "Arial",
+            "titleFont": "Inter",
             "titleFontSize": 12,
-            "labelFont": "Arial",
+            "labelFont": "Inter",
             "labelFontSize": 11
           }
         },
@@ -185,18 +185,22 @@
       "stroke": null
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "title": {
-      "font": "Georgia",
+      "font": "Inter",
       "fontWeight": "bold",
-      "subtitleFont": "Arial",
+      "subtitleFont": "Inter",
       "subtitleFontWeight": "normal"
     },
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
+    },
+    "header": {
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   },
   "autosize": {
