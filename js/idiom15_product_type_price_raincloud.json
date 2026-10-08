@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 980,
+  "width": 700,
   "height": 560,
   "padding": {
     "top": 15,
@@ -20,17 +20,17 @@
     ],
     "anchor": "start",
     "font": "Georgia",
-    "fontSize": 24,
+    "fontSize": 21,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
-    "subtitleFontSize": 13,
+    "subtitleFontSize": 12,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
   "signals": [
     {
       "name": "plotLeft",
-      "value": 165
+      "value": 145
     },
     {
       "name": "plotRight",
