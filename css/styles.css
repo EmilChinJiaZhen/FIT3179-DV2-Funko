@@ -58,7 +58,7 @@ body {
 }
 
 .hero-copy {
-  max-width: 34ch;
+  max-width: 58ch;
   margin: 0 auto;
   color: var(--muted);
   font-size: 1.05rem;
