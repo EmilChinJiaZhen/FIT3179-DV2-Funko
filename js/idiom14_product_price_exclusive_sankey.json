@@ -1,21 +1,17 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-
-  "width": 980,
-  "height": 580,
-
+  "width": 700,
+  "height": 560,
   "padding": {
     "top": 10,
     "left": 10,
     "right": 10,
     "bottom": 30
   },
-
   "autosize": {
     "type": "pad",
     "resize": true
   },
-
   "title": {
     "text": "How Do Funko Product Types Connect to Price and Exclusivity?",
     "subtitle": [
@@ -23,15 +19,14 @@
       "Flow width represents the number of products"
     ],
     "anchor": "start",
-    "font": "Arial",
-    "fontSize": 24,
+    "font": "Georgia",
+    "fontSize": 21,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
-    "subtitleFontSize": 14,
+    "subtitleFontSize": 12,
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
-
   "signals": [
     {
       "name": "flowTop",
@@ -39,87 +34,74 @@
     },
     {
       "name": "flowHeight",
-      "value": 440
+      "value": 420
     },
     {
       "name": "nodeWidth",
-      "value": 22
+      "value": 18
     },
     {
       "name": "x1",
-      "value": 170
+      "value": 120
     },
     {
       "name": "x2",
-      "value": 490
+      "value": 335
     },
     {
       "name": "x3",
-      "value": 810
+      "value": 550
     }
   ],
-
   "data": [
     {
       "name": "base",
-
       "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
-
       "format": {
         "type": "csv"
       },
-
       "transform": [
         {
           "type": "filter",
           "expr": "isValid(datum.uid) && isValid(datum.published_at) && isValid(datum.product_type) && datum.product_type != '' && isValid(datum.price) && datum.price != ''"
         },
-
         {
           "type": "formula",
           "expr": "toDate(datum.published_at)",
           "as": "ReleaseDate"
         },
-
         {
           "type": "filter",
           "expr": "isValid(datum.ReleaseDate)"
         },
-
         {
           "type": "formula",
           "expr": "year(datum.ReleaseDate)",
           "as": "ReleaseYear"
         },
-
         {
           "type": "filter",
           "expr": "datum.ReleaseYear >= 2019 && datum.ReleaseYear <= 2022"
         },
-
         {
           "type": "formula",
           "expr": "trim(toString(datum.product_type))",
           "as": "ProductTypeClean"
         },
-
         {
           "type": "formula",
           "expr": "toNumber(datum.price)",
           "as": "PriceValue"
         },
-
         {
           "type": "filter",
           "expr": "isValid(datum.PriceValue) && datum.PriceValue > 0"
         },
-
         {
           "type": "formula",
           "expr": "indexof(lower(toString(datum.tags)), 'exclusive') >= 0 ? 'Exclusive-tagged' : 'No exclusive tag'",
           "as": "ExclusiveStatus"
         },
-
         {
           "type": "window",
           "sort": {
@@ -139,7 +121,6 @@
             "PriceOrder"
           ]
         },
-
         {
           "type": "joinaggregate",
           "ops": [
@@ -152,25 +133,21 @@
             "TotalPriceProducts"
           ]
         },
-
         {
           "type": "formula",
           "expr": "(datum.PriceOrder - 1) / datum.TotalPriceProducts",
           "as": "PricePosition"
         },
-
         {
           "type": "formula",
           "expr": "datum.PricePosition < (1/3) ? 'Lower price' : datum.PricePosition < (2/3) ? 'Middle price' : 'Higher price'",
           "as": "PriceBand"
         },
-
         {
           "type": "formula",
           "expr": "datum.PriceBand == 'Lower price' ? 1 : datum.PriceBand == 'Middle price' ? 2 : 3",
           "as": "PriceBandOrder"
         },
-
         {
           "type": "formula",
           "expr": "datum.ExclusiveStatus == 'Exclusive-tagged' ? 1 : 2",
@@ -178,12 +155,9 @@
         }
       ]
     },
-
     {
       "name": "product_rank",
-
       "source": "base",
-
       "transform": [
         {
           "type": "aggregate",
@@ -200,7 +174,6 @@
             "ProductTotal"
           ]
         },
-
         {
           "type": "window",
           "sort": {
@@ -222,12 +195,9 @@
         }
       ]
     },
-
     {
       "name": "classified",
-
       "source": "base",
-
       "transform": [
         {
           "type": "lookup",
@@ -243,13 +213,11 @@
             "ProductRank"
           ]
         },
-
         {
           "type": "formula",
           "expr": "datum.ProductRank <= 6 ? datum.ProductTypeClean : 'Other product types'",
           "as": "ProductGroup"
         },
-
         {
           "type": "formula",
           "expr": "datum.ProductRank <= 6 ? datum.ProductRank : 99",
@@ -257,12 +225,9 @@
         }
       ]
     },
-
     {
       "name": "nodes1",
-
       "source": "classified",
-
       "transform": [
         {
           "type": "aggregate",
@@ -280,7 +245,6 @@
             "NodeCount"
           ]
         },
-
         {
           "type": "stack",
           "field": "NodeCount",
@@ -294,19 +258,16 @@
             "p1"
           ]
         },
-
         {
           "type": "formula",
           "expr": "flowTop + datum.p0 * flowHeight",
           "as": "Y0"
         },
-
         {
           "type": "formula",
           "expr": "flowTop + datum.p1 * flowHeight",
           "as": "Y1"
         },
-
         {
           "type": "formula",
           "expr": "(datum.Y0 + datum.Y1) / 2",
@@ -314,12 +275,9 @@
         }
       ]
     },
-
     {
       "name": "nodes2",
-
       "source": "classified",
-
       "transform": [
         {
           "type": "aggregate",
@@ -343,7 +301,6 @@
             "MaxPrice"
           ]
         },
-
         {
           "type": "stack",
           "field": "NodeCount",
@@ -357,25 +314,21 @@
             "p1"
           ]
         },
-
         {
           "type": "formula",
           "expr": "flowTop + datum.p0 * flowHeight",
           "as": "Y0"
         },
-
         {
           "type": "formula",
           "expr": "flowTop + datum.p1 * flowHeight",
           "as": "Y1"
         },
-
         {
           "type": "formula",
           "expr": "(datum.Y0 + datum.Y1) / 2",
           "as": "NodeY"
         },
-
         {
           "type": "formula",
           "expr": "datum.PriceBand + ' ($' + format(datum.MinPrice, '.2f') + '–$' + format(datum.MaxPrice, '.2f') + ')'",
@@ -383,12 +336,9 @@
         }
       ]
     },
-
     {
       "name": "nodes3",
-
       "source": "classified",
-
       "transform": [
         {
           "type": "aggregate",
@@ -406,7 +356,6 @@
             "NodeCount"
           ]
         },
-
         {
           "type": "stack",
           "field": "NodeCount",
@@ -420,19 +369,16 @@
             "p1"
           ]
         },
-
         {
           "type": "formula",
           "expr": "flowTop + datum.p0 * flowHeight",
           "as": "Y0"
         },
-
         {
           "type": "formula",
           "expr": "flowTop + datum.p1 * flowHeight",
           "as": "Y1"
         },
-
         {
           "type": "formula",
           "expr": "(datum.Y0 + datum.Y1) / 2",
@@ -440,12 +386,9 @@
         }
       ]
     },
-
     {
       "name": "links12",
-
       "source": "classified",
-
       "transform": [
         {
           "type": "aggregate",
@@ -465,7 +408,6 @@
             "FlowCount"
           ]
         },
-
         {
           "type": "lookup",
           "from": "nodes1",
@@ -484,7 +426,6 @@
             "SourceNodeCount"
           ]
         },
-
         {
           "type": "lookup",
           "from": "nodes2",
@@ -507,7 +448,6 @@
             "MaxPrice"
           ]
         },
-
         {
           "type": "stack",
           "groupby": [
@@ -524,7 +464,6 @@
             "s1"
           ]
         },
-
         {
           "type": "stack",
           "groupby": [
@@ -541,37 +480,31 @@
             "t1"
           ]
         },
-
         {
           "type": "formula",
           "expr": "datum.SourceY0 + ((datum.s0 + datum.s1) / 2) * (datum.SourceY1 - datum.SourceY0)",
           "as": "SourceY"
         },
-
         {
           "type": "formula",
           "expr": "datum.TargetY0 + ((datum.t0 + datum.t1) / 2) * (datum.TargetY1 - datum.TargetY0)",
           "as": "TargetY"
         },
-
         {
           "type": "formula",
           "expr": "max(2, (datum.FlowCount / datum.SourceNodeCount) * (datum.SourceY1 - datum.SourceY0) * 0.92)",
           "as": "LinkWidth"
         },
-
         {
           "type": "formula",
           "expr": "datum.FlowCount / datum.SourceNodeCount",
           "as": "SourceShare"
         },
-
         {
           "type": "formula",
           "expr": "datum.FlowCount / datum.TargetNodeCount",
           "as": "TargetShare"
         },
-
         {
           "type": "formula",
           "expr": "'M' + (x1 + nodeWidth) + ',' + datum.SourceY + ' C' + ((x1 + nodeWidth + x2) / 2) + ',' + datum.SourceY + ' ' + ((x1 + nodeWidth + x2) / 2) + ',' + datum.TargetY + ' ' + x2 + ',' + datum.TargetY",
@@ -579,12 +512,9 @@
         }
       ]
     },
-
     {
       "name": "links23",
-
       "source": "classified",
-
       "transform": [
         {
           "type": "aggregate",
@@ -604,7 +534,6 @@
             "FlowCount"
           ]
         },
-
         {
           "type": "lookup",
           "from": "nodes2",
@@ -627,7 +556,6 @@
             "MaxPrice"
           ]
         },
-
         {
           "type": "lookup",
           "from": "nodes3",
@@ -646,7 +574,6 @@
             "TargetNodeCount"
           ]
         },
-
         {
           "type": "stack",
           "groupby": [
@@ -663,7 +590,6 @@
             "s1"
           ]
         },
-
         {
           "type": "stack",
           "groupby": [
@@ -680,37 +606,31 @@
             "t1"
           ]
         },
-
         {
           "type": "formula",
           "expr": "datum.SourceY0 + ((datum.s0 + datum.s1) / 2) * (datum.SourceY1 - datum.SourceY0)",
           "as": "SourceY"
         },
-
         {
           "type": "formula",
           "expr": "datum.TargetY0 + ((datum.t0 + datum.t1) / 2) * (datum.TargetY1 - datum.TargetY0)",
           "as": "TargetY"
         },
-
         {
           "type": "formula",
           "expr": "max(2, (datum.FlowCount / datum.SourceNodeCount) * (datum.SourceY1 - datum.SourceY0) * 0.92)",
           "as": "LinkWidth"
         },
-
         {
           "type": "formula",
           "expr": "datum.FlowCount / datum.SourceNodeCount",
           "as": "SourceShare"
         },
-
         {
           "type": "formula",
           "expr": "datum.FlowCount / datum.TargetNodeCount",
           "as": "TargetShare"
         },
-
         {
           "type": "formula",
           "expr": "'M' + (x2 + nodeWidth) + ',' + datum.SourceY + ' C' + ((x2 + nodeWidth + x3) / 2) + ',' + datum.SourceY + ' ' + ((x2 + nodeWidth + x3) / 2) + ',' + datum.TargetY + ' ' + x3 + ',' + datum.TargetY",
@@ -719,7 +639,6 @@
       ]
     }
   ],
-
   "scales": [
     {
       "name": "productColor",
@@ -732,7 +651,6 @@
         "scheme": "tableau10"
       }
     },
-
     {
       "name": "priceColor",
       "type": "ordinal",
@@ -747,7 +665,6 @@
         "#444444"
       ]
     },
-
     {
       "name": "statusColor",
       "type": "ordinal",
@@ -761,578 +678,459 @@
       ]
     }
   ],
-
   "marks": [
     {
       "type": "path",
-
       "from": {
         "data": "links12"
       },
-
       "encode": {
         "enter": {
           "path": {
             "field": "Path"
           },
-
           "fill": {
             "value": null
           },
-
           "stroke": {
             "scale": "productColor",
             "field": "ProductGroup"
           },
-
           "strokeWidth": {
             "field": "LinkWidth"
           },
-
           "strokeOpacity": {
             "value": 0.4
           },
-
           "strokeCap": {
             "value": "butt"
           },
-
           "tooltip": {
             "signal": "{'Product type': datum.ProductGroup, 'Price band': datum.PriceBand, 'Price range': '$' + format(datum.MinPrice, '.2f') + ' – $' + format(datum.MaxPrice, '.2f'), 'Products': datum.FlowCount, 'Share of product type': format(datum.SourceShare, '.1%'), 'Share of price band': format(datum.TargetShare, '.1%')}"
           }
         },
-
         "hover": {
           "strokeOpacity": {
             "value": 0.9
           }
+        },
+        "update": {
+          "strokeOpacity": {
+            "value": 0.4
+          }
         }
       }
     },
-
     {
       "type": "path",
-
       "from": {
         "data": "links23"
       },
-
       "encode": {
         "enter": {
           "path": {
             "field": "Path"
           },
-
           "fill": {
             "value": null
           },
-
           "stroke": {
             "scale": "statusColor",
             "field": "ExclusiveStatus"
           },
-
           "strokeWidth": {
             "field": "LinkWidth"
           },
-
           "strokeOpacity": {
             "value": 0.43
           },
-
           "strokeCap": {
             "value": "butt"
           },
-
           "tooltip": {
             "signal": "{'Price band': datum.PriceBand, 'Price range': '$' + format(datum.MinPrice, '.2f') + ' – $' + format(datum.MaxPrice, '.2f'), 'Exclusive status': datum.ExclusiveStatus, 'Products': datum.FlowCount, 'Share of price band': format(datum.SourceShare, '.1%'), 'Share of status': format(datum.TargetShare, '.1%')}"
           }
         },
-
         "hover": {
           "strokeOpacity": {
             "value": 0.9
           }
+        },
+        "update": {
+          "strokeOpacity": {
+            "value": 0.43
+          }
         }
       }
     },
-
     {
       "type": "rect",
-
       "from": {
         "data": "nodes1"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x1"
           },
-
           "x2": {
             "signal": "x1 + nodeWidth"
           },
-
           "y": {
             "field": "Y0"
           },
-
           "y2": {
             "field": "Y1"
           },
-
           "fill": {
             "scale": "productColor",
             "field": "ProductGroup"
           },
-
           "stroke": {
             "value": "white"
           },
-
           "strokeWidth": {
             "value": 1
           },
-
           "tooltip": {
             "signal": "{'Product type': datum.ProductGroup, 'Products': datum.NodeCount}"
           }
         }
       }
     },
-
     {
       "type": "rect",
-
       "from": {
         "data": "nodes2"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x2"
           },
-
           "x2": {
             "signal": "x2 + nodeWidth"
           },
-
           "y": {
             "field": "Y0"
           },
-
           "y2": {
             "field": "Y1"
           },
-
           "fill": {
             "scale": "priceColor",
             "field": "PriceBand"
           },
-
           "stroke": {
             "value": "white"
           },
-
           "strokeWidth": {
             "value": 1
           },
-
           "tooltip": {
             "signal": "{'Price band': datum.PriceBand, 'Price range': '$' + format(datum.MinPrice, '.2f') + ' – $' + format(datum.MaxPrice, '.2f'), 'Products': datum.NodeCount}"
           }
         }
       }
     },
-
     {
       "type": "rect",
-
       "from": {
         "data": "nodes3"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x3"
           },
-
           "x2": {
             "signal": "x3 + nodeWidth"
           },
-
           "y": {
             "field": "Y0"
           },
-
           "y2": {
             "field": "Y1"
           },
-
           "fill": {
             "scale": "statusColor",
             "field": "ExclusiveStatus"
           },
-
           "stroke": {
             "value": "white"
           },
-
           "strokeWidth": {
             "value": 1
           },
-
           "tooltip": {
             "signal": "{'Exclusive status': datum.ExclusiveStatus, 'Products': datum.NodeCount}"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "nodes1"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x1 - 12"
           },
-
           "y": {
             "field": "NodeY"
           },
-
           "text": {
             "field": "ProductGroup"
           },
-
           "align": {
             "value": "right"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
-            "value": 13
+            "value": 12
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "fill": {
             "value": "#333333"
           },
-
           "limit": {
-            "value": 155
+            "value": 125
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "nodes2"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x2 + nodeWidth + 12"
           },
-
           "y": {
             "field": "NodeY"
           },
-
           "text": {
             "field": "PriceBandLabel"
           },
-
           "align": {
             "value": "left"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 12
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "fill": {
             "value": "#333333"
           },
-
           "limit": {
-            "value": 190
+            "value": 125
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "nodes3"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x3 + nodeWidth + 12"
           },
-
           "y": {
             "field": "NodeY"
           },
-
           "text": {
             "field": "ExclusiveStatus"
           },
-
           "align": {
             "value": "left"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
-            "value": 13
+            "value": 12
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "fill": {
             "value": "#333333"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x1 + nodeWidth / 2"
           },
-
           "y": {
             "value": 32
           },
-
           "text": {
             "value": "PRODUCT TYPE"
           },
-
           "align": {
             "value": "center"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
-            "value": 13
+            "value": 12
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "fill": {
             "value": "#555555"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x2 + nodeWidth / 2"
           },
-
           "y": {
             "value": 32
           },
-
           "text": {
             "value": "LISTED PRICE BAND"
           },
-
           "align": {
             "value": "center"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
-            "value": 13
+            "value": 12
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "fill": {
             "value": "#555555"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "encode": {
         "enter": {
           "x": {
             "signal": "x3 + nodeWidth / 2"
           },
-
           "y": {
             "value": 32
           },
-
           "text": {
             "value": "EXCLUSIVE STATUS"
           },
-
           "align": {
             "value": "center"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
-            "value": 13
+            "value": 12
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "fill": {
             "value": "#555555"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "encode": {
         "enter": {
           "x": {
             "signal": "width / 2"
           },
-
           "y": {
             "signal": "height - 24"
           },
-
           "text": {
             "value": "Price bands divide products with valid positive listed prices into approximately equal lower, middle and higher thirds."
           },
-
           "align": {
             "value": "center"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 11
           },
-
           "fill": {
             "value": "#666666"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "encode": {
         "enter": {
           "x": {
             "signal": "width / 2"
           },
-
           "y": {
             "signal": "height - 6"
           },
-
           "text": {
             "value": "Exclusive-tagged indicates that the product's tags contain the word “exclusive”."
           },
-
           "align": {
             "value": "center"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 11
           },
-
           "fontStyle": {
             "value": "italic"
           },
-
           "fill": {
             "value": "#777777"
           }
@@ -1340,7 +1138,6 @@
       }
     }
   ],
-
   "config": {
     "background": "white"
   }
