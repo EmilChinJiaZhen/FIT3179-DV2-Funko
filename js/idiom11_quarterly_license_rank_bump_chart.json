@@ -1,11 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 760,
+  "width": "container",
   "height": 430,
   "padding": {
     "top": 10,
     "left": 10,
-    "right": 200,
+    "right": 20,
     "bottom": 55
   },
   "title": {
@@ -300,13 +300,15 @@
             "scheme": "tableau10"
           },
           "legend": {
-            "orient": "right",
+            "orient": "bottom",
             "titleFont": "Arial",
             "titleFontSize": 12,
             "labelFont": "Arial",
             "labelFontSize": 10,
-            "labelLimit": 180,
-            "symbolStrokeWidth": 3
+            "labelLimit": 130,
+            "symbolStrokeWidth": 3,
+            "direction": "horizontal",
+            "columns": 3
           }
         },
         "detail": {
@@ -424,5 +426,10 @@
       "labelFont": "Arial",
       "titleFont": "Arial"
     }
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding",
+    "resize": true
   }
 }
