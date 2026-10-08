@@ -7,9 +7,9 @@
     "fontSize": 22,
     "subtitleFontSize": 13,
     "subtitlePadding": 8,
-    "font": "Georgia",
+    "font": "Inter",
     "fontWeight": "bold",
-    "subtitleFont": "Arial",
+    "subtitleFont": "Inter",
     "subtitleFontWeight": "normal"
   },
   "width": "container",
@@ -116,7 +116,7 @@
         "baseline": "middle",
         "dx": 9,
         "fontSize": 11,
-        "font": "Arial"
+        "font": "Inter"
       },
       "encoding": {
         "text": {
@@ -131,23 +131,23 @@
       "stroke": null
     },
     "axis": {
-      "labelFont": "Arial",
-      "titleFont": "Arial",
+      "labelFont": "Inter",
+      "titleFont": "Inter",
       "titleFontSize": 13
     },
     "title": {
-      "font": "Georgia",
-      "subtitleFont": "Arial",
+      "font": "Inter",
+      "subtitleFont": "Inter",
       "fontWeight": "bold",
       "subtitleFontWeight": "normal"
     },
     "legend": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     },
     "header": {
-      "labelFont": "Arial",
-      "titleFont": "Arial"
+      "labelFont": "Inter",
+      "titleFont": "Inter"
     }
   }
 }
