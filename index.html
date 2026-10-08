@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,128 +14,248 @@
 </head>
 
 <body>
+  <div class="top-accent" aria-hidden="true"></div>
 
   <main class="page">
 
     <header class="hero">
-      <p class="eyebrow">FIT3179 Data Visualisation</p>
-      <h1>Inside the World of Funko</h1>
-      <p class="hero-copy">
-        Exploring Funko's catalogue, growth, pricing and global reach through
-        thirteen visualisation idioms.
-      </p>
+      <div class="hero-main">
+        <p class="eyebrow">FIT3179 · Data Visualisation</p>
+        <h1>Inside the World<br>of Funko</h1>
+        <p class="hero-copy">
+          A visual story of Funko's catalogue, growth, pricing
+          and global reach through thirteen visualisation idioms.
+        </p>
+      </div>
+
+      <aside class="hero-meta" aria-label="Dashboard overview">
+        <p class="meta-kicker">Dashboard at a glance</p>
+
+        <div class="meta-stat">
+          <span class="meta-number">13</span>
+          <span class="meta-label">visualisation idioms</span>
+        </div>
+
+        <div class="meta-stat">
+          <span class="meta-number">4</span>
+          <span class="meta-label">story chapters</span>
+        </div>
+
+        <div class="meta-stat">
+          <span class="meta-number">3</span>
+          <span class="meta-label">map idioms</span>
+        </div>
+
+        <p class="meta-note">Catalogue → time → price → place</p>
+      </aside>
     </header>
 
-    <nav class="section-nav" aria-label="Dashboard sections">
-      <a href="#catalogue">Catalogue</a>
-      <a href="#time">Change Over Time</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#global">Global Reach</a>
+    <nav class="section-nav" aria-label="Dashboard chapters">
+      <a href="#catalogue"><span>01</span> Catalogue</a>
+      <a href="#time"><span>02</span> Change over time</a>
+      <a href="#pricing"><span>03</span> Pricing</a>
+      <a href="#global"><span>04</span> Global reach</a>
     </nav>
 
+
+    <!-- CHAPTER 01 -->
     <section id="catalogue" class="dashboard-section">
-      <div class="section-heading">
-        <p class="section-number">01</p>
-        <h2>What Shapes Funko's Product Catalogue?</h2>
+      <div class="section-intro">
+        <p class="chapter-index">01 / 04</p>
+        <h2>What shapes Funko's product catalogue?</h2>
         <p>
-          Start with the major licenses, then move into the hierarchy of product
-          types and the relationships between licenses and products.
+          Begin with the dominant licenses, then move from hierarchy
+          to relationships between product types and licensed worlds.
+        </p>
+
+        <div class="chapter-line" aria-hidden="true"></div>
+
+        <p class="chapter-guide">
+          Read from broad composition to detailed connections.
         </p>
       </div>
 
-      <div class="chart-card">
-        <div id="idiom01" class="vis-container"></div>
-      </div>
+      <div class="section-visuals">
+        <article class="viz-block">
+          <div class="viz-label">
+            <span>01</span>
+            <p>Ranking · major licenses</p>
+          </div>
+          <div id="idiom01" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card">
-        <div id="idiom02" class="vis-container"></div>
-      </div>
+        <article class="viz-block">
+          <div class="viz-label">
+            <span>02</span>
+            <p>Hierarchy · product type → license</p>
+          </div>
+          <div id="idiom02" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card">
-        <div id="idiom12" class="vis-container"></div>
+        <article class="viz-block viz-feature">
+          <div class="viz-label">
+            <span>03</span>
+            <p>Relationships · license ↔ product type</p>
+          </div>
+          <div id="idiom12" class="vis-container"></div>
+        </article>
       </div>
     </section>
 
+
+    <!-- CHAPTER 02 -->
     <section id="time" class="dashboard-section">
-      <div class="section-heading">
-        <p class="section-number">02</p>
-        <h2>How Has Funko Changed Over Time?</h2>
+      <div class="section-intro">
+        <p class="chapter-index">02 / 04</p>
+        <h2>How has Funko changed over time?</h2>
         <p>
-          Release volume, seasonality, product mix and license rankings show how
-          Funko's catalogue evolved from 2019 to 2022.
+          Release volume, seasonality, product mix and ranking shifts
+          reveal how the catalogue evolved between 2019 and 2022.
+        </p>
+
+        <div class="chapter-line" aria-hidden="true"></div>
+
+        <p class="chapter-guide">
+          Follow the story from volume to composition and rank.
         </p>
       </div>
 
-      <div class="chart-card">
-        <div id="idiom03" class="vis-container"></div>
-      </div>
+      <div class="section-visuals">
+        <article class="viz-block">
+          <div class="viz-label">
+            <span>04</span>
+            <p>Trend · monthly release volume</p>
+          </div>
+          <div id="idiom03" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card">
-        <div id="idiom04" class="vis-container"></div>
-      </div>
+        <article class="viz-block">
+          <div class="viz-label">
+            <span>05</span>
+            <p>Seasonality · month × year</p>
+          </div>
+          <div id="idiom04" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card">
-        <div id="idiom05" class="vis-container"></div>
-      </div>
+        <article class="viz-block">
+          <div class="viz-label">
+            <span>06</span>
+            <p>Composition · yearly product mix</p>
+          </div>
+          <div id="idiom05" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card">
-        <div id="idiom11" class="vis-container"></div>
+        <article class="viz-block viz-feature">
+          <div class="viz-label">
+            <span>07</span>
+            <p>Rank movement · leading licenses</p>
+          </div>
+          <div id="idiom11" class="vis-container"></div>
+        </article>
       </div>
     </section>
 
+
+    <!-- CHAPTER 03 -->
     <section id="pricing" class="dashboard-section">
-      <div class="section-heading">
-        <p class="section-number">03</p>
-        <h2>What Does Funko Pricing Look Like?</h2>
+      <div class="section-intro">
+        <p class="chapter-index">03 / 04</p>
+        <h2>What does Funko pricing look like?</h2>
         <p>
-          Compare exclusive and non-exclusive products, then examine how price
-          distributions differ across product types and major licenses.
+          Compare exclusive and non-exclusive products, then inspect
+          price distributions across product types and major licenses.
+        </p>
+
+        <div class="chapter-line" aria-hidden="true"></div>
+
+        <p class="chapter-guide">
+          Move from a direct comparison to full distributions.
         </p>
       </div>
 
-      <div class="chart-card">
-        <div id="idiom06" class="vis-container"></div>
-      </div>
+      <div class="section-visuals">
+        <article class="viz-block">
+          <div class="viz-label">
+            <span>08</span>
+            <p>Comparison · exclusivity and price</p>
+          </div>
+          <div id="idiom06" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card">
-        <div id="idiom15" class="vis-container"></div>
-      </div>
+        <article class="viz-block viz-feature">
+          <div class="viz-label">
+            <span>09</span>
+            <p>Distribution · price by product type</p>
+          </div>
+          <div id="idiom15" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card">
-        <div id="idiom17" class="vis-container"></div>
+        <article class="viz-block viz-feature">
+          <div class="viz-label">
+            <span>10</span>
+            <p>Distribution · price by license</p>
+          </div>
+          <div id="idiom17" class="vis-container"></div>
+        </article>
       </div>
     </section>
 
+
+    <!-- CHAPTER 04 -->
     <section id="global" class="dashboard-section">
-      <div class="section-heading">
-        <p class="section-number">04</p>
-        <h2>How Global Is Funko?</h2>
+      <div class="section-intro">
+        <p class="chapter-index">04 / 04</p>
+        <h2>How global is Funko?</h2>
         <p>
-          Three map idioms examine Funko from different geographic perspectives:
-          search interest, convention activity and the origins of licensed franchises.
+          Three map idioms separate online interest, convention activity
+          and the geographic origins of licensed entertainment franchises.
+        </p>
+
+        <div class="chapter-line" aria-hidden="true"></div>
+
+        <p class="chapter-guide">
+          Three geographic questions, three distinct map encodings.
         </p>
       </div>
 
-      <div class="chart-card map-card">
-        <div id="idiom08" class="vis-container"></div>
-      </div>
+      <div class="section-visuals">
+        <article class="viz-block map-block">
+          <div class="viz-label">
+            <span>11</span>
+            <p>Choropleth · relative search interest</p>
+          </div>
+          <div id="idiom08" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card map-card">
-        <div id="idiom09" class="vis-container"></div>
-      </div>
+        <article class="viz-block map-block">
+          <div class="viz-label">
+            <span>12</span>
+            <p>Symbol map · convention activity</p>
+          </div>
+          <div id="idiom09" class="vis-container"></div>
+        </article>
 
-      <div class="chart-card map-card">
-        <div id="idiom18" class="vis-container"></div>
+        <article class="viz-block map-block">
+          <div class="viz-label">
+            <span>13</span>
+            <p>Proportional symbols · license origins</p>
+          </div>
+          <div id="idiom18" class="vis-container"></div>
+        </article>
       </div>
     </section>
+
 
     <footer>
-      <p>Data visualisation created for FIT3179 Data Visualisation.</p>
+      <div>
+        <p class="footer-title">Inside the World of Funko</p>
+        <p>FIT3179 Data Visualisation · 13 idioms · 4 chapters</p>
+      </div>
+      <p class="footer-end">End of visual story</p>
     </footer>
 
   </main>
 
   <script src="js/dashboard.js"></script>
-
 </body>
 </html>
