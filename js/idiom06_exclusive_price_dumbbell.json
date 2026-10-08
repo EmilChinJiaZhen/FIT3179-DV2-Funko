@@ -345,7 +345,8 @@
   ],
   "config": {
     "view": {
-      "stroke": null
+      "stroke": null,
+      "fill": null
     },
     "axis": {
       "labelFont": "Inter",
@@ -364,11 +365,13 @@
     "header": {
       "labelFont": "Inter",
       "titleFont": "Inter"
-    }
+    },
+    "background": "transparent"
   },
   "autosize": {
     "type": "fit",
     "contains": "padding",
     "resize": true
-  }
+  },
+  "background": "transparent"
 }
