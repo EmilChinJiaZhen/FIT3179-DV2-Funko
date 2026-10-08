@@ -248,7 +248,6 @@
       ],
       "mark": {
         "type": "geoshape",
-        "fill": "lightgray",
         "stroke": "white",
         "strokeWidth": 0.6
       },
