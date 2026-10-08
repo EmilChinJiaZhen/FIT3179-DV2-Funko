@@ -270,9 +270,9 @@
             ]
           },
           "legend": {
-            "orient": "bottom",
-            "direction": "horizontal",
-            "gradientLength": 300,
+            "orient": "right",
+            "direction": "vertical",
+            "gradientLength": 220,
             "gradientThickness": 14,
             "titleFont": "Inter",
             "titleFontSize": 12,
@@ -319,7 +319,9 @@
     },
     "legend": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "orient": "right",
+      "direction": "vertical"
     },
     "header": {
       "labelFont": "Inter",
