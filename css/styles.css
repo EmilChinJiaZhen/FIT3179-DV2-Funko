@@ -201,10 +201,10 @@ body {
 
 .story-row {
   display: grid;
-  grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.45fr);
-  gap: 22px;
-  align-items: stretch;
-  margin-bottom: 22px;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+  gap: 56px;
+  align-items: start;
+  margin-bottom: 36px;
 }
 
 .story-row:last-child {
@@ -212,7 +212,7 @@ body {
 }
 
 .story-row--reverse {
-  grid-template-columns: minmax(0, 1.45fr) minmax(240px, 0.7fr);
+  grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
 }
 
 .story-row--reverse .story-insight {
@@ -233,6 +233,7 @@ body {
   padding: 8px 0;
   background: transparent;
   border: none;
+  max-width: 390px;
 }
 
 .story-kicker {
@@ -270,6 +271,16 @@ body {
   background: transparent;
   border: none;
   box-shadow: none;
+  width: 100%;
+  max-width: 760px;
+}
+
+.story-row:not(.story-row--reverse) .story-chart {
+  justify-self: end;
+}
+
+.story-row--reverse .story-chart {
+  justify-self: start;
 }
 
 .vis-container {
