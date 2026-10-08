@@ -1,14 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-
   "width": "container",
   "height": 400,
-
   "title": {
     "text": "Funko Product Releases Over Time",
     "subtitle": "Monthly number of products released, 2019–2022",
     "anchor": "start",
-    "font": "Arial",
+    "font": "Georgia",
     "fontSize": 22,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
@@ -16,7 +14,6 @@
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
-
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
     "format": {
@@ -26,27 +23,22 @@
       }
     }
   },
-
   "transform": [
     {
       "calculate": "toDate(datum.published_at)",
       "as": "ReleaseDate"
     },
-
     {
       "filter": "isValid(datum.ReleaseDate)"
     },
-
     {
       "filter": "year(datum.ReleaseDate) >= 2019 && year(datum.ReleaseDate) <= 2022"
     },
-
     {
       "timeUnit": "yearmonth",
       "field": "ReleaseDate",
       "as": "YearMonth"
     },
-
     {
       "aggregate": [
         {
@@ -60,12 +52,10 @@
           "as": "Average_Price"
         }
       ],
-
       "groupby": [
         "YearMonth"
       ]
     },
-
     {
       "window": [
         {
@@ -73,7 +63,6 @@
           "as": "Release_Rank"
         }
       ],
-
       "sort": [
         {
           "field": "Release_Count",
@@ -82,13 +71,11 @@
       ]
     }
   ],
-
   "encoding": {
     "x": {
       "field": "YearMonth",
       "type": "temporal",
       "title": "Release date",
-
       "axis": {
         "format": "%b %Y",
         "labelAngle": -45,
@@ -98,16 +85,13 @@
         "titleFontSize": 13
       }
     },
-
     "y": {
       "field": "Release_Count",
       "type": "quantitative",
       "title": "Number of products released",
-
       "scale": {
         "zero": true
       },
-
       "axis": {
         "grid": true,
         "labelFont": "Arial",
@@ -117,7 +101,6 @@
       }
     }
   },
-
   "layer": [
     {
       "mark": {
@@ -126,21 +109,18 @@
         "line": false
       }
     },
-
     {
       "mark": {
         "type": "line",
         "strokeWidth": 3
       }
     },
-
     {
       "mark": {
         "type": "circle",
         "size": 55,
         "filled": true
       },
-
       "encoding": {
         "tooltip": [
           {
@@ -149,14 +129,12 @@
             "title": "Month",
             "format": "%B %Y"
           },
-
           {
             "field": "Release_Count",
             "type": "quantitative",
             "title": "Products released",
             "format": ","
           },
-
           {
             "field": "Average_Price",
             "type": "quantitative",
@@ -166,14 +144,12 @@
         ]
       }
     },
-
     {
       "transform": [
         {
           "filter": "datum.Release_Rank == 1"
         }
       ],
-
       "mark": {
         "type": "circle",
         "size": 190,
@@ -181,7 +157,6 @@
         "stroke": "black",
         "strokeWidth": 2
       },
-
       "encoding": {
         "tooltip": [
           {
@@ -205,19 +180,16 @@
         ]
       }
     },
-
     {
       "transform": [
         {
           "filter": "datum.Release_Rank == 1"
         },
-
         {
           "calculate": "'Peak: ' + datum.Release_Count + ' products'",
           "as": "Peak_Label"
         }
       ],
-
       "mark": {
         "type": "text",
         "align": "left",
@@ -228,7 +200,6 @@
         "fontSize": 12,
         "fontWeight": "bold"
       },
-
       "encoding": {
         "text": {
           "field": "Peak_Label"
@@ -236,10 +207,27 @@
       }
     }
   ],
-
   "config": {
     "view": {
       "stroke": null
+    },
+    "title": {
+      "font": "Georgia",
+      "fontWeight": "bold",
+      "subtitleFont": "Arial",
+      "subtitleFontWeight": "normal"
+    },
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "header": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
     }
   }
 }
