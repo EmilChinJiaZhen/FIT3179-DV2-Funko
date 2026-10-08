@@ -10,7 +10,7 @@
     "subtitlePadding": 8
   },
 
-  "width": 600,
+  "width": "container",
   "height": 360,
 
   "data": {
