@@ -514,6 +514,12 @@
         "update": {
           "fillOpacity": {
             "value": 0.82
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 1.5
           }
         },
         "hover": {
