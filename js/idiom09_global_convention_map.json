@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 820,
+  "width": "container",
   "height": 440,
   "title": {
     "text": "Where Do Funko Convention Releases Cluster?",
@@ -409,5 +409,10 @@
       "labelFont": "Arial",
       "titleFont": "Arial"
     }
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding",
+    "resize": true
   }
 }
