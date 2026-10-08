@@ -18,7 +18,7 @@
     "subtitle": "Top 5 product types → Top 5 licenses within each type, 2019–2022",
     "anchor": "start",
     "font": "Inter",
-    "fontSize": 22,
+    "fontSize": 20,
     "fontWeight": "bold",
     "subtitleFont": "Inter",
     "subtitleFontSize": 13,
@@ -723,19 +723,32 @@
   "config": {
     "axis": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 600
     },
     "legend": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "title": {
       "font": "Inter",
-      "subtitleFont": "Inter"
+      "subtitleFont": "Inter",
+      "fontSize": 20,
+      "fontWeight": "bold",
+      "subtitleFontSize": 13,
+      "subtitleFontWeight": "normal"
     },
     "header": {
       "labelFont": "Inter",
-      "titleFont": "Inter"
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 700
     },
     "background": "transparent",
     "view": {
