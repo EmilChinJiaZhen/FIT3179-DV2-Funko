@@ -525,12 +525,6 @@
         "hover": {
           "fillOpacity": {
             "value": 1
-          },
-          "stroke": {
-            "value": "#333333"
-          },
-          "strokeWidth": {
-            "value": 2
           }
         }
       }
