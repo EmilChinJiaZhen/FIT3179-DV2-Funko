@@ -390,6 +390,15 @@
           "strokeWidth": {
             "signal": "scale('linkWidth', datum.Connection_Count) + 2"
           }
+        },
+        "update": {
+          "strokeOpacity": {
+            "value": 0.28
+          },
+          "strokeWidth": {
+            "scale": "linkWidth",
+            "field": "Connection_Count"
+          }
         }
       }
     },
