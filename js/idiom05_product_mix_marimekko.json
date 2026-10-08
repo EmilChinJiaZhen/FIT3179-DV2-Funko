@@ -1,21 +1,17 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-
   "width": 720,
   "height": 420,
-
   "padding": {
     "top": 10,
     "left": 10,
     "right": 10,
     "bottom": 70
   },
-
   "autosize": {
     "type": "pad",
     "resize": true
   },
-
   "title": {
     "text": "How Did Funko's Product Mix Change?",
     "subtitle": [
@@ -24,7 +20,7 @@
     "orient": "top",
     "anchor": "start",
     "offset": 12,
-    "font": "Arial",
+    "font": "Georgia",
     "fontSize": 22,
     "fontWeight": "bold",
     "subtitleFont": "Arial",
@@ -32,20 +28,16 @@
     "subtitleFontWeight": "normal",
     "subtitlePadding": 7
   },
-
   "data": [
     {
       "name": "source",
-
       "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
-
       "format": {
         "type": "csv",
         "parse": {
           "price": "number"
         }
       },
-
       "transform": [
         {
           "type": "formula",
@@ -71,12 +63,9 @@
         }
       ]
     },
-
     {
       "name": "global_types",
-
       "source": "source",
-
       "transform": [
         {
           "type": "aggregate",
@@ -110,12 +99,9 @@
         }
       ]
     },
-
     {
       "name": "year_totals",
-
       "source": "source",
-
       "transform": [
         {
           "type": "aggregate",
@@ -181,12 +167,9 @@
         }
       ]
     },
-
     {
       "name": "product_year",
-
       "source": "source",
-
       "transform": [
         {
           "type": "lookup",
@@ -265,7 +248,6 @@
       ]
     }
   ],
-
   "scales": [
     {
       "name": "color",
@@ -279,7 +261,6 @@
       }
     }
   ],
-
   "legends": [
     {
       "fill": "color",
@@ -293,15 +274,12 @@
       "symbolType": "square"
     }
   ],
-
   "marks": [
     {
       "type": "rect",
-
       "from": {
         "data": "product_year"
       },
-
       "encode": {
         "enter": {
           "x": {
@@ -330,13 +308,11 @@
             "signal": "{'Year': datum.ReleaseYear, 'Product type': datum.DisplayType, 'Products': datum.Product_Count, 'Share of year': format(datum.Year_Share, '.1%'), 'Total products that year': datum.Year_Total}"
           }
         },
-
         "update": {
           "fillOpacity": {
             "value": 0.88
           }
         },
-
         "hover": {
           "fillOpacity": {
             "value": 1
@@ -350,267 +326,233 @@
         }
       }
     },
-
     {
       "type": "text",
-
       "interactive": false,
-
       "from": {
         "data": "product_year"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "((datum.x0n + datum.x1n) / 2) * width"
           },
-
           "y": {
             "signal": "((datum.y0 + datum.y1) / 2) * height - 7"
           },
-
           "text": {
             "signal": "((datum.x1n - datum.x0n) * width < 85 && indexof(datum.DisplayType, ' ') >= 0) ? replace(datum.DisplayType, ' ', '\\n') : datum.DisplayType"
           },
-
           "align": {
             "value": "center"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 11
           },
-
           "fontWeight": {
             "value": "bold"
           },
-
           "lineHeight": {
             "value": 12
           },
-
           "fill": {
             "value": "white"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 42) ? 1 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "interactive": false,
-
       "from": {
         "data": "product_year"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "((datum.x0n + datum.x1n) / 2) * width"
           },
-
           "y": {
             "signal": "((datum.y0 + datum.y1) / 2) * height + 11"
           },
-
           "text": {
             "signal": "datum.Product_Count + ' products'"
           },
-
           "align": {
             "value": "center"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 10
           },
-
           "fill": {
             "value": "white"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 52) ? 0.95 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "year_totals"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "((datum.x0n + datum.x1n) / 2) * width"
           },
-
           "y": {
             "signal": "height + 23"
           },
-
           "text": {
             "field": "ReleaseYear"
           },
-
           "align": {
             "value": "center"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 13
           },
-
           "fontWeight": {
             "value": "bold"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "(datum.x1n - datum.x0n) * width >= 45 ? 1 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "year_totals"
       },
-
       "encode": {
         "enter": {
           "x": {
             "signal": "((datum.x0n + datum.x1n) / 2) * width"
           },
-
           "y": {
             "signal": "height + 42"
           },
-
           "text": {
             "signal": "datum.Year_Total + ' products'"
           },
-
           "align": {
             "value": "center"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 10
           },
-
           "fill": {
             "value": "#555555"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "(datum.x1n - datum.x0n) * width >= 50 ? 1 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     },
-
     {
       "type": "text",
-
       "from": {
         "data": "year_totals"
       },
-
       "encode": {
         "enter": {
           "x": {
             "value": 0
           },
-
           "y": {
             "signal": "datum.ReleaseYear == 2019 ? height + 24 : height + 42"
           },
-
           "text": {
             "signal": "datum.ReleaseYear + ': ' + datum.Year_Total + ' products'"
           },
-
           "align": {
             "value": "left"
           },
-
           "baseline": {
             "value": "middle"
           },
-
           "font": {
             "value": "Arial"
           },
-
           "fontSize": {
             "value": 10
           },
-
           "fill": {
             "value": "#555555"
           }
         },
-
         "update": {
           "opacity": {
             "signal": "(datum.x1n - datum.x0n) * width < 45 ? 1 : 0"
+          },
+          "font": {
+            "value": "Arial"
           }
         }
       }
     }
-  ]
+  ],
+  "config": {
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "titleFont": "Arial"
+    }
+  }
 }
