@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 420,
+  "height": 440,
   "title": {
-    "text": "Where Are Funko Events and Conventions Located?",
+    "text": "Where Do Funko Convention-Associated Products Cluster?",
     "subtitle": [
-      "2026 mapped Funko event and convention locations",
-      "Select a country · each dot represents exactly one event record"
+      "Convention-linked product entries in the Funko collection dataset",
+      "Select a country · each dot represents exactly one product entry"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -20,48 +20,24 @@
   "params": [
     {
       "name": "Country_selection",
-      "value": "Australia",
+      "value": "United States",
       "bind": {
         "input": "select",
         "options": [
-          "Argentina",
-          "Australia",
-          "Belgium",
-          "Brazil",
+          "United States",
           "Canada",
-          "China",
-          "Denmark",
-          "Germany",
-          "Greece",
-          "Indonesia",
-          "Italy",
+          "United Kingdom",
           "Japan",
-          "Malaysia",
-          "Netherlands",
-          "Singapore",
-          "Spain",
-          "Sweden",
-          "United Arab Emirates"
+          "Philippines",
+          "Singapore"
         ],
         "labels": [
-          "Argentina",
-          "Australia",
-          "Belgium",
-          "Brazil",
+          "United States",
           "Canada",
-          "China",
-          "Denmark",
-          "Germany",
-          "Greece",
-          "Indonesia",
-          "Italy",
+          "United Kingdom",
           "Japan",
-          "Malaysia",
-          "Netherlands",
-          "Singapore",
-          "Spain",
-          "Sweden",
-          "United Arab Emirates"
+          "Philippines",
+          "Singapore"
         ],
         "name": "Country: "
       }
@@ -72,7 +48,7 @@
     },
     {
       "name": "jitter_step",
-      "expr": "Country_selection == 'Australia' ? 0.35 : Country_selection == 'Canada' ? 0.30 : Country_selection == 'United Arab Emirates' ? 0.18 : Country_selection == 'Singapore' ? 0.006 : Country_selection == 'Belgium' || Country_selection == 'Netherlands' ? 0.04 : Country_selection == 'Denmark' ? 0.05 : Country_selection == 'Germany' || Country_selection == 'Spain' || Country_selection == 'Italy' ? 0.08 : 0.10"
+      "expr": "Country_selection == 'United States' ? 0.18 :\n Country_selection == 'Canada' ? 0.10 :\n Country_selection == 'United Kingdom' ? 0.055 :\n Country_selection == 'Japan' ? 0.045 :\n Country_selection == 'Philippines' ? 0.035 :\n Country_selection == 'Singapore' ? 0.0035 :\n 0.05"
     }
   ],
   "projection": {
@@ -97,25 +73,248 @@
         "fill": "#D3D3D3",
         "stroke": "#FFFFFF",
         "strokeWidth": 1.1
-      },
-      "encoding": {
-        "tooltip": [
-          {
-            "field": "properties.NAME",
-            "type": "nominal",
-            "title": "Country"
-          }
-        ]
       }
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_2026_event_locations.csv",
+        "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_1_states_provinces.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.properties.adm0_name == map_country_name"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fillOpacity": 0,
+        "stroke": "#FFFFFF",
+        "strokeWidth": 0.65,
+        "opacity": 0.9
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_pop.csv",
         "format": {
           "type": "csv"
         }
       },
       "transform": [
+        {
+          "filter": "isValid(datum.series) && datum.series != ''"
+        },
+        {
+          "calculate": "replace(replace(replace(datum.series, '[', ''), ']', ''), '\\\"', '')",
+          "as": "CleanSeries"
+        },
+        {
+          "calculate": "split(datum.CleanSeries, ';')",
+          "as": "SeriesArray"
+        },
+        {
+          "flatten": [
+            "SeriesArray"
+          ],
+          "as": [
+            "SeriesLabel"
+          ]
+        },
+        {
+          "calculate": "trim(datum.SeriesLabel)",
+          "as": "SeriesLabel"
+        },
+        {
+          "calculate": "lower(datum.SeriesLabel)",
+          "as": "SeriesLower"
+        },
+        {
+          "calculate": "indexof(datum.SeriesLower, 'emerald city comic con') >= 0 || indexof(datum.SeriesLower, 'spring convention') >= 0 ? 'Emerald City Comic Con' : indexof(datum.SeriesLower, 'san diego comic') >= 0 || indexof(datum.SeriesLower, 'sdcc') >= 0 || indexof(datum.SeriesLower, 'summer convention') >= 0 ? 'San Diego Comic-Con' : indexof(datum.SeriesLower, 'new york comic con') >= 0 || indexof(datum.SeriesLower, 'nycc') >= 0 || indexof(datum.SeriesLower, 'fall convention') >= 0 ? 'New York Comic Con' : indexof(datum.SeriesLower, 'wondercon') >= 0 ? 'WonderCon' : indexof(datum.SeriesLower, 'd23') >= 0 ? 'D23 Expo' : indexof(datum.SeriesLower, 'e3 201') >= 0 || datum.SeriesLower == 'e3' ? 'E3' : indexof(datum.SeriesLower, 'fundays') >= 0 ? 'Funko Fundays' : indexof(datum.SeriesLower, 'fan expo canada') >= 0 ? 'Fan Expo Canada' : indexof(datum.SeriesLower, 'new york toy fair') >= 0 ? 'New York Toy Fair' : indexof(datum.SeriesLower, 'london toy fair') >= 0 ? 'London Toy Fair' : indexof(datum.SeriesLower, 'mcm') >= 0 && indexof(datum.SeriesLower, 'comic con') >= 0 ? 'MCM London Comic Con' : indexof(datum.SeriesLower, 'tokyo comic con') >= 0 ? 'Tokyo Comic Con' : indexof(datum.SeriesLower, 'asia pop comic') >= 0 || indexof(datum.SeriesLower, 'asiapop comicon') >= 0 || indexof(datum.SeriesLower, 'asia pop comicon') >= 0 ? 'AsiaPOP Comicon Manila' : indexof(datum.SeriesLower, 'singapore toy') >= 0 || indexof(datum.SeriesLower, 'stgcc') >= 0 ? 'Singapore Toy Game Comic Convention' : indexof(datum.SeriesLower, 'anime expo') >= 0 ? 'Anime Expo' : indexof(datum.SeriesLower, 'los angeles comic con') >= 0 || indexof(datum.SeriesLower, 'la comic con') >= 0 ? 'Los Angeles Comic Con' : indexof(datum.SeriesLower, 'designercon') >= 0 || indexof(datum.SeriesLower, 'designer con') >= 0 ? 'DesignerCon' : indexof(datum.SeriesLower, 'galactic convention 2016') >= 0 || indexof(datum.SeriesLower, 'star wars celebration 2016') >= 0 ? 'Galactic Convention 2016' : indexof(datum.SeriesLower, 'galactic convention 2017') >= 0 || indexof(datum.SeriesLower, 'star wars celebration 2017') >= 0 ? 'Galactic Convention 2017' : indexof(datum.SeriesLower, 'galactic convention 2019') >= 0 || indexof(datum.SeriesLower, 'star wars celebration 2019') >= 0 ? 'Galactic Convention 2019' : 'Not convention'",
+          "as": "Convention"
+        },
+        {
+          "filter": "datum.Convention != 'Not convention'"
+        },
+        {
+          "lookup": "Convention",
+          "from": {
+            "data": {
+              "values": [
+                {
+                  "Convention": "Emerald City Comic Con",
+                  "City": "Seattle",
+                  "Region": "Washington",
+                  "Country": "United States",
+                  "Latitude": 47.6062,
+                  "Longitude": -122.3321
+                },
+                {
+                  "Convention": "San Diego Comic-Con",
+                  "City": "San Diego",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 32.7157,
+                  "Longitude": -117.1611
+                },
+                {
+                  "Convention": "Funko Fundays",
+                  "City": "San Diego",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 32.7157,
+                  "Longitude": -117.1611
+                },
+                {
+                  "Convention": "WonderCon",
+                  "City": "Anaheim",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 33.8366,
+                  "Longitude": -117.9143
+                },
+                {
+                  "Convention": "D23 Expo",
+                  "City": "Anaheim",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 33.8366,
+                  "Longitude": -117.9143
+                },
+                {
+                  "Convention": "DesignerCon",
+                  "City": "Anaheim",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 33.8366,
+                  "Longitude": -117.9143
+                },
+                {
+                  "Convention": "E3",
+                  "City": "Los Angeles",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 34.0522,
+                  "Longitude": -118.2437
+                },
+                {
+                  "Convention": "Anime Expo",
+                  "City": "Los Angeles",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 34.0522,
+                  "Longitude": -118.2437
+                },
+                {
+                  "Convention": "Los Angeles Comic Con",
+                  "City": "Los Angeles",
+                  "Region": "California",
+                  "Country": "United States",
+                  "Latitude": 34.0522,
+                  "Longitude": -118.2437
+                },
+                {
+                  "Convention": "New York Comic Con",
+                  "City": "New York City",
+                  "Region": "New York",
+                  "Country": "United States",
+                  "Latitude": 40.7128,
+                  "Longitude": -74.006
+                },
+                {
+                  "Convention": "New York Toy Fair",
+                  "City": "New York City",
+                  "Region": "New York",
+                  "Country": "United States",
+                  "Latitude": 40.7128,
+                  "Longitude": -74.006
+                },
+                {
+                  "Convention": "Fan Expo Canada",
+                  "City": "Toronto",
+                  "Region": "Ontario",
+                  "Country": "Canada",
+                  "Latitude": 43.6532,
+                  "Longitude": -79.3832
+                },
+                {
+                  "Convention": "MCM London Comic Con",
+                  "City": "London",
+                  "Region": "England",
+                  "Country": "United Kingdom",
+                  "Latitude": 51.5074,
+                  "Longitude": -0.1278
+                },
+                {
+                  "Convention": "London Toy Fair",
+                  "City": "London",
+                  "Region": "England",
+                  "Country": "United Kingdom",
+                  "Latitude": 51.5074,
+                  "Longitude": -0.1278
+                },
+                {
+                  "Convention": "Galactic Convention 2016",
+                  "City": "London",
+                  "Region": "England",
+                  "Country": "United Kingdom",
+                  "Latitude": 51.5074,
+                  "Longitude": -0.1278
+                },
+                {
+                  "Convention": "Galactic Convention 2017",
+                  "City": "Orlando",
+                  "Region": "Florida",
+                  "Country": "United States",
+                  "Latitude": 28.5383,
+                  "Longitude": -81.3792
+                },
+                {
+                  "Convention": "Galactic Convention 2019",
+                  "City": "Chicago",
+                  "Region": "Illinois",
+                  "Country": "United States",
+                  "Latitude": 41.8781,
+                  "Longitude": -87.6298
+                },
+                {
+                  "Convention": "Tokyo Comic Con",
+                  "City": "Chiba",
+                  "Region": "Chiba",
+                  "Country": "Japan",
+                  "Latitude": 35.6074,
+                  "Longitude": 140.1065
+                },
+                {
+                  "Convention": "AsiaPOP Comicon Manila",
+                  "City": "Manila",
+                  "Region": "Metro Manila",
+                  "Country": "Philippines",
+                  "Latitude": 14.5995,
+                  "Longitude": 120.9842
+                },
+                {
+                  "Convention": "Singapore Toy Game Comic Convention",
+                  "City": "Singapore",
+                  "Region": "Singapore",
+                  "Country": "Singapore",
+                  "Latitude": 1.3521,
+                  "Longitude": 103.8198
+                }
+              ]
+            },
+            "key": "Convention",
+            "fields": [
+              "City",
+              "Region",
+              "Country",
+              "Latitude",
+              "Longitude"
+            ]
+          }
+        },
         {
           "filter": "datum.Country == Country_selection"
         },
@@ -131,37 +330,44 @@
           "window": [
             {
               "op": "row_number",
-              "as": "CityDotIndex"
+              "as": "DotIndex"
             }
           ],
           "groupby": [
-            "Country",
-            "City"
+            "Convention"
           ],
           "sort": [
             {
-              "field": "Event",
+              "field": "SeriesLabel",
               "order": "ascending"
             }
           ]
         },
         {
-          "calculate": "datum.BaseLongitude + ((datum.CityDotIndex - 1) % 3 - 1) * jitter_step",
+          "calculate": "((datum.DotIndex - 1) % 12) - 5.5",
+          "as": "GridCol"
+        },
+        {
+          "calculate": "floor((datum.DotIndex - 1) / 12)",
+          "as": "GridRow"
+        },
+        {
+          "calculate": "datum.BaseLongitude + datum.GridCol * jitter_step",
           "as": "PlotLongitude"
         },
         {
-          "calculate": "datum.BaseLatitude + floor((datum.CityDotIndex - 1) / 3) * jitter_step",
+          "calculate": "datum.BaseLatitude + datum.GridRow * jitter_step",
           "as": "PlotLatitude"
         }
       ],
       "mark": {
-        "type": "point",
+        "type": "circle",
         "filled": true,
-        "size": 95,
+        "size": 28,
         "color": "#7D57C2",
-        "opacity": 0.86,
-        "stroke": "white",
-        "strokeWidth": 1.2
+        "opacity": 0.72,
+        "stroke": "#FFFFFF",
+        "strokeWidth": 0.35
       },
       "encoding": {
         "longitude": {
@@ -174,14 +380,9 @@
         },
         "tooltip": [
           {
-            "field": "Event",
+            "field": "Convention",
             "type": "nominal",
-            "title": "Event / convention"
-          },
-          {
-            "field": "Venue",
-            "type": "nominal",
-            "title": "Venue"
+            "title": "Convention"
           },
           {
             "field": "City",
@@ -189,14 +390,19 @@
             "title": "City"
           },
           {
+            "field": "Region",
+            "type": "nominal",
+            "title": "State / region"
+          },
+          {
             "field": "Country",
             "type": "nominal",
             "title": "Country"
           },
           {
-            "field": "Dates",
+            "field": "SeriesLabel",
             "type": "nominal",
-            "title": "Dates"
+            "title": "Matched series"
           }
         ]
       }
@@ -215,13 +421,6 @@
       "subtitleFontWeight": "normal",
       "fontSize": 20,
       "subtitleFontSize": 13
-    },
-    "legend": {
-      "titleFont": "Inter",
-      "labelFont": "Inter",
-      "labelFontSize": 12,
-      "titleFontSize": 13,
-      "titleFontWeight": 700
     }
   },
   "autosize": {
