@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 440,
+  "height": 420,
   "title": {
     "text": "Where Are Funko Events and Conventions Located?",
     "subtitle": [
@@ -67,38 +67,24 @@
       }
     },
     {
-      "name": "center_to",
-      "expr": "Country_selection == 'Argentina' ? [-64,-35] :\n Country_selection == 'Australia' ? [134,-25] :\n Country_selection == 'Belgium' ? [4.6,50.7] :\n Country_selection == 'Brazil' ? [-52,-14] :\n Country_selection == 'Canada' ? [-106,56] :\n Country_selection == 'China' ? [104,35] :\n Country_selection == 'Denmark' ? [10,56] :\n Country_selection == 'Germany' ? [10.5,51] :\n Country_selection == 'Greece' ? [22,39] :\n Country_selection == 'Indonesia' ? [118,-2] :\n Country_selection == 'Italy' ? [12.5,42.5] :\n Country_selection == 'Japan' ? [138,37] :\n Country_selection == 'Malaysia' ? [102,4] :\n Country_selection == 'Netherlands' ? [5.4,52.2] :\n Country_selection == 'Singapore' ? [103.82,1.35] :\n Country_selection == 'Spain' ? [-3.5,40] :\n Country_selection == 'Sweden' ? [16,62] :\n Country_selection == 'United Arab Emirates' ? [54.5,24.2] :\n [0,0]"
-    },
-    {
-      "name": "zoom_level",
-      "expr": "Country_selection == 'Argentina' ? 900 :\n Country_selection == 'Australia' ? 700 :\n Country_selection == 'Belgium' ? 5200 :\n Country_selection == 'Brazil' ? 700 :\n Country_selection == 'Canada' ? 520 :\n Country_selection == 'China' ? 700 :\n Country_selection == 'Denmark' ? 4300 :\n Country_selection == 'Germany' ? 3000 :\n Country_selection == 'Greece' ? 3000 :\n Country_selection == 'Indonesia' ? 900 :\n Country_selection == 'Italy' ? 2400 :\n Country_selection == 'Japan' ? 1900 :\n Country_selection == 'Malaysia' ? 3300 :\n Country_selection == 'Netherlands' ? 5200 :\n Country_selection == 'Singapore' ? 70000 :\n Country_selection == 'Spain' ? 2200 :\n Country_selection == 'Sweden' ? 1700 :\n Country_selection == 'United Arab Emirates' ? 5000 :\n 1000"
-    },
-    {
       "name": "map_country_name",
       "expr": "Country_selection == 'United States' ? 'United States of America' : Country_selection"
     },
     {
       "name": "jitter_step",
-      "expr": "Country_selection == 'Australia' ? 0.35 :\n Country_selection == 'Canada' ? 0.30 :\n Country_selection == 'United Arab Emirates' ? 0.18 :\n Country_selection == 'Singapore' ? 0.006 :\n Country_selection == 'Belgium' || Country_selection == 'Netherlands' ? 0.04 :\n Country_selection == 'Denmark' ? 0.05 :\n Country_selection == 'Germany' || Country_selection == 'Spain' || Country_selection == 'Italy' ? 0.08 :\n 0.10"
+      "expr": "Country_selection == 'Australia' ? 0.35 : Country_selection == 'Canada' ? 0.30 : Country_selection == 'United Arab Emirates' ? 0.18 : Country_selection == 'Singapore' ? 0.006 : Country_selection == 'Belgium' || Country_selection == 'Netherlands' ? 0.04 : Country_selection == 'Denmark' ? 0.05 : Country_selection == 'Germany' || Country_selection == 'Spain' || Country_selection == 'Italy' ? 0.08 : 0.10"
     }
   ],
   "projection": {
-    "type": "mercator",
-    "center": {
-      "expr": "center_to"
-    },
-    "scale": {
-      "expr": "zoom_level"
-    }
+    "type": "mercator"
   },
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+        "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
         "format": {
-          "type": "topojson",
-          "feature": "ne_110m_admin_0_countries"
+          "type": "json",
+          "property": "features"
         }
       },
       "transform": [
@@ -134,6 +120,14 @@
           "filter": "datum.Country == Country_selection"
         },
         {
+          "calculate": "toNumber(datum.Longitude)",
+          "as": "BaseLongitude"
+        },
+        {
+          "calculate": "toNumber(datum.Latitude)",
+          "as": "BaseLatitude"
+        },
+        {
           "window": [
             {
               "op": "row_number",
@@ -152,11 +146,11 @@
           ]
         },
         {
-          "calculate": "datum.Longitude + ((datum.CityDotIndex - 1) % 3 - 1) * jitter_step",
+          "calculate": "datum.BaseLongitude + ((datum.CityDotIndex - 1) % 3 - 1) * jitter_step",
           "as": "PlotLongitude"
         },
         {
-          "calculate": "datum.Latitude + floor((datum.CityDotIndex - 1) / 3) * jitter_step",
+          "calculate": "datum.BaseLatitude + floor((datum.CityDotIndex - 1) / 3) * jitter_step",
           "as": "PlotLatitude"
         }
       ],
