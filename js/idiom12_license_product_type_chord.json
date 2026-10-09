@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 600,
+  "width": "container",
   "height": 450,
   "padding": {
     "top": 15,
@@ -9,7 +9,8 @@
     "bottom": 25
   },
   "autosize": {
-    "type": "pad",
+    "type": "fit",
+    "contains": "padding",
     "resize": true
   },
   "background": "transparent",
@@ -39,7 +40,7 @@
     },
     {
       "name": "radius",
-      "update": "160"
+      "update": "min(width * 0.37, 185)"
     },
     {
       "name": "innerR",
@@ -561,10 +562,11 @@
             "field": "RibbonPath"
           },
           "fill": {
-            "value": "#D1D1D1"
+            "scale": "typeColor",
+            "field": "product_type"
           },
           "fillOpacity": {
-            "value": 0.68
+            "value": 0.34
           },
           "stroke": {
             "value": null
@@ -575,18 +577,20 @@
         },
         "update": {
           "fill": {
-            "value": "#D1D1D1"
+            "scale": "typeColor",
+            "field": "product_type"
           },
           "fillOpacity": {
-            "value": 0.68
+            "value": 0.34
           }
         },
         "hover": {
           "fill": {
-            "value": "#9DB7D3"
+            "scale": "typeColor",
+            "field": "product_type"
           },
           "fillOpacity": {
-            "value": 0.9
+            "value": 0.78
           }
         }
       }
@@ -617,7 +621,7 @@
             "signal": "outerR"
           },
           "fill": {
-            "value": "#149AD6"
+            "value": "#5F6B7A"
           },
           "stroke": {
             "value": null
@@ -654,7 +658,8 @@
             "signal": "outerR"
           },
           "fill": {
-            "value": "#149AD6"
+            "scale": "typeColor",
+            "field": "product_type"
           },
           "stroke": {
             "value": null
@@ -885,5 +890,27 @@
       "subtitleFontSize": 13,
       "subtitleFontWeight": "normal"
     }
-  }
+  },
+  "scales": [
+    {
+      "name": "typeColor",
+      "type": "ordinal",
+      "domain": [
+        "Pop!",
+        "Apparel",
+        "Keychains",
+        "Vinyl GOLD",
+        "Plush",
+        "Board Games"
+      ],
+      "range": [
+        "#4E79A7",
+        "#76B7B2",
+        "#F28E2B",
+        "#EDC948",
+        "#B07AA1",
+        "#7F7F7F"
+      ]
+    }
+  ]
 }
