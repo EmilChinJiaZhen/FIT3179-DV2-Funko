@@ -541,3 +541,38 @@ body {
   }
 }
 
+
+
+/* Force the chord section to a true 50/50 sightline */
+.story-row--chord-50 {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.story-row--chord-50 .story-insight,
+.story-row--chord-50 .story-chart {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+.story-row--chord-50 .story-chart {
+  justify-self: stretch;
+}
+
+.story-row--chord-50 .vis-container,
+.story-row--chord-50 .vega-embed,
+.story-row--chord-50 .vega-embed > div {
+  width: 100%;
+  max-width: 100%;
+}
+
+.story-row--chord-50 .vega-embed svg {
+  width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 1100px) {
+  .story-row--chord-50 {
+    grid-template-columns: 1fr;
+  }
+}
