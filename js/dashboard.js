@@ -128,37 +128,53 @@ async function renderProductTypePictogram() {
         >${icon}</span>
       `).join("");
 
-      const partialIconHtml = remainder > 0 ? `
+      const halfIconHtml = remainder > 0 ? `
         <span
           class="pictogram-chart__icon pictogram-chart__icon--half"
           style="--product-color: ${color}"
           aria-hidden="true"
           title="Incomplete final group: ${remainder} of ${unitValue} products"
-        >
-          ${icon}
-          <span class="pictogram-chart__icon-fill">${icon}</span>
-        </span>
+        >${icon}</span>
       ` : "";
 
       return `
         <div class="pictogram-chart__category">
-          <div class="pictogram-chart__label">${type}</div>
           <div class="pictogram-chart__icons">
-            ${fullIconHtml}${partialIconHtml}
+            ${fullIconHtml}${halfIconHtml}
           </div>
           <div class="pictogram-chart__value">${count.toLocaleString()}</div>
         </div>
       `;
     }).join("");
 
+    const keyHtml = topSix.map(({ type }) => {
+      const color = PRODUCT_TYPE_COLORS[type] || "#7F7F7F";
+      const icon = PRODUCT_TYPE_ICONS[type] || PRODUCT_TYPE_ICONS["Board Games"];
+
+      return `
+        <span class="pictogram-chart__key-item">
+          <span
+            class="pictogram-chart__key-icon"
+            style="--product-color: ${color}"
+            aria-hidden="true"
+          >${icon}</span>
+          <span>${type}</span>
+        </span>
+      `;
+    }).join("");
+
     container.innerHTML = `
       <h4 class="pictogram-chart__title">How Many Products Are in Each Product Type?</h4>
       <p class="pictogram-chart__subtitle">Top six product types by number of products</p>
+      <div class="pictogram-chart__key" aria-label="Product type legend">
+        ${keyHtml}
+      </div>
       <div class="pictogram-chart__plot">
         ${categories}
       </div>
       <p class="pictogram-chart__legend">
-        1 full icon = ${unitValue} products. A half icon marks an incomplete final group; the exact total is shown at right.</p>
+        1 full icon = ${unitValue} products. A half icon marks an incomplete final group; counts at right are exact.
+      </p>
     `;
   } catch (error) {
     console.error("Failed to render product type pictogram", error);
