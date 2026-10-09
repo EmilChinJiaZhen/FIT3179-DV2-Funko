@@ -35,15 +35,15 @@
     },
     {
       "name": "cy",
-      "update": "250"
+      "update": "245"
     },
     {
       "name": "radius",
-      "update": "170"
+      "update": "200"
     },
     {
       "name": "innerR",
-      "update": "radius - 13"
+      "update": "radius - 14"
     },
     {
       "name": "outerR",
@@ -313,12 +313,12 @@
         },
         {
           "type": "formula",
-          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
+          "expr": "cx + (outerR + 9) * sin(datum.MidAngle)",
           "as": "LabelX"
         },
         {
           "type": "formula",
-          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
+          "expr": "cy - (outerR + 9) * cos(datum.MidAngle)",
           "as": "LabelY"
         },
         {
@@ -393,12 +393,12 @@
         },
         {
           "type": "formula",
-          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
+          "expr": "cx + (outerR + 9) * sin(datum.MidAngle)",
           "as": "LabelX"
         },
         {
           "type": "formula",
-          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
+          "expr": "cy - (outerR + 9) * cos(datum.MidAngle)",
           "as": "LabelY"
         }
       ]
@@ -756,7 +756,7 @@
             "value": 95
           },
           "y": {
-            "value": 40
+            "value": 24
           },
           "text": {
             "value": "Top product types"
@@ -787,7 +787,7 @@
             "value": 180
           },
           "y": {
-            "value": 49
+            "value": 33
           },
           "stroke": {
             "value": "#D4D0C8"
@@ -806,7 +806,7 @@
             "signal": "width - 95"
           },
           "y": {
-            "value": 40
+            "value": 24
           },
           "text": {
             "value": "Top licenses"
@@ -840,7 +840,7 @@
             "signal": "width - 70"
           },
           "y": {
-            "value": 49
+            "value": 33
           },
           "stroke": {
             "value": "#D4D0C8"
@@ -859,7 +859,7 @@
             "signal": "width / 2"
           },
           "y": {
-            "signal": "height - 8"
+            "signal": "height - 3"
           },
           "text": {
             "value": "Wider ribbons represent more products"
