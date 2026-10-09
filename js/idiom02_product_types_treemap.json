@@ -567,6 +567,12 @@
           },
           "fill": {
             "value": "white"
+          },
+          "limit": {
+            "signal": "max(0, datum.x1 - datum.x0 - 12)"
+          },
+          "ellipsis": {
+            "value": ""
           }
         },
         "update": {
@@ -574,7 +580,7 @@
             "signal": "(datum.x1 - datum.x0) > 150 && (datum.y1 - datum.y0) > 80 ? 14 : 11"
           },
           "opacity": {
-            "signal": "((datum.x1 - datum.x0) >= 65 &&\n            (datum.y1 - datum.y0) >= 28 &&\n            datum.license.length <= floor((datum.x1 - datum.x0 - 12) /\n              ((((datum.x1 - datum.x0) > 150 && (datum.y1 - datum.y0) > 80) ? 14 : 11) * 0.58)))\n           ) ? 1 : 0"
+            "signal": "((datum.x1 - datum.x0) >= 85 &&\n            (datum.y1 - datum.y0) >= 32 &&\n            datum.license !== \"Five Nights at Freddy's\" &&\n            datum.license !== \"The Nightmare Before Christmas\")\n           ? 1 : 0"
           },
           "font": {
             "value": "Inter"
