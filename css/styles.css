@@ -387,26 +387,49 @@ body {
 
 
 
+
 /* ---------- EDITORIAL STORY LAYOUTS ---------- */
 
-/* Base 50/50 split */
+/* Shared alignment and spacing */
 .story-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 56px;
   align-items: start;
-  margin-bottom: 44px;
+  margin-bottom: 48px;
+}
+
+.story-row:last-child {
+  margin-bottom: 0;
+}
+
+.story-row .story-chart,
+.story-row .story-insight {
+  min-width: 0;
+}
+
+.story-row .story-chart {
+  width: 100%;
+  max-width: none;
+  justify-self: start;
+}
+
+.story-row .story-insight {
+  width: 100%;
+  max-width: 34ch;
+  justify-self: start;
+}
+
+/* Alternate left/right while keeping the same sightlines */
+.story-row--reverse .story-chart {
+  order: 1;
 }
 
 .story-row--reverse .story-insight {
   order: 2;
 }
 
-.story-row--reverse .story-chart {
-  order: 1;
-}
-
-/* 65/35 layouts for larger analytical charts */
+/* 65/35 analytical layout */
 .story-row--wide {
   grid-template-columns: 0.7fr 1.3fr;
 }
@@ -415,23 +438,17 @@ body {
   grid-template-columns: 1.3fr 0.7fr;
 }
 
-.story-row--wide .story-chart,
-.story-row--wide.story-row--reverse .story-chart {
-  max-width: none;
-  width: 100%;
-}
-
 .story-row--wide .story-insight,
 .story-row--wide.story-row--reverse .story-insight {
-  max-width: 34ch;
+  max-width: 32ch;
 }
 
-/* Full-width feature visual with finding below */
+/* Full-width feature: use only for the Sankey */
 .story-row--feature {
   display: flex;
   flex-direction: column;
   gap: 22px;
-  margin-bottom: 54px;
+  margin-bottom: 56px;
 }
 
 .story-row--feature .story-chart {
@@ -442,6 +459,7 @@ body {
 
 .story-row--feature .story-insight {
   order: 2;
+  width: 100%;
   max-width: 58ch;
   padding-top: 2px;
 }
@@ -454,7 +472,7 @@ body {
   max-width: 58ch;
 }
 
-/* Maps use a stronger 70/30 editorial split */
+/* Maps use a consistent 70/30 split */
 .story-row--map {
   grid-template-columns: 0.6fr 1.4fr;
 }
@@ -463,30 +481,12 @@ body {
   grid-template-columns: 1.4fr 0.6fr;
 }
 
-.story-row--map .story-chart,
-.story-row--map.story-row--reverse .story-chart {
-  max-width: none;
-  width: 100%;
-}
-
 .story-row--map .story-insight,
 .story-row--map.story-row--reverse .story-insight {
-  max-width: 31ch;
+  max-width: 29ch;
 }
 
-/* Preserve clear column sightlines */
-.story-row:not(.story-row--reverse) .story-chart,
-.story-row--wide:not(.story-row--reverse) .story-chart,
-.story-row--map:not(.story-row--reverse) .story-chart {
-  justify-self: start;
-}
-
-.story-row--reverse .story-chart,
-.story-row--wide.story-row--reverse .story-chart,
-.story-row--map.story-row--reverse .story-chart {
-  justify-self: start;
-}
-
+/* Responsive stacking */
 @media (max-width: 1100px) {
   .story-row,
   .story-row--wide,
@@ -494,14 +494,21 @@ body {
   .story-row--map,
   .story-row--map.story-row--reverse {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .story-row--reverse .story-chart,
+  .story-row--reverse .story-insight {
+    order: initial;
   }
 
   .story-row--feature {
     display: flex;
   }
 
-  .story-row--reverse .story-insight,
-  .story-row--reverse .story-chart {
-    order: initial;
+  .story-row .story-insight,
+  .story-row--wide .story-insight,
+  .story-row--map .story-insight {
+    max-width: 58ch;
   }
 }
