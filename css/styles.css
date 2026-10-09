@@ -698,3 +698,49 @@ body {
     row-gap: 28px;
   }
 }
+
+
+/* Shared product type colour legend */
+.product-type-legend {
+  margin: -6px 0 30px;
+}
+
+.product-type-legend__title {
+  margin: 0 0 9px;
+  color: #182338;
+  font-size: 13px;
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+.product-type-legend__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  align-items: center;
+}
+
+.product-type-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #303746;
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.product-type-legend__swatch {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 11px;
+  border-radius: 2px;
+}
+
+.swatch--pop { background: #4E79A7; }
+.swatch--apparel { background: #76B7B2; }
+.swatch--keychains { background: #F28E2B; }
+.swatch--gold { background: #EDC948; }
+.swatch--plush { background: #B07AA1; }
+.swatch--board { background: #7F7F7F; }
