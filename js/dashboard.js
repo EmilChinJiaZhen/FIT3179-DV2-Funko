@@ -325,7 +325,7 @@ function buildConventionMapSpec(country) {
     },
     transform: [
       { filter: "isValid(datum.series) && datum.series != ''" },
-      { calculate: "replace(replace(replace(datum.series, '[', ''), ']', ''), '\\"', '')", as: "CleanSeries" },
+      { calculate: "replace(replace(datum.series, '[', ''), ']', '')", as: "CleanSeries" },
       { calculate: "split(datum.CleanSeries, ';')", as: "SeriesArray" },
       { flatten: ["SeriesArray"], as: ["SeriesLabel"] },
       { calculate: "trim(datum.SeriesLabel)", as: "SeriesLabel" },
