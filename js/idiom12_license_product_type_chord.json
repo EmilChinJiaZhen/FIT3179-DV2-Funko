@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": "container",
+  "width": 600,
   "height": 450,
   "padding": {
     "top": 15,
@@ -9,8 +9,7 @@
     "bottom": 25
   },
   "autosize": {
-    "type": "fit",
-    "contains": "padding",
+    "type": "pad",
     "resize": true
   },
   "background": "transparent",
@@ -40,7 +39,7 @@
     },
     {
       "name": "radius",
-      "update": "min(width * 0.37, 185)"
+      "update": "min(width * 0.32, 180)"
     },
     {
       "name": "innerR",
