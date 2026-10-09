@@ -596,10 +596,43 @@ body {
 }
 
 .pictogram-chart__subtitle {
-  margin: 0 0 20px;
+  margin: 0 0 14px;
   color: #5f6472;
   font-size: 13px;
   line-height: 1.45;
+}
+
+.pictogram-chart__key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 18px;
+  margin: 0 0 18px;
+}
+
+.pictogram-chart__key-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #303746;
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pictogram-chart__key-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  color: var(--product-color);
+}
+
+.pictogram-chart__key-icon svg {
+  display: block;
+  width: 17px !important;
+  height: 17px !important;
 }
 
 .pictogram-chart__plot {
@@ -611,17 +644,9 @@ body {
 
 .pictogram-chart__category {
   display: grid;
-  grid-template-columns: 105px minmax(0, 1fr) 52px;
+  grid-template-columns: minmax(0, 1fr) 52px;
   gap: 12px;
   align-items: center;
-}
-
-.pictogram-chart__label {
-  color: #303746;
-  font-size: 12px;
-  line-height: 1.25;
-  font-weight: 700;
-  text-align: right;
 }
 
 .pictogram-chart__icons {
@@ -633,7 +658,6 @@ body {
 }
 
 .pictogram-chart__icon {
-  position: relative;
   display: inline-flex;
   width: 21px;
   height: 21px;
@@ -641,10 +665,15 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--product-color);
+  overflow: visible;
+}
+
+.pictogram-chart__icon svg,
+.pictogram-chart__key-icon svg {
+  display: block;
 }
 
 .pictogram-chart__icon svg {
-  display: block;
   width: 20px !important;
   height: 20px !important;
 }
@@ -654,7 +683,13 @@ body {
 .pictogram-chart__icon svg rect,
 .pictogram-chart__icon svg line,
 .pictogram-chart__icon svg polygon,
-.pictogram-chart__icon svg polyline {
+.pictogram-chart__icon svg polyline,
+.pictogram-chart__key-icon svg path,
+.pictogram-chart__key-icon svg circle,
+.pictogram-chart__key-icon svg rect,
+.pictogram-chart__key-icon svg line,
+.pictogram-chart__key-icon svg polygon,
+.pictogram-chart__key-icon svg polyline {
   fill: none !important;
   stroke: currentColor !important;
   stroke-width: 1.8 !important;
@@ -663,22 +698,18 @@ body {
   vector-effect: non-scaling-stroke;
 }
 
-/* Partial final icon: pale base + exact filled fraction overlaid from left to right. */
-.pictogram-chart__icon--partial {
-  color: #c9cbd0;
-}
-
-.pictogram-chart__icon-fill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--fill-pct);
+/* Literal half icon: show only the left half of one normal-sized icon. */
+.pictogram-chart__icon--half {
+  width: 10px;
+  flex: 0 0 10px;
+  justify-content: flex-start;
   overflow: hidden;
-  color: var(--product-color);
 }
 
-.pictogram-chart__icon-fill svg {
+.pictogram-chart__icon--half svg {
   width: 20px !important;
   height: 20px !important;
+  min-width: 20px !important;
   max-width: none !important;
 }
 
@@ -691,7 +722,7 @@ body {
 }
 
 .pictogram-chart__legend {
-  margin: 14px 0 0 117px;
+  margin: 14px 0 0;
   color: #777b87;
   font-size: 11px;
   line-height: 1.45;
@@ -705,11 +736,11 @@ body {
 
 @media (max-width: 760px) {
   .pictogram-chart__category {
-    grid-template-columns: 86px minmax(0, 1fr) 44px;
+    grid-template-columns: minmax(0, 1fr) 44px;
     gap: 8px;
   }
 
-  .pictogram-chart__legend {
-    margin-left: 94px;
+  .pictogram-chart__key {
+    gap: 8px 14px;
   }
 }
