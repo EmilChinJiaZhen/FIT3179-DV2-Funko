@@ -89,6 +89,8 @@ async function renderProductTypePictogram() {
   const container = document.querySelector("#idiom19");
   if (!container) return;
 
+  // One complete icon represents 25 products.
+  // A final partially filled icon represents the exact remainder, so no rounding is used.
   const unitValue = 25;
 
   try {
@@ -114,9 +116,11 @@ async function renderProductTypePictogram() {
     const categories = topSix.map(({ type, count }) => {
       const color = PRODUCT_TYPE_COLORS[type] || "#7F7F7F";
       const icon = PRODUCT_TYPE_ICONS[type] || PRODUCT_TYPE_ICONS["Board Games"];
-      const iconCount = Math.max(1, Math.round(count / unitValue));
 
-      const icons = Array.from({ length: iconCount }, () => `
+      const fullIcons = Math.floor(count / unitValue);
+      const remainder = count % unitValue;
+
+      const fullIconHtml = Array.from({ length: fullIcons }, () => `
         <span
           class="pictogram-chart__icon"
           style="--product-color: ${color}"
@@ -124,11 +128,25 @@ async function renderProductTypePictogram() {
         >${icon}</span>
       `).join("");
 
+      const partialIconHtml = remainder > 0 ? `
+        <span
+          class="pictogram-chart__icon pictogram-chart__icon--partial"
+          style="--product-color: ${color}; --fill-pct: ${(remainder / unitValue) * 100}%"
+          aria-hidden="true"
+          title="${remainder} of ${unitValue} products"
+        >
+          ${icon}
+          <span class="pictogram-chart__icon-fill">${icon}</span>
+        </span>
+      ` : "";
+
       return `
         <div class="pictogram-chart__category">
-          <div class="pictogram-chart__count">${count.toLocaleString()}</div>
-          <div class="pictogram-chart__stack">${icons}</div>
           <div class="pictogram-chart__label">${type}</div>
+          <div class="pictogram-chart__icons">
+            ${fullIconHtml}${partialIconHtml}
+          </div>
+          <div class="pictogram-chart__value">${count.toLocaleString()}</div>
         </div>
       `;
     }).join("");
@@ -139,7 +157,9 @@ async function renderProductTypePictogram() {
       <div class="pictogram-chart__plot">
         ${categories}
       </div>
-      <p class="pictogram-chart__legend">1 icon ≈ ${unitValue} products. Counts above each stack show the exact total.</p>
+      <p class="pictogram-chart__legend">
+        1 full icon = ${unitValue} products. A partially filled final icon shows the exact remainder; counts at right are exact.
+      </p>
     `;
   } catch (error) {
     console.error("Failed to render product type pictogram", error);
