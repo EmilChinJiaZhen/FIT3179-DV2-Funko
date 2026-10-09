@@ -316,9 +316,9 @@
           "round": true,
           "method": "squarify",
           "ratio": 1.6,
-          "paddingInner": 3,
-          "paddingOuter": 2,
-          "paddingTop": 3,
+          "paddingInner": 1,
+          "paddingOuter": 0,
+          "paddingTop": 1,
           "size": [
             {
               "signal": "width"
@@ -465,10 +465,10 @@
             "value": 0
           },
           "stroke": {
-            "value": "#D9D4CB"
+            "value": "#CFC8BC"
           },
           "strokeWidth": {
-            "value": 1.5
+            "value": 1
           },
           "cornerRadius": {
             "value": 0
@@ -503,10 +503,10 @@
             "field": "product_type"
           },
           "stroke": {
-            "value": "white"
+            "value": "transparent"
           },
           "strokeWidth": {
-            "value": 1.5
+            "value": 0
           },
           "cornerRadius": {
             "value": 2
@@ -523,10 +523,10 @@
             "value": 0.88
           },
           "stroke": {
-            "value": "white"
+            "value": "transparent"
           },
           "strokeWidth": {
-            "value": 1.5
+            "value": 0
           }
         },
         "hover": {
