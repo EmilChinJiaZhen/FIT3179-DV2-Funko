@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "width": 560,
-  "height": 460,
+  "height": 470,
   "padding": {
     "top": 15,
     "left": 10,
@@ -17,7 +17,7 @@
     "text": "How Are Funko's Top Licenses Connected to Product Types?",
     "subtitle": [
       "Connections between the six leading licenses and six most common product types",
-      "Ribbon thickness represents the number of products, 2019–2022"
+      "Ribbon width represents the number of products, 2019–2022"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -35,11 +35,39 @@
     },
     {
       "name": "cy",
-      "update": "250"
+      "update": "260"
     },
     {
       "name": "radius",
-      "update": "145"
+      "update": "150"
+    },
+    {
+      "name": "innerR",
+      "update": "radius - 10"
+    },
+    {
+      "name": "outerR",
+      "update": "radius + 5"
+    },
+    {
+      "name": "gap",
+      "update": "2 * PI / 180"
+    },
+    {
+      "name": "leftStart",
+      "update": "110 * PI / 180"
+    },
+    {
+      "name": "leftSpan",
+      "update": "140 * PI / 180"
+    },
+    {
+      "name": "rightStart",
+      "update": "-70 * PI / 180"
+    },
+    {
+      "name": "rightSpan",
+      "update": "140 * PI / 180"
     }
   ],
   "data": [
@@ -115,6 +143,59 @@
         {
           "type": "filter",
           "expr": "datum.Rank <= 6"
+        },
+        {
+          "type": "joinaggregate",
+          "fields": [
+            "Total_Products"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "SideTotal"
+          ]
+        },
+        {
+          "type": "window",
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "Total_Products"
+          ],
+          "as": [
+            "CumTotal"
+          ],
+          "sort": {
+            "field": "Rank",
+            "order": "ascending"
+          }
+        },
+        {
+          "type": "formula",
+          "expr": "leftStart + ((datum.CumTotal - datum.Total_Products) / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.Rank - 1)",
+          "as": "StartAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "leftStart + (datum.CumTotal / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.Rank - 1)",
+          "as": "EndAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "(datum.StartAngle + datum.EndAngle) / 2",
+          "as": "MidAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
+          "as": "LabelX"
+        },
+        {
+          "type": "formula",
+          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
+          "as": "LabelY"
         }
       ]
     },
@@ -159,58 +240,59 @@
         {
           "type": "filter",
           "expr": "datum.Rank <= 6"
-        }
-      ]
-    },
-    {
-      "name": "license_nodes",
-      "source": "license_totals",
-      "transform": [
+        },
         {
-          "type": "formula",
-          "expr": "(120 + (datum.Rank - 1) * 24) * PI / 180",
-          "as": "Angle"
+          "type": "joinaggregate",
+          "fields": [
+            "Total_Products"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "SideTotal"
+          ]
+        },
+        {
+          "type": "window",
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "Total_Products"
+          ],
+          "as": [
+            "CumTotal"
+          ],
+          "sort": {
+            "field": "Rank",
+            "order": "ascending"
+          }
         },
         {
           "type": "formula",
-          "expr": "cx + radius * cos(datum.Angle)",
-          "as": "x"
+          "expr": "rightStart + ((datum.CumTotal - datum.Total_Products) / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.Rank - 1)",
+          "as": "StartAngle"
         },
         {
           "type": "formula",
-          "expr": "cy + radius * sin(datum.Angle)",
-          "as": "y"
+          "expr": "rightStart + (datum.CumTotal / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.Rank - 1)",
+          "as": "EndAngle"
         },
         {
           "type": "formula",
-          "expr": "datum.x - 14",
+          "expr": "(datum.StartAngle + datum.EndAngle) / 2",
+          "as": "MidAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
           "as": "LabelX"
-        }
-      ]
-    },
-    {
-      "name": "type_nodes",
-      "source": "type_totals",
-      "transform": [
-        {
-          "type": "formula",
-          "expr": "(-60 + (datum.Rank - 1) * 24) * PI / 180",
-          "as": "Angle"
         },
         {
           "type": "formula",
-          "expr": "cx + radius * cos(datum.Angle)",
-          "as": "x"
-        },
-        {
-          "type": "formula",
-          "expr": "cy + radius * sin(datum.Angle)",
-          "as": "y"
-        },
-        {
-          "type": "formula",
-          "expr": "datum.x + 14",
-          "as": "LabelX"
+          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
+          "as": "LabelY"
         }
       ]
     },
@@ -236,21 +318,21 @@
         },
         {
           "type": "lookup",
-          "from": "license_nodes",
+          "from": "license_totals",
           "key": "license",
           "fields": [
             "license"
           ],
           "values": [
             "Rank",
-            "x",
-            "y",
+            "StartAngle",
+            "EndAngle",
             "Total_Products"
           ],
           "as": [
             "License_Rank",
-            "SourceX",
-            "SourceY",
+            "LicenseStart",
+            "LicenseEnd",
             "License_Total"
           ]
         },
@@ -260,21 +342,21 @@
         },
         {
           "type": "lookup",
-          "from": "type_nodes",
+          "from": "type_totals",
           "key": "product_type",
           "fields": [
             "product_type"
           ],
           "values": [
             "Rank",
-            "x",
-            "y",
+            "StartAngle",
+            "EndAngle",
             "Total_Products"
           ],
           "as": [
             "Type_Rank",
-            "TargetX",
-            "TargetY",
+            "TypeStart",
+            "TypeEnd",
             "Type_Total"
           ]
         },
@@ -283,112 +365,117 @@
           "expr": "isValid(datum.Type_Rank)"
         },
         {
-          "type": "formula",
-          "expr": "datum.Connection_Count / datum.License_Total",
-          "as": "License_Share"
+          "type": "window",
+          "groupby": [
+            "license"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "Connection_Count"
+          ],
+          "as": [
+            "SourceCum"
+          ],
+          "sort": {
+            "field": "Type_Rank",
+            "order": "ascending"
+          }
+        },
+        {
+          "type": "window",
+          "groupby": [
+            "product_type"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "Connection_Count"
+          ],
+          "as": [
+            "TargetCum"
+          ],
+          "sort": {
+            "field": "License_Rank",
+            "order": "ascending"
+          }
         },
         {
           "type": "formula",
-          "expr": "'M' + datum.SourceX + ',' + datum.SourceY + ' Q' + cx + ',' + cy + ' ' + datum.TargetX + ',' + datum.TargetY",
-          "as": "Path"
+          "expr": "datum.LicenseStart + ((datum.SourceCum - datum.Connection_Count) / datum.License_Total) * (datum.LicenseEnd - datum.LicenseStart)",
+          "as": "SourceA0"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.LicenseStart + (datum.SourceCum / datum.License_Total) * (datum.LicenseEnd - datum.LicenseStart)",
+          "as": "SourceA1"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.TypeStart + ((datum.TargetCum - datum.Connection_Count) / datum.Type_Total) * (datum.TypeEnd - datum.TypeStart)",
+          "as": "TargetA0"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.TypeStart + (datum.TargetCum / datum.Type_Total) * (datum.TypeEnd - datum.TypeStart)",
+          "as": "TargetA1"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + innerR * sin(datum.SourceA0)",
+          "as": "sx0"
+        },
+        {
+          "type": "formula",
+          "expr": "cy - innerR * cos(datum.SourceA0)",
+          "as": "sy0"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + innerR * sin(datum.SourceA1)",
+          "as": "sx1"
+        },
+        {
+          "type": "formula",
+          "expr": "cy - innerR * cos(datum.SourceA1)",
+          "as": "sy1"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + innerR * sin(datum.TargetA0)",
+          "as": "tx0"
+        },
+        {
+          "type": "formula",
+          "expr": "cy - innerR * cos(datum.TargetA0)",
+          "as": "ty0"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + innerR * sin(datum.TargetA1)",
+          "as": "tx1"
+        },
+        {
+          "type": "formula",
+          "expr": "cy - innerR * cos(datum.TargetA1)",
+          "as": "ty1"
+        },
+        {
+          "type": "formula",
+          "expr": "'M' + datum.sx0 + ',' + datum.sy0 + ' A' + innerR + ',' + innerR + ' 0 0 1 ' + datum.sx1 + ',' + datum.sy1 + ' Q' + cx + ',' + cy + ' ' + datum.tx1 + ',' + datum.ty1 + ' A' + innerR + ',' + innerR + ' 0 0 0 ' + datum.tx0 + ',' + datum.ty0 + ' Q' + cx + ',' + cy + ' ' + datum.sx0 + ',' + datum.sy0 + ' Z'",
+          "as": "RibbonPath"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.Connection_Count / datum.License_Total",
+          "as": "License_Share"
         }
       ]
-    }
-  ],
-  "scales": [
-    {
-      "name": "licenseColor",
-      "type": "ordinal",
-      "domain": {
-        "data": "license_nodes",
-        "field": "license"
-      },
-      "range": [
-        "#4E79A7",
-        "#76B7B2",
-        "#F2CF5B",
-        "#F28E2B",
-        "#E15759",
-        "#59A14F"
-      ]
-    },
-    {
-      "name": "linkWidth",
-      "type": "sqrt",
-      "domain": {
-        "data": "links",
-        "field": "Connection_Count"
-      },
-      "range": [
-        1.5,
-        13
-      ],
-      "zero": true
     }
   ],
   "marks": [
-    {
-      "type": "arc",
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "cx"
-          },
-          "y": {
-            "signal": "cy"
-          },
-          "startAngle": {
-            "signal": "PI / 2"
-          },
-          "endAngle": {
-            "signal": "3 * PI / 2"
-          },
-          "innerRadius": {
-            "signal": "radius - 2"
-          },
-          "outerRadius": {
-            "signal": "radius + 2"
-          },
-          "fill": {
-            "value": "#4E79A7"
-          },
-          "opacity": {
-            "value": 0.75
-          }
-        }
-      }
-    },
-    {
-      "type": "arc",
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "cx"
-          },
-          "y": {
-            "signal": "cy"
-          },
-          "startAngle": {
-            "signal": "-PI / 2"
-          },
-          "endAngle": {
-            "signal": "PI / 2"
-          },
-          "innerRadius": {
-            "signal": "radius - 2"
-          },
-          "outerRadius": {
-            "signal": "radius + 2"
-          },
-          "fill": {
-            "value": "#555555"
-          },
-          "opacity": {
-            "value": 0.6
-          }
-        }
-      }
-    },
     {
       "type": "path",
       "from": {
@@ -397,79 +484,69 @@
       "encode": {
         "enter": {
           "path": {
-            "field": "Path"
+            "field": "RibbonPath"
           },
           "fill": {
-            "value": null
+            "value": "#CFCFCF"
+          },
+          "fillOpacity": {
+            "value": 0.58
           },
           "stroke": {
-            "value": "#BFC3C7"
-          },
-          "strokeWidth": {
-            "scale": "linkWidth",
-            "field": "Connection_Count"
-          },
-          "strokeOpacity": {
-            "value": 0.35
-          },
-          "strokeCap": {
-            "value": "round"
+            "value": null
           },
           "tooltip": {
             "signal": "{'License': datum.license, 'Product type': datum.product_type, 'Products': datum.Connection_Count, 'Share of license': format(datum.License_Share, '.1%')}"
           }
         },
         "update": {
-          "stroke": {
-            "value": "#BFC3C7"
+          "fill": {
+            "value": "#CFCFCF"
           },
-          "strokeOpacity": {
-            "value": 0.35
-          },
-          "strokeWidth": {
-            "scale": "linkWidth",
-            "field": "Connection_Count"
+          "fillOpacity": {
+            "value": 0.58
           }
         },
         "hover": {
-          "stroke": {
-            "scale": "licenseColor",
-            "field": "license"
+          "fill": {
+            "value": "#9FBAD8"
           },
-          "strokeOpacity": {
-            "value": 0.9
-          },
-          "strokeWidth": {
-            "signal": "scale('linkWidth', datum.Connection_Count) + 2"
+          "fillOpacity": {
+            "value": 0.88
           }
         }
       }
     },
     {
-      "type": "symbol",
+      "type": "arc",
       "from": {
-        "data": "license_nodes"
+        "data": "license_totals"
       },
       "encode": {
         "enter": {
           "x": {
-            "field": "x"
+            "signal": "cx"
           },
           "y": {
-            "field": "y"
+            "signal": "cy"
           },
-          "size": {
-            "value": 300
+          "startAngle": {
+            "field": "StartAngle"
+          },
+          "endAngle": {
+            "field": "EndAngle"
+          },
+          "innerRadius": {
+            "signal": "innerR"
+          },
+          "outerRadius": {
+            "signal": "outerR"
           },
           "fill": {
-            "scale": "licenseColor",
-            "field": "license"
+            "value": "#149AD6"
           },
           "stroke": {
-            "value": "white"
-          },
-          "strokeWidth": {
-            "value": 2
+            "value": null
           },
           "tooltip": {
             "signal": "{'License': datum.license, 'Products': datum.Total_Products}"
@@ -478,29 +555,35 @@
       }
     },
     {
-      "type": "symbol",
+      "type": "arc",
       "from": {
-        "data": "type_nodes"
+        "data": "type_totals"
       },
       "encode": {
         "enter": {
           "x": {
-            "field": "x"
+            "signal": "cx"
           },
           "y": {
-            "field": "y"
+            "signal": "cy"
           },
-          "size": {
-            "value": 300
+          "startAngle": {
+            "field": "StartAngle"
+          },
+          "endAngle": {
+            "field": "EndAngle"
+          },
+          "innerRadius": {
+            "signal": "innerR"
+          },
+          "outerRadius": {
+            "signal": "outerR"
           },
           "fill": {
-            "value": "#4F4F4F"
+            "value": "#149AD6"
           },
           "stroke": {
-            "value": "white"
-          },
-          "strokeWidth": {
-            "value": 2
+            "value": null
           },
           "tooltip": {
             "signal": "{'Product type': datum.product_type, 'Products': datum.Total_Products}"
@@ -511,7 +594,7 @@
     {
       "type": "text",
       "from": {
-        "data": "license_nodes"
+        "data": "license_totals"
       },
       "encode": {
         "enter": {
@@ -519,7 +602,7 @@
             "field": "LabelX"
           },
           "y": {
-            "field": "y"
+            "field": "LabelY"
           },
           "text": {
             "field": "license"
@@ -536,11 +619,11 @@
           "fontSize": {
             "value": 11
           },
-          "fontWeight": {
-            "value": "bold"
-          },
           "fill": {
             "value": "#222222"
+          },
+          "limit": {
+            "value": 125
           }
         }
       }
@@ -548,7 +631,7 @@
     {
       "type": "text",
       "from": {
-        "data": "type_nodes"
+        "data": "type_totals"
       },
       "encode": {
         "enter": {
@@ -556,7 +639,7 @@
             "field": "LabelX"
           },
           "y": {
-            "field": "y"
+            "field": "LabelY"
           },
           "text": {
             "field": "product_type"
@@ -573,11 +656,11 @@
           "fontSize": {
             "value": 11
           },
-          "fontWeight": {
-            "value": "bold"
-          },
           "fill": {
             "value": "#222222"
+          },
+          "limit": {
+            "value": 125
           }
         }
       }
@@ -587,10 +670,10 @@
       "encode": {
         "enter": {
           "x": {
-            "value": 95
+            "value": 100
           },
           "y": {
-            "value": 55
+            "value": 40
           },
           "text": {
             "value": "Top licenses"
@@ -611,14 +694,36 @@
       }
     },
     {
+      "type": "rule",
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 75
+          },
+          "x2": {
+            "value": 175
+          },
+          "y": {
+            "value": 49
+          },
+          "stroke": {
+            "value": "#D4D0C8"
+          },
+          "strokeWidth": {
+            "value": 1
+          }
+        }
+      }
+    },
+    {
       "type": "text",
       "encode": {
         "enter": {
           "x": {
-            "signal": "width - 95"
+            "signal": "width - 100"
           },
           "y": {
-            "value": 55
+            "value": 40
           },
           "text": {
             "value": "Top product types"
@@ -642,6 +747,28 @@
       }
     },
     {
+      "type": "rule",
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "width - 175"
+          },
+          "x2": {
+            "signal": "width - 75"
+          },
+          "y": {
+            "value": 49
+          },
+          "stroke": {
+            "value": "#D4D0C8"
+          },
+          "strokeWidth": {
+            "value": 1
+          }
+        }
+      }
+    },
+    {
       "type": "text",
       "encode": {
         "enter": {
@@ -652,7 +779,7 @@
             "signal": "height - 8"
           },
           "text": {
-            "value": "Thicker connections represent more products"
+            "value": "Wider ribbons represent more products"
           },
           "align": {
             "value": "center"
