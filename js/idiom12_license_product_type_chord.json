@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 560,
-  "height": 470,
+  "width": 600,
+  "height": 450,
   "padding": {
     "top": 15,
     "left": 10,
@@ -35,19 +35,19 @@
     },
     {
       "name": "cy",
-      "update": "260"
+      "update": "250"
     },
     {
       "name": "radius",
-      "update": "150"
+      "update": "160"
     },
     {
       "name": "innerR",
-      "update": "radius - 10"
+      "update": "radius - 12"
     },
     {
       "name": "outerR",
-      "update": "radius + 5"
+      "update": "radius + 4"
     },
     {
       "name": "gap",
@@ -55,19 +55,19 @@
     },
     {
       "name": "leftStart",
-      "update": "110 * PI / 180"
+      "update": "210 * PI / 180"
     },
     {
       "name": "leftSpan",
-      "update": "140 * PI / 180"
+      "update": "120 * PI / 180"
     },
     {
       "name": "rightStart",
-      "update": "-70 * PI / 180"
+      "update": "30 * PI / 180"
     },
     {
       "name": "rightSpan",
-      "update": "140 * PI / 180"
+      "update": "120 * PI / 180"
     }
   ],
   "data": [
@@ -103,7 +103,7 @@
       ]
     },
     {
-      "name": "license_totals",
+      "name": "license_top",
       "source": "base",
       "transform": [
         {
@@ -118,7 +118,7 @@
             "uid"
           ],
           "as": [
-            "Total_Products"
+            "TotalProducts"
           ]
         },
         {
@@ -131,7 +131,7 @@
           ],
           "sort": {
             "field": [
-              "Total_Products",
+              "TotalProducts",
               "license"
             ],
             "order": [
@@ -143,64 +143,11 @@
         {
           "type": "filter",
           "expr": "datum.Rank <= 6"
-        },
-        {
-          "type": "joinaggregate",
-          "fields": [
-            "Total_Products"
-          ],
-          "ops": [
-            "sum"
-          ],
-          "as": [
-            "SideTotal"
-          ]
-        },
-        {
-          "type": "window",
-          "ops": [
-            "sum"
-          ],
-          "fields": [
-            "Total_Products"
-          ],
-          "as": [
-            "CumTotal"
-          ],
-          "sort": {
-            "field": "Rank",
-            "order": "ascending"
-          }
-        },
-        {
-          "type": "formula",
-          "expr": "leftStart + ((datum.CumTotal - datum.Total_Products) / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.Rank - 1)",
-          "as": "StartAngle"
-        },
-        {
-          "type": "formula",
-          "expr": "leftStart + (datum.CumTotal / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.Rank - 1)",
-          "as": "EndAngle"
-        },
-        {
-          "type": "formula",
-          "expr": "(datum.StartAngle + datum.EndAngle) / 2",
-          "as": "MidAngle"
-        },
-        {
-          "type": "formula",
-          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
-          "as": "LabelX"
-        },
-        {
-          "type": "formula",
-          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
-          "as": "LabelY"
         }
       ]
     },
     {
-      "name": "type_totals",
+      "name": "type_top",
       "source": "base",
       "transform": [
         {
@@ -215,7 +162,7 @@
             "uid"
           ],
           "as": [
-            "Total_Products"
+            "TotalProducts"
           ]
         },
         {
@@ -228,7 +175,7 @@
           ],
           "sort": {
             "field": [
-              "Total_Products",
+              "TotalProducts",
               "product_type"
             ],
             "order": [
@@ -240,64 +187,11 @@
         {
           "type": "filter",
           "expr": "datum.Rank <= 6"
-        },
-        {
-          "type": "joinaggregate",
-          "fields": [
-            "Total_Products"
-          ],
-          "ops": [
-            "sum"
-          ],
-          "as": [
-            "SideTotal"
-          ]
-        },
-        {
-          "type": "window",
-          "ops": [
-            "sum"
-          ],
-          "fields": [
-            "Total_Products"
-          ],
-          "as": [
-            "CumTotal"
-          ],
-          "sort": {
-            "field": "Rank",
-            "order": "ascending"
-          }
-        },
-        {
-          "type": "formula",
-          "expr": "rightStart + ((datum.CumTotal - datum.Total_Products) / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.Rank - 1)",
-          "as": "StartAngle"
-        },
-        {
-          "type": "formula",
-          "expr": "rightStart + (datum.CumTotal / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.Rank - 1)",
-          "as": "EndAngle"
-        },
-        {
-          "type": "formula",
-          "expr": "(datum.StartAngle + datum.EndAngle) / 2",
-          "as": "MidAngle"
-        },
-        {
-          "type": "formula",
-          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
-          "as": "LabelX"
-        },
-        {
-          "type": "formula",
-          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
-          "as": "LabelY"
         }
       ]
     },
     {
-      "name": "links",
+      "name": "pairs",
       "source": "base",
       "transform": [
         {
@@ -318,51 +212,231 @@
         },
         {
           "type": "lookup",
-          "from": "license_totals",
+          "from": "license_top",
           "key": "license",
           "fields": [
             "license"
           ],
           "values": [
-            "Rank",
-            "StartAngle",
-            "EndAngle",
-            "Total_Products"
+            "Rank"
           ],
           "as": [
-            "License_Rank",
-            "LicenseStart",
-            "LicenseEnd",
-            "License_Total"
+            "LicenseRank"
           ]
         },
         {
           "type": "filter",
-          "expr": "isValid(datum.License_Rank)"
+          "expr": "isValid(datum.LicenseRank)"
         },
         {
           "type": "lookup",
-          "from": "type_totals",
+          "from": "type_top",
           "key": "product_type",
           "fields": [
             "product_type"
           ],
           "values": [
-            "Rank",
-            "StartAngle",
-            "EndAngle",
-            "Total_Products"
+            "Rank"
           ],
           "as": [
-            "Type_Rank",
-            "TypeStart",
-            "TypeEnd",
-            "Type_Total"
+            "TypeRank"
           ]
         },
         {
           "type": "filter",
-          "expr": "isValid(datum.Type_Rank)"
+          "expr": "isValid(datum.TypeRank)"
+        }
+      ]
+    },
+    {
+      "name": "license_nodes",
+      "source": "pairs",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "license",
+            "LicenseRank"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "Connection_Count"
+          ],
+          "as": [
+            "DisplayTotal"
+          ]
+        },
+        {
+          "type": "joinaggregate",
+          "fields": [
+            "DisplayTotal"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "SideTotal"
+          ]
+        },
+        {
+          "type": "window",
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "DisplayTotal"
+          ],
+          "as": [
+            "CumTotal"
+          ],
+          "sort": {
+            "field": "LicenseRank",
+            "order": "ascending"
+          }
+        },
+        {
+          "type": "formula",
+          "expr": "leftStart + ((datum.CumTotal - datum.DisplayTotal) / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.LicenseRank - 1)",
+          "as": "StartAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "leftStart + (datum.CumTotal / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.LicenseRank - 1)",
+          "as": "EndAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "(datum.StartAngle + datum.EndAngle) / 2",
+          "as": "MidAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + (outerR + 16) * sin(datum.MidAngle)",
+          "as": "LabelX"
+        },
+        {
+          "type": "formula",
+          "expr": "cy - (outerR + 16) * cos(datum.MidAngle)",
+          "as": "LabelY"
+        }
+      ]
+    },
+    {
+      "name": "type_nodes",
+      "source": "pairs",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "product_type",
+            "TypeRank"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "Connection_Count"
+          ],
+          "as": [
+            "DisplayTotal"
+          ]
+        },
+        {
+          "type": "joinaggregate",
+          "fields": [
+            "DisplayTotal"
+          ],
+          "ops": [
+            "sum"
+          ],
+          "as": [
+            "SideTotal"
+          ]
+        },
+        {
+          "type": "window",
+          "ops": [
+            "sum"
+          ],
+          "fields": [
+            "DisplayTotal"
+          ],
+          "as": [
+            "CumTotal"
+          ],
+          "sort": {
+            "field": "TypeRank",
+            "order": "ascending"
+          }
+        },
+        {
+          "type": "formula",
+          "expr": "rightStart + ((datum.CumTotal - datum.DisplayTotal) / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.TypeRank - 1)",
+          "as": "StartAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "rightStart + (datum.CumTotal / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.TypeRank - 1)",
+          "as": "EndAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "(datum.StartAngle + datum.EndAngle) / 2",
+          "as": "MidAngle"
+        },
+        {
+          "type": "formula",
+          "expr": "cx + (outerR + 16) * sin(datum.MidAngle)",
+          "as": "LabelX"
+        },
+        {
+          "type": "formula",
+          "expr": "cy - (outerR + 16) * cos(datum.MidAngle)",
+          "as": "LabelY"
+        }
+      ]
+    },
+    {
+      "name": "links",
+      "source": "pairs",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "license_nodes",
+          "key": "license",
+          "fields": [
+            "license"
+          ],
+          "values": [
+            "StartAngle",
+            "EndAngle",
+            "DisplayTotal"
+          ],
+          "as": [
+            "LicenseStart",
+            "LicenseEnd",
+            "LicenseDisplayTotal"
+          ]
+        },
+        {
+          "type": "lookup",
+          "from": "type_nodes",
+          "key": "product_type",
+          "fields": [
+            "product_type"
+          ],
+          "values": [
+            "StartAngle",
+            "EndAngle",
+            "DisplayTotal"
+          ],
+          "as": [
+            "TypeStart",
+            "TypeEnd",
+            "TypeDisplayTotal"
+          ]
         },
         {
           "type": "window",
@@ -379,7 +453,7 @@
             "SourceCum"
           ],
           "sort": {
-            "field": "Type_Rank",
+            "field": "TypeRank",
             "order": "ascending"
           }
         },
@@ -398,28 +472,28 @@
             "TargetCum"
           ],
           "sort": {
-            "field": "License_Rank",
+            "field": "LicenseRank",
             "order": "ascending"
           }
         },
         {
           "type": "formula",
-          "expr": "datum.LicenseStart + ((datum.SourceCum - datum.Connection_Count) / datum.License_Total) * (datum.LicenseEnd - datum.LicenseStart)",
+          "expr": "datum.LicenseStart + ((datum.SourceCum - datum.Connection_Count) / datum.LicenseDisplayTotal) * (datum.LicenseEnd - datum.LicenseStart)",
           "as": "SourceA0"
         },
         {
           "type": "formula",
-          "expr": "datum.LicenseStart + (datum.SourceCum / datum.License_Total) * (datum.LicenseEnd - datum.LicenseStart)",
+          "expr": "datum.LicenseStart + (datum.SourceCum / datum.LicenseDisplayTotal) * (datum.LicenseEnd - datum.LicenseStart)",
           "as": "SourceA1"
         },
         {
           "type": "formula",
-          "expr": "datum.TypeStart + ((datum.TargetCum - datum.Connection_Count) / datum.Type_Total) * (datum.TypeEnd - datum.TypeStart)",
+          "expr": "datum.TypeStart + ((datum.TargetCum - datum.Connection_Count) / datum.TypeDisplayTotal) * (datum.TypeEnd - datum.TypeStart)",
           "as": "TargetA0"
         },
         {
           "type": "formula",
-          "expr": "datum.TypeStart + (datum.TargetCum / datum.Type_Total) * (datum.TypeEnd - datum.TypeStart)",
+          "expr": "datum.TypeStart + (datum.TargetCum / datum.TypeDisplayTotal) * (datum.TypeEnd - datum.TypeStart)",
           "as": "TargetA1"
         },
         {
@@ -469,7 +543,7 @@
         },
         {
           "type": "formula",
-          "expr": "datum.Connection_Count / datum.License_Total",
+          "expr": "datum.Connection_Count / datum.LicenseDisplayTotal",
           "as": "License_Share"
         }
       ]
@@ -487,32 +561,32 @@
             "field": "RibbonPath"
           },
           "fill": {
-            "value": "#CFCFCF"
+            "value": "#D1D1D1"
           },
           "fillOpacity": {
-            "value": 0.58
+            "value": 0.68
           },
           "stroke": {
             "value": null
           },
           "tooltip": {
-            "signal": "{'License': datum.license, 'Product type': datum.product_type, 'Products': datum.Connection_Count, 'Share of license': format(datum.License_Share, '.1%')}"
+            "signal": "{'License': datum.license, 'Product type': datum.product_type, 'Products': datum.Connection_Count, 'Share of displayed license links': format(datum.License_Share, '.1%')}"
           }
         },
         "update": {
           "fill": {
-            "value": "#CFCFCF"
+            "value": "#D1D1D1"
           },
           "fillOpacity": {
-            "value": 0.58
+            "value": 0.68
           }
         },
         "hover": {
           "fill": {
-            "value": "#9FBAD8"
+            "value": "#9DB7D3"
           },
           "fillOpacity": {
-            "value": 0.88
+            "value": 0.9
           }
         }
       }
@@ -520,7 +594,7 @@
     {
       "type": "arc",
       "from": {
-        "data": "license_totals"
+        "data": "license_nodes"
       },
       "encode": {
         "enter": {
@@ -549,7 +623,7 @@
             "value": null
           },
           "tooltip": {
-            "signal": "{'License': datum.license, 'Products': datum.Total_Products}"
+            "signal": "{'License': datum.license, 'Products shown in top product types': datum.DisplayTotal}"
           }
         }
       }
@@ -557,7 +631,7 @@
     {
       "type": "arc",
       "from": {
-        "data": "type_totals"
+        "data": "type_nodes"
       },
       "encode": {
         "enter": {
@@ -586,7 +660,7 @@
             "value": null
           },
           "tooltip": {
-            "signal": "{'Product type': datum.product_type, 'Products': datum.Total_Products}"
+            "signal": "{'Product type': datum.product_type, 'Products shown from top licenses': datum.DisplayTotal}"
           }
         }
       }
@@ -594,7 +668,7 @@
     {
       "type": "text",
       "from": {
-        "data": "license_totals"
+        "data": "license_nodes"
       },
       "encode": {
         "enter": {
@@ -623,7 +697,7 @@
             "value": "#222222"
           },
           "limit": {
-            "value": 125
+            "value": 140
           }
         }
       }
@@ -631,7 +705,7 @@
     {
       "type": "text",
       "from": {
-        "data": "type_totals"
+        "data": "type_nodes"
       },
       "encode": {
         "enter": {
@@ -660,7 +734,7 @@
             "value": "#222222"
           },
           "limit": {
-            "value": 125
+            "value": 120
           }
         }
       }
@@ -670,7 +744,7 @@
       "encode": {
         "enter": {
           "x": {
-            "value": 100
+            "value": 95
           },
           "y": {
             "value": 40
@@ -698,10 +772,10 @@
       "encode": {
         "enter": {
           "x": {
-            "value": 75
+            "value": 70
           },
           "x2": {
-            "value": 175
+            "value": 180
           },
           "y": {
             "value": 49
@@ -720,7 +794,7 @@
       "encode": {
         "enter": {
           "x": {
-            "signal": "width - 100"
+            "signal": "width - 95"
           },
           "y": {
             "value": 40
@@ -751,10 +825,10 @@
       "encode": {
         "enter": {
           "x": {
-            "signal": "width - 175"
+            "signal": "width - 180"
           },
           "x2": {
-            "signal": "width - 75"
+            "signal": "width - 70"
           },
           "y": {
             "value": 49
