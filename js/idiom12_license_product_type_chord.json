@@ -298,12 +298,12 @@
         },
         {
           "type": "formula",
-          "expr": "leftStart + ((datum.CumTotal - datum.DisplayTotal) / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.LicenseRank - 1)",
+          "expr": "rightStart + ((datum.CumTotal - datum.DisplayTotal) / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.LicenseRank - 1)",
           "as": "StartAngle"
         },
         {
           "type": "formula",
-          "expr": "leftStart + (datum.CumTotal / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.LicenseRank - 1)",
+          "expr": "rightStart + (datum.CumTotal / datum.SideTotal) * (leftSpan - gap * 5) + gap * (datum.LicenseRank - 1)",
           "as": "EndAngle"
         },
         {
@@ -373,12 +373,12 @@
         },
         {
           "type": "formula",
-          "expr": "rightStart + ((datum.CumTotal - datum.DisplayTotal) / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.TypeRank - 1)",
+          "expr": "leftStart + ((datum.CumTotal - datum.DisplayTotal) / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.TypeRank - 1)",
           "as": "StartAngle"
         },
         {
           "type": "formula",
-          "expr": "rightStart + (datum.CumTotal / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.TypeRank - 1)",
+          "expr": "leftStart + (datum.CumTotal / datum.SideTotal) * (rightSpan - gap * 5) + gap * (datum.TypeRank - 1)",
           "as": "EndAngle"
         },
         {
@@ -686,7 +686,7 @@
             "field": "license"
           },
           "align": {
-            "value": "right"
+            "value": "left"
           },
           "baseline": {
             "value": "middle"
@@ -723,7 +723,7 @@
             "field": "product_type"
           },
           "align": {
-            "value": "left"
+            "value": "right"
           },
           "baseline": {
             "value": "middle"
@@ -754,7 +754,7 @@
             "value": 40
           },
           "text": {
-            "value": "Top licenses"
+            "value": "Top product types"
           },
           "font": {
             "value": "Inter"
@@ -804,7 +804,7 @@
             "value": 40
           },
           "text": {
-            "value": "Top product types"
+            "value": "Top licenses"
           },
           "align": {
             "value": "right"
