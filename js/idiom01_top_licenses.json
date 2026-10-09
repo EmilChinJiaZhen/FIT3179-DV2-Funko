@@ -13,7 +13,7 @@
     "subtitleFontWeight": "normal"
   },
   "width": "container",
-  "height": 360,
+  "height": 420,
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
     "format": {
@@ -54,20 +54,25 @@
     }
   ],
   "encoding": {
-    "y": {
+    "x": {
       "field": "license",
       "type": "nominal",
       "sort": {
         "field": "Product_Count",
         "order": "descending"
       },
-      "title": null,
+      "title": "License",
       "axis": {
         "labelFontSize": 12,
-        "labelLimit": 200
+        "labelAngle": -35,
+        "labelAlign": "right",
+        "labelBaseline": "top",
+        "labelLimit": 220,
+        "labelOverlap": false,
+        "titlePadding": 18
       }
     },
-    "x": {
+    "y": {
       "field": "Product_Count",
       "type": "quantitative",
       "title": "Number of Funko products",
@@ -112,9 +117,9 @@
     {
       "mark": {
         "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "dx": 9,
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -8,
         "fontSize": 11,
         "font": "Inter"
       },
@@ -162,5 +167,10 @@
     },
     "background": "transparent"
   },
-  "background": "transparent"
+  "background": "transparent",
+  "autosize": {
+    "type": "fit",
+    "contains": "padding",
+    "resize": true
+  }
 }
