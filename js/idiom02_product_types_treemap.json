@@ -577,7 +577,7 @@
             "signal": "(datum.x1 - datum.x0) > 150 && (datum.y1 - datum.y0) > 80 ? 14 : 11"
           },
           "opacity": {
-            "signal": "(datum.x1 - datum.x0) >= 65 && (datum.y1 - datum.y0) >= 28 ? 1 : 0"
+            "signal": "((datum.x1 - datum.x0) >= 65 && (datum.y1 - datum.y0) >= 28 && (length(datum.license) * (((datum.x1 - datum.x0) > 150 && (datum.y1 - datum.y0) > 80) ? 14 : 11) * 0.58) <= (datum.x1 - datum.x0 - 12))) ? 1 : 0"
           },
           "font": {
             "value": "Inter"
