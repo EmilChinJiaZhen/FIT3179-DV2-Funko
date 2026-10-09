@@ -541,30 +541,3 @@ body {
   }
 }
 
-
-/* Align chord chart to the right-column sightline */
-.story-row--chord .story-chart {
-  justify-self: end;
-  max-width: 620px;
-}
-
-.story-row--chord .vis-container,
-.story-row--chord .vega-embed,
-.story-row--chord .vega-embed > div {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-@media (max-width: 1100px) {
-  .story-row--chord .story-chart {
-    justify-self: start;
-    max-width: none;
-  }
-
-  .story-row--chord .vis-container,
-  .story-row--chord .vega-embed,
-  .story-row--chord .vega-embed > div {
-    justify-content: flex-start;
-  }
-}
