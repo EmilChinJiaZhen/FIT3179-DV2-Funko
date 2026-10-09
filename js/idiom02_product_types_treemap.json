@@ -462,16 +462,16 @@
             "field": "key"
           },
           "fillOpacity": {
-            "value": 0.12
+            "value": 0
           },
           "stroke": {
-            "value": "white"
+            "value": "#D9D4CB"
           },
           "strokeWidth": {
-            "value": 5
+            "value": 1.5
           },
           "cornerRadius": {
-            "value": 3
+            "value": 0
           },
           "tooltip": {
             "signal": "{'Product Type': datum.key, 'Products in Top 5 Licenses': datum.DisplayedProductCount, 'Total Products in Product Type': datum.TotalTypeProductCount, 'Share of Displayed Products': format(datum.DisplayedShare, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
