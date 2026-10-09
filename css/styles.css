@@ -647,9 +647,10 @@ body {
 
 .pictogram-chart__category {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 52px;
-  gap: 12px;
+  grid-template-columns: minmax(0, 520px) 52px;
+  gap: 10px;
   align-items: center;
+  justify-content: start;
 }
 
 .pictogram-chart__icons {
@@ -722,7 +723,7 @@ body {
   font-size: 12px;
   line-height: 1;
   font-weight: 600;
-  text-align: right;
+  text-align: left;
 }
 
 .pictogram-chart__legend {
@@ -744,6 +745,7 @@ body {
   .pictogram-chart__category {
     grid-template-columns: minmax(0, 1fr) 44px;
     gap: 8px;
+    justify-content: start;
   }
 
   .pictogram-chart__key {
