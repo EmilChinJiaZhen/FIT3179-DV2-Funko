@@ -130,10 +130,10 @@ async function renderProductTypePictogram() {
 
       const partialIconHtml = remainder > 0 ? `
         <span
-          class="pictogram-chart__icon pictogram-chart__icon--partial"
-          style="--product-color: ${color}; --fill-pct: ${(remainder / unitValue) * 100}%"
+          class="pictogram-chart__icon pictogram-chart__icon--half"
+          style="--product-color: ${color}"
           aria-hidden="true"
-          title="${remainder} of ${unitValue} products"
+          title="Incomplete final group: ${remainder} of ${unitValue} products"
         >
           ${icon}
           <span class="pictogram-chart__icon-fill">${icon}</span>
@@ -158,8 +158,7 @@ async function renderProductTypePictogram() {
         ${categories}
       </div>
       <p class="pictogram-chart__legend">
-        1 full icon = ${unitValue} products. A partially filled final icon shows the exact remainder; counts at right are exact.
-      </p>
+        1 full icon = ${unitValue} products. A half icon marks an incomplete final group; the exact total is shown at right.</p>
     `;
   } catch (error) {
     console.error("Failed to render product type pictogram", error);
