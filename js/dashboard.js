@@ -28,3 +28,127 @@ visualisations.forEach(([selector, spec]) => {
     console.error(`Failed to load ${spec}`, error);
   });
 });
+
+
+/* ---------- Product type pictogram ---------- */
+
+const PICTOGRAM_DATA_URL =
+  "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv";
+
+const PRODUCT_TYPE_COLORS = {
+  "Pop!": "#4E79A7",
+  "Apparel": "#76B7B2",
+  "Keychains": "#F28E2B",
+  "Vinyl GOLD": "#EDC948",
+  "Plush": "#B07AA1",
+  "Board Games": "#7F7F7F"
+};
+
+const PRODUCT_TYPE_ICONS = {
+  "Pop!": `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="8" r="4.3"></circle>
+      <path d="M7.3 19c.5-3.1 2.2-4.9 4.7-4.9s4.2 1.8 4.7 4.9"></path>
+    </svg>`,
+  "Apparel": `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8.2 5.4 10.2 4h3.6l2 1.4 3 1.6-1.8 3.5-2-1V20H9V9.5l-2 1L5.2 7l3-1.6Z"></path>
+    </svg>`,
+  "Keychains": `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="8.3" cy="7.5" r="3.2"></circle>
+      <path d="M10.6 9.8 14.8 14"></path>
+      <rect x="14" y="13" width="5.3" height="6.2" rx="1.1"></rect>
+    </svg>`,
+  "Vinyl GOLD": `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="9" r="4.3"></circle>
+      <path d="M9.5 13.1 8.1 20l3.9-2 3.9 2-1.4-6.9"></path>
+      <path d="M10.5 9h3"></path>
+    </svg>`,
+  "Plush": `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="8.2" cy="7.3" r="2"></circle>
+      <circle cx="15.8" cy="7.3" r="2"></circle>
+      <circle cx="12" cy="11.2" r="5"></circle>
+      <circle cx="10.2" cy="10.5" r=".55"></circle>
+      <circle cx="13.8" cy="10.5" r=".55"></circle>
+      <path d="M10.5 13.1c1 .7 2 .7 3 0"></path>
+    </svg>`,
+  "Board Games": `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5" y="5" width="14" height="14" rx="2"></rect>
+      <circle cx="9" cy="9" r=".8"></circle>
+      <circle cx="15" cy="9" r=".8"></circle>
+      <circle cx="9" cy="15" r=".8"></circle>
+      <circle cx="15" cy="15" r=".8"></circle>
+    </svg>`
+};
+
+async function renderProductTypePictogram() {
+  const container = document.querySelector("#idiom19");
+  if (!container) return;
+
+  const unitValue = 25;
+
+  try {
+    const response = await fetch(PICTOGRAM_DATA_URL);
+    if (!response.ok) throw new Error(`CSV request failed: ${response.status}`);
+
+    const csvText = await response.text();
+    const rows = vega.read(csvText, { type: "csv" });
+
+    const counts = new Map();
+
+    rows.forEach((row) => {
+      const type = (row.product_type || "").trim();
+      if (!type) return;
+      counts.set(type, (counts.get(type) || 0) + 1);
+    });
+
+    const topSix = [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([type, count]) => ({ type, count }));
+
+    const categories = topSix.map(({ type, count }) => {
+      const color = PRODUCT_TYPE_COLORS[type] || "#7F7F7F";
+      const icon = PRODUCT_TYPE_ICONS[type] || PRODUCT_TYPE_ICONS["Board Games"];
+      const iconCount = Math.max(1, Math.round(count / unitValue));
+
+      const icons = Array.from({ length: iconCount }, () => `
+        <span
+          class="pictogram-chart__icon"
+          style="--product-color: ${color}"
+          aria-hidden="true"
+        >${icon}</span>
+      `).join("");
+
+      return `
+        <div class="pictogram-chart__category">
+          <div class="pictogram-chart__count">${count.toLocaleString()}</div>
+          <div class="pictogram-chart__stack">${icons}</div>
+          <div class="pictogram-chart__label">${type}</div>
+        </div>
+      `;
+    }).join("");
+
+    container.innerHTML = `
+      <h4 class="pictogram-chart__title">How Many Products Are in Each Product Type?</h4>
+      <p class="pictogram-chart__subtitle">Top six product types by number of products</p>
+      <div class="pictogram-chart__plot">
+        ${categories}
+      </div>
+      <p class="pictogram-chart__legend">1 icon ≈ ${unitValue} products. Counts above each stack show the exact total.</p>
+    `;
+  } catch (error) {
+    console.error("Failed to render product type pictogram", error);
+    container.innerHTML = `
+      <p class="pictogram-chart__error">
+        Product type pictogram could not be loaded.
+      </p>
+    `;
+  }
+}
+
+renderProductTypePictogram();
