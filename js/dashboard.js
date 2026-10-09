@@ -198,32 +198,44 @@ const CONVENTION_COUNTRIES = {
       parallels: [29.5, 45.5]
     },
     jitter: 0.055,
-    base: "us"
+    base: "us",
+    mapName: "United States of America",
+    iso3: "USA"
   },
   "Canada": {
-    projection: { type: "mercator", center: [-106, 56], scale: 520 },
+    projection: { type: "mercator" },
     jitter: 0.07,
-    base: "naturalEarth"
+    base: "naturalEarth",
+    mapName: "Canada",
+    iso3: "CAN"
   },
   "United Kingdom": {
-    projection: { type: "mercator", center: [-3.2, 55.2], scale: 3000 },
+    projection: { type: "mercator" },
     jitter: 0.035,
-    base: "naturalEarth"
+    base: "naturalEarth",
+    mapName: "United Kingdom",
+    iso3: "GBR"
   },
   "Japan": {
-    projection: { type: "mercator", center: [138.2, 37.2], scale: 1900 },
+    projection: { type: "mercator" },
     jitter: 0.03,
-    base: "naturalEarth"
+    base: "naturalEarth",
+    mapName: "Japan",
+    iso3: "JPN"
   },
   "Philippines": {
-    projection: { type: "mercator", center: [122.2, 12.3], scale: 2300 },
+    projection: { type: "mercator" },
     jitter: 0.028,
-    base: "naturalEarth"
+    base: "naturalEarth",
+    mapName: "Philippines",
+    iso3: "PHL"
   },
   "Singapore": {
-    projection: { type: "mercator", center: [103.82, 1.35], scale: 65000 },
+    projection: { type: "mercator" },
     jitter: 0.0025,
-    base: "naturalEarth"
+    base: "naturalEarth",
+    mapName: "Singapore",
+    iso3: "SGP"
   }
 };
 
@@ -293,7 +305,8 @@ function conventionBaseLayers(country, config) {
     ];
   }
 
-  const mapName = country === "United States" ? "United States of America" : country;
+  const mapName = config.mapName;
+  const iso3 = config.iso3;
 
   return [
     {
@@ -301,16 +314,31 @@ function conventionBaseLayers(country, config) {
         url: "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
         format: { type: "json", property: "features" }
       },
-      transform: [{ filter: `datum.properties.NAME == '${mapName}'` }],
-      mark: { type: "geoshape", fill: "#D5D5D5", stroke: "#FFFFFF", strokeWidth: 1.0 }
+      transform: [{
+        filter: `datum.properties.NAME == '${mapName}' || datum.properties.ADMIN == '${mapName}' || datum.properties.ADM0_A3 == '${iso3}' || datum.properties.ISO_A3 == '${iso3}'`
+      }],
+      mark: {
+        type: "geoshape",
+        fill: "#D5D5D5",
+        stroke: "#FFFFFF",
+        strokeWidth: 1.0
+      }
     },
     {
       data: {
         url: "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_1_states_provinces.geojson",
         format: { type: "json", property: "features" }
       },
-      transform: [{ filter: `datum.properties.adm0_name == '${mapName}'` }],
-      mark: { type: "geoshape", fillOpacity: 0, stroke: "#FFFFFF", strokeWidth: 0.65, opacity: 0.95 }
+      transform: [{
+        filter: `datum.properties.adm0_name == '${mapName}' || datum.properties.admin == '${mapName}' || datum.properties.adm0_a3 == '${iso3}' || datum.properties.sov_a3 == '${iso3}'`
+      }],
+      mark: {
+        type: "geoshape",
+        fillOpacity: 0,
+        stroke: "#FFFFFF",
+        strokeWidth: 0.75,
+        opacity: 0.95
+      }
     }
   ];
 }
@@ -384,7 +412,7 @@ function buildConventionMapSpec(country) {
   return {
     $schema: "https://vega.github.io/schema/vega-lite/v6.json",
     width: "container",
-    height: 410,
+    height: 430,
     title: {
       text: "Where Do Funko Convention-Associated Products Cluster?",
       subtitle: [
