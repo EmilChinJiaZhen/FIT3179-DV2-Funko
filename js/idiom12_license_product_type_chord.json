@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 600,
+  "width": 540,
   "height": 450,
   "padding": {
     "top": 15,
@@ -39,7 +39,7 @@
     },
     {
       "name": "radius",
-      "update": "min(width * 0.32, 180)"
+      "update": "145"
     },
     {
       "name": "innerR",
@@ -320,6 +320,11 @@
           "type": "formula",
           "expr": "cy - (outerR + 16) * cos(datum.MidAngle)",
           "as": "LabelY"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.license === 'The Nightmare Before Christmas' ? 'The Nightmare Before\\nChristmas' : datum.license === '\"Five Nights at Freddy\\'s\"' ? 'Five Nights at\\nFreddy\\'s' : datum.license === \"Five Nights at Freddy's\" ? 'Five Nights at\\nFreddy\\'s' : datum.license",
+          "as": "LabelText"
         }
       ]
     },
@@ -683,7 +688,7 @@
             "field": "LabelY"
           },
           "text": {
-            "field": "license"
+            "field": "LabelText"
           },
           "align": {
             "value": "left"
@@ -695,13 +700,16 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 11
+            "value": 10
           },
           "fill": {
             "value": "#222222"
           },
-          "limit": {
-            "value": 140
+          "lineBreak": {
+            "value": "\n"
+          },
+          "lineHeight": {
+            "value": 11
           }
         }
       }
