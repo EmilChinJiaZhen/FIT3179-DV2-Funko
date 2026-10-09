@@ -597,13 +597,13 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 14px 28px;
+  gap: 12px 26px;
 }
 
 .product-key-item {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   color: #303746;
   font-size: 13px;
   line-height: 1.35;
@@ -612,26 +612,40 @@ body {
 }
 
 .product-key-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
   display: inline-flex;
-  width: 28px;
-  height: 28px;
   align-items: center;
   justify-content: center;
   color: var(--product-key-color);
 }
 
 .product-key-icon svg {
-  width: 25px;
-  height: 25px;
+  display: block;
+  width: 22px !important;
+  height: 22px !important;
+  max-width: 22px !important;
+  max-height: 22px !important;
   overflow: visible;
 }
 
-.product-key-icon svg * {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
+.product-key-icon svg path,
+.product-key-icon svg circle,
+.product-key-icon svg rect,
+.product-key-icon svg line,
+.product-key-icon svg polyline,
+.product-key-icon svg polygon {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.7 !important;
   stroke-linecap: round;
   stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.product-key-label {
+  display: inline-block;
 }
 
 .product-key-item--pop { --product-key-color: #4E79A7; }
@@ -651,10 +665,10 @@ body {
 
 @media (max-width: 760px) {
   .product-type-key__items {
-    gap: 12px 20px;
+    gap: 10px 18px;
   }
 
   .product-key-item {
-    min-width: calc(50% - 10px);
+    min-width: calc(50% - 9px);
   }
 }
