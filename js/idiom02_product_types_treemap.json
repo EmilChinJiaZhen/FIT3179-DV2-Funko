@@ -6,7 +6,7 @@
     "top": 10,
     "left": 5,
     "right": 5,
-    "bottom": 5
+    "bottom": 10
   },
   "autosize": {
     "type": "pad",
@@ -318,7 +318,7 @@
           "ratio": 1.6,
           "paddingInner": 3,
           "paddingOuter": 2,
-          "paddingTop": 25,
+          "paddingTop": 3,
           "size": [
             {
               "signal": "width"
@@ -421,13 +421,20 @@
     {
       "name": "color",
       "type": "ordinal",
-      "domain": {
-        "data": "top_types",
-        "field": "product_type"
-      },
-      "range": {
-        "scheme": "tableau10"
-      }
+      "domain": [
+        "Pop!",
+        "Apparel",
+        "Keychains",
+        "Vinyl GOLD",
+        "Plush"
+      ],
+      "range": [
+        "#4E79A7",
+        "#76B7B2",
+        "#F28E2B",
+        "#EDC948",
+        "#B07AA1"
+      ]
     }
   ],
   "marks": [
@@ -455,19 +462,19 @@
             "field": "key"
           },
           "fillOpacity": {
-            "value": 0.2
+            "value": 0.12
           },
           "stroke": {
             "value": "white"
           },
           "strokeWidth": {
-            "value": 4
+            "value": 5
           },
           "cornerRadius": {
             "value": 3
           },
           "tooltip": {
-            "signal": "{'Product Type': datum.key, 'Product Type Rank': datum.TypeRank, 'Products in Top 5 Licenses': datum.DisplayedProductCount, 'Total Products in Product Type': datum.TotalTypeProductCount, 'Share of Displayed Products': format(datum.DisplayedShare, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
+            "signal": "{'Product Type': datum.key, 'Products in Top 5 Licenses': datum.DisplayedProductCount, 'Total Products in Product Type': datum.TotalTypeProductCount, 'Share of Displayed Products': format(datum.DisplayedShare, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
           }
         }
       }
@@ -508,12 +515,12 @@
             "value": "pointer"
           },
           "tooltip": {
-            "signal": "{'Product Type': datum.product_type, 'License': datum.license, 'License Rank Within Type': datum.LicenseRank, 'Number of Products': datum.ProductCount, 'Share Within Displayed Type': format(datum.ShareWithinDisplayedType, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
+            "signal": "{'Product Type': datum.product_type, 'License': datum.license, 'Number of Products': datum.ProductCount, 'Share Within Displayed Type': format(datum.ShareWithinDisplayedType, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
           }
         },
         "update": {
           "fillOpacity": {
-            "value": 0.82
+            "value": 0.88
           },
           "stroke": {
             "value": "white"
@@ -525,55 +532,6 @@
         "hover": {
           "fillOpacity": {
             "value": 1
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "interactive": false,
-      "from": {
-        "data": "product_types"
-      },
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "datum.x0 + 7"
-          },
-          "y": {
-            "signal": "datum.y0 + 6"
-          },
-          "text": {
-            "signal": "'#' + datum.TypeRank + '  ' + datum.key"
-          },
-          "align": {
-            "value": "left"
-          },
-          "baseline": {
-            "value": "top"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 13
-          },
-          "fontWeight": {
-            "value": "bold"
-          },
-          "fill": {
-            "value": "#222222"
-          },
-          "limit": {
-            "signal": "max(0, datum.x1 - datum.x0 - 14)"
-          }
-        },
-        "update": {
-          "opacity": {
-            "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 35 ? 1 : 0"
-          },
-          "font": {
-            "value": "Inter"
           }
         }
       }
@@ -672,52 +630,6 @@
           }
         }
       }
-    },
-    {
-      "type": "text",
-      "interactive": false,
-      "from": {
-        "data": "licenses"
-      },
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "datum.x0 + 6"
-          },
-          "y": {
-            "signal": "datum.y0 + 39"
-          },
-          "text": {
-            "signal": "'#' + datum.LicenseRank + ' within type'"
-          },
-          "align": {
-            "value": "left"
-          },
-          "baseline": {
-            "value": "top"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 9
-          },
-          "fill": {
-            "value": "white"
-          },
-          "limit": {
-            "signal": "max(0, datum.x1 - datum.x0 - 12)"
-          }
-        },
-        "update": {
-          "opacity": {
-            "signal": "(datum.x1 - datum.x0) >= 100 && (datum.y1 - datum.y0) >= 62 ? 0.9 : 0"
-          },
-          "font": {
-            "value": "Inter"
-          }
-        }
-      }
     }
   ],
   "config": {
@@ -755,5 +667,23 @@
       "fill": null,
       "stroke": null
     }
-  }
+  },
+  "legends": [
+    {
+      "fill": "color",
+      "title": "Product type",
+      "orient": "bottom",
+      "direction": "horizontal",
+      "columns": 5,
+      "symbolType": "square",
+      "symbolSize": 120,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "titleFont": "Inter",
+      "titleFontSize": 13,
+      "titleFontWeight": "bold",
+      "labelLimit": 120,
+      "padding": 8
+    }
+  ]
 }
