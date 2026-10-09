@@ -192,8 +192,12 @@ renderProductTypePictogram();
 
 const CONVENTION_COUNTRIES = {
   "United States": {
-    projection: { type: "albersUsa" },
-    jitter: 0.06,
+    projection: {
+      type: "albers",
+      rotate: [96, 0, 0],
+      parallels: [29.5, 45.5]
+    },
+    jitter: 0.055,
     base: "us"
   },
   "Canada": {
@@ -276,14 +280,15 @@ function conventionBaseLayers(country, config) {
           url: "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json",
           format: { type: "topojson", feature: "states" }
         },
-        mark: { type: "geoshape", fill: "#D5D5D5", stroke: "#FFFFFF", strokeWidth: 0.9 }
-      },
-      {
-        data: {
-          url: "https://cdn.jsdelivr.net/npm/us-atlas@3/nation-10m.json",
-          format: { type: "topojson", feature: "nation" }
-        },
-        mark: { type: "geoshape", fill: null, stroke: "#B9B9B9", strokeWidth: 0.8 }
+        transform: [
+          { filter: "datum.id != 2 && datum.id != 15 && datum.id != 72" }
+        ],
+        mark: {
+          type: "geoshape",
+          fill: "#D5D5D5",
+          stroke: "#FFFFFF",
+          strokeWidth: 1.0
+        }
       }
     ];
   }
@@ -358,9 +363,9 @@ function buildConventionMapSpec(country) {
     mark: {
       type: "circle",
       filled: true,
-      size: 22,
+      size: 18,
       color: "#7D57C2",
-      opacity: 0.72,
+      opacity: 0.78,
       stroke: "#FFFFFF",
       strokeWidth: 0.35
     },
@@ -379,7 +384,7 @@ function buildConventionMapSpec(country) {
   return {
     $schema: "https://vega.github.io/schema/vega-lite/v6.json",
     width: "container",
-    height: 390,
+    height: 410,
     title: {
       text: "Where Do Funko Convention-Associated Products Cluster?",
       subtitle: [
