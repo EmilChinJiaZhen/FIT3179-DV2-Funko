@@ -670,5 +670,23 @@
       "fill": null,
       "stroke": null
     }
-  }
+  },
+  "legends": [
+    {
+      "fill": "color",
+      "title": "Product type",
+      "orient": "bottom",
+      "direction": "horizontal",
+      "columns": 5,
+      "symbolType": "square",
+      "symbolSize": 120,
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "titleFont": "Inter",
+      "titleFontSize": 13,
+      "titleFontWeight": "bold",
+      "labelLimit": 120,
+      "padding": 8
+    }
+  ]
 }
