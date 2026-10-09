@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 440,
+  "height": 430,
   "title": {
     "text": "Where Do Funko Convention-Associated Products Cluster?",
     "subtitle": [
-      "Convention-linked product entries in the Funko collection dataset",
-      "Select a country · each dot represents exactly one product entry"
+      "Convention-linked product entries across the Funko collection dataset",
+      "Each dot represents exactly one product entry"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -17,83 +17,23 @@
     "subtitleFontWeight": "normal",
     "subtitlePadding": 8
   },
-  "params": [
-    {
-      "name": "Country_selection",
-      "value": "United States",
-      "bind": {
-        "input": "select",
-        "options": [
-          "United States",
-          "Canada",
-          "United Kingdom",
-          "Japan",
-          "Philippines",
-          "Singapore"
-        ],
-        "labels": [
-          "United States",
-          "Canada",
-          "United Kingdom",
-          "Japan",
-          "Philippines",
-          "Singapore"
-        ],
-        "name": "Country: "
-      }
-    },
-    {
-      "name": "map_country_name",
-      "expr": "Country_selection == 'United States' ? 'United States of America' : Country_selection"
-    },
-    {
-      "name": "jitter_step",
-      "expr": "Country_selection == 'United States' ? 0.18 :\n Country_selection == 'Canada' ? 0.10 :\n Country_selection == 'United Kingdom' ? 0.055 :\n Country_selection == 'Japan' ? 0.045 :\n Country_selection == 'Philippines' ? 0.035 :\n Country_selection == 'Singapore' ? 0.0035 :\n 0.05"
-    }
-  ],
   "projection": {
-    "type": "mercator"
+    "type": "equalEarth"
   },
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
         "format": {
-          "type": "json",
-          "property": "features"
+          "type": "topojson",
+          "feature": "ne_110m_admin_0_countries"
         }
       },
-      "transform": [
-        {
-          "filter": "datum.properties.NAME == map_country_name"
-        }
-      ],
       "mark": {
         "type": "geoshape",
         "fill": "#D3D3D3",
         "stroke": "#FFFFFF",
-        "strokeWidth": 1.1
-      }
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_1_states_provinces.geojson",
-        "format": {
-          "type": "json",
-          "property": "features"
-        }
-      },
-      "transform": [
-        {
-          "filter": "datum.properties.adm0_name == map_country_name"
-        }
-      ],
-      "mark": {
-        "type": "geoshape",
-        "fillOpacity": 0,
-        "stroke": "#FFFFFF",
-        "strokeWidth": 0.65,
-        "opacity": 0.9
+        "strokeWidth": 0.7
       }
     },
     {
@@ -316,9 +256,6 @@
           }
         },
         {
-          "filter": "datum.Country == Country_selection"
-        },
-        {
           "calculate": "toNumber(datum.Longitude)",
           "as": "BaseLongitude"
         },
@@ -344,28 +281,68 @@
           ]
         },
         {
-          "calculate": "((datum.DotIndex - 1) % 12) - 5.5",
+          "joinaggregate": [
+            {
+              "op": "count",
+              "as": "ConventionCount"
+            }
+          ],
+          "groupby": [
+            "Convention"
+          ]
+        },
+        {
+          "window": [
+            {
+              "op": "row_number",
+              "as": "DotIndex"
+            }
+          ],
+          "groupby": [
+            "Convention"
+          ],
+          "sort": [
+            {
+              "field": "SeriesLabel",
+              "order": "ascending"
+            }
+          ]
+        },
+        {
+          "calculate": "ceil(sqrt(datum.ConventionCount))",
+          "as": "GridWidth"
+        },
+        {
+          "calculate": "(datum.DotIndex - 1) % datum.GridWidth",
           "as": "GridCol"
         },
         {
-          "calculate": "floor((datum.DotIndex - 1) / 12)",
+          "calculate": "floor((datum.DotIndex - 1) / datum.GridWidth)",
           "as": "GridRow"
         },
         {
-          "calculate": "datum.BaseLongitude + datum.GridCol * jitter_step",
+          "calculate": "(datum.GridWidth - 1) / 2",
+          "as": "GridCenterX"
+        },
+        {
+          "calculate": "(ceil(datum.ConventionCount / datum.GridWidth) - 1) / 2",
+          "as": "GridCenterY"
+        },
+        {
+          "calculate": "datum.BaseLongitude + (datum.GridCol - datum.GridCenterX) * 0.10",
           "as": "PlotLongitude"
         },
         {
-          "calculate": "datum.BaseLatitude + datum.GridRow * jitter_step",
+          "calculate": "datum.BaseLatitude - (datum.GridRow - datum.GridCenterY) * 0.10",
           "as": "PlotLatitude"
         }
       ],
       "mark": {
         "type": "circle",
         "filled": true,
-        "size": 28,
+        "size": 20,
         "color": "#7D57C2",
-        "opacity": 0.72,
+        "opacity": 0.75,
         "stroke": "#FFFFFF",
         "strokeWidth": 0.35
       },
