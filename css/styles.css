@@ -386,42 +386,122 @@ body {
 }
 
 
-/* ---------- FULL-WIDTH STORY ROWS ---------- */
 
-.story-row--full {
+/* ---------- EDITORIAL STORY LAYOUTS ---------- */
+
+/* Base 50/50 split */
+.story-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+  margin-bottom: 44px;
+}
+
+.story-row--reverse .story-insight {
+  order: 2;
+}
+
+.story-row--reverse .story-chart {
+  order: 1;
+}
+
+/* 65/35 layouts for larger analytical charts */
+.story-row--wide {
+  grid-template-columns: 0.7fr 1.3fr;
+}
+
+.story-row--wide.story-row--reverse {
+  grid-template-columns: 1.3fr 0.7fr;
+}
+
+.story-row--wide .story-chart,
+.story-row--wide.story-row--reverse .story-chart {
+  max-width: none;
+  width: 100%;
+}
+
+.story-row--wide .story-insight,
+.story-row--wide.story-row--reverse .story-insight {
+  max-width: 34ch;
+}
+
+/* Full-width feature visual with finding below */
+.story-row--feature {
   display: flex;
   flex-direction: column;
   gap: 22px;
-  margin-bottom: 52px;
+  margin-bottom: 54px;
 }
 
-.story-row--full .story-chart,
-.story-row--full.story-row--reverse .story-chart {
+.story-row--feature .story-chart {
   order: 1;
   width: 100%;
   max-width: none;
-  justify-self: stretch;
 }
 
-.story-row--full .story-insight,
-.story-row--full.story-row--reverse .story-insight {
+.story-row--feature .story-insight {
   order: 2;
-  width: 100%;
   max-width: 58ch;
-  padding-top: 4px;
+  padding-top: 2px;
+}
+
+.story-row--feature .story-insight h3 {
+  max-width: 28ch;
+}
+
+.story-row--feature .story-insight p:last-child {
+  max-width: 58ch;
+}
+
+/* Maps use a stronger 70/30 editorial split */
+.story-row--map {
+  grid-template-columns: 0.6fr 1.4fr;
+}
+
+.story-row--map.story-row--reverse {
+  grid-template-columns: 1.4fr 0.6fr;
+}
+
+.story-row--map .story-chart,
+.story-row--map.story-row--reverse .story-chart {
+  max-width: none;
+  width: 100%;
+}
+
+.story-row--map .story-insight,
+.story-row--map.story-row--reverse .story-insight {
+  max-width: 31ch;
+}
+
+/* Preserve clear column sightlines */
+.story-row:not(.story-row--reverse) .story-chart,
+.story-row--wide:not(.story-row--reverse) .story-chart,
+.story-row--map:not(.story-row--reverse) .story-chart {
   justify-self: start;
 }
 
-.story-row--full .story-insight h3 {
-  max-width: 26ch;
-}
-
-.story-row--full .story-insight p:last-child {
-  max-width: 58ch;
+.story-row--reverse .story-chart,
+.story-row--wide.story-row--reverse .story-chart,
+.story-row--map.story-row--reverse .story-chart {
+  justify-self: start;
 }
 
 @media (max-width: 1100px) {
-  .story-row--full {
+  .story-row,
+  .story-row--wide,
+  .story-row--wide.story-row--reverse,
+  .story-row--map,
+  .story-row--map.story-row--reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .story-row--feature {
     display: flex;
+  }
+
+  .story-row--reverse .story-insight,
+  .story-row--reverse .story-chart {
+    order: initial;
   }
 }
