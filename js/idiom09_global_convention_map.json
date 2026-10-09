@@ -3,8 +3,8 @@
   "width": "container",
   "height": 440,
   "title": {
-    "text": "Where Do Funko Convention Releases Cluster?",
-    "subtitle": "Convention-associated entries across the Funko collection dataset",
+    "text": "Where Do U.S. Funko Convention Releases Cluster?",
+    "subtitle": "Convention-associated entries hosted in the United States",
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
@@ -15,197 +15,37 @@
     "subtitlePadding": 8
   },
   "projection": {
-    "type": "equalEarth"
+    "type": "albersUsa"
   },
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json",
         "format": {
           "type": "topojson",
-          "feature": "oceans"
+          "feature": "states"
         }
       },
       "mark": {
         "type": "geoshape",
-        "fill": "skyblue"
-      }
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
-        "format": {
-          "type": "topojson",
-          "feature": "ne_110m_graticules_30"
-        }
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": null,
-        "stroke": "lightgray",
-        "strokeWidth": 0.8,
-        "opacity": 1
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "LineString",
-              "coordinates": [
-                [
-                  -180,
-                  0
-                ],
-                [
-                  -150,
-                  0
-                ],
-                [
-                  -120,
-                  0
-                ],
-                [
-                  -90,
-                  0
-                ],
-                [
-                  -60,
-                  0
-                ],
-                [
-                  -30,
-                  0
-                ],
-                [
-                  0,
-                  0
-                ],
-                [
-                  30,
-                  0
-                ],
-                [
-                  60,
-                  0
-                ],
-                [
-                  90,
-                  0
-                ],
-                [
-                  120,
-                  0
-                ],
-                [
-                  150,
-                  0
-                ],
-                [
-                  180,
-                  0
-                ]
-              ]
-            }
-          }
-        ]
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": null,
-        "stroke": "#8C8C8C",
-        "strokeWidth": 1.15,
-        "opacity": 1
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "LineString",
-              "coordinates": [
-                [
-                  0,
-                  -90
-                ],
-                [
-                  0,
-                  -75
-                ],
-                [
-                  0,
-                  -60
-                ],
-                [
-                  0,
-                  -45
-                ],
-                [
-                  0,
-                  -30
-                ],
-                [
-                  0,
-                  -15
-                ],
-                [
-                  0,
-                  0
-                ],
-                [
-                  0,
-                  15
-                ],
-                [
-                  0,
-                  30
-                ],
-                [
-                  0,
-                  45
-                ],
-                [
-                  0,
-                  60
-                ],
-                [
-                  0,
-                  75
-                ],
-                [
-                  0,
-                  90
-                ]
-              ]
-            }
-          }
-        ]
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": null,
-        "stroke": "#8C8C8C",
-        "strokeWidth": 1.15,
-        "opacity": 1
-      }
-    },
-    {
-      "data": {
-        "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-        "format": {
-          "type": "topojson",
-          "feature": "countries"
-        }
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": "lightgray",
+        "fill": "#D6D6D6",
         "stroke": "white",
-        "strokeWidth": 0.7
+        "strokeWidth": 0.9
+      }
+    },
+    {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/nation-10m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "nation"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#B7B7B7",
+        "strokeWidth": 0.8
       }
     },
     {
@@ -442,6 +282,9 @@
           "filter": "isValid(datum.Latitude) && isValid(datum.Longitude)"
         },
         {
+          "filter": "datum.Country == 'United States'"
+        },
+        {
           "calculate": "datum.Convention == 'WonderCon' ? datum.Longitude + 1.4 : datum.Convention == 'D23 Expo' ? datum.Longitude - 1.4 : datum.Convention == 'DesignerCon' ? datum.Longitude : datum.Convention == 'Funko Fundays' ? datum.Longitude - 1.0 : datum.Convention == 'San Diego Comic-Con' ? datum.Longitude + 1.0 : datum.Convention == 'E3' ? datum.Longitude - 1.4 : datum.Convention == 'Anime Expo' ? datum.Longitude : datum.Convention == 'Los Angeles Comic Con' ? datum.Longitude + 1.4 : datum.Convention == 'New York Comic Con' ? datum.Longitude + 0.9 : datum.Convention == 'New York Toy Fair' ? datum.Longitude - 0.9 : datum.Convention == 'MCM London Comic Con' ? datum.Longitude + 1.0 : datum.Convention == 'London Toy Fair' ? datum.Longitude - 1.0 : datum.Longitude",
           "as": "PlotLongitude"
         },
@@ -479,7 +322,8 @@
       ],
       "mark": {
         "type": "circle",
-        "opacity": 0.84,
+        "opacity": 0.82,
+        "fill": "#E15759",
         "stroke": "white",
         "strokeWidth": 1.2
       },
@@ -495,29 +339,17 @@
         "size": {
           "field": "Entry_Count",
           "type": "quantitative",
-          "title": "Dataset 2 entries",
+          "title": "Funko entries",
           "scale": {
             "range": [
               100,
-              2200
+              2400
             ]
           },
           "legend": {
             "titleFont": "Inter",
-            "labelFont": "Inter"
-          }
-        },
-        "color": {
-          "field": "Country",
-          "type": "nominal",
-          "title": "Host country",
-          "scale": {
-            "scheme": "tableau10"
-          },
-          "legend": {
-            "titleFont": "Inter",
             "labelFont": "Inter",
-            "labelLimit": 170
+            "orient": "right"
           }
         },
         "tooltip": [
@@ -527,11 +359,6 @@
             "title": "Convention"
           },
           {
-            "field": "Country",
-            "type": "nominal",
-            "title": "Host country"
-          },
-          {
             "field": "City",
             "type": "nominal",
             "title": "Host city"
@@ -539,7 +366,7 @@
           {
             "field": "Region",
             "type": "nominal",
-            "title": "State / region"
+            "title": "State"
           },
           {
             "field": "Entry_Count",
@@ -550,7 +377,7 @@
           {
             "field": "Convention_Share",
             "type": "quantitative",
-            "title": "Share of mapped entries",
+            "title": "Share of U.S. mapped entries",
             "format": ".1%"
           },
           {
