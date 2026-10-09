@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 540,
+  "width": 600,
   "height": 450,
   "padding": {
     "top": 15,
@@ -39,15 +39,15 @@
     },
     {
       "name": "radius",
-      "update": "145"
+      "update": "170"
     },
     {
       "name": "innerR",
-      "update": "radius - 12"
+      "update": "radius - 13"
     },
     {
       "name": "outerR",
-      "update": "radius + 4"
+      "update": "radius + 5"
     },
     {
       "name": "gap",
@@ -313,12 +313,12 @@
         },
         {
           "type": "formula",
-          "expr": "cx + (outerR + 16) * sin(datum.MidAngle)",
+          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
           "as": "LabelX"
         },
         {
           "type": "formula",
-          "expr": "cy - (outerR + 16) * cos(datum.MidAngle)",
+          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
           "as": "LabelY"
         },
         {
@@ -393,12 +393,12 @@
         },
         {
           "type": "formula",
-          "expr": "cx + (outerR + 16) * sin(datum.MidAngle)",
+          "expr": "cx + (outerR + 13) * sin(datum.MidAngle)",
           "as": "LabelX"
         },
         {
           "type": "formula",
-          "expr": "cy - (outerR + 16) * cos(datum.MidAngle)",
+          "expr": "cy - (outerR + 13) * cos(datum.MidAngle)",
           "as": "LabelY"
         }
       ]
@@ -744,9 +744,6 @@
           },
           "fill": {
             "value": "#222222"
-          },
-          "limit": {
-            "value": 120
           }
         }
       }
