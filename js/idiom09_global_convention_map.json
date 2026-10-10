@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": "container",
-  "height": 430,
+  "width": 750,
+  "height": 354,
   "title": {
     "text": "Where Can Fans Find Verified Funko Stores and Events?",
     "subtitle": [
@@ -371,9 +371,9 @@
     }
   },
   "autosize": {
-    "type": "fit",
+    "type": "pad",
     "contains": "padding",
-    "resize": true
+    "resize": false
   },
   "background": "transparent"
 }
