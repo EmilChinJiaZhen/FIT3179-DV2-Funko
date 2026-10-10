@@ -5,8 +5,8 @@
   "title": {
     "text": "Where Do Verified Funko Licenses in the Dataset Originate?",
     "subtitle": [
-      "All 380 unique license strings from data_cleaned_wide.csv are retained in the lookup",
-      "Circle area represents product records for licenses with a verified origin mapping"
+      "79 of 380 license strings currently have an explicit origin source",
+      "Circle area represents product records only for verified origin mappings"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -237,12 +237,15 @@
               "Longitude",
               "CountryWikidata",
               "CoordinateSource",
-              "FranchiseOriginSource"
+              "FranchiseOriginSource",
+              "VerificationStatus",
+              "OriginConfidence",
+              "OriginBasis"
             ]
           }
         },
         {
-          "filter": "isValid(datum.Latitude) && isValid(datum.Longitude)"
+          "filter": "datum.VerificationStatus == 'Verified' && isValid(datum.Latitude) && isValid(datum.Longitude)"
         },
         {
           "aggregate": [
@@ -332,7 +335,7 @@
           {
             "field": "Country",
             "type": "nominal",
-            "title": "Origin country"
+            "title": "Verified origin country"
           },
           {
             "field": "ProductCount",
@@ -343,7 +346,7 @@
           {
             "field": "LicenseCount",
             "type": "quantitative",
-            "title": "Unique mapped licenses"
+            "title": "Verified mapped licenses"
           },
           {
             "field": "CountryRank",
