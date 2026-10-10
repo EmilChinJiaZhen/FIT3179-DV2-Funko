@@ -540,18 +540,27 @@ body {
   transform: translateX(72px);
 }
 
-#idiom09 .vega-embed,
-#idiom09 .vega-embed > div {
+/* #idiom09 itself is the Vega embed element, so align its direct contents. */
+#idiom09.vega-embed,
+#idiom09.vis-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#idiom09.vega-embed > div,
+#idiom09.vis-container > div {
+  width: auto;
+  max-width: none;
   margin-left: auto;
   margin-right: 0;
 }
 
-/* Right-align Vega's 760px SVG inside the 900px idiom09 container. */
-#idiom09 .vega-embed svg.marks,
-#idiom09 .vega-embed > div > svg {
+#idiom09 svg.marks,
+#idiom09 > div > svg {
   display: block;
-  margin-left: auto;
-  margin-right: 0;
+  margin-left: auto !important;
+  margin-right: 0 !important;
 }
 
 /* Responsive stacking */
