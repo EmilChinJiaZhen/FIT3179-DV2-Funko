@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
-  "height": 506,
+  "height": 430,
   "title": {
     "text": "Where Do Verified Funko Licenses in the Dataset Originate?",
     "subtitle": [
