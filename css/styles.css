@@ -486,6 +486,13 @@ body {
   max-width: 29ch;
 }
 
+/* Keep all three map idioms at the same chart width */
+.story-row--map .story-chart,
+.story-row--map.story-row--reverse .story-chart {
+  width: 100%;
+  max-width: 760px;
+}
+
 /* Responsive stacking */
 @media (max-width: 1100px) {
   .story-row,
