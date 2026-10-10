@@ -546,6 +546,14 @@ body {
   margin-right: 0;
 }
 
+/* Right-align Vega's 760px SVG inside the 900px idiom09 container. */
+#idiom09 .vega-embed svg.marks,
+#idiom09 .vega-embed > div > svg {
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
 /* Responsive stacking */
 @media (max-width: 1100px) {
   .story-row,
