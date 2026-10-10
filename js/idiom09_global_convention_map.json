@@ -284,15 +284,15 @@
           "as": "PlotLatitude"
         },
         {
-          "calculate": "'https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/funko-pop-icon.png'",
+          "calculate": "'https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/funko-pop-transparent.png'",
           "as": "MarkerImage"
         }
       ],
       "mark": {
         "type": "image",
-        "width": 22,
-        "height": 22,
-        "opacity": 0.98,
+        "width": 28,
+        "height": 28,
+        "opacity": 1,
         "tooltip": true
       },
       "encoding": {
