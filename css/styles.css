@@ -58,6 +58,28 @@ body {
   text-shadow: 0 3px 0 rgba(255, 255, 255, 0.7);
 }
 
+.hero-title {
+  position: relative;
+}
+
+.hero-title-icon {
+  position: absolute;
+  right: -76px;
+  bottom: 2px;
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .hero-title-icon {
+    right: -52px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
 .hero-copy {
   max-width: 58ch;
   margin: 0 auto;
