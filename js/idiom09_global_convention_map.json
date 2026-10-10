@@ -338,63 +338,6 @@
           }
         ]
       }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "MarkerImage": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/funko-pop-transparent-fixed.png"
-          }
-        ]
-      },
-      "mark": {
-        "type": "image",
-        "width": 20,
-        "height": 20,
-        "opacity": 1
-      },
-      "encoding": {
-        "url": {
-          "field": "MarkerImage",
-          "type": "nominal"
-        },
-        "x": {
-          "value": 28
-        },
-        "y": {
-          "value": 346
-        }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "Legend": "1 icon = 1 verified Funko store or event"
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": 600,
-        "fill": "#132341"
-      },
-      "encoding": {
-        "text": {
-          "field": "Legend",
-          "type": "nominal"
-        },
-        "x": {
-          "value": 44
-        },
-        "y": {
-          "value": 346
-        }
-      }
     }
   ],
   "config": {
