@@ -563,21 +563,35 @@ body {
   margin-right: 0 !important;
 }
 
-.funko-map-legend {
-  width: 760px;
-  margin-left: auto;
-  margin-right: 0;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
+.funko-map-layout {
+  display: grid;
+  grid-template-columns: 760px 120px;
+  align-items: start;
+  justify-content: end;
+  column-gap: 18px;
+}
+
+.funko-map-legend--side {
+  align-self: start;
+  margin-top: 54px;
   font-size: 12px;
-  font-weight: 600;
   color: #132341;
 }
 
-.funko-map-legend img {
+.funko-map-legend__title {
+  margin-bottom: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.funko-map-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  line-height: 1.25;
+}
+
+.funko-map-legend__item img {
   width: 22px;
   height: 22px;
   object-fit: contain;
