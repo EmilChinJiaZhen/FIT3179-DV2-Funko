@@ -6,7 +6,7 @@
     "text": "Where Do Verified Funko Licenses in the Dataset Originate?",
     "subtitle": [
       "330 of 380 license strings have an explicit origin source",
-      "Vertical symbol length is proportional to Funko product records"
+      "Triangle size represents Funko product records for each verified origin country"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -284,10 +284,12 @@
         }
       ],
       "mark": {
-        "type": "tick",
-        "orient": "vertical",
-        "thickness": 10,
-        "opacity": 0.85
+        "type": "point",
+        "shape": "triangle-up",
+        "filled": true,
+        "opacity": 0.85,
+        "stroke": "white",
+        "strokeWidth": 1
       },
       "encoding": {
         "longitude": {
@@ -303,10 +305,10 @@
           "type": "quantitative",
           "title": "Funko product records",
           "scale": {
-            "type": "linear",
+            "type": "sqrt",
             "range": [
-              12,
-              78
+              140,
+              2800
             ],
             "zero": true
           },
@@ -316,7 +318,8 @@
             "titleFont": "Inter",
             "titleFontSize": 12,
             "labelFont": "Inter",
-            "labelFontSize": 11
+            "labelFontSize": 11,
+            "symbolType": "triangle-up"
           }
         },
         "color": {
