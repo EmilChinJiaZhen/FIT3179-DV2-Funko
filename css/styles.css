@@ -535,8 +535,9 @@ body {
 /* Middle map: place the idiom firmly in the right column while keeping its title left-aligned. */
 .story-row--map #idiom09 {
   justify-self: end;
-  margin-left: 36px;
+  margin-left: 0;
   margin-right: 0;
+  transform: translateX(72px);
 }
 
 #idiom09 .vega-embed,
@@ -582,6 +583,10 @@ body {
 
   .story-row--map .vega-embed svg {
     max-width: 100%;
+  }
+
+  .story-row--map #idiom09 {
+    transform: none;
   }
 }
 
