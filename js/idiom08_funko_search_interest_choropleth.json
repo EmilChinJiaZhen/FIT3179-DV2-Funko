@@ -4,18 +4,10 @@
   "height": 354,
   "title": {
     "text": "Where Is Funko Pop Search Interest Highest?",
-    "subtitle": [
-      "Google Trends relative search interest by country",
-      "13 Sep 2025 – 13 Sep 2026 · 100 = highest relative interest in this comparison"
-    ],
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "fontWeight": "bold"
   },
   "projection": {
     "type": "equalEarth"
