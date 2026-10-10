@@ -64,10 +64,10 @@ body {
 
 .hero-title-icon {
   position: absolute;
-  right: -82px;
-  bottom: -4px;
-  width: 72px;
-  height: 72px;
+  right: -86px;
+  bottom: -6px;
+  width: 76px;
+  height: 76px;
   object-fit: contain;
   object-position: center;
   display: block;
