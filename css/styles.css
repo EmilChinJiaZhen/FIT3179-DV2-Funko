@@ -64,12 +64,15 @@ body {
 
 .hero-title-icon {
   position: absolute;
-  right: -76px;
-  bottom: 2px;
-  width: 62px;
-  height: 62px;
+  right: -82px;
+  bottom: -4px;
+  width: 72px;
+  height: 72px;
   object-fit: contain;
+  object-position: center;
   display: block;
+  overflow: visible;
+  background: transparent;
 }
 
 @media (max-width: 760px) {
