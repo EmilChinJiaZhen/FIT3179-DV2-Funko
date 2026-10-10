@@ -4,18 +4,10 @@
   "height": 354,
   "title": {
     "text": "Where Can Fans Find Verified Funko Stores and Events?",
-    "subtitle": [
-      "Only locations explicitly verified by Funko's official store or event sources",
-      "Each Funko figure icon represents one official store, appearance or authorised event"
-    ],
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "fontWeight": "bold"
   },
   "projection": {
     "type": "equalEarth"
