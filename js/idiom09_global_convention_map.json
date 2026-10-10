@@ -3,10 +3,10 @@
   "width": "container",
   "height": 430,
   "title": {
-    "text": "Where Is Funko Showing Up Around the World in 2026?",
+    "text": "Where Can Fans Find Verified Funko Stores and Events?",
     "subtitle": [
-      "Official Funko convention appearances and authorised EVENT EDITION locations",
-      "Each dot represents one mapped Funko event or participating location"
+      "Only locations explicitly verified by Funko's official store or event sources",
+      "Each dot represents one official store, Funko appearance, or authorised Funko event"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -244,17 +244,23 @@
           "type": "quantitative"
         },
         "color": {
-          "field": "EventType",
+          "field": "VerifiedType",
           "type": "nominal",
-          "title": "Event type",
+          "title": "Verified Funko presence",
           "scale": {
             "domain": [
-              "Convention",
-              "Store / fan event"
+              "Official Funko store",
+              "Official Funko store event",
+              "Official Funko convention appearance",
+              "Funko-verified EVENT EDITION convention",
+              "Funko-authorised fan event"
             ],
             "range": [
               "#4E79A7",
-              "#F28E2B"
+              "#76B7B2",
+              "#F28E2B",
+              "#B07AA1",
+              "#EDC948"
             ]
           },
           "legend": {
@@ -262,19 +268,25 @@
             "titleFont": "Inter",
             "labelFont": "Inter",
             "titleFontSize": 12,
-            "labelFontSize": 11
+            "labelFontSize": 11,
+            "labelLimit": 210
           }
         },
         "tooltip": [
           {
             "field": "Event",
             "type": "nominal",
-            "title": "Event / location"
+            "title": "Funko presence"
+          },
+          {
+            "field": "VerifiedType",
+            "type": "nominal",
+            "title": "Verified type"
           },
           {
             "field": "Venue",
             "type": "nominal",
-            "title": "Venue"
+            "title": "Venue / store"
           },
           {
             "field": "City",
@@ -289,12 +301,12 @@
           {
             "field": "Dates",
             "type": "nominal",
-            "title": "Dates"
+            "title": "Date / status"
           },
           {
-            "field": "LocationPrecision",
+            "field": "Verification",
             "type": "nominal",
-            "title": "Location precision"
+            "title": "Verification"
           }
         ]
       }
