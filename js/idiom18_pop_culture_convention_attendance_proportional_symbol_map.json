@@ -6,7 +6,7 @@
     "text": "Where Do Verified Funko Licenses in the Dataset Originate?",
     "subtitle": [
       "330 of 380 license strings have an explicit origin source",
-      "Circle area represents product records only for verified origin mappings"
+      "Vertical bar length represents Funko product records for each verified origin country"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -269,6 +269,19 @@
           ]
         },
         {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "ProductCount",
+              "as": "MaxProductCount"
+            }
+          ]
+        },
+        {
+          "calculate": "datum.Latitude + 18 * sqrt(datum.ProductCount / datum.MaxProductCount)",
+          "as": "BarLatitude2"
+        },
+        {
           "window": [
             {
               "op": "rank",
@@ -284,10 +297,10 @@
         }
       ],
       "mark": {
-        "type": "circle",
-        "opacity": 0.78,
-        "stroke": "white",
-        "strokeWidth": 1.2
+        "type": "rule",
+        "strokeWidth": 12,
+        "strokeCap": "round",
+        "opacity": 0.82
       },
       "encoding": {
         "longitude": {
@@ -298,25 +311,8 @@
           "field": "Latitude",
           "type": "quantitative"
         },
-        "size": {
-          "field": "ProductCount",
-          "type": "quantitative",
-          "title": "Funko product records",
-          "scale": {
-            "type": "sqrt",
-            "range": [
-              100,
-              3200
-            ]
-          },
-          "legend": {
-            "orient": "right",
-            "direction": "vertical",
-            "titleFont": "Inter",
-            "titleFontSize": 12,
-            "labelFont": "Inter",
-            "labelFontSize": 11
-          }
+        "latitude2": {
+          "field": "BarLatitude2"
         },
         "color": {
           "field": "Region",
