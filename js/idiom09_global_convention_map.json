@@ -3,10 +3,10 @@
   "width": "container",
   "height": 430,
   "title": {
-    "text": "Where Are Funko Events and Major Pop-Culture Conventions Located?",
+    "text": "Where Is Funko Showing Up Around the World in 2026?",
     "subtitle": [
-      "Combined mapped event locations from 2019 and 2026",
-      "Each dot represents exactly one mapped event or convention record"
+      "Official Funko convention appearances and authorised EVENT EDITION locations",
+      "Each dot represents one mapped Funko event or participating location"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -119,8 +119,7 @@
         "type": "geoshape",
         "fill": null,
         "stroke": "#8C8C8C",
-        "strokeWidth": 1.15,
-        "opacity": 1
+        "strokeWidth": 1.15
       }
     },
     {
@@ -192,8 +191,7 @@
         "type": "geoshape",
         "fill": null,
         "stroke": "#8C8C8C",
-        "strokeWidth": 1.15,
-        "opacity": 1
+        "strokeWidth": 1.15
       }
     },
     {
@@ -213,7 +211,7 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/global_funko_event_locations.csv",
+        "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_official_events_2026.csv",
         "format": {
           "type": "csv"
         }
@@ -231,10 +229,10 @@
       "mark": {
         "type": "circle",
         "filled": true,
-        "size": 58,
-        "opacity": 0.82,
+        "size": 72,
+        "opacity": 0.88,
         "stroke": "white",
-        "strokeWidth": 0.9
+        "strokeWidth": 1
       },
       "encoding": {
         "longitude": {
@@ -246,16 +244,16 @@
           "type": "quantitative"
         },
         "color": {
-          "field": "SourceType",
+          "field": "EventType",
           "type": "nominal",
-          "title": "Record type",
+          "title": "Event type",
           "scale": {
             "domain": [
-              "Funko-linked event",
-              "Major pop-culture convention"
+              "Convention",
+              "Store / fan event"
             ],
             "range": [
-              "#7D57C2",
+              "#4E79A7",
               "#F28E2B"
             ]
           },
@@ -271,7 +269,12 @@
           {
             "field": "Event",
             "type": "nominal",
-            "title": "Event / convention"
+            "title": "Event / location"
+          },
+          {
+            "field": "Venue",
+            "type": "nominal",
+            "title": "Venue"
           },
           {
             "field": "City",
@@ -284,14 +287,14 @@
             "title": "Country"
           },
           {
-            "field": "Year",
+            "field": "Dates",
             "type": "nominal",
-            "title": "Year"
+            "title": "Dates"
           },
           {
-            "field": "SourceType",
+            "field": "LocationPrecision",
             "type": "nominal",
-            "title": "Record type"
+            "title": "Location precision"
           }
         ]
       }
