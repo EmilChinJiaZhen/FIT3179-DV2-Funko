@@ -472,13 +472,15 @@ body {
   max-width: 58ch;
 }
 
-/* Maps use a consistent 70/30 split */
+/* Maps reserve enough room for a true 750 × 354 Vega plot area */
 .story-row--map {
-  grid-template-columns: 0.6fr 1.4fr;
+  grid-template-columns: minmax(0, 300px) minmax(0, 900px);
+  gap: 40px;
+  justify-content: space-between;
 }
 
 .story-row--map.story-row--reverse {
-  grid-template-columns: 1.4fr 0.6fr;
+  grid-template-columns: minmax(0, 900px) minmax(0, 300px);
 }
 
 .story-row--map .story-insight,
@@ -486,11 +488,23 @@ body {
   max-width: 29ch;
 }
 
-/* Keep all three map idioms at the same chart width */
+/* Do not shrink the 750px Vega plot to the grid column. */
 .story-row--map .story-chart,
 .story-row--map.story-row--reverse .story-chart {
-  width: 100%;
-  max-width: 760px;
+  width: 900px;
+  max-width: 900px;
+}
+
+.story-row--map .vis-container,
+.story-row--map .vega-embed,
+.story-row--map .vega-embed > div {
+  width: 900px;
+  max-width: 900px;
+}
+
+.story-row--map .vega-embed svg {
+  max-width: none;
+  height: auto;
 }
 
 /* Responsive stacking */
@@ -517,6 +531,19 @@ body {
   .story-row--wide .story-insight,
   .story-row--map .story-insight {
     max-width: 58ch;
+  }
+
+  .story-row--map .story-chart,
+  .story-row--map.story-row--reverse .story-chart,
+  .story-row--map .vis-container,
+  .story-row--map .vega-embed,
+  .story-row--map .vega-embed > div {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .story-row--map .vega-embed svg {
+    max-width: 100%;
   }
 }
 
