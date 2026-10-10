@@ -532,14 +532,17 @@ body {
   height: auto;
 }
 
-/* Middle map: align the whole idiom to the right, while keeping Vega title left-aligned inside it. */
-#idiom09 {
-  margin-left: auto;
+/* Middle map: place the idiom firmly in the right column while keeping its title left-aligned. */
+.story-row--map #idiom09 {
+  justify-self: end;
+  margin-left: 36px;
+  margin-right: 0;
 }
 
 #idiom09 .vega-embed,
 #idiom09 .vega-embed > div {
   margin-left: auto;
+  margin-right: 0;
 }
 
 /* Responsive stacking */
