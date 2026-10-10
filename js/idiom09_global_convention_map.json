@@ -349,8 +349,8 @@
       },
       "mark": {
         "type": "image",
-        "width": 22,
-        "height": 22,
+        "width": 20,
+        "height": 20,
         "opacity": 1
       },
       "encoding": {
@@ -362,7 +362,7 @@
           "value": 28
         },
         "y": {
-          "value": 334
+          "value": 346
         }
       }
     },
@@ -392,7 +392,7 @@
           "value": 44
         },
         "y": {
-          "value": 334
+          "value": 346
         }
       }
     }
