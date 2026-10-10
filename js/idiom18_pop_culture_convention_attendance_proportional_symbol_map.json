@@ -6,7 +6,7 @@
     "text": "Where Do Verified Funko Licenses in the Dataset Originate?",
     "subtitle": [
       "330 of 380 license strings have an explicit origin source",
-      "Triangle size represents Funko product records for each verified origin country"
+      "Triangle height is proportional to Funko product records; all triangle widths are equal"
     ],
     "anchor": "start",
     "font": "Inter",
@@ -269,6 +269,31 @@
           ]
         },
         {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "ProductCount",
+              "as": "MaxProductCount"
+            }
+          ]
+        },
+        {
+          "calculate": "10 + 66 * sqrt(datum.ProductCount / datum.MaxProductCount)",
+          "as": "TriangleHeight"
+        },
+        {
+          "calculate": "80 - datum.TriangleHeight",
+          "as": "TriangleApexY"
+        },
+        {
+          "calculate": "datum.Region == 'North America' ? 'rgb(225,87,89)' : datum.Region == 'Europe' ? 'rgb(242,142,43)' : 'rgb(78,121,167)'",
+          "as": "TriangleColor"
+        },
+        {
+          "calculate": "'data:image/svg+xml;utf8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2016%2080%22%3E%3Cpolygon%20points=%228,' + datum.TriangleApexY + '%201,80%2015,80%22%20fill=%22' + datum.TriangleColor + '%22%20stroke=%22white%22%20stroke-width=%221%22/%3E%3C/svg%3E'",
+          "as": "TriangleImage"
+        },
+        {
           "window": [
             {
               "op": "rank",
@@ -284,12 +309,12 @@
         }
       ],
       "mark": {
-        "type": "point",
-        "shape": "triangle-up",
-        "filled": true,
-        "opacity": 0.85,
-        "stroke": "white",
-        "strokeWidth": 1
+        "type": "image",
+        "width": 18,
+        "height": 82,
+        "align": "center",
+        "baseline": "bottom",
+        "opacity": 0.9
       },
       "encoding": {
         "longitude": {
@@ -300,40 +325,9 @@
           "field": "Latitude",
           "type": "quantitative"
         },
-        "size": {
-          "field": "ProductCount",
-          "type": "quantitative",
-          "title": "Funko product records",
-          "scale": {
-            "type": "sqrt",
-            "range": [
-              140,
-              2800
-            ],
-            "zero": true
-          },
-          "legend": {
-            "orient": "right",
-            "direction": "vertical",
-            "titleFont": "Inter",
-            "titleFontSize": 12,
-            "labelFont": "Inter",
-            "labelFontSize": 11,
-            "symbolType": "triangle-up"
-          }
-        },
-        "color": {
-          "field": "Region",
-          "type": "nominal",
-          "title": "Origin region",
-          "legend": {
-            "orient": "right",
-            "direction": "vertical",
-            "titleFont": "Inter",
-            "titleFontSize": 12,
-            "labelFont": "Inter",
-            "labelFontSize": 11
-          }
+        "url": {
+          "field": "TriangleImage",
+          "type": "nominal"
         },
         "tooltip": [
           {
@@ -356,6 +350,11 @@
             "field": "CountryRank",
             "type": "quantitative",
             "title": "Rank"
+          },
+          {
+            "field": "Region",
+            "type": "nominal",
+            "title": "Origin region"
           }
         ]
       }
