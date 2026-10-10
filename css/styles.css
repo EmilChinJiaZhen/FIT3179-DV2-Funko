@@ -529,6 +529,16 @@ body {
   height: auto;
 }
 
+/* Middle map: align the whole idiom to the right, while keeping Vega title left-aligned inside it. */
+#idiom09 {
+  margin-left: auto;
+}
+
+#idiom09 .vega-embed,
+#idiom09 .vega-embed > div {
+  margin-left: auto;
+}
+
 /* Responsive stacking */
 @media (max-width: 1100px) {
   .story-row,
