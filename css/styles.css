@@ -958,30 +958,3 @@ body {
 #idiom14 {
   margin-top: -150px;
 }
-
-
-/* Keep the chapter navigation visible once it reaches the top of the viewport. */
-.chapter-nav.is-fixed {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 64px);
-  max-width: 1320px;
-  margin: 0;
-  z-index: 1000;
-}
-
-.chapter-nav-placeholder {
-  display: none;
-}
-
-.chapter-nav-placeholder.is-active {
-  display: block;
-}
-
-@media (max-width: 760px) {
-  .chapter-nav.is-fixed {
-    width: calc(100% - 28px);
-  }
-}
