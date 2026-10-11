@@ -1,0 +1,93 @@
+{
+  "background": "transparent",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Inter",
+    "axis": {
+      "labelFont": "Inter",
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": "normal"
+    },
+    "title": {
+      "font": "Inter",
+      "fontSize": 20,
+      "fontWeight": "bold"
+    }
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 355,
+  "title": "Where Did Funko Generate Its Sales?",
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_verified_geography_sales_2021_2025.csv"
+  },
+  "transform": [
+    {
+      "calculate": "toNumber(datum.net_sales_usd_thousands)/1000",
+      "as": "SalesMillions"
+    }
+  ],
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "aggregate": "sum",
+      "field": "SalesMillions",
+      "type": "quantitative",
+      "title": "Net sales (USD million)"
+    },
+    "color": {
+      "field": "region",
+      "type": "nominal",
+      "title": "Region",
+      "scale": {
+        "domain": [
+          "United States",
+          "Europe",
+          "Other International"
+        ],
+        "range": [
+          "#3a9c68",
+          "#4E79A7",
+          "#B07AA1"
+        ]
+      },
+      "legend": {
+        "orient": "bottom"
+      }
+    },
+    "order": {
+      "field": "region",
+      "sort": "ascending"
+    },
+    "tooltip": [
+      {
+        "field": "year",
+        "title": "Year"
+      },
+      {
+        "field": "region",
+        "title": "Region"
+      },
+      {
+        "field": "SalesMillions",
+        "type": "quantitative",
+        "format": ",.3f",
+        "title": "Net sales (USD million)"
+      }
+    ]
+  }
+}
