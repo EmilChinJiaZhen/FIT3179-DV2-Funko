@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 700,
-  "height": 700,
+  "width": 590,
+  "height": 520,
   "padding": {
     "top": 10,
     "left": 10,
@@ -34,7 +34,7 @@
     },
     {
       "name": "flowHeight",
-      "value": 570
+      "value": 390
     },
     {
       "name": "nodeWidth",
@@ -42,15 +42,15 @@
     },
     {
       "name": "x1",
-      "value": 52
+      "update": "width * 0.07"
     },
     {
       "name": "x2",
-      "value": 326
+      "update": "width * 0.47"
     },
     {
       "name": "x3",
-      "value": 600
+      "update": "width * 0.87"
     }
   ],
   "data": [
