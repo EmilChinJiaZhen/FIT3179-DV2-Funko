@@ -472,7 +472,7 @@ body {
 .story-row--feature {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 4px;
   margin-bottom: 56px;
 }
 
@@ -951,4 +951,10 @@ body {
   .pictogram-chart__key {
     gap: 8px 14px;
   }
+}
+
+
+/* Pricing Sankey: reduce the empty vertical space above the diagram. */
+#idiom14 {
+  margin-top: -150px;
 }
