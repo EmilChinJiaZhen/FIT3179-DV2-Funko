@@ -15,7 +15,7 @@
   "signals": [
     {
       "name": "flowTop",
-      "value": 28
+      "value": 58
     },
     {
       "name": "flowHeight",
@@ -978,7 +978,7 @@
             "signal": "x1 + nodeWidth / 2"
           },
           "y": {
-            "value": 32
+            "value": 26
           },
           "text": {
             "value": "PRODUCT TYPE"
@@ -1009,7 +1009,7 @@
             "signal": "x2 + nodeWidth / 2"
           },
           "y": {
-            "value": 32
+            "value": 26
           },
           "text": {
             "value": "LISTED PRICE BAND"
@@ -1040,7 +1040,7 @@
             "signal": "x3 + nodeWidth / 2"
           },
           "y": {
-            "value": 32
+            "value": 26
           },
           "text": {
             "value": "EXCLUSIVE STATUS"
