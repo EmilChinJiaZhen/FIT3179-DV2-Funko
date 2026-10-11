@@ -15,15 +15,10 @@
   "background": "transparent",
   "title": {
     "text": "Funko Product Hierarchy by Product Type and License",
-    "subtitle": "Top 5 product types → Top 5 licenses within each type, 2019–2022",
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "fontWeight": "bold"
   },
   "data": [
     {
