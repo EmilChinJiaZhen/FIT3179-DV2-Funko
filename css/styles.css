@@ -445,10 +445,13 @@ body {
   justify-self: start;
 }
 
-/* Section 3 pricing: keep every finding/chart pair at a true 50/50 split. */
+/* Section 3 pricing: each finding/chart pair uses an exact 50/50 split.
+   Remove the shared grid gap so the idiom can use the full half-row width;
+   spacing is applied only inside the findings column. */
 .chapter--pricing .story-row,
 .chapter--pricing .story-row.story-row--reverse {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 0;
 }
 
 .chapter--pricing .story-chart,
@@ -457,23 +460,32 @@ body {
   min-width: 0;
 }
 
-.chapter--pricing .story-insight {
-  max-width: 34ch;
-}
-
-/* Make Section 3 idioms more prominent, matching the visual scale used in Section 1.
-   Scale into the centre gap so the underlying findings/chart grid remains a true 50/50 split. */
 .chapter--pricing .story-chart {
-  transform: scale(1.08);
-  transform-origin: right top;
+  max-width: none;
+  transform: none;
+  justify-self: stretch;
 }
 
-.chapter--pricing .story-row--reverse .story-chart {
-  transform-origin: left top;
+.chapter--pricing .story-row:not(.story-row--reverse) .story-insight {
+  max-width: none;
+  padding-right: 32px;
+}
+
+.chapter--pricing .story-row--reverse .story-insight {
+  max-width: none;
+  padding-left: 32px;
+}
+
+.chapter--pricing .vis-container,
+.chapter--pricing .vega-embed,
+.chapter--pricing .vega-embed > div {
+  width: 100%;
+  max-width: 100%;
 }
 
 .chapter--pricing .vega-embed svg {
   width: 100% !important;
+  max-width: 100%;
   height: auto !important;
 }
 
