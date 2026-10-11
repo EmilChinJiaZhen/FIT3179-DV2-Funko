@@ -30,11 +30,11 @@
   "signals": [
     {
       "name": "flowTop",
-      "value": 65
+      "value": 48
     },
     {
       "name": "flowHeight",
-      "value": 420
+      "value": 442
     },
     {
       "name": "nodeWidth",
@@ -42,15 +42,15 @@
     },
     {
       "name": "x1",
-      "value": 120
+      "value": 52
     },
     {
       "name": "x2",
-      "value": 335
+      "value": 326
     },
     {
       "name": "x3",
-      "value": 550
+      "value": 600
     }
   ],
   "data": [
