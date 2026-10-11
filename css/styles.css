@@ -151,9 +151,14 @@ body {
 }
 
 .chapter--pricing {
-  --accent: #e7862d;
-  --accent-soft: #fff4e8;
-  --accent-strong: #c56d18;
+  --accent: #C9A227;
+  --accent-soft: #f8f1d9;
+  --accent-strong: #C9A227;
+}
+
+/* Dark text keeps the exclusive-status gold chapter header legible. */
+.chapter--pricing .chapter-bar {
+  color: #182338;
 }
 
 .chapter--global {
