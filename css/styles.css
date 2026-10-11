@@ -484,9 +484,12 @@ body {
 }
 
 .chapter--pricing .vega-embed svg {
-  width: 100% !important;
+  /* Keep Vega's native rendered size, like the other sections.
+     max-width prevents overflow without shrinking every pricing idiom to fill
+     its column and proportionally reducing titles/labels. */
+  display: block;
   max-width: 100%;
-  height: auto !important;
+  height: auto;
 }
 
 /* Alternate left/right while keeping the same sightlines */
