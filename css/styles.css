@@ -626,7 +626,7 @@ body {
   display: inline-block;
   width: 14px;
   clip-path: polygon(50% 0, 0 100%, 100% 100%);
-  background: #4e79a7;
+  background: #7a7a7a;
   flex: 0 0 14px;
 }
 
