@@ -1,0 +1,6 @@
+year,observed_catalogue_publication_records,date_field,coverage_status,is_comprehensive_global_release_count,source_url,notes
+2021,574,published_at,observed_partial_catalogue,False,https://github.com/EmilChinJiaZhen/FIT3179-DV2-Funko/blob/main/data/data_cleaned_wide.csv,Historical catalogue coverage incomplete
+2022,861,published_at,observed_partial_catalogue,False,https://github.com/EmilChinJiaZhen/FIT3179-DV2-Funko/blob/main/data/data_cleaned_wide.csv,Historical catalogue coverage incomplete
+2023,,published_at,no_verified_data,False,,Missing year; do not plot as zero
+2024,,published_at,no_verified_data,False,,Missing year; do not plot as zero
+2025,,published_at,no_verified_data,False,,Missing year; do not plot as zero
