@@ -156,9 +156,9 @@ body {
   --accent-strong: #C9A227;
 }
 
-/* Dark text keeps the exclusive-status gold chapter header legible. */
+/* Keep chapter heading text white, consistent with the other sections. */
 .chapter--pricing .chapter-bar {
-  color: #182338;
+  color: #ffffff;
 }
 
 .chapter--global {
