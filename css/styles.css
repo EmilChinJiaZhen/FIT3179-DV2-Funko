@@ -445,53 +445,6 @@ body {
   justify-self: start;
 }
 
-/* Section 3 pricing: each finding/chart pair uses an exact 50/50 split.
-   Remove the shared grid gap so the idiom can use the full half-row width;
-   spacing is applied only inside the findings column. */
-.chapter--pricing .story-row,
-.chapter--pricing .story-row.story-row--reverse {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  column-gap: 0;
-}
-
-.chapter--pricing .story-chart,
-.chapter--pricing .story-insight {
-  width: 100%;
-  min-width: 0;
-}
-
-.chapter--pricing .story-chart {
-  max-width: none;
-  transform: none;
-  justify-self: stretch;
-}
-
-.chapter--pricing .story-row:not(.story-row--reverse) .story-insight {
-  max-width: none;
-  padding-right: 32px;
-}
-
-.chapter--pricing .story-row--reverse .story-insight {
-  max-width: none;
-  padding-left: 32px;
-}
-
-.chapter--pricing .vis-container,
-.chapter--pricing .vega-embed,
-.chapter--pricing .vega-embed > div {
-  width: 100%;
-  max-width: 100%;
-}
-
-.chapter--pricing .vega-embed svg {
-  /* Keep Vega's native rendered size, like the other sections.
-     max-width prevents overflow without shrinking every pricing idiom to fill
-     its column and proportionally reducing titles/labels. */
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
 /* Alternate left/right while keeping the same sightlines */
 .story-row--reverse .story-chart {
   order: 1;
@@ -726,29 +679,6 @@ body {
   .story-row--wide.story-row--reverse,
   .story-row--map,
   .story-row--map.story-row--reverse,
-  .chapter--pricing .story-row,
-  .chapter--pricing .story-row.story-row--reverse {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  /* Section 3 must stack like the other sections on narrower screens.
-     Otherwise its 50/50 desktop rule keeps Vega charts at half-width and
-     scales down the entire SVG, including chart titles and labels. */
-  .chapter--pricing .story-row:not(.story-row--reverse) .story-insight,
-  .chapter--pricing .story-row--reverse .story-insight {
-    max-width: 58ch;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .chapter--pricing .story-chart,
-  .chapter--pricing .vis-container,
-  .chapter--pricing .vega-embed,
-  .chapter--pricing .vega-embed > div {
-    width: 100%;
-    max-width: 100%;
-  }
 
   .story-row--reverse .story-chart,
   .story-row--reverse .story-insight {
