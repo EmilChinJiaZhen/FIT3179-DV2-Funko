@@ -477,13 +477,13 @@ body {
 }
 
 .story-row--feature .story-chart {
-  order: 1;
+  order: 2;
   width: 100%;
   max-width: none;
 }
 
 .story-row--feature .story-insight {
-  order: 2;
+  order: 1;
   width: 100%;
   max-width: 58ch;
   padding-top: 2px;
