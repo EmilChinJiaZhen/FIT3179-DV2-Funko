@@ -4,15 +4,10 @@
   "height": 440,
   "title": {
     "text": "Do Exclusive Funko Products Cost More?",
-    "subtitle": "Average listed price by product type for exclusive-tagged and other products",
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "fontWeight": "bold"
   },
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
@@ -207,7 +202,8 @@
             "labelFont": "Inter",
             "labelFontSize": 11,
             "titleFont": "Inter",
-            "titleFontSize": 13
+            "titleFontSize": 13,
+            "titleFontWeight": "normal"
           }
         },
         "x2": {
@@ -239,8 +235,8 @@
               "Exclusive-tagged"
             ],
             "range": [
-              "#4E79A7",
-              "#F28E2B"
+              "#B8B8B8",
+              "#C9A227"
             ]
           },
           "legend": {
@@ -353,7 +349,7 @@
       "titleFont": "Inter",
       "labelFontSize": 12,
       "titleFontSize": 13,
-      "titleFontWeight": 600
+      "titleFontWeight": "normal"
     },
     "title": {
       "font": "Inter",
