@@ -1,0 +1,6 @@
+year,net_sales_usd_thousands,source_type,precision,source_url
+2021,1029293,SEC_10K,USD_1000_exact,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2022,1322706,SEC_10K,USD_1000_exact,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2023,1096086,SEC_10K,USD_1000_exact,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2024,1049850,SEC_10K,USD_1000_exact,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2025,908209,SEC_10K,USD_1000_exact,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
