@@ -165,7 +165,6 @@ async function renderProductTypePictogram() {
 
     container.innerHTML = `
       <h4 class="pictogram-chart__title">How Many Products Are in Each Product Type?</h4>
-      <p class="pictogram-chart__subtitle">Top six product types by number of products</p>
       <div class="pictogram-chart__key" aria-label="Product type legend">
         ${keyHtml}
       </div>
