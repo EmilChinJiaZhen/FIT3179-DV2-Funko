@@ -959,7 +959,36 @@ body {
 }
 
 
-/* Pricing Sankey: reduce the empty vertical space above the diagram. */
+/* Unified spacing between dashboard idioms and their findings.
+   The Sankey has an oversized Vega canvas, so compensate for its
+   unused lower space without changing the visible diagram size. */
+:root {
+  --story-vertical-gap: 36px;
+}
+
+.story-row,
+.story-row--feature {
+  margin-bottom: var(--story-vertical-gap);
+}
+
+.story-row:last-child {
+  margin-bottom: 0;
+}
+
 #idiom14 {
   margin-top: -150px;
+  margin-bottom: -120px;
+}
+
+@media (max-width: 1100px) {
+  #idiom14 {
+    margin-bottom: -60px;
+  }
+}
+
+@media (max-width: 760px) {
+  #idiom14 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
