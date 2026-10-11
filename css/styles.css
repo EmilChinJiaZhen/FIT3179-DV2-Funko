@@ -445,6 +445,22 @@ body {
   justify-self: start;
 }
 
+/* Section 3 pricing: keep every finding/chart pair at a true 50/50 split. */
+.chapter--pricing .story-row,
+.chapter--pricing .story-row.story-row--reverse {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.chapter--pricing .story-chart,
+.chapter--pricing .story-insight {
+  width: 100%;
+  min-width: 0;
+}
+
+.chapter--pricing .story-insight {
+  max-width: 34ch;
+}
+
 /* Alternate left/right while keeping the same sightlines */
 .story-row--reverse .story-chart {
   order: 1;
