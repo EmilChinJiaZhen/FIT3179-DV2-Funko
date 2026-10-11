@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 360,
+  "height": 440,
   "title": {
     "text": "Do Exclusive Funko Products Cost More?",
     "subtitle": "Average listed price by product type for exclusive-tagged and other products",
@@ -179,7 +179,7 @@
       },
       "axis": {
         "labelFont": "Inter",
-        "labelFontSize": 12,
+        "labelFontSize": 13,
         "labelLimit": 180
       }
     }
@@ -193,7 +193,7 @@
       ],
       "mark": {
         "type": "rule",
-        "strokeWidth": 4,
+        "strokeWidth": 5,
         "color": "#CFCFCF"
       },
       "encoding": {
@@ -219,7 +219,7 @@
       "mark": {
         "type": "point",
         "filled": true,
-        "size": 190,
+        "size": 245,
         "stroke": "white",
         "strokeWidth": 1.5
       },
