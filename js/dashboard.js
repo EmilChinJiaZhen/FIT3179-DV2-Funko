@@ -186,3 +186,46 @@ async function renderProductTypePictogram() {
 }
 
 renderProductTypePictogram();
+
+
+/* ---------- Persistent chapter navigation ---------- */
+
+function initPersistentChapterNav() {
+  const nav = document.querySelector(".chapter-nav");
+  if (!nav) return;
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "chapter-nav-placeholder";
+  nav.parentNode.insertBefore(placeholder, nav);
+
+  let triggerTop = 0;
+
+  const measure = () => {
+    const wasFixed = nav.classList.contains("is-fixed");
+
+    if (wasFixed) {
+      nav.classList.remove("is-fixed");
+      placeholder.classList.remove("is-active");
+    }
+
+    triggerTop = nav.getBoundingClientRect().top + window.scrollY;
+    placeholder.style.height = `${nav.offsetHeight}px`;
+
+    if (window.scrollY >= triggerTop) {
+      nav.classList.add("is-fixed");
+      placeholder.classList.add("is-active");
+    }
+  };
+
+  const update = () => {
+    const shouldFix = window.scrollY >= triggerTop;
+    nav.classList.toggle("is-fixed", shouldFix);
+    placeholder.classList.toggle("is-active", shouldFix);
+  };
+
+  measure();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", measure);
+}
+
+initPersistentChapterNav();
