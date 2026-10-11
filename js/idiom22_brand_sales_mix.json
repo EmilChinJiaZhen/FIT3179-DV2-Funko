@@ -1,0 +1,79 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 350,
+  "background": "transparent",
+  "title": {
+    "text": "Core Collectibles Account for Most Sales",
+    "font": "Inter",
+    "fontSize": 20
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/main/data/funko_verified_brand_sales_2023_2025.csv"
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "aggregate": "sum",
+      "field": "net_sales_usd_thousands",
+      "type": "quantitative",
+      "stack": "normalize",
+      "axis": {
+        "format": ".0%"
+      },
+      "title": "Share of net sales"
+    },
+    "color": {
+      "field": "reported_brand_category",
+      "type": "nominal",
+      "title": "Brand category",
+      "scale": {
+        "domain": [
+          "Core Collectible",
+          "Loungefly",
+          "Other"
+        ],
+        "range": [
+          "#3a9c68",
+          "#4E79A7",
+          "#B07AA1"
+        ]
+      },
+      "legend": {
+        "orient": "bottom"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "year"
+      },
+      {
+        "field": "reported_brand_category"
+      },
+      {
+        "field": "net_sales_usd_thousands",
+        "type": "quantitative",
+        "format": ","
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Inter",
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": "normal"
+    }
+  }
+}
