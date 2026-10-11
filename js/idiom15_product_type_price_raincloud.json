@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 700,
-  "height": 560,
+  "width": 800,
+  "height": 590,
   "padding": {
     "top": 15,
     "left": 15,
@@ -14,39 +14,31 @@
   },
   "title": {
     "text": "How Do Funko Prices Vary Across Product Types?",
-    "subtitle": [
-      "Price distributions for the six most common product types, 2019–2022",
-      "Cloud = distribution • Box = middle 50% • Dots = individual products"
-    ],
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "fontWeight": "bold"
   },
   "signals": [
     {
       "name": "plotLeft",
-      "value": 145
+      "value": 105
     },
     {
       "name": "plotRight",
-      "update": "width - 30"
+      "update": "width - 12"
     },
     {
       "name": "firstRowY",
-      "value": 75
+      "value": 62
     },
     {
       "name": "rowGap",
-      "value": 82
+      "value": 91
     },
     {
       "name": "cloudHeight",
-      "value": 31
+      "value": 35
     }
   ],
   "data": [
@@ -320,20 +312,31 @@
     {
       "name": "productColor",
       "type": "ordinal",
-      "domain": {
-        "data": "product_totals",
-        "field": "ProductType"
-      },
-      "range": {
-        "scheme": "tableau10"
-      }
+      "domain": [
+        "Pop!",
+        "Apparel",
+        "Keychains",
+        "Vinyl GOLD",
+        "Plush",
+        "Board Games",
+        "Other product types"
+      ],
+      "range": [
+        "#4E79A7",
+        "#76B7B2",
+        "#F28E2B",
+        "#EDC948",
+        "#B07AA1",
+        "#7F7F7F",
+        "#D6CFC2"
+      ]
     }
   ],
   "axes": [
     {
       "orient": "bottom",
       "scale": "xscale",
-      "title": "Listed price ($)",
+      "title": "Listed price (USD)",
       "format": "$,.0f",
       "grid": true,
       "gridColor": "#E4E4E4",
@@ -345,7 +348,7 @@
       "labelPadding": 6,
       "titleFont": "Inter",
       "titleFontSize": 13,
-      "titleFontWeight": "bold",
+      "titleFontWeight": "normal",
       "titlePadding": 12
     }
   ],
@@ -600,40 +603,6 @@
           },
           "fill": {
             "value": "#333333"
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "from": {
-        "data": "stats"
-      },
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "plotLeft - 14"
-          },
-          "y": {
-            "signal": "datum.BaseY + 17"
-          },
-          "text": {
-            "signal": "'n = ' + datum.ProductCount"
-          },
-          "align": {
-            "value": "right"
-          },
-          "baseline": {
-            "value": "middle"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fill": {
-            "value": "#777777"
           }
         }
       }
