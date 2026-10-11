@@ -1,0 +1,16 @@
+year,region,net_sales_usd_thousands,source_type,source_url
+2021,United States,743846,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2021,Europe,214732,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2021,Other International,70715,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2022,United States,966324,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2022,Europe,260557,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2022,Other International,95825,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471124000013/fnko-20231231.htm
+2023,United States,755620,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2023,Europe,268496,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2023,Other International,71970,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2024,United States,681986,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2024,Europe,283792,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2024,Other International,84072,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2025,United States,546328,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2025,Europe,288348,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
+2025,Other International,73533,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
