@@ -4,18 +4,10 @@
   "height": 354,
   "title": {
     "text": "Where Do Verified Funko Licenses in the Dataset Originate?",
-    "subtitle": [
-      "330 of 380 license strings have an explicit origin source",
-      "Triangle height is proportional to Funko product records; all triangle widths are equal"
-    ],
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "fontWeight": "bold"
   },
   "projection": {
     "type": "equalEarth"
