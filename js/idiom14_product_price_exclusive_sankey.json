@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "width": 700,
-  "height": 560,
+  "height": 700,
   "padding": {
     "top": 10,
     "left": 10,
@@ -30,11 +30,11 @@
   "signals": [
     {
       "name": "flowTop",
-      "value": 48
+      "value": 55
     },
     {
       "name": "flowHeight",
-      "value": 442
+      "value": 570
     },
     {
       "name": "nodeWidth",
