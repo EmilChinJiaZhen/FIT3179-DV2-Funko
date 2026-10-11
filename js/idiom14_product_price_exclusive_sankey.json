@@ -1,40 +1,25 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "width": 1160,
-  "height": 650,
+  "height": 620,
   "padding": {
     "top": 10,
     "left": 10,
     "right": 10,
-    "bottom": 30
+    "bottom": 10
   },
   "autosize": {
     "type": "pad",
     "resize": true
   },
-  "title": {
-    "text": "How Do Funko Product Types Connect to Price and Exclusivity?",
-    "subtitle": [
-      "Product type → listed price band → exclusive-tagged status, 2019–2022",
-      "Flow width represents the number of products"
-    ],
-    "anchor": "start",
-    "font": "Inter",
-    "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
-  },
   "signals": [
     {
       "name": "flowTop",
-      "value": 65
+      "value": 28
     },
     {
       "name": "flowHeight",
-      "value": 500
+      "value": 560
     },
     {
       "name": "nodeWidth",
@@ -1074,65 +1059,6 @@
           },
           "fill": {
             "value": "#555555"
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "width / 2"
-          },
-          "y": {
-            "signal": "height - 24"
-          },
-          "text": {
-            "value": "Price bands divide products with valid positive listed prices into approximately equal lower, middle and higher thirds."
-          },
-          "align": {
-            "value": "center"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fill": {
-            "value": "#666666"
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "width / 2"
-          },
-          "y": {
-            "signal": "height - 6"
-          },
-          "text": {
-            "value": "Exclusive-tagged indicates that the product's tags contain the word “exclusive”."
-          },
-          "align": {
-            "value": "center"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fontStyle": {
-            "value": "italic"
-          },
-          "fill": {
-            "value": "#777777"
           }
         }
       }
