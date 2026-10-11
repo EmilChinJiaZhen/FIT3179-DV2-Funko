@@ -606,62 +606,6 @@
           }
         }
       }
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "plotLeft"
-          },
-          "y": {
-            "value": 20
-          },
-          "text": {
-            "value": "Higher cloud = greater concentration of products around that price"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 15
-          },
-          "fill": {
-            "value": "#666666"
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "width / 2"
-          },
-          "y": {
-            "signal": "height - 8"
-          },
-          "text": {
-            "value": "Dots represent individual products; hover over a dot for product details."
-          },
-          "align": {
-            "value": "center"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 15
-          },
-          "fontStyle": {
-            "value": "italic"
-          },
-          "fill": {
-            "value": "#777777"
-          }
-        }
-      }
     }
   ],
   "config": {
