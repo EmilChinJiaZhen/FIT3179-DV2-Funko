@@ -1,0 +1,111 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 310,
+  "background": "transparent",
+  "title": {
+    "text": "What Years Does the Product Sample Cover?",
+    "font": "Inter",
+    "fontSize": 20
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/main/data/funko_catalogue_coverage_2021_2025.csv"
+  },
+  "transform": [
+    {
+      "calculate": "toNumber(datum.observed_catalogue_publication_records)",
+      "as": "Observed"
+    }
+  ],
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.coverage_status == 'observed_partial_catalogue'"
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "color": "#3a9c68"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Publication year",
+          "scale": {
+            "domain": [
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025"
+            ]
+          },
+          "axis": {
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "Observed",
+          "type": "quantitative",
+          "title": "Observed records"
+        },
+        "tooltip": [
+          {
+            "field": "year"
+          },
+          {
+            "field": "Observed",
+            "type": "quantitative"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.coverage_status == 'no_verified_data'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "color": "#777",
+        "dy": -8
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "scale": {
+            "domain": [
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025"
+            ]
+          }
+        },
+        "y": {
+          "datum": 0
+        },
+        "text": {
+          "value": "N/A"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Inter",
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": "normal"
+    }
+  }
+}
