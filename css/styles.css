@@ -461,6 +461,22 @@ body {
   max-width: 34ch;
 }
 
+/* Make Section 3 idioms more prominent, matching the visual scale used in Section 1.
+   Scale into the centre gap so the underlying findings/chart grid remains a true 50/50 split. */
+.chapter--pricing .story-chart {
+  transform: scale(1.08);
+  transform-origin: right top;
+}
+
+.chapter--pricing .story-row--reverse .story-chart {
+  transform-origin: left top;
+}
+
+.chapter--pricing .vega-embed svg {
+  width: 100% !important;
+  height: auto !important;
+}
+
 /* Alternate left/right while keeping the same sightlines */
 .story-row--reverse .story-chart {
   order: 1;
