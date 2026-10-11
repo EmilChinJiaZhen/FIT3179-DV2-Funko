@@ -16,7 +16,7 @@
     "text": "How Do Funko Prices Vary Across Product Types?",
     "anchor": "start",
     "font": "Inter",
-    "fontSize": 20,
+    "fontSize": 28,
     "fontWeight": "bold"
   },
   "signals": [
@@ -344,10 +344,10 @@
       "domainColor": "#999999",
       "tickColor": "#999999",
       "labelFont": "Inter",
-      "labelFontSize": 11,
+      "labelFontSize": 16,
       "labelPadding": 6,
       "titleFont": "Inter",
-      "titleFontSize": 13,
+      "titleFontSize": 18,
       "titleFontWeight": "normal",
       "titlePadding": 12
     }
@@ -596,7 +596,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 13
+            "value": 18
           },
           "fontWeight": {
             "value": "bold"
@@ -624,7 +624,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 12
+            "value": 15
           },
           "fill": {
             "value": "#666666"
@@ -652,7 +652,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 12
+            "value": 15
           },
           "fontStyle": {
             "value": "italic"
@@ -669,8 +669,8 @@
     "axis": {
       "labelFont": "Inter",
       "titleFont": "Inter",
-      "labelFontSize": 12,
-      "titleFontSize": 13,
+      "labelFontSize": 16,
+      "titleFontSize": 18,
       "titleFontWeight": 600
     },
     "legend": {
@@ -683,7 +683,7 @@
     "title": {
       "font": "Inter",
       "subtitleFont": "Inter",
-      "fontSize": 20,
+      "fontSize": 28,
       "fontWeight": "bold",
       "subtitleFontSize": 13,
       "subtitleFontWeight": "normal"
