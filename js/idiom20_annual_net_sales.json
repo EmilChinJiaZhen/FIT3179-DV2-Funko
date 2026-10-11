@@ -1,0 +1,73 @@
+{
+  "background": "transparent",
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Inter",
+    "axis": {
+      "labelFont": "Inter",
+      "titleFont": "Inter",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": "normal"
+    },
+    "title": {
+      "font": "Inter",
+      "fontSize": 20,
+      "fontWeight": "bold"
+    }
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": "container",
+  "height": 350,
+  "title": "Funko Net Sales Peaked in 2022",
+  "data": {
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_verified_annual_sales_2021_2025.csv"
+  },
+  "transform": [
+    {
+      "calculate": "toNumber(datum.net_sales_usd_thousands) / 1000",
+      "as": "SalesMillions"
+    }
+  ],
+  "mark": {
+    "type": "line",
+    "point": {
+      "filled": true,
+      "size": 115
+    },
+    "strokeWidth": 3,
+    "color": "#3a9c68"
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "SalesMillions",
+      "type": "quantitative",
+      "title": "Net sales (USD million)",
+      "scale": {
+        "zero": false
+      }
+    },
+    "tooltip": [
+      {
+        "field": "year",
+        "title": "Year"
+      },
+      {
+        "field": "SalesMillions",
+        "type": "quantitative",
+        "title": "Net sales (USD million)",
+        "format": ",.3f"
+      }
+    ]
+  }
+}
