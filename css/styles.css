@@ -722,9 +722,29 @@ body {
   .story-row--wide,
   .story-row--wide.story-row--reverse,
   .story-row--map,
-  .story-row--map.story-row--reverse {
+  .story-row--map.story-row--reverse,
+  .chapter--pricing .story-row,
+  .chapter--pricing .story-row.story-row--reverse {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+
+  /* Section 3 must stack like the other sections on narrower screens.
+     Otherwise its 50/50 desktop rule keeps Vega charts at half-width and
+     scales down the entire SVG, including chart titles and labels. */
+  .chapter--pricing .story-row:not(.story-row--reverse) .story-insight,
+  .chapter--pricing .story-row--reverse .story-insight {
+    max-width: 58ch;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .chapter--pricing .story-chart,
+  .chapter--pricing .vis-container,
+  .chapter--pricing .vega-embed,
+  .chapter--pricing .vega-embed > div {
+    width: 100%;
+    max-width: 100%;
   }
 
   .story-row--reverse .story-chart,
