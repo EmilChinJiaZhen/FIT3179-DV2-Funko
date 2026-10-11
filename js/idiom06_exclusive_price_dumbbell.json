@@ -63,11 +63,11 @@
       ]
     },
     {
-      "calculate": "datum.Exclusive_Status == 'Exclusive-tagged' ? datum.Average_Price : 0",
+      "calculate": "datum.Exclusive_Status == 'Exclusive-tagged' ? datum.Average_Price : null",
       "as": "Exclusive_Avg_Part"
     },
     {
-      "calculate": "datum.Exclusive_Status == 'No exclusive tag' ? datum.Average_Price : 0",
+      "calculate": "datum.Exclusive_Status == 'No exclusive tag' ? datum.Average_Price : null",
       "as": "No_Exclusive_Avg_Part"
     },
     {
@@ -130,8 +130,12 @@
       "as": "Mid_Price"
     },
     {
-      "calculate": "(datum.Price_Difference >= 0 ? '+$' : '-$') + format(abs(datum.Price_Difference), '.2f')",
+      "calculate": "abs(datum.Price_Difference) < 0.005 ? 'Same average' : (datum.Price_Difference > 0 ? '+$' : '-$') + format(abs(datum.Price_Difference), '.2f')",
       "as": "Difference_Label"
+    },
+    {
+      "calculate": "abs(datum.Price_Difference) < 0.005 ? (datum.Exclusive_Status == 'Exclusive-tagged' ? -8 : 8) : 0",
+      "as": "Marker_Offset"
     },
     {
       "calculate": "(datum.Price_Difference >= 0 ? '+' : '') + format(datum.Price_Difference_Percent, '.1%')",
@@ -311,7 +315,12 @@
             "title": "Total products in type",
             "format": ","
           }
-        ]
+        ],
+        "yOffset": {
+          "field": "Marker_Offset",
+          "type": "quantitative",
+          "scale": null
+        }
       }
     },
     {
