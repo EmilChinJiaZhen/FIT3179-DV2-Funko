@@ -15,18 +15,10 @@
   "background": "transparent",
   "title": {
     "text": "How Are Funko's Top Licenses Connected to Product Types?",
-    "subtitle": [
-      "Connections between the six leading licenses and six most common product types",
-      "Ribbon width represents the number of products, 2019–2022"
-    ],
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 13,
-    "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "fontWeight": "bold"
   },
   "signals": [
     {
