@@ -172,17 +172,16 @@
   "scales": [
     {
       "name": "x",
-      "type": "linear",
+      "type": "point",
       "domain": [
         2021,
+        2022,
+        2023,
+        2024,
         2025
       ],
-      "range": [
-        0,
-        {
-          "signal": "width"
-        }
-      ]
+      "range": "width",
+      "padding": 0
     },
     {
       "name": "y",
@@ -193,12 +192,7 @@
       },
       "nice": true,
       "zero": false,
-      "range": [
-        {
-          "signal": "height"
-        },
-        0
-      ]
+      "range": "height"
     },
     {
       "name": "brandColor",
@@ -471,7 +465,8 @@
       "titleFontWeight": "normal",
       "labelFont": "Inter",
       "labelFontSize": 12,
-      "grid": false
+      "grid": false,
+      "format": "d"
     },
     {
       "orient": "left",
