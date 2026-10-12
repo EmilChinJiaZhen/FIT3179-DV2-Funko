@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "width": 700,
-  "height": 380,
+  "height": 390,
   "padding": {
-    "left": 15,
-    "right": 20,
-    "top": 45,
-    "bottom": 30
+    "left": 70,
+    "right": 135,
+    "top": 48,
+    "bottom": 45
   },
   "autosize": {
     "type": "fit",
@@ -16,7 +16,7 @@
   "background": "transparent",
   "title": {
     "text": "Three Brands, Different Paths",
-    "subtitle": "Each branch starts at 2021 = 100; hover over a point for actual net sales and its change from 2021.",
+    "subtitle": "All brands start at 2021 = 100. Hover over any point to compare their net sales.",
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
@@ -57,6 +57,35 @@
       ]
     },
     {
+      "name": "year_summary",
+      "source": "raw",
+      "transform": [
+        {
+          "type": "pivot",
+          "field": "reported_brand_category",
+          "value": "sales",
+          "groupby": [
+            "yr"
+          ]
+        },
+        {
+          "type": "formula",
+          "expr": "datum['Core Collectible'] / 1000",
+          "as": "coreM"
+        },
+        {
+          "type": "formula",
+          "expr": "datum['Loungefly'] / 1000",
+          "as": "loungeflyM"
+        },
+        {
+          "type": "formula",
+          "expr": "datum['Other'] / 1000",
+          "as": "otherM"
+        }
+      ]
+    },
+    {
       "name": "points",
       "source": "raw",
       "transform": [
@@ -81,26 +110,6 @@
         },
         {
           "type": "formula",
-          "expr": "datum.yr - 2021",
-          "as": "step"
-        },
-        {
-          "type": "formula",
-          "expr": "datum.reported_brand_category === 'Loungefly' ? -115 : datum.reported_brand_category === 'Core Collectible' ? 0 : 115",
-          "as": "lane"
-        },
-        {
-          "type": "formula",
-          "expr": "92 + datum.step * 122",
-          "as": "px"
-        },
-        {
-          "type": "formula",
-          "expr": "192 + datum.lane * datum.step / 4 - (datum.index - 100) * 0.23",
-          "as": "py"
-        },
-        {
-          "type": "formula",
           "expr": "datum.sales / 1000",
           "as": "millions"
         },
@@ -110,29 +119,32 @@
           "as": "changePct"
         },
         {
-          "type": "formula",
-          "expr": "datum.reported_brand_category + ' • ' + datum.yr + '\\nNet sales: $' + format(datum.millions, ',.1f') + 'M\\nCompared with 2021: ' + (datum.changePct >= 0 ? '+' : '') + format(datum.changePct, '.1f') + '%'",
-          "as": "hover"
+          "type": "lookup",
+          "from": "year_summary",
+          "key": "yr",
+          "fields": [
+            "yr"
+          ],
+          "values": [
+            "coreM",
+            "loungeflyM",
+            "otherM"
+          ],
+          "as": [
+            "coreM",
+            "loungeflyM",
+            "otherM"
+          ]
         }
       ]
     },
     {
-      "name": "years",
-      "values": [
+      "name": "points_post2021",
+      "source": "points",
+      "transform": [
         {
-          "yr": 2021
-        },
-        {
-          "yr": 2022
-        },
-        {
-          "yr": 2023
-        },
-        {
-          "yr": 2024
-        },
-        {
-          "yr": 2025
+          "type": "filter",
+          "expr": "datum.yr > 2021"
         }
       ]
     },
@@ -145,9 +157,49 @@
           "expr": "datum.yr === 2025"
         }
       ]
+    },
+    {
+      "name": "base_summary",
+      "source": "year_summary",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.yr === 2021"
+        }
+      ]
     }
   ],
   "scales": [
+    {
+      "name": "x",
+      "type": "linear",
+      "domain": [
+        2021,
+        2025
+      ],
+      "range": [
+        0,
+        {
+          "signal": "width"
+        }
+      ]
+    },
+    {
+      "name": "y",
+      "type": "linear",
+      "domain": {
+        "data": "points",
+        "field": "index"
+      },
+      "nice": true,
+      "zero": false,
+      "range": [
+        {
+          "signal": "height"
+        },
+        0
+      ]
+    },
     {
       "name": "brandColor",
       "type": "ordinal",
@@ -166,29 +218,27 @@
   "marks": [
     {
       "type": "rule",
-      "from": {
-        "data": "years"
-      },
       "encode": {
         "enter": {
           "x": {
-            "signal": "92 + (datum.yr - 2021) * 122"
+            "value": 0
+          },
+          "x2": {
+            "signal": "width"
           },
           "y": {
-            "value": 18
-          },
-          "y2": {
-            "value": 337
+            "scale": "y",
+            "value": 100
           },
           "stroke": {
-            "value": "#9ca3af"
+            "value": "#6b7280"
           },
           "strokeOpacity": {
-            "value": 0.18
+            "value": 0.4
           },
           "strokeDash": {
             "value": [
-              3,
+              5,
               5
             ]
           }
@@ -218,17 +268,19 @@
           "encode": {
             "enter": {
               "x": {
-                "field": "px"
+                "scale": "x",
+                "field": "yr"
               },
               "y": {
-                "field": "py"
+                "scale": "y",
+                "field": "index"
               },
               "stroke": {
                 "scale": "brandColor",
                 "field": "reported_brand_category"
               },
               "strokeWidth": {
-                "value": 4
+                "value": 3.5
               },
               "strokeCap": {
                 "value": "round"
@@ -244,18 +296,20 @@
     {
       "type": "symbol",
       "from": {
-        "data": "points"
+        "data": "points_post2021"
       },
       "encode": {
         "enter": {
           "x": {
-            "field": "px"
+            "scale": "x",
+            "field": "yr"
           },
           "y": {
-            "field": "py"
+            "scale": "y",
+            "field": "index"
           },
           "size": {
-            "value": 120
+            "value": 130
           },
           "fill": {
             "scale": "brandColor",
@@ -265,13 +319,13 @@
             "value": "white"
           },
           "strokeWidth": {
-            "value": 1.6
-          },
-          "tooltip": {
-            "field": "hover"
+            "value": 2
           },
           "cursor": {
             "value": "pointer"
+          },
+          "tooltip": {
+            "signal": "{ 'Year': datum.yr, 'Selected brand': datum.reported_brand_category, 'Selected brand sales (USD M)': format(datum.millions, ',.1f'), 'Sales index': format(datum.index, '.1f'), 'Change vs 2021': (datum.changePct >= 0 ? '+' : '') + format(datum.changePct, '.1f') + '%', 'Core Collectible sales (USD M)': format(datum.coreM, ',.1f'), 'Loungefly sales (USD M)': format(datum.loungeflyM, ',.1f'), 'Other sales (USD M)': format(datum.otherM, ',.1f') }"
           }
         },
         "hover": {
@@ -279,23 +333,28 @@
             "value": 240
           },
           "strokeWidth": {
-            "value": 2.4
+            "value": 2.6
           }
         }
       }
     },
     {
       "type": "symbol",
+      "from": {
+        "data": "base_summary"
+      },
       "encode": {
         "enter": {
           "x": {
-            "value": 92
+            "scale": "x",
+            "value": 2021
           },
           "y": {
-            "value": 192
+            "scale": "y",
+            "value": 100
           },
           "size": {
-            "value": 350
+            "value": 280
           },
           "fill": {
             "value": "#252b35"
@@ -305,68 +364,17 @@
           },
           "strokeWidth": {
             "value": 2
+          },
+          "cursor": {
+            "value": "pointer"
+          },
+          "tooltip": {
+            "signal": "{'Year': '2021 baseline', 'Sales index': '100 for all three brands', 'Core Collectible sales (USD M)': format(datum.coreM, ',.1f'), 'Loungefly sales (USD M)': format(datum.loungeflyM, ',.1f'), 'Other sales (USD M)': format(datum.otherM, ',.1f')}"
           }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {
-            "value": 78
-          },
-          "y": {
-            "value": 169
-          },
-          "text": {
-            "value": "2021 baseline"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fontWeight": {
-            "value": 600
-          },
-          "fill": {
-            "value": "#4b5563"
-          },
-          "align": {
-            "value": "right"
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "from": {
-        "data": "years"
-      },
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "92 + (datum.yr - 2021) * 122"
-          },
-          "y": {
-            "value": 360
-          },
-          "text": {
-            "field": "yr"
-          },
-          "align": {
-            "value": "center"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fill": {
-            "value": "#555"
+        },
+        "hover": {
+          "size": {
+            "value": 340
           }
         }
       }
@@ -379,10 +387,10 @@
       "encode": {
         "enter": {
           "x": {
-            "signal": "datum.px + 15"
+            "signal": "scale('x',datum.yr) + 14"
           },
           "y": {
-            "signal": "datum.py - 9"
+            "signal": "scale('y',datum.index) - 8"
           },
           "text": {
             "field": "reported_brand_category"
@@ -391,7 +399,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 13
+            "value": 12
           },
           "fontWeight": {
             "value": 600
@@ -399,6 +407,9 @@
           "fill": {
             "scale": "brandColor",
             "field": "reported_brand_category"
+          },
+          "baseline": {
+            "value": "bottom"
           }
         }
       }
@@ -411,13 +422,13 @@
       "encode": {
         "enter": {
           "x": {
-            "signal": "datum.px + 15"
+            "signal": "scale('x',datum.yr) + 14"
           },
           "y": {
-            "signal": "datum.py + 9"
+            "signal": "scale('y',datum.index) + 5"
           },
           "text": {
-            "signal": "(datum.changePct >= 0 ? '+' : '') + format(datum.changePct, '.1f') + '% vs 2021'"
+            "signal": "(datum.changePct >= 0 ? '+' : '') + format(datum.changePct,'.1f') + '% vs 2021'"
           },
           "font": {
             "value": "Inter"
@@ -427,6 +438,9 @@
           },
           "fill": {
             "value": "#686868"
+          },
+          "baseline": {
+            "value": "top"
           }
         }
       }
@@ -437,5 +451,40 @@
     "view": {
       "stroke": null
     }
-  }
+  },
+  "axes": [
+    {
+      "orient": "bottom",
+      "scale": "x",
+      "values": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "labelFlush": false,
+      "labelOverlap": false,
+      "title": "Year",
+      "titleFont": "Inter",
+      "titleFontSize": 13,
+      "titleFontWeight": "normal",
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "grid": false
+    },
+    {
+      "orient": "left",
+      "scale": "y",
+      "title": "Sales relative to 2021 (2021 = 100)",
+      "titleFont": "Inter",
+      "titleFontSize": 13,
+      "titleFontWeight": "normal",
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "grid": true,
+      "gridColor": "#d1d5db",
+      "gridOpacity": 0.55
+    }
+  ]
 }
