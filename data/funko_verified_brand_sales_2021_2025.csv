@@ -1,10 +1,10 @@
 year,reported_brand_category,net_sales_usd_thousands,source_type,source_url
-2021,Core Collectible,820900,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000019/fnko-20221231.htm
-2021,Loungefly,150800,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000019/fnko-20221231.htm
-2021,Other,57500,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000019/fnko-20221231.htm
-2022,Core Collectible,998400,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000019/fnko-20221231.htm
-2022,Loungefly,253000,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000019/fnko-20221231.htm
-2022,Other,71300,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000019/fnko-20221231.htm
+2021,Core Collectible,820900,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000008/fnko-20221231.htm
+2021,Loungefly,150800,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000008/fnko-20221231.htm
+2021,Other,57500,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000008/fnko-20221231.htm
+2022,Core Collectible,998400,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000008/fnko-20221231.htm
+2022,Loungefly,253000,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000008/fnko-20221231.htm
+2022,Other,71300,SEC_10K_ROUNDED_USD_0_1M,https://www.sec.gov/Archives/edgar/data/1704711/000170471123000008/fnko-20221231.htm
 2023,Core Collectible,803181,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
 2023,Loungefly,214523,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
 2023,Other,78382,SEC_10K,https://www.sec.gov/Archives/edgar/data/1704711/000170471126000020/fnko-20251231.htm
