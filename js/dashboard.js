@@ -11,10 +11,8 @@ const visualisations = [
   ["#idiom20", "js/idiom20_annual_net_sales.json"],
   ["#idiom21", "js/idiom21_geographic_sales.json"],
   ["#idiom22", "js/idiom22_brand_sales_mix.json"],
-  ["#idiom23", "js/idiom23_catalogue_coverage.json"],
   // Original 2019–2022 product-based idioms retained for comparison
   ["#idiom03", "js/idiom03_release_timeline.json"],
-  ["#idiom04", "js/idiom04_release_seasonality_heatmap.json"],
   ["#idiom05", "js/idiom05_product_mix_marimekko.json"],
   ["#idiom11", "js/idiom11_quarterly_license_rank_bump_chart.json"],
 
