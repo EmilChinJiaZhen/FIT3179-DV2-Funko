@@ -996,7 +996,7 @@ body {
 /* Give the five-year brand branching chart more room than standard 50/50 idioms. */
 @media (min-width: 1101px) {
   .story-row--brand-chart {
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 32px;
   }
 }
