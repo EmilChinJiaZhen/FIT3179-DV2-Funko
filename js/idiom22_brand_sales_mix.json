@@ -1,124 +1,441 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": "container",
-  "height": 350,
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "width": 700,
+  "height": 380,
+  "padding": {
+    "left": 15,
+    "right": 20,
+    "top": 45,
+    "bottom": 30
+  },
+  "autosize": {
+    "type": "fit",
+    "contains": "padding",
+    "resize": true
+  },
   "background": "transparent",
   "title": {
-    "text": "How Have Funko's Brand Sales Changed Since 2021?",
+    "text": "Three Brands, Different Paths",
+    "subtitle": "Each branch starts at 2021 = 100; hover over a point for actual net sales and its change from 2021.",
+    "anchor": "start",
     "font": "Inter",
-    "fontSize": 20
+    "fontSize": 20,
+    "fontWeight": 600,
+    "subtitleFont": "Inter",
+    "subtitleFontSize": 12,
+    "subtitleColor": "#666",
+    "offset": 17
   },
-  "data": {
-    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/main/data/funko_verified_brand_sales_2021_2025.csv"
-  },
-  "mark": {
-    "type": "line",
-    "point": {
-      "filled": true,
-      "size": 100
-    },
-    "strokeWidth": 3
-  },
-  "encoding": {
-    "x": {
-      "field": "year",
-      "type": "ordinal",
-      "title": "Year",
-      "sort": "ascending",
-      "axis": {
-        "labelAngle": 0
-      }
-    },
-    "y": {
-      "field": "IndexedSales",
-      "type": "quantitative",
-      "title": "Sales index (2021 = 100)",
-      "scale": {
-        "zero": false
-      }
-    },
-    "color": {
-      "field": "reported_brand_category",
-      "type": "nominal",
-      "title": "Brand category",
-      "scale": {
-        "domain": [
-          "Core Collectible",
-          "Loungefly",
-          "Other"
-        ],
-        "range": [
-          "#3a9c68",
-          "#4E79A7",
-          "#B07AA1"
-        ]
-      },
-      "legend": {
-        "orient": "bottom"
-      }
-    },
-    "tooltip": [
-      {
-        "field": "year",
-        "title": "Year"
-      },
-      {
-        "field": "reported_brand_category",
-        "title": "Brand group"
-      },
-      {
-        "field": "IndexedSales",
-        "type": "quantitative",
-        "title": "Sales index (2021 = 100)",
-        "format": ".1f"
-      },
-      {
-        "field": "SalesMillions",
-        "type": "quantitative",
-        "title": "Net sales (USD million)",
-        "format": ",.1f"
-      }
-    ]
-  },
-  "config": {
-    "view": {
-      "stroke": null
-    },
-    "font": "Inter",
-    "axis": {
-      "labelFontSize": 12,
-      "titleFontSize": 13,
-      "titleFontWeight": "normal"
-    }
-  },
-  "transform": [
+  "data": [
     {
-      "calculate": "toNumber(datum.net_sales_usd_thousands)",
-      "as": "SalesThousands"
-    },
-    {
-      "calculate": "toNumber(datum.year) == 2021 ? datum.SalesThousands : 0",
-      "as": "BaseYearSales"
-    },
-    {
-      "joinaggregate": [
+      "name": "raw",
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/main/data/funko_verified_brand_sales_2021_2025.csv",
+      "format": {
+        "type": "csv"
+      },
+      "transform": [
         {
-          "op": "max",
-          "field": "BaseYearSales",
-          "as": "Sales2021"
+          "type": "formula",
+          "expr": "toNumber(datum.year)",
+          "as": "yr"
+        },
+        {
+          "type": "formula",
+          "expr": "toNumber(datum.net_sales_usd_thousands)",
+          "as": "sales"
         }
-      ],
-      "groupby": [
-        "reported_brand_category"
       ]
     },
     {
-      "calculate": "datum.Sales2021 > 0 ? 100 * datum.SalesThousands / datum.Sales2021 : null",
-      "as": "IndexedSales"
+      "name": "baseline",
+      "source": "raw",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.yr === 2021"
+        }
+      ]
     },
     {
-      "calculate": "datum.SalesThousands / 1000",
-      "as": "SalesMillions"
+      "name": "points",
+      "source": "raw",
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "baseline",
+          "key": "reported_brand_category",
+          "fields": [
+            "reported_brand_category"
+          ],
+          "values": [
+            "sales"
+          ],
+          "as": [
+            "baseSales"
+          ]
+        },
+        {
+          "type": "formula",
+          "expr": "100 * datum.sales / datum.baseSales",
+          "as": "index"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.yr - 2021",
+          "as": "step"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.reported_brand_category === 'Loungefly' ? -115 : datum.reported_brand_category === 'Core Collectible' ? 0 : 115",
+          "as": "lane"
+        },
+        {
+          "type": "formula",
+          "expr": "92 + datum.step * 122",
+          "as": "px"
+        },
+        {
+          "type": "formula",
+          "expr": "192 + datum.lane * datum.step / 4 - (datum.index - 100) * 0.23",
+          "as": "py"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.sales / 1000",
+          "as": "millions"
+        },
+        {
+          "type": "formula",
+          "expr": "(datum.index - 100)",
+          "as": "changePct"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.reported_brand_category + ' • ' + datum.yr + '\\nNet sales: $' + format(datum.millions, ',.1f') + 'M\\nCompared with 2021: ' + (datum.changePct >= 0 ? '+' : '') + format(datum.changePct, '.1f') + '%'",
+          "as": "hover"
+        }
+      ]
+    },
+    {
+      "name": "years",
+      "values": [
+        {
+          "yr": 2021
+        },
+        {
+          "yr": 2022
+        },
+        {
+          "yr": 2023
+        },
+        {
+          "yr": 2024
+        },
+        {
+          "yr": 2025
+        }
+      ]
+    },
+    {
+      "name": "ends",
+      "source": "points",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.yr === 2025"
+        }
+      ]
     }
-  ]
+  ],
+  "scales": [
+    {
+      "name": "brandColor",
+      "type": "ordinal",
+      "domain": [
+        "Core Collectible",
+        "Loungefly",
+        "Other"
+      ],
+      "range": [
+        "#3a9c68",
+        "#4E79A7",
+        "#B07AA1"
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "rule",
+      "from": {
+        "data": "years"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "92 + (datum.yr - 2021) * 122"
+          },
+          "y": {
+            "value": 18
+          },
+          "y2": {
+            "value": 337
+          },
+          "stroke": {
+            "value": "#9ca3af"
+          },
+          "strokeOpacity": {
+            "value": 0.18
+          },
+          "strokeDash": {
+            "value": [
+              3,
+              5
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "group",
+      "from": {
+        "facet": {
+          "name": "brandSeries",
+          "data": "points",
+          "groupby": [
+            "reported_brand_category"
+          ]
+        }
+      },
+      "marks": [
+        {
+          "type": "line",
+          "from": {
+            "data": "brandSeries"
+          },
+          "sort": {
+            "field": "yr"
+          },
+          "encode": {
+            "enter": {
+              "x": {
+                "field": "px"
+              },
+              "y": {
+                "field": "py"
+              },
+              "stroke": {
+                "scale": "brandColor",
+                "field": "reported_brand_category"
+              },
+              "strokeWidth": {
+                "value": 4
+              },
+              "strokeCap": {
+                "value": "round"
+              },
+              "interpolate": {
+                "value": "monotone"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "symbol",
+      "from": {
+        "data": "points"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "px"
+          },
+          "y": {
+            "field": "py"
+          },
+          "size": {
+            "value": 120
+          },
+          "fill": {
+            "scale": "brandColor",
+            "field": "reported_brand_category"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 1.6
+          },
+          "tooltip": {
+            "field": "hover"
+          },
+          "cursor": {
+            "value": "pointer"
+          }
+        },
+        "hover": {
+          "size": {
+            "value": 240
+          },
+          "strokeWidth": {
+            "value": 2.4
+          }
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 92
+          },
+          "y": {
+            "value": 192
+          },
+          "size": {
+            "value": 350
+          },
+          "fill": {
+            "value": "#252b35"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 78
+          },
+          "y": {
+            "value": 169
+          },
+          "text": {
+            "value": "2021 baseline"
+          },
+          "font": {
+            "value": "Inter"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fontWeight": {
+            "value": 600
+          },
+          "fill": {
+            "value": "#4b5563"
+          },
+          "align": {
+            "value": "right"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "years"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "92 + (datum.yr - 2021) * 122"
+          },
+          "y": {
+            "value": 360
+          },
+          "text": {
+            "field": "yr"
+          },
+          "align": {
+            "value": "center"
+          },
+          "font": {
+            "value": "Inter"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fill": {
+            "value": "#555"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "ends"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.px + 15"
+          },
+          "y": {
+            "signal": "datum.py - 9"
+          },
+          "text": {
+            "field": "reported_brand_category"
+          },
+          "font": {
+            "value": "Inter"
+          },
+          "fontSize": {
+            "value": 13
+          },
+          "fontWeight": {
+            "value": 600
+          },
+          "fill": {
+            "scale": "brandColor",
+            "field": "reported_brand_category"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "ends"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.px + 15"
+          },
+          "y": {
+            "signal": "datum.py + 9"
+          },
+          "text": {
+            "signal": "(datum.changePct >= 0 ? '+' : '') + format(datum.changePct, '.1f') + '% vs 2021'"
+          },
+          "font": {
+            "value": "Inter"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fill": {
+            "value": "#686868"
+          }
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Inter",
+    "view": {
+      "stroke": null
+    }
+  }
 }
