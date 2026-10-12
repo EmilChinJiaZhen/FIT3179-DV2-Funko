@@ -993,10 +993,21 @@ body {
   }
 }
 
-/* Give the five-year brand branching chart more room than standard 50/50 idioms. */
+/* Keep the findings/chart columns at 50/50 while allowing this detailed
+   Vega visualization to use the unused right-hand breathing room. */
 @media (min-width: 1101px) {
   .story-row--brand-chart {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 32px;
+  }
+
+  .story-row--brand-chart .story-chart {
+    width: calc(100% + 95px);
+    max-width: none;
+    overflow: visible;
+  }
+
+  #idiom22 {
+    overflow: visible;
   }
 }
