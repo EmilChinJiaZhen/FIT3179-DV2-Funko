@@ -1011,4 +1011,9 @@ body {
   #idiom22 {
     overflow: visible;
   }
+
+  /* Align the plotted idiom more closely with its chart-column edge. */
+  #idiom22 .vega-embed {
+    transform: translateX(-30px);
+  }
 }
