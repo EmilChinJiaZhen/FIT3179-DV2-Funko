@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 620,
+  "width": 700,
   "height": 420,
   "padding": {
     "top": 10,
@@ -252,13 +252,24 @@
     {
       "name": "color",
       "type": "ordinal",
-      "domain": {
-        "data": "product_year",
-        "field": "DisplayType"
-      },
-      "range": {
-        "scheme": "tableau10"
-      }
+      "domain": [
+        "Pop!",
+        "Apparel",
+        "Keychains",
+        "Vinyl GOLD",
+        "Plush",
+        "Board Games",
+        "Other"
+      ],
+      "range": [
+        "#4E79A7",
+        "#76B7B2",
+        "#F28E2B",
+        "#EDC948",
+        "#B07AA1",
+        "#7F7F7F",
+        "#D6CFC2"
+      ]
     }
   ],
   "legends": [
@@ -341,7 +352,7 @@
             "signal": "((datum.y0 + datum.y1) / 2) * height - 7"
           },
           "text": {
-            "signal": "((datum.x1n - datum.x0n) * width < 85 && indexof(datum.DisplayType, ' ') >= 0) ? replace(datum.DisplayType, ' ', '\\n') : datum.DisplayType"
+            "signal": "datum.DisplayType"
           },
           "align": {
             "value": "center"
@@ -353,7 +364,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 12
+            "value": 11
           },
           "fontWeight": {
             "value": "bold"
@@ -367,7 +378,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 42) ? 1 : 0"
+            "signal": "((datum.x1n - datum.x0n) * width >= max(64, length(datum.DisplayType) * 6.6 + 12)) && ((datum.y1 - datum.y0) * height >= 42) ? 1 : 0"
           },
           "font": {
             "value": "Inter"
@@ -402,7 +413,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 12
+            "value": 11
           },
           "fill": {
             "value": "white"
@@ -410,7 +421,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "((datum.x1n - datum.x0n) * width >= 45) && ((datum.y1 - datum.y0) * height >= 52) ? 0.95 : 0"
+            "signal": "((datum.x1n - datum.x0n) * width >= max(75, length(format(datum.Product_Count, ',')) * 7 + 58)) && ((datum.y1 - datum.y0) * height >= 58) && ((datum.x1n - datum.x0n) * width >= max(64, length(datum.DisplayType) * 6.6 + 12)) ? 1 : 0"
           },
           "font": {
             "value": "Inter"
