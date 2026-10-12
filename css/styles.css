@@ -1006,14 +1006,12 @@ body {
     max-width: none;
     overflow: visible;
     margin-top: -24px;
+    position: relative;
+    left: -50px;
   }
 
   #idiom22 {
     overflow: visible;
   }
 
-  /* Align the plotted idiom more closely with its chart-column edge. */
-  #idiom22 .vega-embed {
-    transform: translateX(-30px);
-  }
 }
