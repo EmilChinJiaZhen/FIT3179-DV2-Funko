@@ -4,32 +4,38 @@
   "height": 350,
   "background": "transparent",
   "title": {
-    "text": "Core Collectibles Account for Most Sales",
+    "text": "How Have Funko's Brand Sales Changed Since 2021?",
     "font": "Inter",
     "fontSize": 20
   },
   "data": {
-    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/main/data/funko_verified_brand_sales_2023_2025.csv"
+    "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/main/data/funko_verified_brand_sales_2021_2025.csv"
   },
-  "mark": "bar",
+  "mark": {
+    "type": "line",
+    "point": {
+      "filled": true,
+      "size": 100
+    },
+    "strokeWidth": 3
+  },
   "encoding": {
     "x": {
       "field": "year",
       "type": "ordinal",
       "title": "Year",
+      "sort": "ascending",
       "axis": {
         "labelAngle": 0
       }
     },
     "y": {
-      "aggregate": "sum",
-      "field": "net_sales_usd_thousands",
+      "field": "IndexedSales",
       "type": "quantitative",
-      "stack": "normalize",
-      "axis": {
-        "format": ".0%"
-      },
-      "title": "Share of net sales"
+      "title": "Sales index (2021 = 100)",
+      "scale": {
+        "zero": false
+      }
     },
     "color": {
       "field": "reported_brand_category",
@@ -53,15 +59,24 @@
     },
     "tooltip": [
       {
-        "field": "year"
+        "field": "year",
+        "title": "Year"
       },
       {
-        "field": "reported_brand_category"
+        "field": "reported_brand_category",
+        "title": "Brand group"
       },
       {
-        "field": "net_sales_usd_thousands",
+        "field": "IndexedSales",
         "type": "quantitative",
-        "format": ","
+        "title": "Sales index (2021 = 100)",
+        "format": ".1f"
+      },
+      {
+        "field": "SalesMillions",
+        "type": "quantitative",
+        "title": "Net sales (USD million)",
+        "format": ",.1f"
       }
     ]
   },
@@ -75,5 +90,35 @@
       "titleFontSize": 13,
       "titleFontWeight": "normal"
     }
-  }
+  },
+  "transform": [
+    {
+      "calculate": "toNumber(datum.net_sales_usd_thousands)",
+      "as": "SalesThousands"
+    },
+    {
+      "calculate": "toNumber(datum.year) == 2021 ? datum.SalesThousands : 0",
+      "as": "BaseYearSales"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "max",
+          "field": "BaseYearSales",
+          "as": "Sales2021"
+        }
+      ],
+      "groupby": [
+        "reported_brand_category"
+      ]
+    },
+    {
+      "calculate": "datum.Sales2021 > 0 ? 100 * datum.SalesThousands / datum.Sales2021 : null",
+      "as": "IndexedSales"
+    },
+    {
+      "calculate": "datum.SalesThousands / 1000",
+      "as": "SalesMillions"
+    }
+  ]
 }
