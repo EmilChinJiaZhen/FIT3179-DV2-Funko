@@ -21,7 +21,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
   "height": 355,
-  "title": "Where Did Funko Generate Its Sales?",
+  "title": "How Has Funko's Regional Sales Share Changed?",
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_verified_geography_sales_2021_2025.csv"
   },
@@ -47,7 +47,17 @@
       "aggregate": "sum",
       "field": "SalesMillions",
       "type": "quantitative",
-      "title": "Net sales (USD million)"
+      "title": "Share of annual net sales",
+      "stack": "normalize",
+      "axis": {
+        "format": ".0%"
+      },
+      "scale": {
+        "domain": [
+          0,
+          1
+        ]
+      }
     },
     "color": {
       "field": "region",
@@ -83,10 +93,11 @@
         "title": "Region"
       },
       {
+        "aggregate": "sum",
         "field": "SalesMillions",
         "type": "quantitative",
         "format": ",.3f",
-        "title": "Net sales (USD million)"
+        "title": "Regional sales (USD million)"
       }
     ]
   }
