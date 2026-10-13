@@ -6,7 +6,7 @@
     "fontSize": 20,
     "font": "Inter",
     "fontWeight": "bold",
-    "offset": 8
+    "offset": 16
   },
   "width": "container",
   "height": 420,
