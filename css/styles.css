@@ -1133,3 +1133,19 @@ body {
 .funko-map-layout > .idiom-html-title {
   grid-column: 1 / -1;
 }
+
+/* Align the top of each external idiom heading to its paired finding h3.
+   The finding kicker is part of its column but is not the heading sightline.
+   Sankey is excluded because its canvas has its own spacing correction. */
+.story-row:not(.story-row--feature) > .story-chart {
+  padding-top: 8px;
+}
+.story-row:not(.story-row--feature):has(> .story-insight > .story-kicker) > .story-chart {
+  padding-top: 37px;
+}
+/* Remove the old upward nudge now that the title alignment is systematic. */
+@media (min-width: 1101px) {
+  .story-row--brand-chart > .story-chart {
+    margin-top: 0;
+  }
+}
