@@ -25,8 +25,8 @@
     <header class="hero">
       <p class="eyebrow">FIT3179 Data Visualisation</p>
       <h1 class="hero-title">
-        <span>Inside the World of Funko</span>
-        <img src="assets/funko-pop-transparent-fixed.png" alt="" class="hero-title-icon" aria-hidden="true">
+        <span class="hero-title-line">Inside the World</span>
+        <span class="hero-title-line hero-title-last">of Funko<img src="assets/funko-pop-transparent-fixed.png" alt="" class="hero-title-icon" aria-hidden="true"></span>
       </h1>
       <p class="hero-copy">
         Investigate Funko Pop! figures by comparing franchises, release years,
@@ -34,6 +34,29 @@
         have expanded across different entertainment industries.
       </p>
     </header>
+
+    <section class="dashboard-kpis" aria-label="Funko at a glance">
+      <div class="dashboard-kpi dashboard-kpi--catalogue">
+        <p class="dashboard-kpi__label">Catalogue records</p>
+        <strong class="dashboard-kpi__number" id="kpi-products">—</strong>
+        <p class="dashboard-kpi__detail">Products in the catalogue sample</p>
+      </div>
+      <div class="dashboard-kpi dashboard-kpi--licenses">
+        <p class="dashboard-kpi__label">Distinct licenses</p>
+        <strong class="dashboard-kpi__number" id="kpi-licenses">—</strong>
+        <p class="dashboard-kpi__detail">Across the sampled products</p>
+      </div>
+      <div class="dashboard-kpi dashboard-kpi--pop">
+        <p class="dashboard-kpi__label">Pop! product share</p>
+        <strong class="dashboard-kpi__number" id="kpi-pop-share">—</strong>
+        <p class="dashboard-kpi__detail">Of catalogue product records</p>
+      </div>
+      <div class="dashboard-kpi dashboard-kpi--sales">
+        <p class="dashboard-kpi__label">2025 net sales</p>
+        <strong class="dashboard-kpi__number">$908.2M</strong>
+        <p class="dashboard-kpi__detail">Company-wide, official reporting</p>
+      </div>
+    </section>
 
     <nav class="chapter-nav" aria-label="Dashboard chapters">
       <a href="#catalogue">01 Product Categories</a>
