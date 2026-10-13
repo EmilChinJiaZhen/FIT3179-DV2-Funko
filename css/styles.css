@@ -609,9 +609,9 @@ body {
   flex: 0 0 12px;
 }
 
-.origin-map-legend__triangle--na { background: rgb(225, 87, 89); }
-.origin-map-legend__triangle--eu { background: rgb(242, 142, 43); }
-.origin-map-legend__triangle--ap { background: rgb(78, 121, 167); }
+.origin-map-legend__triangle--na { background: #5C4FA3; }
+.origin-map-legend__triangle--eu { background: #C05792; }
+.origin-map-legend__triangle--ap { background: #1F8C83; }
 
 .origin-map-legend__scale {
   display: flex;
