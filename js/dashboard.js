@@ -62,6 +62,30 @@ visualisations.forEach(async ([selector, specPath]) => {
 });
 
 
+/* ---------- Dashboard KPIs from the same catalogue sample ---------- */
+async function renderDashboardKpis() {
+  const productEl = document.querySelector("#kpi-products");
+  const licensesEl = document.querySelector("#kpi-licenses");
+  const shareEl = document.querySelector("#kpi-pop-share");
+  if (!productEl || !licensesEl || !shareEl) return;
+
+  try {
+    const response = await fetch("https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv");
+    if (!response.ok) throw new Error("Could not load catalogue KPI data");
+    const rows = vega.read(await response.text(), { type: "csv" });
+    const products = rows.filter(row => String(row.product_type || "").trim());
+    const licenses = new Set(products.map(row => String(row.license || "").trim()).filter(Boolean));
+    const pops = products.filter(row => String(row.product_type || "").trim() === "Pop!").length;
+    productEl.textContent = products.length.toLocaleString();
+    licensesEl.textContent = licenses.size.toLocaleString();
+    shareEl.textContent = products.length ? (100 * pops / products.length).toFixed(1) + "%" : "—";
+  } catch (error) {
+    console.error("Failed to load dashboard KPIs", error);
+    productEl.textContent = licensesEl.textContent = shareEl.textContent = "N/A";
+  }
+}
+renderDashboardKpis();
+
 /* ---------- Product type pictogram ---------- */
 
 const PICTOGRAM_DATA_URL =
