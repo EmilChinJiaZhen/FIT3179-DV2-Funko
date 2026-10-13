@@ -1025,3 +1025,69 @@ body {
     box-shadow: none;
   }
 }
+
+/* Refine catalogue reading measure without changing its two-column layout. */
+.chapter--catalogue .story-row:not(.story-row--feature) .story-insight,
+.chapter--catalogue .story-row:not(.story-row--feature) .story-insight p:last-child {
+  max-width: 56ch;
+}
+
+/* Section 2: the previous 900px maps plus the findings exceeded the
+   narrower 1136px content area. Keep maps and legends inside their column. */
+@media (min-width: 1101px) {
+  .chapter--global .story-row--map,
+  .chapter--global .story-row--map.story-row--reverse {
+    grid-template-columns: minmax(0, 720px) minmax(0, 1fr);
+    gap: 28px;
+    justify-content: normal;
+  }
+
+  .chapter--global .story-row--map:not(.story-row--reverse) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 720px);
+  }
+
+  .chapter--global .story-row--map .story-insight,
+  .chapter--global .story-row--map.story-row--reverse .story-insight {
+    max-width: 100%;
+  }
+
+  .chapter--global .story-row--map .story-chart,
+  .chapter--global .story-row--map.story-row--reverse .story-chart,
+  .chapter--global .story-row--map .vis-container,
+  .chapter--global .story-row--map .vega-embed,
+  .chapter--global .story-row--map .vega-embed > div {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .chapter--global .story-row--map .vega-embed svg {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+
+  .chapter--global .story-row--map #idiom09 {
+    transform: none;
+  }
+
+  .chapter--global .origin-map-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 105px;
+    column-gap: 10px;
+    justify-content: start;
+  }
+
+  .chapter--global .funko-map-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 105px;
+    column-gap: 10px;
+    justify-content: start;
+  }
+
+  .chapter--global .origin-map-legend--side,
+  .chapter--global .funko-map-legend--side {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
