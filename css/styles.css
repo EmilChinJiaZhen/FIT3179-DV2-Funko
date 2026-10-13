@@ -16,9 +16,7 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, #fff7d9 0, #fff7d9 120px, transparent 121px),
-    linear-gradient(180deg, #f4f0e8 0%, #eee9df 100%);
+  background: #dcd9d4;
   color: var(--ink);
   font-family: "Inter", Arial, Helvetica, sans-serif;
   font-size: 16px;
@@ -26,9 +24,12 @@ body {
 }
 
 .page {
-  max-width: 1320px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 28px auto;
   padding: 42px 32px 72px;
+  background: #f4f0e8;
+  box-shadow: 0 6px 30px rgba(29, 34, 46, 0.12);
+  border: 1px solid rgba(29, 34, 46, 0.06);
 }
 
 .hero {
@@ -1014,4 +1015,13 @@ body {
     overflow: visible;
   }
 
+}
+
+/* On narrow screens, the page fills the viewport without desktop framing. */
+@media (max-width: 760px) {
+  .page {
+    margin: 0;
+    border: none;
+    box-shadow: none;
+  }
 }
