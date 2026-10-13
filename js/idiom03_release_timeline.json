@@ -12,7 +12,8 @@
     "subtitleFont": "Inter",
     "subtitleFontSize": 13,
     "subtitleFontWeight": "normal",
-    "subtitlePadding": 8
+    "subtitlePadding": 8,
+    "offset": 16
   },
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
