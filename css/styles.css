@@ -1197,3 +1197,19 @@ body {
 .finding-emphasis.origin-na { color: #5C4FA3; }
 .finding-emphasis.origin-eu { color: #C05792; }
 .finding-emphasis.origin-ap { color: #1F8C83; }
+
+.hero h1.hero-title { max-width: none; }
+.hero-title-line { display: block; }
+.hero-title-last { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
+.hero-title .hero-title-icon { position: static; width: 62px; height: 76px; flex: 0 0 auto; margin-left: 0; }
+.dashboard-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 4px 0 38px; }
+.dashboard-kpi { min-width: 0; padding: 17px 18px 15px; background: #fffaf3; border: 1px solid #dfd6c9; border-top: 4px solid var(--kpi-accent, #5476a7); border-radius: 9px; }
+.dashboard-kpi--catalogue { --kpi-accent: #2f6db5; }
+.dashboard-kpi--licenses { --kpi-accent: #7d57c2; }
+.dashboard-kpi--pop { --kpi-accent: #4e79a7; }
+.dashboard-kpi--sales { --kpi-accent: #3a9c68; }
+.dashboard-kpi__label { margin: 0 0 3px; font-size: 12px; font-weight: 700; letter-spacing: .035em; color: #465069; }
+.dashboard-kpi__number { display: block; font-size: 32px; line-height: 1.2; font-weight: 800; color: #152441; }
+.dashboard-kpi__detail { margin: 7px 0 0; color: #606474; font-size: 11px; line-height: 1.4; }
+@media (max-width: 900px) { .dashboard-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .hero h1.hero-title { font-size: 38px; } .hero-title .hero-title-icon { width: 42px; height: 52px; } .dashboard-kpis { gap: 9px; } .dashboard-kpi { padding: 13px 11px; } .dashboard-kpi__number { font-size: 24px; } }
