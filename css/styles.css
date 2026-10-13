@@ -796,10 +796,10 @@ body {
 }
 
 .pictogram-chart__title {
-  margin: 0 0 3px;
+  margin: 0 0 16px;
   font-size: 20px;
   line-height: 1.25;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
