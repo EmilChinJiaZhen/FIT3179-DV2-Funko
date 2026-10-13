@@ -1177,3 +1177,12 @@ body {
 .chapter--global .story-row .story-insight p:last-child {
   max-width: 49ch;
 }
+
+/* Evidence-first finding highlights: restrained, semantic colour hierarchy. */
+.finding-emphasis { font-weight: 700; }
+.finding-emphasis.cat-blue { color: #245D9F; }
+.finding-emphasis.cat-teal { color: #167D79; }
+.finding-emphasis.cat-purple { color: #6844AF; }
+.finding-emphasis.cat-violet { color: #5C4FA3; }
+.finding-emphasis.cat-gold { color: #A47B00; }
+.finding-emphasis.cat-green { color: #277A4D; }
