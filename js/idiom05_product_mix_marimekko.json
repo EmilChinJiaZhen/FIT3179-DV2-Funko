@@ -19,7 +19,7 @@
     ],
     "orient": "top",
     "anchor": "start",
-    "offset": 12,
+    "offset": 16,
     "font": "Inter",
     "fontSize": 20,
     "fontWeight": "bold",
