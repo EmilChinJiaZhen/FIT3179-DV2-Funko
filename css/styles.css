@@ -1149,3 +1149,13 @@ body {
     margin-top: 0;
   }
 }
+
+/* More comfortable reading measure for findings in Pricing and Time. */
+.chapter--pricing .story-row:not(.story-row--feature) .story-insight,
+.chapter--time .story-row .story-insight {
+  max-width: 100%;
+}
+.chapter--pricing .story-row:not(.story-row--feature) .story-insight p:last-child,
+.chapter--time .story-row .story-insight p:last-child {
+  max-width: 56ch;
+}
