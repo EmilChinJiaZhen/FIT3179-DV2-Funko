@@ -1168,3 +1168,12 @@ body {
 .origin-map-layout .origin-map-legend--side {
   margin-top: 30px;
 }
+
+/* Course-note reading measure: aim for approximately 8–10 words per line.
+   Narrow only the findings paragraphs; leave headings, grid and charts intact. */
+.chapter--catalogue .story-row:not(.story-row--feature) .story-insight p:last-child,
+.chapter--pricing .story-row:not(.story-row--feature) .story-insight p:last-child,
+.chapter--time .story-row .story-insight p:last-child,
+.chapter--global .story-row .story-insight p:last-child {
+  max-width: 49ch;
+}
