@@ -51,7 +51,7 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, embedOptions);
+    const embedResult = await vegaEmbed(container, spec, selector === "#idiom01" ? { ...embedOptions, tooltip: false } : embedOptions);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
