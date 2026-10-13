@@ -18,7 +18,8 @@
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold"
+    "fontWeight": "bold",
+    "offset": 16
   },
   "data": [
     {
