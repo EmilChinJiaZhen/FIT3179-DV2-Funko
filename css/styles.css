@@ -1186,3 +1186,14 @@ body {
 .finding-emphasis.cat-violet { color: #5C4FA3; }
 .finding-emphasis.cat-gold { color: #A47B00; }
 .finding-emphasis.cat-green { color: #277A4D; }
+
+/* Match product and map-region wording to the actual chart legend colours. */
+.finding-emphasis.product-pop { color: #4E79A7; }
+.finding-emphasis.product-gold { color: #957500; }
+.finding-emphasis.product-keychains { color: #B45E00; }
+.finding-emphasis.product-plush { color: #93608D; }
+.finding-emphasis.product-apparel { color: #287D78; }
+.finding-emphasis.product-board { color: #656565; }
+.finding-emphasis.origin-na { color: #5C4FA3; }
+.finding-emphasis.origin-eu { color: #C05792; }
+.finding-emphasis.origin-ap { color: #1F8C83; }
