@@ -16,8 +16,9 @@
     "text": "How Do Funko Prices Vary Across Product Types?",
     "anchor": "start",
     "font": "Inter",
-    "fontSize": 28,
-    "fontWeight": "bold"
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "offset": 16
   },
   "signals": [
     {
@@ -627,7 +628,7 @@
     "title": {
       "font": "Inter",
       "subtitleFont": "Inter",
-      "fontSize": 28,
+      "fontSize": 20,
       "fontWeight": "bold",
       "subtitleFontSize": 13,
       "subtitleFontWeight": "normal"
