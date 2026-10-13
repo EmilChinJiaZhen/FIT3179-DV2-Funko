@@ -1217,5 +1217,5 @@ body {
 /* Brand chart's plot has a 70px left axis area. Align its HTML heading
    with the plotted area rather than the container edge. */
 .story-row--brand-chart .idiom-html-title {
-  margin-left: 70px;
+  margin-left: 28px;
 }
