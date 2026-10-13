@@ -278,11 +278,11 @@
           "as": "TriangleApexY"
         },
         {
-          "calculate": "datum.Region == 'North America' ? 'rgb(225,87,89)' : datum.Region == 'Europe' ? 'rgb(242,142,43)' : 'rgb(78,121,167)'",
+          "calculate": "datum.Region == 'North America' ? '#5C4FA3' : datum.Region == 'Europe' ? '#C05792' : '#1F8C83'",
           "as": "TriangleColor"
         },
         {
-          "calculate": "'data:image/svg+xml;utf8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2016%2080%22%3E%3Cpolygon%20points=%228,' + datum.TriangleApexY + '%201,80%2015,80%22%20fill=%22' + datum.TriangleColor + '%22%20stroke=%22white%22%20stroke-width=%221%22/%3E%3C/svg%3E'",
+          "calculate": "'data:image/svg+xml;utf8,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2016%2080%22%3E%3Cpolygon%20points=%228,' + datum.TriangleApexY + '%201,80%2015,80%22%20fill=%22' + replace(datum.TriangleColor, '#', '%23') + '%22%20stroke=%22white%22%20stroke-width=%221%22/%3E%3C/svg%3E'",
           "as": "TriangleImage"
         },
         {
