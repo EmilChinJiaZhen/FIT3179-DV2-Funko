@@ -13,14 +13,6 @@
     "resize": true
   },
   "background": "transparent",
-  "title": {
-    "text": "How Are Funko's Top Licenses Connected to Product Types?",
-    "anchor": "start",
-    "font": "Inter",
-    "fontSize": 20,
-    "fontWeight": "bold",
-    "offset": 16
-  },
   "signals": [
     {
       "name": "cx",
