@@ -1108,3 +1108,28 @@ body {
 .origin-map-legend__section + .origin-map-legend__section {
   margin-top: 14px;
 }
+
+/* Chart headings live in the document, not inside a scaled Vega SVG. */
+.idiom-html-title {
+  margin: 0 0 16px;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.idiom-html-title:has(+ .idiom-html-subtitle) {
+  margin-bottom: 2px;
+}
+.idiom-html-subtitle {
+  margin: 0 0 16px;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #5f6472;
+}
+/* Keep maps' custom side legends in their intended grid columns. */
+.origin-map-layout > .idiom-html-title,
+.funko-map-layout > .idiom-html-title {
+  grid-column: 1 / -1;
+}
