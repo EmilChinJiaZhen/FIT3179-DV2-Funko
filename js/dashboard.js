@@ -24,10 +24,41 @@ const visualisations = [
   ["#idiom18", "js/idiom18_pop_culture_convention_attendance_proportional_symbol_map.json"]
 ];
 
-visualisations.forEach(([selector, spec]) => {
-  vegaEmbed(selector, spec, embedOptions).catch((error) => {
-    console.error(`Failed to load ${spec}`, error);
-  });
+// Render chart titles as normal HTML, outside the SVG. This keeps their
+// typography consistent even when wide maps and custom diagrams are scaled.
+visualisations.forEach(async ([selector, specPath]) => {
+  const container = document.querySelector(selector);
+  if (!container) return;
+
+  try {
+    const response = await fetch(specPath);
+    if (!response.ok) throw new Error(`Could not load ${specPath}: ${response.status}`);
+    const spec = await response.json();
+    const title = spec.title;
+    const titleText = typeof title === "string" ? title : title?.text;
+
+    // The chord chart already has its title in HTML.
+    if (titleText && !container.previousElementSibling?.classList.contains("pictogram-chart__title")) {
+      const heading = document.createElement("h4");
+      heading.className = "pictogram-chart__title idiom-html-title";
+      heading.textContent = Array.isArray(titleText) ? titleText.join(" ") : titleText;
+      container.before(heading);
+
+      const subtitle = title && typeof title === "object" ? title.subtitle : null;
+      if (subtitle) {
+        const subtitleElement = document.createElement("p");
+        subtitleElement.className = "idiom-html-subtitle";
+        subtitleElement.textContent = Array.isArray(subtitle) ? subtitle.join(" ") : subtitle;
+        container.before(subtitleElement);
+      }
+    }
+
+    // Preserve the chart itself, but never draw a second title inside Vega SVG.
+    delete spec.title;
+    await vegaEmbed(container, spec, embedOptions);
+  } catch (error) {
+    console.error(`Failed to load ${specPath}`, error);
+  }
 });
 
 
