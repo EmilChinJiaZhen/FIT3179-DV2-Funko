@@ -51,12 +51,98 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    await vegaEmbed(container, spec, embedOptions);
+    const embedResult = await vegaEmbed(container, spec, embedOptions);
+    if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
 });
 
+
+
+/* Share of all license-associated catalogue records (not product-type mix). */
+let licenseSharesPromise;
+function getLicenseShares() {
+  if (!licenseSharesPromise) {
+    licenseSharesPromise = fetch("data/data_cleaned_wide.csv")
+      .then(response => {
+        if (!response.ok) throw new Error("Unable to load catalogue records");
+        return response.text();
+      })
+      .then(csv => {
+        const records = vega.read(csv, { type: "csv" });
+        const counts = new Map();
+        let total = 0;
+        for (const record of records) {
+          const license = String(record.license ?? "").trim();
+          if (!license) continue;
+          counts.set(license, (counts.get(license) || 0) + 1);
+          total++;
+        }
+        return { counts, total };
+      });
+  }
+  return licenseSharesPromise;
+}
+
+function setupLicenseShareTooltip(view) {
+  const tip = document.createElement("div");
+  tip.className = "license-share-tooltip";
+  tip.hidden = true;
+  tip.setAttribute("role", "tooltip");
+  document.body.appendChild(tip);
+
+  let summary = null;
+  let current = "";
+  getLicenseShares().then(data => { summary = data; }).catch(console.error);
+
+  function show(license, event) {
+    if (!summary || !summary.total || !summary.counts.has(license)) return;
+    const count = summary.counts.get(license);
+    const share = 100 * count / summary.total;
+    if (current !== license) {
+      current = license;
+      tip.replaceChildren();
+      const heading = document.createElement("strong");
+      heading.className = "license-share-tooltip__title";
+      heading.textContent = license;
+      const desc = document.createElement("p");
+      desc.className = "license-share-tooltip__description";
+      desc.textContent = "Share of all license-associated product records";
+      const layout = document.createElement("div");
+      layout.className = "license-share-tooltip__layout";
+      const pie = document.createElement("div");
+      pie.className = "license-share-tooltip__pie";
+      pie.setAttribute("role", "img");
+      pie.setAttribute("aria-label", license + ": " + share.toFixed(1) + "%; all other licenses: " + (100 - share).toFixed(1) + "%");
+      pie.style.setProperty("--license-share", share + "%");
+      pie.title = license + ": " + share.toFixed(1) + "%";
+      const stats = document.createElement("div");
+      stats.className = "license-share-tooltip__stats";
+      const value = document.createElement("strong");
+      value.textContent = share.toFixed(1) + "%";
+      const fraction = document.createElement("span");
+      fraction.textContent = count.toLocaleString() + " of " + summary.total.toLocaleString() + " records";
+      const other = document.createElement("small");
+      other.textContent = "All other licenses: " + (100 - share).toFixed(1) + "%";
+      stats.append(value, fraction, other);
+      layout.append(pie, stats);
+      tip.append(heading, desc, layout);
+    }
+    tip.hidden = false;
+    const margin = 12;
+    const rect = tip.getBoundingClientRect();
+    tip.style.left = Math.max(margin, Math.min(event.clientX + 16, window.innerWidth - rect.width - margin)) + "px";
+    tip.style.top = Math.max(margin, Math.min(event.clientY + 16, window.innerHeight - rect.height - margin)) + "px";
+  }
+
+  view.addEventListener("mousemove", (event, item) => {
+    const license = item?.datum?.license;
+    if (typeof license === "string" && license.trim()) show(license, event);
+    else tip.hidden = true;
+  });
+  view.addEventListener("mouseout", () => { tip.hidden = true; current = ""; });
+}
 
 /* ---------- Dashboard KPIs from the same catalogue sample ---------- */
 async function renderDashboardKpis() {
