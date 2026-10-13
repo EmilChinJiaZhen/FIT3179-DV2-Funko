@@ -1159,3 +1159,12 @@ body {
 .chapter--time .story-row .story-insight p:last-child {
   max-width: 56ch;
 }
+
+/* The origin map is a two-row CSS grid: heading, then map + legend.
+   Pull the plot and its legend closer to the external HTML heading. */
+.origin-map-layout #idiom18 {
+  margin-top: -24px;
+}
+.origin-map-layout .origin-map-legend--side {
+  margin-top: 30px;
+}
