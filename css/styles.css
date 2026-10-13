@@ -1091,3 +1091,20 @@ body {
     overflow-wrap: anywhere;
   }
 }
+
+/* Compact the franchise-origin size key: retain the four reference sizes,
+   but avoid the oversized 76px rows that extend far below the map. */
+.origin-map-legend__scale {
+  gap: 5px;
+}
+.origin-map-legend__scale-item {
+  height: 43px;
+  align-items: center;
+}
+.origin-map-legend__height--1 { height: 8px; }
+.origin-map-legend__height--100 { height: 17px; }
+.origin-map-legend__height--500 { height: 28px; }
+.origin-map-legend__height--1000 { height: 40px; }
+.origin-map-legend__section + .origin-map-legend__section {
+  margin-top: 14px;
+}
