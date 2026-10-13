@@ -15,7 +15,7 @@
   },
   "background": "transparent",
   "title": {
-    "text": "Three Brands, Different Paths",
+    "text": "Funko Brand Sales Performance Relative to 2021",
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
@@ -202,9 +202,9 @@
         "Other"
       ],
       "range": [
-        "#3a9c68",
-        "#4E79A7",
-        "#B07AA1"
+        "#9EA4AC",
+        "#3A9C68",
+        "#C7C0CB"
       ]
     }
   ],
