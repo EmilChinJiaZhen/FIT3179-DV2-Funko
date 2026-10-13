@@ -21,7 +21,13 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
   "height": 355,
-  "title": "How Has Funko's Regional Sales Share Changed?",
+  "title": {
+    "text": "How Has Funko's Regional Sales Share Changed?",
+    "font": "Inter",
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "offset": 16
+  },
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/funko_verified_geography_sales_2021_2025.csv"
   },
