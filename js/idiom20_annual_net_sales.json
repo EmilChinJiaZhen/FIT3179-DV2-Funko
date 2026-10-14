@@ -44,11 +44,6 @@
           "title": "Year",
           "axis": {
             "labelAngle": 0
-          },
-          "scale": {
-            "domain": {
-              "param": "salesBrush"
-            }
           }
         },
         "y": {
@@ -76,6 +71,13 @@
             "filled": true,
             "size": 115,
             "color": "#4E79A7"
+          }
+        }
+      ],
+      "transform": [
+        {
+          "filter": {
+            "param": "salesBrush"
           }
         }
       ]
