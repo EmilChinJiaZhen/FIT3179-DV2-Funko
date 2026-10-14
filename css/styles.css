@@ -1627,3 +1627,12 @@ body {
   #idiom09 .funko-map-controls { grid-template-columns: 1fr; }
   #idiom09 .funko-map-controls > * { grid-column: 1 !important; grid-row: auto !important; }
 }
+
+/* Franchise-origin map: move Vega's action menu above the legend column,
+   leaving the legend directly beside the globe. */
+@media (min-width: 1101px) {
+  .origin-map-layout #idiom18.vega-embed > details {
+    top: 0 !important;
+    right: -145px !important;
+  }
+}
