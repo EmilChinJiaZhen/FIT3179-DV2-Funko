@@ -1684,3 +1684,10 @@ body {
 /* Remove browser focus rectangle from clickable SVG chart canvases. */
 .interactive-chart-selection:focus,
 .interactive-chart-selection:focus-visible { outline: none !important; }
+
+/* Nudge only the stores-and-events map slightly right on desktop. */
+@media (min-width: 1101px) {
+  .chapter--global .story-row--map #idiom09 {
+    transform: translateX(20px);
+  }
+}
