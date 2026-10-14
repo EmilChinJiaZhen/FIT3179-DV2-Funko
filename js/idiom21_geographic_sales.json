@@ -107,7 +107,7 @@
         ],
         "on": "click",
         "clear": "dblclick",
-        "toggle": false
+        "toggle": true
       }
     }
   ]
