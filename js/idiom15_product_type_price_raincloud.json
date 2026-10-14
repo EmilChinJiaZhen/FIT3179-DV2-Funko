@@ -40,6 +40,28 @@
     {
       "name": "cloudHeight",
       "value": 35
+    },
+    {
+      "name": "priceFilterMin",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "name": "Min price ($): "
+      }
+    },
+    {
+      "name": "priceFilterMax",
+      "value": 200,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "name": "Max price ($): "
+      }
     }
   ],
   "data": [
@@ -90,6 +112,10 @@
           "type": "formula",
           "expr": "indexof(lower(toString(datum.tags)), 'exclusive') >= 0 ? 'Exclusive-tagged' : 'No exclusive tag'",
           "as": "ExclusiveStatus"
+        },
+        {
+          "type": "filter",
+          "expr": "datum.PriceValue >= priceFilterMin && datum.PriceValue <= priceFilterMax"
         }
       ]
     },
