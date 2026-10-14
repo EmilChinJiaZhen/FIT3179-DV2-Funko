@@ -62,18 +62,6 @@
       "scale": {
         "zero": false
       }
-    },
-    "tooltip": [
-      {
-        "field": "year",
-        "title": "Year"
-      },
-      {
-        "field": "SalesMillions",
-        "type": "quantitative",
-        "title": "Net sales (USD million)",
-        "format": ",.3f"
-      }
-    ]
+    }
   }
 }
