@@ -1459,3 +1459,19 @@ body {
 /* Drag-to-pan cursors for Section 2 Vega world maps. */
 .draggable-funko-map { cursor: grab; touch-action: none; }
 .draggable-funko-map.is-dragging { cursor: grabbing; }
+
+/* Cohesive map navigation panel for all three Section 2 maps. */
+.funko-map-controls {
+  display:flex!important;flex-wrap:wrap;align-items:end;gap:12px 16px;
+  padding:12px 14px;margin:12px 0 4px;
+  border:1px solid #ded8cf;border-radius:12px;background:#faf7f1;
+  font-family:"Inter",Arial,sans-serif;font-size:12px;color:#263149;
+}
+.funko-map-controls .funko-map-control {display:flex;flex-wrap:wrap;align-items:center;gap:6px 9px;margin:0;min-width:0;}
+.funko-map-controls .funko-map-control label {font-size:12px;font-weight:650;color:#38445c;margin:0;}
+.funko-map-controls input[type="range"] {width:126px;accent-color:#7251ad;cursor:pointer;}
+.funko-map-controls select {max-width:180px;min-width:118px;padding:6px 26px 6px 9px;color:#263149;background:#fff;border:1px solid #c9c5d0;border-radius:7px;font:12px "Inter",Arial,sans-serif;}
+.funko-map-zoom-value {font-weight:700;font-size:11px;color:#634b97;min-width:38px;}
+.funko-map-reset {border:1px solid #9c8bbd;border-radius:8px;background:#fff;color:#624796;padding:7px 12px;font:600 12px "Inter",Arial,sans-serif;cursor:pointer;}
+.funko-map-reset:hover,.funko-map-reset:focus-visible {background:#eee8f8;outline-offset:2px;}
+@media(max-width:760px){.funko-map-controls {gap:10px;padding:10px;}.funko-map-controls .funko-map-control {width:100%;}.funko-map-controls input[type="range"] {flex:1;}}
