@@ -91,57 +91,27 @@
       ]
     },
     {
-      "name": "slots",
-      "transform": [
-        {
-          "type": "sequence",
-          "start": 0,
-          "stop": 32,
-          "as": "slot"
-        }
-      ]
-    },
-    {
       "name": "icons",
       "source": "types",
       "transform": [
         {
-          "type": "cross",
-          "with": "slots",
+          "type": "formula",
+          "as": "slotList",
+          "expr": "split('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31', ',')"
+        },
+        {
+          "type": "flatten",
+          "fields": [
+            "slotList"
+          ],
           "as": [
-            "type",
-            "slotRow"
+            "slotText"
           ]
         },
         {
           "type": "formula",
-          "as": "product_type",
-          "expr": "datum.type.product_type"
-        },
-        {
-          "type": "formula",
-          "as": "Count",
-          "expr": "datum.type.Count"
-        },
-        {
-          "type": "formula",
-          "as": "Rank",
-          "expr": "datum.type.Rank"
-        },
-        {
-          "type": "formula",
-          "as": "Color",
-          "expr": "datum.type.Color"
-        },
-        {
-          "type": "formula",
-          "as": "Shape",
-          "expr": "datum.type.Shape"
-        },
-        {
-          "type": "formula",
           "as": "slot",
-          "expr": "datum.slotRow.slot"
+          "expr": "toNumber(datum.slotText)"
         },
         {
           "type": "filter",
@@ -172,7 +142,7 @@
   ],
   "marks": [
     {
-      "type": "symbol",
+      "type": "path",
       "from": {
         "data": "types"
       },
@@ -184,12 +154,6 @@
           "y": {
             "value": 35
           },
-          "shape": {
-            "field": "Shape"
-          },
-          "size": {
-            "value": 120
-          },
           "fill": {
             "value": "transparent"
           },
@@ -198,6 +162,9 @@
           },
           "strokeWidth": {
             "value": 1.8
+          },
+          "path": {
+            "field": "Shape"
           }
         }
       }
@@ -234,7 +201,7 @@
       }
     },
     {
-      "type": "symbol",
+      "type": "path",
       "from": {
         "data": "icons"
       },
@@ -246,12 +213,6 @@
           "y": {
             "field": "y"
           },
-          "shape": {
-            "field": "Shape"
-          },
-          "size": {
-            "value": 195
-          },
           "fill": {
             "value": "transparent"
           },
@@ -262,10 +223,13 @@
             "value": 1.7
           },
           "strokeOpacity": {
-            "signal": "datum.partial ? 0.6 : 1"
+            "signal": "datum.partial ? 0.65 : 1"
           },
           "tooltip": {
             "signal": "{'Product type': datum.product_type, 'Product total': datum.Count, 'Icon represents': datum.partial ? datum.remainder + ' of 25 products (incomplete final group)' : '25 products'}"
+          },
+          "path": {
+            "field": "Shape"
           }
         }
       }
