@@ -1335,3 +1335,7 @@ body {
 .map-info-tooltip__metrics span {display:block; font-size:11px; color:#5f6472;}
 .map-info-tooltip__rank {margin:8px 0 0; border-top:1px solid #e9e4dc; padding-top:8px; font-size:11px;}
 .map-info-tooltip__rank strong {font-weight:800; color:var(--map-color,#6844AF);}
+
+/* Icons are specific to verified event/store details. */
+.map-info-tooltip__event-row { display:flex; align-items:flex-start; gap:9px; }
+.map-info-tooltip__event-icon { flex:0 0 18px; width:18px; text-align:center; font-size:13px; line-height:1.5; }
