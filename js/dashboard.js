@@ -505,7 +505,12 @@ async function renderProductTypePictogram() {
           class="pictogram-chart__icon pictogram-chart__icon--half"
           style="--product-color: ${color}"
           aria-hidden="true"
-          title="Incomplete final group: ${remainder} of ${unitValue} products"
+          data-product-type="${type}"
+          data-remainder="${remainder}"
+          data-unit="${unitValue}"
+          tabindex="0"
+          role="img"
+          aria-label="${type}: incomplete final group of ${remainder} out of ${unitValue} products"
         >${icon}</span>
       ` : "";
 
@@ -547,6 +552,57 @@ async function renderProductTypePictogram() {
         1 full icon = ${unitValue} products. A half icon marks an incomplete final group; counts at right are exact.
       </p>
     `;
+
+    // Replace the browser's delayed title popup with a styled, accessible
+    // tooltip, shown only on the incomplete icon of each product row.
+    const partialTip = document.createElement("div");
+    partialTip.className = "pictogram-partial-tooltip";
+    partialTip.hidden = true;
+    partialTip.setAttribute("role", "tooltip");
+    document.body.appendChild(partialTip);
+    const placeTip = (event, target) => {
+      const bounds = partialTip.getBoundingClientRect();
+      const anchor = target.getBoundingClientRect();
+      const x = event?.clientX || anchor.left + anchor.width / 2;
+      const y = event?.clientY || anchor.top + anchor.height / 2;
+      const margin = 12;
+      partialTip.style.left = Math.max(margin, Math.min(x + 15, window.innerWidth - bounds.width - margin)) + "px";
+      partialTip.style.top = Math.max(margin, Math.min(y + 15, window.innerHeight - bounds.height - margin)) + "px";
+    };
+    const showTip = (target, event) => {
+      const type = target.dataset.productType;
+      const remainder = Number(target.dataset.remainder);
+      const unit = Number(target.dataset.unit);
+      if (!type || !remainder || !unit) return;
+      partialTip.replaceChildren();
+      partialTip.style.setProperty("--partial-color", PRODUCT_TYPE_COLORS[type] || "#7F7F7F");
+      const title = document.createElement("strong");
+      title.className = "pictogram-partial-tooltip__heading";
+      title.textContent = type + " · Incomplete final group";
+      const count = document.createElement("div");
+      count.className = "pictogram-partial-tooltip__value";
+      count.textContent = remainder + " of " + unit + " products";
+      const track = document.createElement("div");
+      track.className = "pictogram-partial-tooltip__track";
+      const fill = document.createElement("span");
+      fill.className = "pictogram-partial-tooltip__fill";
+      fill.style.width = (remainder / unit * 100) + "%";
+      track.appendChild(fill);
+      const description = document.createElement("p");
+      description.className = "pictogram-partial-tooltip__note";
+      description.textContent = "This icon represents the remaining " + remainder + " products, not another full group of " + unit + ".";
+      partialTip.append(title, count, track, description);
+      partialTip.hidden = false;
+      placeTip(event, target);
+    };
+    const hideTip = () => { partialTip.hidden = true; };
+    container.querySelectorAll(".pictogram-chart__icon--half").forEach(icon => {
+      icon.addEventListener("mouseenter", event => showTip(icon, event));
+      icon.addEventListener("mousemove", event => placeTip(event, icon));
+      icon.addEventListener("mouseleave", hideTip);
+      icon.addEventListener("focus", () => showTip(icon));
+      icon.addEventListener("blur", hideTip);
+    });
   } catch (error) {
     console.error("Failed to render product type pictogram", error);
     container.innerHTML = `
