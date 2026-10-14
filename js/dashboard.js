@@ -725,7 +725,7 @@ async function renderProductTypePictogram() {
     trigger.setAttribute("aria-label", "Pictogram actions");
     actionMenu.appendChild(trigger);
     const exportLink = document.createElement("a");
-    exportLink.textContent = "Download pictogram (PNG)";
+    exportLink.textContent = "Download pictogram (SVG)";
     exportLink.href = "#";
     exportLink.addEventListener("click", async event => {
       event.preventDefault();
