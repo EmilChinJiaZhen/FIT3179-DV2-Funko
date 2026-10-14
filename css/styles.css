@@ -1445,3 +1445,13 @@ body {
 /* Float the Vega-Embed action menu above charts without consuming plot space. */
 .vega-embed { position: relative; }
 .vega-embed > details { position: absolute; top: 0; right: 0; z-index: 35; }
+
+/* Keep the oversized brand-series plot, but anchor its action button
+   to the visible right chart column rather than the wider SVG wrapper. */
+@media (min-width: 1101px) {
+  .story-row--brand-chart #idiom22.vega-embed > details,
+  .story-row--brand-chart #idiom22 .vega-embed > details,
+  .story-row--brand-chart .story-chart #idiom22 > details {
+    right: 165px !important;
+  }
+}
