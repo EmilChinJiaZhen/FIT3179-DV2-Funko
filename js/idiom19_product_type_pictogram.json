@@ -299,7 +299,11 @@
             "value": "transparent"
           }
         },
-        "update": {}
+        "update": {
+          "opacity": {
+            "signal": "selectedPictogramType === '' || datum.product_type === selectedPictogramType ? 1 : 0.16"
+          }
+        }
       },
       "marks": [
         {
@@ -356,11 +360,7 @@
             "value": "#f4f0e8"
           }
         },
-        "update": {
-          "opacity": {
-            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16"
-          }
-        }
+        "update": {}
       }
     },
     {
