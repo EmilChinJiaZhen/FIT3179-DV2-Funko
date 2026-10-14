@@ -329,6 +329,499 @@
           "type": "nominal"
         }
       }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Origin region"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 774
+        },
+        "y": {
+          "value": 54
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "▲"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "color": "#5C4FA3"
+      },
+      "encoding": {
+        "x": {
+          "value": 775
+        },
+        "y": {
+          "value": 83
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "North America"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 795
+        },
+        "y": {
+          "value": 83
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "▲"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "color": "#C05792"
+      },
+      "encoding": {
+        "x": {
+          "value": 775
+        },
+        "y": {
+          "value": 108
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Europe"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 795
+        },
+        "y": {
+          "value": 108
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "▲"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 17,
+        "fontWeight": "normal",
+        "color": "#1F8C83"
+      },
+      "encoding": {
+        "x": {
+          "value": 775
+        },
+        "y": {
+          "value": 133
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Asia-Pacific"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 795
+        },
+        "y": {
+          "value": 133
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Funko product"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 774
+        },
+        "y": {
+          "value": 174
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "records"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 774
+        },
+        "y": {
+          "value": 191
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "▲"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#848484"
+      },
+      "encoding": {
+        "x": {
+          "value": 776
+        },
+        "y": {
+          "value": 225
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "1"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 816
+        },
+        "y": {
+          "value": 225
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "▲"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 18,
+        "fontWeight": "normal",
+        "color": "#848484"
+      },
+      "encoding": {
+        "x": {
+          "value": 776
+        },
+        "y": {
+          "value": 265
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "100"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 816
+        },
+        "y": {
+          "value": 265
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "▲"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 26,
+        "fontWeight": "normal",
+        "color": "#848484"
+      },
+      "encoding": {
+        "x": {
+          "value": 776
+        },
+        "y": {
+          "value": 310
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "500"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 816
+        },
+        "y": {
+          "value": 310
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "▲"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 35,
+        "fontWeight": "normal",
+        "color": "#848484"
+      },
+      "encoding": {
+        "x": {
+          "value": 776
+        },
+        "y": {
+          "value": 356
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "1,000"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 816
+        },
+        "y": {
+          "value": 356
+        },
+        "text": {
+          "field": "label"
+        }
+      }
     }
   ],
   "config": {
@@ -371,8 +864,7 @@
   },
   "autosize": {
     "type": "pad",
-    "contains": "padding",
-    "resize": false
+    "contains": "padding"
   },
   "background": "transparent",
   "params": [
@@ -429,5 +921,11 @@
         0
       ]
     }
-  ]
+  ],
+  "padding": {
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "right": 160
+  }
 }
