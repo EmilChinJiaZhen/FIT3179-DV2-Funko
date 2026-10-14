@@ -321,35 +321,7 @@
         "url": {
           "field": "TriangleImage",
           "type": "nominal"
-        },
-        "tooltip": [
-          {
-            "field": "Country",
-            "type": "nominal",
-            "title": "Verified origin country"
-          },
-          {
-            "field": "ProductCount",
-            "type": "quantitative",
-            "title": "Product records",
-            "format": ","
-          },
-          {
-            "field": "LicenseCount",
-            "type": "quantitative",
-            "title": "Verified mapped licenses"
-          },
-          {
-            "field": "CountryRank",
-            "type": "quantitative",
-            "title": "Rank"
-          },
-          {
-            "field": "Region",
-            "type": "nominal",
-            "title": "Origin region"
-          }
-        ]
+        }
       }
     }
   ],
