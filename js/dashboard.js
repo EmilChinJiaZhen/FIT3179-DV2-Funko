@@ -717,6 +717,53 @@ async function renderProductTypePictogram() {
       </p>
     `;
 
+    // HTML pictogram: provide an equivalent three-dot export menu.
+    const actionMenu = document.createElement("details");
+    actionMenu.className = "pictogram-actions";
+    const trigger = document.createElement("summary");
+    trigger.textContent = "•••";
+    trigger.setAttribute("aria-label", "Pictogram actions");
+    actionMenu.appendChild(trigger);
+    const exportLink = document.createElement("a");
+    exportLink.textContent = "Download pictogram (PNG)";
+    exportLink.href = "#";
+    exportLink.addEventListener("click", async event => {
+      event.preventDefault();
+      actionMenu.open = false;
+      const svgNs = "http://www.w3.org/2000/svg";
+      const target = container;
+      const bounds = target.getBoundingClientRect();
+      const width = Math.ceil(bounds.width), height = Math.ceil(bounds.height);
+      const svg = document.createElementNS(svgNs, "svg");
+      svg.setAttribute("xmlns", svgNs);
+      svg.setAttribute("width", width);
+      svg.setAttribute("height", height);
+      const foreign = document.createElementNS(svgNs, "foreignObject");
+      foreign.setAttribute("width", "100%");
+      foreign.setAttribute("height", "100%");
+      const copy = target.cloneNode(true);
+      copy.querySelector(".pictogram-actions")?.remove();
+      const styleText = [...document.styleSheets].flatMap(sheet => {
+        try { return [...sheet.cssRules].map(rule => rule.cssText); } catch { return []; }
+      }).join("\n");
+      const style = document.createElement("style");
+      style.textContent = styleText;
+      copy.prepend(style);
+      copy.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+      copy.style.background = "#f4f0e8";
+      foreign.appendChild(copy);
+      svg.appendChild(foreign);
+      const blob = new Blob([new XMLSerializer().serializeToString(svg)], {type:"image/svg+xml;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const download = document.createElement("a");
+      download.href=url;
+      download.download="funko-product-type-pictogram.svg";
+      download.click();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+    });
+    actionMenu.appendChild(exportLink);
+    container.appendChild(actionMenu);
+
     // Replace the browser's delayed title popup with a styled, accessible
     // tooltip, shown only on the incomplete icon of each product row.
     document.querySelectorAll(".pictogram-partial-tooltip").forEach(el => el.remove());
