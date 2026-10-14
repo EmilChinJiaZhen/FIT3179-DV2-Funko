@@ -85,6 +85,7 @@ function setupMapTooltip(view, selector) {
     const d=item?.datum||{};
     const label=selector==="#idiom08"?(d.Country||d.properties?.NAME):selector==="#idiom09"?d.Event:d.Country;
     if(!label){tip.hidden=true;previous="";return;}
+    if(selector!=="#idiom09")tip.classList.remove("map-info-tooltip--event");
     const key=selector+"|"+label;
     if(key!==previous) {
       previous=key;tip.replaceChildren();
@@ -100,13 +101,40 @@ function setupMapTooltip(view, selector) {
         tip.style.setProperty("--map-color","#7E57C2");
         add(tip,"small","Relative index, not a percentage of people searching.","map-info-tooltip__muted");
       } else if(selector==="#idiom09") {
-        for(const [icon,k,v] of [["🎟️","Type",d.VerifiedType],["🏛️","Venue / store",d.Venue],["📍","Location",[d.City,d.Country].filter(Boolean).join(", ")],["📅","Date / status",d.Dates],["✅","Verification",d.Verification]]) {
-          if(v) {
-            const row=add(tip,"div","","map-info-tooltip__row map-info-tooltip__event-row");
-            add(row,"span",icon,"map-info-tooltip__event-icon").setAttribute("aria-hidden","true");
-            add(row,"span",k+": "+v);
-          }
-        }
+        tip.classList.add("map-info-tooltip--event");
+        const subtitle=add(tip,"div",d.VerifiedType||"Verified Funko location","map-event__subtitle");
+        const main=add(tip,"div","","map-event__details");
+        const icon=(name)=>{
+          const span=add(main,"span","","map-event__icon");
+          const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+          svg.setAttribute("viewBox","0 0 24 24");svg.setAttribute("fill","none");
+          svg.setAttribute("stroke","currentColor");svg.setAttribute("stroke-width","1.8");
+          svg.setAttribute("stroke-linecap","round");svg.setAttribute("stroke-linejoin","round");
+          const paths=name==="pin"?
+            ["M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z","M12 10a2.5 2.5 0 1 0 0 .01"]:
+            name==="calendar"?
+            ["M4 6h16v15H4z","M8 3v6","M16 3v6","M4 11h16"]:
+            ["M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0","m8.5 12 2.5 2.5 4.5-5"];
+          paths.forEach(d=>{const p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",d);svg.appendChild(p);});
+          span.appendChild(svg);
+        };
+        const line=(kind,primary,secondary)=>{
+          if(!primary)return;
+          const row=add(main,"div","","map-event__row");
+          const holder=document.createElement("span");
+          holder.className="map-event__icon";
+          const symbols={pin:"⌾",calendar:"▦",verify:"✓"};
+          holder.textContent=symbols[kind];
+          row.appendChild(holder);
+          const text=document.createElement("div");
+          add(text,"strong",primary);
+          if(secondary)add(text,"span",secondary);
+          row.appendChild(text);
+        };
+        line("pin",d.Venue||[d.City,d.Country].filter(Boolean).join(", "),d.Venue?[d.City,d.Country].filter(Boolean).join(", "):"");
+        line("calendar",d.Dates);
+        line("verify",d.Verification);
+        add(tip,"p","Funko's participation and event details are shown for the selected location.","map-event__footer");
       } else {
         tip.style.setProperty("--map-color",colors[d.Region]||"#5C4FA3");
         if(d.Region)add(tip,"span",d.Region,"map-info-tooltip__muted");
