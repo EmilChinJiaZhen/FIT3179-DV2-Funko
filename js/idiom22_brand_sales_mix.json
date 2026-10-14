@@ -316,9 +316,6 @@
           },
           "cursor": {
             "value": "pointer"
-          },
-          "tooltip": {
-            "signal": "{ 'Year': datum.yr, 'Selected brand': datum.reported_brand_category, 'Selected brand sales (USD M)': format(datum.millions, ',.1f'), 'Sales index': format(datum.index, '.1f'), 'Change vs 2021': (datum.changePct >= 0 ? '+' : '') + format(datum.changePct, '.1f') + '%', 'Core Collectible sales (USD M)': format(datum.coreM, ',.1f'), 'Loungefly sales (USD M)': format(datum.loungeflyM, ',.1f'), 'Other sales (USD M)': format(datum.otherM, ',.1f') }"
           }
         },
         "hover": {
@@ -360,9 +357,6 @@
           },
           "cursor": {
             "value": "pointer"
-          },
-          "tooltip": {
-            "signal": "{'Year': '2021 baseline', 'Sales index': '100 for all three brands', 'Core Collectible sales (USD M)': format(datum.coreM, ',.1f'), 'Loungefly sales (USD M)': format(datum.loungeflyM, ',.1f'), 'Other sales (USD M)': format(datum.otherM, ',.1f')}"
           }
         },
         "hover": {
