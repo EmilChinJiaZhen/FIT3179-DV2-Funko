@@ -333,7 +333,7 @@ body {
   overflow-y: hidden;
 }
 
-.vega-embed svg {
+.vega-embed svg.marks {
   display: block;
   max-width: 100%;
   height: auto;
@@ -538,7 +538,7 @@ body {
   max-width: 900px;
 }
 
-.story-row--map .vega-embed svg {
+.story-row--map .vega-embed svg.marks {
   max-width: none;
   height: auto;
 }
@@ -567,8 +567,7 @@ body {
   margin-right: 0;
 }
 
-#idiom09 svg.marks,
-#idiom09 > div > svg {
+#idiom09 svg.marks {
   display: block;
   margin-left: auto !important;
   margin-right: 0 !important;
@@ -715,7 +714,7 @@ body {
     max-width: 100%;
   }
 
-  .story-row--map .vega-embed svg {
+  .story-row--map .vega-embed svg.marks {
     max-width: 100%;
   }
 
@@ -777,7 +776,7 @@ body {
   max-width: 100%;
 }
 
-.story-row--chord-50 .vega-embed svg {
+.story-row--chord-50 .vega-embed svg.marks {
   width: 100% !important;
   height: auto !important;
 }
@@ -1066,7 +1065,7 @@ body {
     min-width: 0;
   }
 
-  .chapter--global .story-row--map .vega-embed svg {
+  .chapter--global .story-row--map .vega-embed svg.marks {
     max-width: 100%;
     width: 100%;
     height: auto;
@@ -1418,3 +1417,15 @@ body {
 .dashboard-sources__grid a { color:#245D9F; font-weight:600; text-decoration:underline; text-underline-offset:2px; }
 .dashboard-sources__note { margin:20px 0 0; font-size:12px; line-height:1.6; color:#626879; }
 @media(max-width:700px) { .dashboard-sources{padding:21px 15px;} .dashboard-sources__grid{grid-template-columns:1fr;} }
+
+/* Vega-Embed actions are UI controls, not visualization marks.
+   Never apply plot SVG sizing to the three-dot menu icon. */
+.vega-embed details summary svg,
+.vega-embed summary svg {
+  width: 18px !important;
+  height: 18px !important;
+  max-width: 18px !important;
+  min-width: 18px !important;
+  display: inline-block;
+}
+.vega-embed details { width: auto; height: auto; }
