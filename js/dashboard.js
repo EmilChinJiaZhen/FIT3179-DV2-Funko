@@ -51,10 +51,11 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, (selector === "#idiom01" || selector === "#idiom02" || selector === "#idiom12") ? { ...embedOptions, tooltip: false } : embedOptions);
+    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
     if (selector === "#idiom12") setupChordRelationshipTooltip(embedResult.view);
+    if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapTooltip(embedResult.view, selector);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
@@ -62,6 +63,69 @@ visualisations.forEach(async ([selector, specPath]) => {
 
 
 
+
+
+/* Simple map tooltips; no decorative search/globe icons or illustrative labels. */
+function setupMapTooltip(view, selector) {
+  const tip=document.createElement("div");
+  tip.className="map-info-tooltip";
+  tip.setAttribute("role","tooltip");
+  tip.hidden=true;
+  document.body.appendChild(tip);
+  const colors={"North America":"#5C4FA3","Europe":"#C05792","Asia-Pacific":"#1F8C83"};
+  const add=(parent,tag,txt,cls)=>{
+    const el=document.createElement(tag);
+    if(cls)el.className=cls;
+    el.textContent=String(txt??"");
+    parent.appendChild(el);
+    return el;
+  };
+  let previous="";
+  view.addEventListener("mousemove",(event,item)=>{
+    const d=item?.datum||{};
+    const label=selector==="#idiom08"?(d.Country||d.properties?.NAME):selector==="#idiom09"?d.Event:d.Country;
+    if(!label){tip.hidden=true;previous="";return;}
+    const key=selector+"|"+label;
+    if(key!==previous) {
+      previous=key;tip.replaceChildren();
+      add(tip,"strong",label,"map-info-tooltip__heading");
+      if(selector==="#idiom08") {
+        const val=Number(d.Interest);
+        if(!Number.isFinite(val)){tip.hidden=true;return;}
+        add(tip,"span","Relative search interest","map-info-tooltip__muted");
+        add(tip,"strong",val.toFixed(0)+" / 100","map-info-tooltip__value");
+        const bar=add(tip,"div","","map-info-tooltip__track");
+        const fill=add(bar,"span","","map-info-tooltip__fill");
+        fill.style.width=Math.min(100,Math.max(0,val))+"%";
+        tip.style.setProperty("--map-color","#7E57C2");
+        add(tip,"small","Relative index, not a percentage of people searching.","map-info-tooltip__muted");
+      } else if(selector==="#idiom09") {
+        for(const [k,v] of [["Type",d.VerifiedType],["Venue / store",d.Venue],["Location",[d.City,d.Country].filter(Boolean).join(", ")],["Date / status",d.Dates],["Verification",d.Verification]]) {
+          if(v)add(tip,"div",k+": "+v,"map-info-tooltip__row");
+        }
+      } else {
+        tip.style.setProperty("--map-color",colors[d.Region]||"#5C4FA3");
+        if(d.Region)add(tip,"span",d.Region,"map-info-tooltip__muted");
+        const metrics=add(tip,"div","","map-info-tooltip__metrics");
+        for(const [value,label] of [[d.ProductCount,"Product records"],[d.LicenseCount,"Verified mapped licenses"]]) {
+          const cell=add(metrics,"div","");
+          add(cell,"strong",Number(value||0).toLocaleString());
+          add(cell,"span",label);
+        }
+        if(d.CountryRank!=null) {
+          const rank=add(tip,"p","","map-info-tooltip__rank");
+          add(rank,"strong","Ranked #"+d.CountryRank);
+          rank.append(" by product records among mapped countries.");
+        }
+      }
+    }
+    tip.hidden=false;
+    const rect=tip.getBoundingClientRect(),gap=12;
+    tip.style.left=Math.max(gap,Math.min(event.clientX+16,window.innerWidth-rect.width-gap))+"px";
+    tip.style.top=Math.max(gap,Math.min(event.clientY+16,window.innerHeight-rect.height-gap))+"px";
+  });
+  view.addEventListener("mouseout",()=>{tip.hidden=true;previous="";});
+}
 
 /* Relationship strength tooltip for hovered chord ribbons. */
 function setupChordRelationshipTooltip(view) {
