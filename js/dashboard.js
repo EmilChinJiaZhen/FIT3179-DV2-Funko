@@ -156,7 +156,7 @@ function setupTreemapDetailTooltip(view) {
       const text = make("div", null);
       text.append(make("strong", "treemap-detail-tooltip__license", license),
         make("span", "treemap-detail-tooltip__type", type));
-      head.append(text, make("span", "treemap-detail-tooltip__icon", "▦"));
+      head.append(text);
       tip.append(head);
       const share = Math.min(100, Math.max(0, Number(datum.ShareWithinDisplayedType) * 100 || 0));
       const metrics = make("div", "treemap-detail-tooltip__metrics");
