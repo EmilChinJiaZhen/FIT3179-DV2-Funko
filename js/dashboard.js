@@ -51,14 +51,103 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, selector === "#idiom01" ? { ...embedOptions, tooltip: false } : embedOptions);
+    const embedResult = await vegaEmbed(container, spec, (selector === "#idiom01" || selector === "#idiom02") ? { ...embedOptions, tooltip: false } : embedOptions);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
+    if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
 });
 
 
+
+
+/* Rich treemap tooltip; uses the same precomputed count/share/price fields
+   as the original tooltip and does not modify the treemap's dataset. */
+function setupTreemapDetailTooltip(view) {
+  const colors = {
+    "Pop!": "#4E79A7", "Apparel": "#76B7B2",
+    "Keychains": "#F28E2B", "Vinyl GOLD": "#EDC948",
+    "Plush": "#B07AA1", "Board Games": "#7F7F7F"
+  };
+  const tip = document.createElement("div");
+  tip.className = "treemap-detail-tooltip";
+  tip.hidden = true;
+  tip.setAttribute("role", "tooltip");
+  document.body.appendChild(tip);
+  let currentKey = "";
+
+  function position(event) {
+    const box = tip.getBoundingClientRect();
+    const gap = 14;
+    tip.style.left = Math.max(gap, Math.min(event.clientX + 16, window.innerWidth - box.width - gap)) + "px";
+    tip.style.top = Math.max(gap, Math.min(event.clientY + 16, window.innerHeight - box.height - gap)) + "px";
+  }
+  const money = value => value == null || !Number.isFinite(Number(value))
+    ? "N/A" : "$" + Number(value).toFixed(2);
+  function make(tag, className, content) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (content != null) el.textContent = content;
+    return el;
+  }
+  function show(datum, event) {
+    const type = datum.product_type;
+    const license = datum.license;
+    if (!type || !license || !Number.isFinite(Number(datum.ProductCount))) {
+      tip.hidden = true;
+      currentKey = "";
+      return;
+    }
+    const key = type + "|" + license;
+    if (currentKey !== key) {
+      currentKey = key;
+      tip.replaceChildren();
+      const accent = colors[type] || "#607D8B";
+      tip.style.setProperty("--treemap-accent", accent);
+      const head = make("div", "treemap-detail-tooltip__head");
+      const text = make("div", null);
+      text.append(make("strong", "treemap-detail-tooltip__license", license),
+        make("span", "treemap-detail-tooltip__type", type));
+      head.append(text, make("span", "treemap-detail-tooltip__icon", "▦"));
+      tip.append(head);
+      const share = Math.min(100, Math.max(0, Number(datum.ShareWithinDisplayedType) * 100 || 0));
+      const metrics = make("div", "treemap-detail-tooltip__metrics");
+      const countBlock = make("div", null);
+      countBlock.append(make("strong", null, Number(datum.ProductCount).toLocaleString()),
+        make("span", null, "Products"));
+      const shareBlock = make("div", null);
+      shareBlock.append(make("strong", null, share.toFixed(1) + "%"),
+        make("span", null, "Of displayed " + type + " group"));
+      metrics.append(countBlock, shareBlock);
+      tip.append(metrics);
+      const label = make("div", "treemap-detail-tooltip__progress-label");
+      label.append(make("span", null, "Share within displayed " + type),
+        make("b", null, share.toFixed(1) + "%"));
+      const track = make("div", "treemap-detail-tooltip__track");
+      const fill = make("span", "treemap-detail-tooltip__fill");
+      fill.style.width = share + "%";
+      track.append(fill);
+      tip.append(label, track);
+      tip.append(make("div", "treemap-detail-tooltip__price-label", "Listed price (USD)"));
+      const prices = make("div", "treemap-detail-tooltip__prices");
+      for (const [label, key] of [["Minimum", "MinimumPrice"], ["Average", "AveragePrice"], ["Maximum", "MaximumPrice"]]) {
+        const cell = make("div", null);
+        cell.append(make("span", null, label), make("strong", null, money(datum[key])));
+        prices.append(cell);
+      }
+      tip.append(prices);
+    }
+    tip.hidden = false;
+    position(event);
+  }
+  view.addEventListener("mousemove", (event, item) => {
+    const datum = item?.datum;
+    if (datum?.license && datum?.product_type) show(datum, event);
+    else { tip.hidden = true; currentKey = ""; }
+  });
+  view.addEventListener("mouseout", () => { tip.hidden = true; currentKey = ""; });
+}
 
 /* Share of all license-associated catalogue records (not product-type mix). */
 let licenseSharesPromise;
