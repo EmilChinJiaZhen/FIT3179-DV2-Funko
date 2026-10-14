@@ -1339,3 +1339,16 @@ body {
 /* Icons are specific to verified event/store details. */
 .map-info-tooltip__event-row { display:flex; align-items:flex-start; gap:9px; }
 .map-info-tooltip__event-icon { flex:0 0 18px; width:18px; text-align:center; font-size:13px; line-height:1.5; }
+
+/* Event/store map tooltip: information-card layout from approved mockup. */
+.map-info-tooltip--event { width:385px; max-width:calc(100vw - 24px); padding:17px 19px 13px; border-radius:14px; background:#fff; color:#1f2230; }
+.map-info-tooltip--event .map-info-tooltip__heading { font-size:17px; margin:0 0 4px; color:#1f2230; }
+.map-event__subtitle { color:#747474; font-size:14px; padding-bottom:19px; border-bottom:1px solid #e9e9e9; }
+.map-event__details { display:grid; gap:17px; padding:20px 0 17px; }
+.map-event__row { display:flex; align-items:flex-start; gap:11px; font-size:13px; line-height:1.5; }
+.map-event__row > div { min-width:0; }
+.map-event__row strong { display:block; font-size:13px; font-weight:500; }
+.map-event__row span:not(.map-event__icon) { display:block; color:#737373; font-size:13px; margin-top:2px; }
+.map-event__icon { flex:0 0 17px; width:17px; height:19px; color:#7548c7; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.map-event__icon svg { width:17px; height:17px; }
+.map-event__footer { margin:0; padding:17px 0 0; border-top:1px solid #e9e9e9; font-size:12px; line-height:1.4; color:#727272; }
