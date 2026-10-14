@@ -1475,3 +1475,86 @@ body {
 .funko-map-reset {border:1px solid #9c8bbd;border-radius:8px;background:#fff;color:#624796;padding:7px 12px;font:600 12px "Inter",Arial,sans-serif;cursor:pointer;}
 .funko-map-reset:hover,.funko-map-reset:focus-visible {background:#eee8f8;outline-offset:2px;}
 @media(max-width:760px){.funko-map-controls {gap:10px;padding:10px;}.funko-map-controls .funko-map-control {width:100%;}.funko-map-controls input[type="range"] {flex:1;}}
+
+/* Compact, single-line map navigation and neutral pill-shaped zoom slider. */
+.funko-map-controls {
+  display: flex !important;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: none;
+  padding: 0;
+  margin: 14px 0 5px;
+  border: 0;
+  background: transparent;
+}
+.funko-map-controls .funko-map-control {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+  width: auto;
+  white-space: nowrap;
+}
+.funko-map-controls .funko-map-control label { white-space: nowrap; }
+.funko-map-controls .funko-map-control--zoom { gap: 5px; }
+.funko-map-controls input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 104px;
+  height: 13px;
+  margin: 0;
+  border: none;
+  border-radius: 999px;
+  background: #eeeeee;
+  cursor: pointer;
+}
+.funko-map-controls input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.funko-map-controls input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.funko-map-controls .funko-map-native-zoom-value { display: none !important; }
+.funko-map-controls .funko-map-zoom-value {
+  display: inline-block;
+  min-width: 36px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #596171;
+  text-align: left;
+}
+.funko-map-controls select {
+  min-width: 100px;
+  max-width: 136px;
+  padding: 6px 23px 6px 8px;
+  font-size: 11px;
+}
+.funko-map-controls .funko-map-reset {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 7px 9px;
+}
+@media (max-width: 760px) {
+  .funko-map-controls {
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 9px 12px;
+  }
+  .funko-map-controls .funko-map-control { width: auto; }
+  .funko-map-controls input[type="range"] { width: 110px; flex: none; }
+}
