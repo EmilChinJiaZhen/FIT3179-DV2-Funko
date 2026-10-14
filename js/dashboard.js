@@ -754,5 +754,6 @@ function setupChartClickSelection(view, container, selector) {
   });
   const reset=event=>{if(event.key==="Escape")update("");};
   container.addEventListener("keydown",reset);
-  svg.setAttribute("tabindex","0");
+  // Do not force keyboard focus onto the entire SVG: browsers draw an unwanted outline.
+  svg.removeAttribute("tabindex");
 }
