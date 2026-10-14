@@ -186,6 +186,11 @@
           "path": {
             "field": "Shape"
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -217,6 +222,11 @@
           "baseline": {
             "value": "middle"
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -244,6 +254,11 @@
           },
           "path": {
             "field": "Shape"
+          }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16"
           }
         }
       }
@@ -283,7 +298,8 @@
           "fill": {
             "value": "transparent"
           }
-        }
+        },
+        "update": {}
       },
       "marks": [
         {
@@ -339,6 +355,11 @@
           "fill": {
             "value": "#f4f0e8"
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -376,6 +397,11 @@
           "baseline": {
             "value": "middle"
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -401,8 +427,15 @@
           "fill": {
             "value": "#626879"
           }
-        }
+        },
+        "update": {}
       }
+    }
+  ],
+  "signals": [
+    {
+      "name": "selectedPictogramType",
+      "value": ""
     }
   ]
 }
