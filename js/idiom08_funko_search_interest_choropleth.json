@@ -16,7 +16,7 @@
       "expr": "search_zoom"
     },
     "center": {
-      "expr": "search_center"
+      "expr": "search_pan_center"
     }
   },
   "layer": [
@@ -371,6 +371,13 @@
           "Asia-Pacific"
         ]
       }
+    },
+    {
+      "name": "search_pan_center",
+      "value": [
+        0,
+        0
+      ]
     }
   ]
 }
