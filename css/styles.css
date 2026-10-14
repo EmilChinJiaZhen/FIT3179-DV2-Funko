@@ -1320,3 +1320,18 @@ body {
   .hero-title-line--bottom { gap: 7px; margin-top: 0; }
   .hero-title .hero-title-icon--top { width: 53px; height: 62px; }
 }
+
+/* Unified Section 2 map hover cards, deliberately without icons. */
+.map-info-tooltip { position:fixed; z-index:530; width:290px; max-width:calc(100vw - 24px); padding:15px 16px; border:1px solid #ddd6cc; border-radius:10px; background:#fffaf3; box-shadow:0 10px 30px rgba(19,35,65,.18); color:#132341; font:12px/1.5 "Inter",Arial,sans-serif; pointer-events:none; }
+.map-info-tooltip[hidden] {display:none;}
+.map-info-tooltip__heading {display:block; font-size:15px; font-weight:700; margin-bottom:5px;}
+.map-info-tooltip__muted {display:block; font-size:11px; color:#5f6472; margin:5px 0;}
+.map-info-tooltip__value {display:block; font-size:25px; margin:7px 0; color:var(--map-color,#6844AF);}
+.map-info-tooltip__track {height:8px; background:#e9e4dc; border-radius:50px; overflow:hidden; margin:10px 0;}
+.map-info-tooltip__fill {display:block; height:100%; border-radius:50px; background:var(--map-color,#6844AF);}
+.map-info-tooltip__row {padding:5px 0; border-bottom:1px solid #eee9e1; overflow-wrap:anywhere;}
+.map-info-tooltip__metrics {display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0;}
+.map-info-tooltip__metrics strong {display:block; font-size:21px;}
+.map-info-tooltip__metrics span {display:block; font-size:11px; color:#5f6472;}
+.map-info-tooltip__rank {margin:8px 0 0; border-top:1px solid #e9e4dc; padding-top:8px; font-size:11px;}
+.map-info-tooltip__rank strong {font-weight:800; color:var(--map-color,#6844AF);}
