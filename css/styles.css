@@ -1685,9 +1685,13 @@ body {
 .interactive-chart-selection:focus,
 .interactive-chart-selection:focus-visible { outline: none !important; }
 
-/* Nudge only the stores-and-events map slightly right on desktop. */
+/* Align the middle Section 2 map with the other wide map idioms:
+   give the findings roughly 30% and the chart roughly 70% of row space. */
 @media (min-width: 1101px) {
+  .chapter--global .story-row--map:not(.story-row--reverse) {
+    grid-template-columns: minmax(0, 30fr) minmax(0, 70fr);
+  }
   .chapter--global .story-row--map #idiom09 {
-    transform: translateX(20px);
+    transform: translateX(45px);
   }
 }
