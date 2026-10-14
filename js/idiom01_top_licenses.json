@@ -89,25 +89,6 @@
       "mark": {
         "type": "circle",
         "size": 130
-      },
-      "encoding": {
-        "tooltip": [
-          {
-            "field": "license",
-            "type": "nominal",
-            "title": "License"
-          },
-          {
-            "field": "Product_Count",
-            "type": "quantitative",
-            "title": "Number of products"
-          },
-          {
-            "field": "Rank",
-            "type": "ordinal",
-            "title": "Rank"
-          }
-        ]
       }
     },
     {
