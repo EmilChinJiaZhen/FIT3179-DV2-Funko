@@ -116,7 +116,7 @@ function setupLicenseShareTooltip(view) {
       pie.setAttribute("role", "img");
       pie.setAttribute("aria-label", license + ": " + share.toFixed(1) + "%; all other licenses: " + (100 - share).toFixed(1) + "%");
       pie.style.setProperty("--license-share", share + "%");
-      pie.title = license + ": " + share.toFixed(1) + "%";
+      // No native title attribute: it creates a second delayed browser tooltip.
       const stats = document.createElement("div");
       stats.className = "license-share-tooltip__stats";
       const value = document.createElement("strong");
