@@ -1391,3 +1391,13 @@ body {
 .analytics-tooltip__track{height:8px; background:#e5dfd6; border-radius:30px; overflow:hidden; margin-top:12px;}
 .analytics-tooltip__fill{height:100%; border-radius:30px; background:var(--analytics-accent,#277A4D);}
 .analytics-tooltip__note{font-size:11px; color:#626879; margin:10px 0 0;}
+
+/* Two-column mini bar chart in dumbbell tooltip. */
+.analytics-tooltip__bar-chart {margin:10px 0 12px; padding:6px 0 0;}
+.analytics-tooltip__bar-columns {display:grid; grid-template-columns:1fr 1fr; gap:15px; align-items:end; border-bottom:1px solid #adb2bd;}
+.analytics-tooltip__bar-column {display:flex; flex-direction:column; align-items:center; min-width:0; text-align:center;}
+.analytics-tooltip__bar-value {font-size:13px; font-weight:700; margin-bottom:5px;}
+.analytics-tooltip__bar-slot {height:90px; width:57px; display:flex; align-items:end;}
+.analytics-tooltip__bar-rect {width:100%; min-height:2px; border-radius:3px 3px 0 0;}
+.analytics-tooltip__bar-category {height:32px; margin-top:7px; font-size:10px; line-height:1.25; color:#4e5563;}
+.analytics-tooltip__bar-axis {margin:7px 0 0; text-align:center; color:#626879; font-size:11px;}
