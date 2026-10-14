@@ -1636,3 +1636,17 @@ body {
     right: -145px !important;
   }
 }
+
+/* Both map legends now live in Vega-Lite. Give their embedded SVG and action
+   menus the full map-plus-legend width without separate grid legend nodes. */
+.funko-map-layout,
+.origin-map-layout { grid-template-columns: minmax(0, 1fr); }
+.funko-map-layout #idiom09,
+.origin-map-layout #idiom18 { width: 910px; max-width: 100%; }
+.funko-map-layout #idiom09.vega-embed > details,
+.origin-map-layout #idiom18.vega-embed > details {
+  right: 6px !important; top: 0 !important;
+}
+@media (min-width: 1101px) {
+  .origin-map-layout #idiom18.vega-embed > details { right: 6px !important; }
+}
