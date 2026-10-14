@@ -1695,3 +1695,10 @@ body {
     transform: translateX(45px);
   }
 }
+
+/* Keep the event-map title on the same horizontal sightline as its shifted map. */
+@media (min-width: 1101px) {
+  .chapter--global .funko-map-layout > .idiom-html-title {
+    transform: translateX(45px);
+  }
+}
