@@ -504,7 +504,6 @@ async function renderProductTypePictogram() {
         <span
           class="pictogram-chart__icon pictogram-chart__icon--half"
           style="--product-color: ${color}"
-          aria-hidden="true"
           data-product-type="${type}"
           data-remainder="${remainder}"
           data-unit="${unitValue}"
@@ -555,6 +554,7 @@ async function renderProductTypePictogram() {
 
     // Replace the browser's delayed title popup with a styled, accessible
     // tooltip, shown only on the incomplete icon of each product row.
+    document.querySelectorAll(".pictogram-partial-tooltip").forEach(el => el.remove());
     const partialTip = document.createElement("div");
     partialTip.className = "pictogram-partial-tooltip";
     partialTip.hidden = true;
