@@ -51,9 +51,10 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, (selector === "#idiom01" || selector === "#idiom02") ? { ...embedOptions, tooltip: false } : embedOptions);
+    const embedResult = await vegaEmbed(container, spec, (selector === "#idiom01" || selector === "#idiom02" || selector === "#idiom12") ? { ...embedOptions, tooltip: false } : embedOptions);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
+    if (selector === "#idiom12") setupChordRelationshipTooltip(embedResult.view);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
@@ -61,6 +62,52 @@ visualisations.forEach(async ([selector, specPath]) => {
 
 
 
+
+/* Relationship strength tooltip for hovered chord ribbons. */
+function setupChordRelationshipTooltip(view) {
+  const palette = {"Pop!":"#4E79A7","Apparel":"#76B7B2","Keychains":"#F28E2B","Vinyl GOLD":"#EDC948","Plush":"#B07AA1","Board Games":"#7F7F7F"};
+  const tip = document.createElement("div");
+  tip.className = "chord-relationship-tooltip";
+  tip.setAttribute("role", "tooltip");
+  tip.hidden = true;
+  document.body.appendChild(tip);
+  let previous = "";
+  const make = (tag,cls,txt) => {
+    const el=document.createElement(tag);
+    if(cls) el.className=cls;
+    if(txt!==undefined) el.textContent=txt;
+    return el;
+  };
+  function display(d,event) {
+    const license=d.license, type=d.product_type;
+    const count=Number(d.Connection_Count), share=Number(d.License_Share);
+    if(!license || !type || !Number.isFinite(count) || !Number.isFinite(share)) { tip.hidden=true; previous=""; return; }
+    const key=license+"|"+type;
+    if(previous!==key) {
+      previous=key; tip.replaceChildren();
+      tip.style.setProperty("--chord-accent",palette[type]||"#607D8B");
+      const head=make("div","chord-relationship-tooltip__head");
+      head.append(make("strong",null,license+" ↔ "+type),make("span",null,"License–product type relationship"));
+      const metrics=make("div","chord-relationship-tooltip__metrics");
+      const num=make("div",null); num.append(make("strong",null,count.toLocaleString()),make("span",null,"Linked products"));
+      const pct=make("div",null); pct.append(make("strong",null,(share*100).toFixed(1)+"%"),make("span",null,"Share of displayed "+license+" links"));
+      metrics.append(num,pct);
+      const label=make("div","chord-relationship-tooltip__bar-label");
+      label.append(make("span",null,license+" products represented by "+type),make("b",null,(share*100).toFixed(1)+"%"));
+      const bar=make("div","chord-relationship-tooltip__bar");
+      const fill=make("div","chord-relationship-tooltip__fill");
+      fill.style.width=(Math.min(100,Math.max(0,share*100)))+"%";bar.append(fill);
+      const foot=make("p","chord-relationship-tooltip__foot","Wider ribbons represent more linked products.");
+      tip.append(head,metrics,label,bar,foot);
+    }
+    tip.hidden=false;
+    const rect=tip.getBoundingClientRect(),gap=12;
+    tip.style.left=Math.max(gap,Math.min(event.clientX+16,innerWidth-rect.width-gap))+"px";
+    tip.style.top=Math.max(gap,Math.min(event.clientY+16,innerHeight-rect.height-gap))+"px";
+  }
+  view.addEventListener("mousemove",(event,item)=>display(item?.datum||{},event));
+  view.addEventListener("mouseout",()=>{tip.hidden=true;previous="";});
+}
 
 /* Rich treemap tooltip; uses the same precomputed count/share/price fields
    as the original tooltip and does not modify the treemap's dataset. */
