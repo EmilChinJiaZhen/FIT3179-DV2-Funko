@@ -349,7 +349,12 @@ body {
 }
 
 .vega-embed summary {
-  display: none;
+  display: list-item;
+  cursor: pointer;
+}
+
+.vega-embed .vega-actions {
+  z-index: 30;
 }
 
 .page-footer {
