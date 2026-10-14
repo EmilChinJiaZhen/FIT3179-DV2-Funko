@@ -76,6 +76,13 @@
         "grid": true,
         "tickMinStep": 1
       }
+    },
+    "opacity": {
+      "condition": {
+        "param": "selectedLicense",
+        "value": 1
+      },
+      "value": 0.2
     }
   },
   "layer": [
@@ -155,5 +162,19 @@
     "left": 18,
     "right": 18,
     "bottom": 10
-  }
+  },
+  "params": [
+    {
+      "name": "selectedLicense",
+      "select": {
+        "type": "point",
+        "fields": [
+          "license"
+        ],
+        "on": "click",
+        "clear": "dblclick",
+        "toggle": false
+      }
+    }
+  ]
 }
