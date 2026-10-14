@@ -88,6 +88,27 @@
     "order": {
       "field": "region",
       "sort": "ascending"
+    },
+    "opacity": {
+      "condition": {
+        "param": "selectedRegion",
+        "value": 1
+      },
+      "value": 0.2
     }
-  }
+  },
+  "params": [
+    {
+      "name": "selectedRegion",
+      "select": {
+        "type": "point",
+        "fields": [
+          "region"
+        ],
+        "on": "click",
+        "clear": "dblclick",
+        "toggle": false
+      }
+    }
+  ]
 }
