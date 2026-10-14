@@ -83,32 +83,12 @@
       "mark": {
         "type": "bar",
         "size": 3
-      },
-      "encoding": {
-        "opacity": {
-          "condition": {
-            "param": "licenseFocus",
-            "value": 1,
-            "empty": true
-          },
-          "value": 0.2
-        }
       }
     },
     {
       "mark": {
         "type": "circle",
         "size": 130
-      },
-      "encoding": {
-        "opacity": {
-          "condition": {
-            "param": "licenseFocus",
-            "value": 1,
-            "empty": true
-          },
-          "value": 0.2
-        }
       }
     },
     {
@@ -124,14 +104,6 @@
         "text": {
           "field": "Product_Count",
           "type": "quantitative"
-        },
-        "opacity": {
-          "condition": {
-            "param": "licenseFocus",
-            "value": 1,
-            "empty": true
-          },
-          "value": 0.2
         }
       }
     }
@@ -183,19 +155,5 @@
     "left": 18,
     "right": 18,
     "bottom": 10
-  },
-  "params": [
-    {
-      "name": "licenseFocus",
-      "select": {
-        "type": "point",
-        "fields": [
-          "license"
-        ],
-        "on": "click",
-        "clear": "dblclick",
-        "toggle": true
-      }
-    }
-  ]
+  }
 }
