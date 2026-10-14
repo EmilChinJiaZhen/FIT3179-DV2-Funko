@@ -162,6 +162,9 @@
     },
     {
       "filter": "datum.ProductType_Rank <= 6"
+    },
+    {
+      "filter": "chosenPriceType === 'All' || datum.product_type === chosenPriceType"
     }
   ],
   "encoding": {
@@ -413,5 +416,25 @@
     "contains": "padding",
     "resize": true
   },
-  "background": "transparent"
+  "background": "transparent",
+  "params": [
+    {
+      "name": "chosenPriceType",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "name": "Product type: ",
+        "options": [
+          "All",
+          "Pop!",
+          "Apparel",
+          "Board Games",
+          "Keychains",
+          "Plush",
+          "Pop! Jumbo",
+          "Action Figures"
+        ]
+      }
+    }
+  ]
 }
