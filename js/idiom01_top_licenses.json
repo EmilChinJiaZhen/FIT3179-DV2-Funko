@@ -76,13 +76,6 @@
         "grid": true,
         "tickMinStep": 1
       }
-    },
-    "opacity": {
-      "condition": {
-        "param": "selectedLicense",
-        "value": 1
-      },
-      "value": 0.2
     }
   },
   "layer": [
@@ -90,12 +83,32 @@
       "mark": {
         "type": "bar",
         "size": 3
+      },
+      "encoding": {
+        "opacity": {
+          "condition": {
+            "param": "licenseFocus",
+            "value": 1,
+            "empty": true
+          },
+          "value": 0.2
+        }
       }
     },
     {
       "mark": {
         "type": "circle",
         "size": 130
+      },
+      "encoding": {
+        "opacity": {
+          "condition": {
+            "param": "licenseFocus",
+            "value": 1,
+            "empty": true
+          },
+          "value": 0.2
+        }
       }
     },
     {
@@ -111,6 +124,14 @@
         "text": {
           "field": "Product_Count",
           "type": "quantitative"
+        },
+        "opacity": {
+          "condition": {
+            "param": "licenseFocus",
+            "value": 1,
+            "empty": true
+          },
+          "value": 0.2
         }
       }
     }
@@ -165,7 +186,7 @@
   },
   "params": [
     {
-      "name": "selectedLicense",
+      "name": "licenseFocus",
       "select": {
         "type": "point",
         "fields": [
@@ -173,7 +194,7 @@
         ],
         "on": "click",
         "clear": "dblclick",
-        "toggle": false
+        "toggle": true
       }
     }
   ]
