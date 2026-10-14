@@ -1455,3 +1455,7 @@ body {
     right: 165px !important;
   }
 }
+
+/* Drag-to-pan cursors for Section 2 Vega world maps. */
+.draggable-funko-map { cursor: grab; touch-action: none; }
+.draggable-funko-map.is-dragging { cursor: grabbing; }
