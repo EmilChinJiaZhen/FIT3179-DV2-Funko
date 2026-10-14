@@ -468,9 +468,6 @@
           },
           "cornerRadius": {
             "value": 0
-          },
-          "tooltip": {
-            "signal": "{'Product Type': datum.key, 'Products in Top 5 Licenses': datum.DisplayedProductCount, 'Total Products in Product Type': datum.TotalTypeProductCount, 'Share of Displayed Products': format(datum.DisplayedShare, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
           }
         }
       }
@@ -509,9 +506,6 @@
           },
           "cursor": {
             "value": "pointer"
-          },
-          "tooltip": {
-            "signal": "{'Product Type': datum.product_type, 'License': datum.license, 'Number of Products': datum.ProductCount, 'Share Within Displayed Type': format(datum.ShareWithinDisplayedType, '.1%'), 'Average Price': isValid(datum.AveragePrice) ? '$' + format(datum.AveragePrice, '.2f') : 'N/A', 'Minimum Price': isValid(datum.MinimumPrice) ? '$' + format(datum.MinimumPrice, '.2f') : 'N/A', 'Maximum Price': isValid(datum.MaximumPrice) ? '$' + format(datum.MaximumPrice, '.2f') : 'N/A'}"
           }
         },
         "update": {
