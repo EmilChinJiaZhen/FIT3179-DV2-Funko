@@ -1659,7 +1659,7 @@ body {
   .chapter--global .origin-map-layout #idiom18 .vega-embed svg.marks,
   .chapter--global .funko-map-layout #idiom09.vega-embed svg.marks,
   .chapter--global .origin-map-layout #idiom18.vega-embed svg.marks {
-    width: 125% !important;
+    width: 135% !important;
     max-width: none !important;
     height: auto !important;
   }
