@@ -19,8 +19,6 @@
     }
   },
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": "container",
-  "height": 350,
   "title": {
     "text": "Funko Annual Net Sales, 2021–2025",
     "font": "Inter",
@@ -37,31 +35,95 @@
       "as": "SalesMillions"
     }
   ],
-  "mark": {
-    "type": "line",
-    "point": {
-      "filled": true,
-      "size": 115
+  "vconcat": [
+    {
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": {
+            "labelAngle": 0
+          },
+          "scale": {
+            "domain": {
+              "param": "salesBrush"
+            }
+          }
+        },
+        "y": {
+          "field": "SalesMillions",
+          "type": "quantitative",
+          "title": "Net sales (USD million)",
+          "scale": {
+            "zero": false
+          }
+        }
+      },
+      "width": "container",
+      "height": 350,
+      "layer": [
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 3,
+            "color": "#3a9c68"
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 115,
+            "color": "#4E79A7"
+          }
+        }
+      ]
     },
-    "strokeWidth": 3,
-    "color": "#3a9c68"
-  },
-  "encoding": {
-    "x": {
-      "field": "year",
-      "type": "ordinal",
-      "title": "Year",
-      "axis": {
-        "labelAngle": 0
-      }
-    },
-    "y": {
-      "field": "SalesMillions",
-      "type": "quantitative",
-      "title": "Net sales (USD million)",
-      "scale": {
-        "zero": false
+    {
+      "width": "container",
+      "height": 65,
+      "mark": {
+        "type": "line",
+        "color": "#3a9c68",
+        "strokeWidth": 2,
+        "point": {
+          "size": 45
+        }
+      },
+      "params": [
+        {
+          "name": "salesBrush",
+          "select": {
+            "type": "interval",
+            "encodings": [
+              "x"
+            ]
+          }
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Drag to select years",
+          "axis": {
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "SalesMillions",
+          "type": "quantitative",
+          "title": null,
+          "scale": {
+            "zero": false
+          },
+          "axis": {
+            "tickCount": 3
+          }
+        }
       }
     }
-  }
+  ],
+  "spacing": 12
 }
