@@ -285,8 +285,7 @@
         "type": "image",
         "width": 30,
         "height": 30,
-        "opacity": 1,
-        "tooltip": true
+        "opacity": 1
       },
       "encoding": {
         "url": {
