@@ -242,7 +242,12 @@
           },
           "legend": {
             "titleFont": "Inter",
-            "labelFont": "Inter"
+            "labelFont": "Inter",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 2,
+            "labelLimit": 210,
+            "padding": 12
           }
         }
       },
@@ -282,7 +287,12 @@
           },
           "legend": {
             "titleFont": "Inter",
-            "labelFont": "Inter"
+            "labelFont": "Inter",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 2,
+            "labelLimit": 210,
+            "padding": 12
           }
         }
       },
@@ -322,7 +332,12 @@
           },
           "legend": {
             "titleFont": "Inter",
-            "labelFont": "Inter"
+            "labelFont": "Inter",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 2,
+            "labelLimit": 210,
+            "padding": 12
           }
         }
       },
