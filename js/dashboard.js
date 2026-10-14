@@ -58,6 +58,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (selector === "#idiom19") setupPictogramPartialTooltip(embedResult.view);
     if (selector === "#idiom12") setupChordRelationshipTooltip(embedResult.view);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapTooltip(embedResult.view, selector);
+    if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupDraggableMap(embedResult.view, container, selector);
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
@@ -69,6 +70,53 @@ visualisations.forEach(async ([selector, specPath]) => {
 
 
 
+
+
+/* Pointer drag pans the Equal Earth projection; region choices reset its centre.
+   Each map keeps its own Vega signal state and existing zoom slider. */
+function setupDraggableMap(view, container, selector) {
+  const prefix = {"#idiom08":"search","#idiom09":"event","#idiom18":"origin"}[selector];
+  const svg = container.querySelector("svg.marks");
+  if (!prefix || !svg) return;
+  const panSignal=prefix+"_pan_center", regionSignal=prefix+"_center", zoomSignal=prefix+"_zoom";
+  const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
+  let dragging=false, lastX=0,lastY=0, frame=null, pending=null;
+  svg.classList.add("draggable-funko-map");
+  const onRegion=(name,value)=>{
+    if(!Array.isArray(value))return;
+    view.signal(panSignal,[Number(value[0]),Number(value[1])]).runAsync().catch(console.error);
+  };
+  view.addSignalListener(regionSignal,onRegion);
+  svg.addEventListener("pointerdown",event=>{
+    if(event.button!==0 || !event.isPrimary)return;
+    dragging=true;lastX=event.clientX;lastY=event.clientY;
+    svg.setPointerCapture(event.pointerId);
+    svg.classList.add("is-dragging");
+    event.preventDefault();
+  });
+  svg.addEventListener("pointermove",event=>{
+    if(!dragging)return;
+    const dx=event.clientX-lastX,dy=event.clientY-lastY;
+    lastX=event.clientX;lastY=event.clientY;
+    const zoom=Number(view.signal(zoomSignal))||130;
+    const c=pending||view.signal(panSignal);
+    if(!Array.isArray(c))return;
+    const factor=180/(Math.PI*zoom);
+    pending=[clamp(c[0]-dx*factor,-180,180),clamp(c[1]+dy*factor,-85,85)];
+    if(frame===null)frame=requestAnimationFrame(()=>{
+      frame=null;
+      const next=pending;pending=null;
+      if(next)view.signal(panSignal,next).runAsync().catch(console.error);
+    });
+    event.preventDefault();
+  });
+  const stop=()=>{
+    dragging=false;svg.classList.remove("is-dragging");
+  };
+  svg.addEventListener("pointerup",stop);
+  svg.addEventListener("pointercancel",stop);
+  svg.addEventListener("lostpointercapture",stop);
+}
 
 /* Vega pictogram: only the clipped half-group has a hover card. */
 function setupPictogramPartialTooltip(view) {
