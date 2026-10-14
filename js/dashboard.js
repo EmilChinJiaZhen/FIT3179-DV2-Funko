@@ -1,5 +1,5 @@
 const embedOptions = {
-  actions: false,
+  actions: true,
   renderer: "svg"
 };
 
