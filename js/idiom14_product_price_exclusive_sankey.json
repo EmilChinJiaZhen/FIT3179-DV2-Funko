@@ -700,9 +700,6 @@
           },
           "strokeCap": {
             "value": "butt"
-          },
-          "tooltip": {
-            "signal": "{'Product type': datum.ProductGroup, 'Price band': datum.PriceBand, 'Price range': '$' + format(datum.MinPrice, '.2f') + ' – $' + format(datum.MaxPrice, '.2f'), 'Products': datum.FlowCount, 'Share of product type': format(datum.SourceShare, '.1%'), 'Share of price band': format(datum.TargetShare, '.1%')}"
           }
         },
         "hover": {
@@ -742,9 +739,6 @@
           },
           "strokeCap": {
             "value": "butt"
-          },
-          "tooltip": {
-            "signal": "{'Price band': datum.PriceBand, 'Price range': '$' + format(datum.MinPrice, '.2f') + ' – $' + format(datum.MaxPrice, '.2f'), 'Exclusive status': datum.ExclusiveStatus, 'Products': datum.FlowCount, 'Share of price band': format(datum.SourceShare, '.1%'), 'Share of status': format(datum.TargetShare, '.1%')}"
           }
         },
         "hover": {
@@ -787,9 +781,6 @@
           },
           "strokeWidth": {
             "value": 1
-          },
-          "tooltip": {
-            "signal": "{'Product type': datum.ProductGroup, 'Products': datum.NodeCount}"
           }
         }
       }
@@ -822,9 +813,6 @@
           },
           "strokeWidth": {
             "value": 1
-          },
-          "tooltip": {
-            "signal": "{'Price band': datum.PriceBand, 'Price range': '$' + format(datum.MinPrice, '.2f') + ' – $' + format(datum.MaxPrice, '.2f'), 'Products': datum.NodeCount}"
           }
         }
       }
@@ -857,9 +845,6 @@
           },
           "strokeWidth": {
             "value": 1
-          },
-          "tooltip": {
-            "signal": "{'Exclusive status': datum.ExclusiveStatus, 'Products': datum.NodeCount}"
           }
         }
       }
