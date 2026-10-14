@@ -52,9 +52,10 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
+    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
+    if (selector === "#idiom19") setupPictogramPartialTooltip(embedResult.view);
     if (selector === "#idiom12") setupChordRelationshipTooltip(embedResult.view);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapTooltip(embedResult.view, selector);
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
@@ -67,6 +68,38 @@ visualisations.forEach(async ([selector, specPath]) => {
 
 
 
+
+
+/* Vega pictogram: only the clipped half-group has a hover card. */
+function setupPictogramPartialTooltip(view) {
+  const tip=document.createElement("div");
+  tip.className="pictogram-partial-tooltip";
+  tip.hidden=true;tip.setAttribute("role","tooltip");
+  document.body.appendChild(tip);
+  const colors={"Pop!":"#4E79A7","Apparel":"#76B7B2","Keychains":"#F28E2B","Vinyl GOLD":"#EDC948","Plush":"#B07AA1","Board Games":"#7F7F7F"};
+  let current="";
+  view.addEventListener("mousemove",(event,item)=>{
+    const d=item?.datum;
+    if(!d || d.partial!==true){tip.hidden=true;current="";return;}
+    const type=d.product_type,remainder=Number(d.remainder);
+    if(!type||!remainder){tip.hidden=true;current="";return;}
+    if(current!==type) {
+      current=type;tip.replaceChildren();
+      tip.style.setProperty("--partial-color",colors[type]||"#7F7F7F");
+      const h=document.createElement("strong");h.className="pictogram-partial-tooltip__heading";h.textContent=type+" · Incomplete final group";
+      const n=document.createElement("div");n.className="pictogram-partial-tooltip__value";n.textContent=remainder+" of 25 products";
+      const track=document.createElement("div");track.className="pictogram-partial-tooltip__track";
+      const fill=document.createElement("span");fill.className="pictogram-partial-tooltip__fill";fill.style.width=(remainder/25*100)+"%";track.append(fill);
+      const note=document.createElement("p");note.className="pictogram-partial-tooltip__note";note.textContent="This half icon represents the remaining "+remainder+" products, not another full group of 25.";
+      tip.append(h,n,track,note);
+    }
+    tip.hidden=false;
+    const box=tip.getBoundingClientRect(),gap=12;
+    tip.style.left=Math.max(gap,Math.min(event.clientX+15,window.innerWidth-box.width-gap))+"px";
+    tip.style.top=Math.max(gap,Math.min(event.clientY+15,window.innerHeight-box.height-gap))+"px";
+  });
+  view.addEventListener("mouseout",()=>{tip.hidden=true;current="";});
+}
 
 /* Pricing and Time tooltip cards, built from the marks' own data. */
 function setupAnalyticsTooltip(view, selector) {
