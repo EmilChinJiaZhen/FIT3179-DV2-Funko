@@ -135,11 +135,7 @@ function setupMapControlPanel(view, container, selector) {
     group.classList.add("funko-map-control");
     if(input.type==="range") {
       group.classList.add("funko-map-control--zoom");
-      const output=document.createElement("output");
-      output.className="funko-map-zoom-value";
-      output.textContent=input.value+"%";
-      input.addEventListener("input",()=>{output.textContent=input.value+"%";});
-      group.appendChild(output);
+      // Vega-Embed already renders the current zoom value.
     } else {
       group.classList.add("funko-map-control--select");
     }
