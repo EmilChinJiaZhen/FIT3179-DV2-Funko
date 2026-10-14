@@ -11,7 +11,13 @@
     "offset": 16
   },
   "projection": {
-    "type": "equalEarth"
+    "type": "equalEarth",
+    "scale": {
+      "expr": "search_zoom"
+    },
+    "center": {
+      "expr": "search_center"
+    }
   },
   "layer": [
     {
@@ -318,5 +324,53 @@
     "contains": "padding",
     "resize": false
   },
-  "background": "transparent"
+  "background": "transparent",
+  "params": [
+    {
+      "name": "search_zoom",
+      "value": 130,
+      "bind": {
+        "input": "range",
+        "min": 100,
+        "max": 450,
+        "step": 10,
+        "name": "Zoom: "
+      }
+    },
+    {
+      "name": "search_center",
+      "value": [
+        0,
+        0
+      ],
+      "bind": {
+        "input": "select",
+        "name": "Map region: ",
+        "options": [
+          [
+            0,
+            0
+          ],
+          [
+            -95,
+            15
+          ],
+          [
+            15,
+            48
+          ],
+          [
+            105,
+            5
+          ]
+        ],
+        "labels": [
+          "World",
+          "Americas",
+          "Europe",
+          "Asia-Pacific"
+        ]
+      }
+    }
+  ]
 }
