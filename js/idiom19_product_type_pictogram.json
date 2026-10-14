@@ -256,7 +256,9 @@
           "data": "partialIcons",
           "groupby": [
             "product_type",
-            "slot"
+            "slot",
+            "x",
+            "y"
           ]
         }
       },
