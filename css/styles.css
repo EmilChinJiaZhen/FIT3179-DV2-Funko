@@ -1680,3 +1680,7 @@ body {
 #idiom06 .vega-bindings select {padding:6px 10px;border:1px solid #d4ced2;border-radius:7px;background:#fff;color:#263149;}
 #idiom15 .vega-bindings {display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:10px;}
 #idiom15 .vega-bindings input[type=range] {width:115px;accent-color:#C9A227;}
+
+/* Remove browser focus rectangle from clickable SVG chart canvases. */
+.interactive-chart-selection:focus,
+.interactive-chart-selection:focus-visible { outline: none !important; }
