@@ -300,44 +300,7 @@
         "latitude": {
           "field": "PlotLatitude",
           "type": "quantitative"
-        },
-        "tooltip": [
-          {
-            "field": "Event",
-            "type": "nominal",
-            "title": "Funko presence"
-          },
-          {
-            "field": "VerifiedType",
-            "type": "nominal",
-            "title": "Type"
-          },
-          {
-            "field": "Venue",
-            "type": "nominal",
-            "title": "Venue / store"
-          },
-          {
-            "field": "City",
-            "type": "nominal",
-            "title": "City"
-          },
-          {
-            "field": "Country",
-            "type": "nominal",
-            "title": "Country"
-          },
-          {
-            "field": "Dates",
-            "type": "nominal",
-            "title": "Date / status"
-          },
-          {
-            "field": "Verification",
-            "type": "nominal",
-            "title": "Verification"
-          }
-        ]
+        }
       }
     }
   ],
