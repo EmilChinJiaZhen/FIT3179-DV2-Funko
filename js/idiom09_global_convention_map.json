@@ -310,6 +310,147 @@
           "type": "quantitative"
         }
       }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Verified location"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 775
+        },
+        "y": {
+          "value": 53
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/funko-pop-transparent-fixed.png"
+          }
+        ]
+      },
+      "mark": {
+        "type": "image",
+        "width": 26,
+        "height": 26
+      },
+      "encoding": {
+        "x": {
+          "value": 785
+        },
+        "y": {
+          "value": 91
+        },
+        "url": {
+          "field": "url"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "1 verified"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 810
+        },
+        "y": {
+          "value": 81
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Funko store"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 810
+        },
+        "y": {
+          "value": 97
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "or event"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 810
+        },
+        "y": {
+          "value": 113
+        },
+        "text": {
+          "field": "label"
+        }
+      }
     }
   ],
   "config": {
@@ -336,8 +477,7 @@
   },
   "autosize": {
     "type": "pad",
-    "contains": "padding",
-    "resize": false
+    "contains": "padding"
   },
   "background": "transparent",
   "params": [
@@ -416,5 +556,11 @@
         0
       ]
     }
-  ]
+  ],
+  "padding": {
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "right": 160
+  }
 }
