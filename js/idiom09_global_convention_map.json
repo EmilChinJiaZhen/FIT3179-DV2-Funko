@@ -11,7 +11,13 @@
     "offset": 16
   },
   "projection": {
-    "type": "equalEarth"
+    "type": "equalEarth",
+    "scale": {
+      "expr": "event_zoom"
+    },
+    "center": {
+      "expr": "event_center"
+    }
   },
   "layer": [
     {
@@ -211,6 +217,9 @@
       },
       "transform": [
         {
+          "filter": "event_type_filter === 'All' || datum.EventType === event_type_filter"
+        },
+        {
           "calculate": "toNumber(datum.Longitude)",
           "as": "BaseLongitude"
         },
@@ -330,5 +339,75 @@
     "contains": "padding",
     "resize": false
   },
-  "background": "transparent"
+  "background": "transparent",
+  "params": [
+    {
+      "name": "event_zoom",
+      "value": 130,
+      "bind": {
+        "input": "range",
+        "min": 100,
+        "max": 450,
+        "step": 10,
+        "name": "Zoom: "
+      }
+    },
+    {
+      "name": "event_center",
+      "value": [
+        0,
+        0
+      ],
+      "bind": {
+        "input": "select",
+        "name": "Map region: ",
+        "options": [
+          [
+            0,
+            0
+          ],
+          [
+            -95,
+            15
+          ],
+          [
+            15,
+            48
+          ],
+          [
+            105,
+            5
+          ]
+        ],
+        "labels": [
+          "World",
+          "Americas",
+          "Europe",
+          "Asia-Pacific"
+        ]
+      }
+    },
+    {
+      "name": "event_type_filter",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "name": "Location type: ",
+        "options": [
+          "All",
+          "Convention",
+          "Store / fan event",
+          "Official Funko store",
+          "Venue"
+        ],
+        "labels": [
+          "All locations",
+          "Conventions",
+          "Store / fan events",
+          "Official Funko stores",
+          "Other venues"
+        ]
+      }
+    }
+  ]
 }
