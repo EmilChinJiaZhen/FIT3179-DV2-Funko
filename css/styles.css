@@ -1429,3 +1429,15 @@ body {
   display: inline-block;
 }
 .vega-embed details { width: auto; height: auto; }
+
+/* Contain Vega-Embed controls inside the right chart column, even when
+   the chart itself uses extra overflow room. */
+.story-row--brand-chart .story-chart .vega-embed > details {
+  right: 96px !important;
+}
+.pictogram-chart { position: relative; }
+.pictogram-actions { position:absolute; right:7px; top:0; z-index:25; font-family:"Inter",Arial,sans-serif; }
+.pictogram-actions summary { list-style:none; display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:rgba(250,247,241,.94); border:1px solid #e3ded6; color:#8e8e8e; cursor:pointer; font-size:14px; line-height:1; letter-spacing:1px; }
+.pictogram-actions summary::-webkit-details-marker { display:none; }
+.pictogram-actions a { position:absolute; right:0; top:32px; white-space:nowrap; background:#fffaf3; border:1px solid #dcd6cc; box-shadow:0 4px 12px rgba(0,0,0,.12); border-radius:5px; padding:9px 13px; color:#24324e; font-size:12px; text-decoration:none; }
+.pictogram-actions a:hover { background:#efebe3; }
