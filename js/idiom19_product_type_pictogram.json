@@ -317,6 +317,32 @@
       ]
     },
     {
+      "type": "rect",
+      "interactive": false,
+      "from": {
+        "data": "partialIcons"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "signal": "datum.y - 14"
+          },
+          "width": {
+            "value": 14
+          },
+          "height": {
+            "value": 28
+          },
+          "fill": {
+            "value": "#f4f0e8"
+          }
+        }
+      }
+    },
+    {
       "type": "text",
       "from": {
         "data": "types"
