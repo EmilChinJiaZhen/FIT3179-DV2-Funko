@@ -1282,3 +1282,18 @@ body {
 .treemap-detail-tooltip__prices { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
 .treemap-detail-tooltip__prices span { display:block; font-size:10px; color:#616878; }
 .treemap-detail-tooltip__prices strong { display:block; margin-top:4px; font-size:13px; }
+
+/* Chord ribbon relationship tooltip */
+.chord-relationship-tooltip { position:fixed; z-index:520; width:320px; max-width:calc(100vw - 24px); padding:16px; background:#fffaf3; color:#132341; border:1px solid #ddd6cc; border-radius:11px; box-shadow:0 12px 32px rgba(19,35,65,.18); pointer-events:none; font-family:"Inter",Arial,sans-serif; line-height:1.4; }
+.chord-relationship-tooltip[hidden] { display:none; }
+.chord-relationship-tooltip__head { padding-bottom:11px; border-bottom:1px solid #e8e1d8; }
+.chord-relationship-tooltip__head strong { display:block; font-size:15px; line-height:1.35; }
+.chord-relationship-tooltip__head span { display:block; margin-top:3px; color:#646879; font-size:11px; }
+.chord-relationship-tooltip__metrics { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:12px 0; }
+.chord-relationship-tooltip__metrics strong { display:block; font-size:24px; }
+.chord-relationship-tooltip__metrics span { display:block; font-size:11px; color:#626879; }
+.chord-relationship-tooltip__bar-label { display:flex; justify-content:space-between; gap:10px; font-size:11px; margin-bottom:7px; }
+.chord-relationship-tooltip__bar-label b { white-space:nowrap; }
+.chord-relationship-tooltip__bar { height:9px; border-radius:99px; background:#e9e4dc; overflow:hidden; }
+.chord-relationship-tooltip__fill { height:100%; border-radius:99px; background:var(--chord-accent); }
+.chord-relationship-tooltip__foot { margin:12px 0 0; padding-top:9px; border-top:1px solid #e8e1d8; color:#626879; font-size:11px; }
