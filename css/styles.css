@@ -1558,3 +1558,51 @@ body {
   .funko-map-controls .funko-map-control { width: auto; }
   .funko-map-controls input[type="range"] { width: 110px; flex: none; }
 }
+
+/* Map controls: constrain the navigation to the actual 750px plotted map.
+   Avoid max-content controls expanding the Vega wrapper and clipping map marks. */
+.funko-map-controls {
+  box-sizing: border-box;
+  width: 750px !important;
+  max-width: 100% !important;
+  flex: 0 0 auto;
+  gap: 8px !important;
+  justify-content: flex-start;
+}
+.funko-map-controls .funko-map-control { flex: 0 0 auto; gap: 4px; }
+.funko-map-controls .funko-map-control--zoom input[type="range"] {
+  width: 120px !important;
+  height: 15px;
+  outline: none;
+  border: 0;
+  background: #eae8ed;
+  box-shadow: none;
+}
+.funko-map-controls .funko-map-control--zoom input[type="range"]::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: #7955b6;
+  box-shadow: 0 1px 3px rgba(63,36,109,.2);
+}
+.funko-map-controls .funko-map-control--zoom input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: #7955b6;
+  box-shadow: 0 1px 3px rgba(63,36,109,.2);
+}
+.funko-map-controls .funko-map-control--zoom input[type="range"]:focus-visible {
+  outline: 2px solid #7955b6;
+  outline-offset: 3px;
+}
+.funko-map-controls select { min-width: 0; width: 104px; max-width: 104px; padding-right: 17px; }
+#idiom09 .funko-map-control--select select { width: 107px; max-width: 107px; }
+.funko-map-controls .funko-map-reset { padding: 7px 8px; }
+@media (min-width: 1101px) {
+  /* Existing 72px translation shifted the event map outside its chart column. */
+  .story-row--map #idiom09 { transform: none; }
+}
+@media (max-width: 760px) {
+  .funko-map-controls {width:100% !important; flex-wrap:wrap;}
+}
