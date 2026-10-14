@@ -88,23 +88,6 @@
     "order": {
       "field": "region",
       "sort": "ascending"
-    },
-    "tooltip": [
-      {
-        "field": "year",
-        "title": "Year"
-      },
-      {
-        "field": "region",
-        "title": "Region"
-      },
-      {
-        "aggregate": "sum",
-        "field": "SalesMillions",
-        "type": "quantitative",
-        "format": ",.3f",
-        "title": "Regional sales (USD million)"
-      }
-    ]
+    }
   }
 }
