@@ -559,9 +559,6 @@
           },
           "stroke": {
             "value": null
-          },
-          "tooltip": {
-            "signal": "{'License': datum.license, 'Product type': datum.product_type, 'Products': datum.Connection_Count, 'Share of displayed license links': format(datum.License_Share, '.1%')}"
           }
         },
         "update": {
@@ -614,9 +611,6 @@
           },
           "stroke": {
             "value": null
-          },
-          "tooltip": {
-            "signal": "{'License': datum.license, 'Products shown in top product types': datum.DisplayTotal}"
           }
         }
       }
@@ -652,9 +646,6 @@
           },
           "stroke": {
             "value": null
-          },
-          "tooltip": {
-            "signal": "{'Product type': datum.product_type, 'Products shown from top licenses': datum.DisplayTotal}"
           }
         }
       }
