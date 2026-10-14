@@ -1401,3 +1401,15 @@ body {
 .analytics-tooltip__bar-rect {width:100%; min-height:2px; border-radius:3px 3px 0 0;}
 .analytics-tooltip__bar-category {height:32px; margin-top:7px; font-size:10px; line-height:1.25; color:#4e5563;}
 .analytics-tooltip__bar-axis {margin:7px 0 0; text-align:center; color:#626879; font-size:11px;}
+
+/* Dataset source register, separated from visualization findings. */
+.dashboard-sources { margin:48px 0 24px; padding:25px 28px; border-top:2px solid #d7d0c4; background:#faf7f1; }
+.dashboard-sources h2 { margin:0 0 8px; font-family:"Inter",Arial,sans-serif; font-size:25px; color:#132341; }
+.dashboard-sources__intro { margin:0 0 21px; color:#626879; font-size:13px; }
+.dashboard-sources__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px 24px; }
+.dashboard-sources__grid > div { min-width:0; padding-bottom:12px; border-bottom:1px solid #e5dfd7; }
+.dashboard-sources__grid h3 { margin:0 0 5px; font-size:14px; font-weight:700; color:#132341; }
+.dashboard-sources__grid p { margin:0; font-size:12px; line-height:1.65; color:#535b6b; }
+.dashboard-sources__grid a { color:#245D9F; font-weight:600; text-decoration:underline; text-underline-offset:2px; }
+.dashboard-sources__note { margin:20px 0 0; font-size:12px; line-height:1.6; color:#626879; }
+@media(max-width:700px) { .dashboard-sources{padding:21px 15px;} .dashboard-sources__grid{grid-template-columns:1fr;} }
