@@ -203,15 +203,7 @@
         "stroke": "white",
         "strokeWidth": 0.6
       },
-      "encoding": {
-        "tooltip": [
-          {
-            "field": "properties.NAME",
-            "type": "nominal",
-            "title": "Country"
-          }
-        ]
-      }
+      "encoding": {}
     },
     {
       "data": {
@@ -279,19 +271,7 @@
               100
             ]
           }
-        },
-        "tooltip": [
-          {
-            "field": "Country",
-            "type": "nominal",
-            "title": "Country"
-          },
-          {
-            "field": "Interest",
-            "type": "quantitative",
-            "title": "Relative search interest"
-          }
-        ]
+        }
       }
     }
   ],
