@@ -51,11 +51,12 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
+    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
     if (selector === "#idiom12") setupChordRelationshipTooltip(embedResult.view);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapTooltip(embedResult.view, selector);
+    if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
@@ -64,6 +65,150 @@ visualisations.forEach(async ([selector, specPath]) => {
 
 
 
+
+
+/* Pricing and Time tooltip cards, built from the marks' own data. */
+function setupAnalyticsTooltip(view, selector) {
+  const tip=document.createElement("div");
+  tip.className="analytics-tooltip";
+  tip.hidden=true;
+  tip.setAttribute("role","tooltip");
+  document.body.appendChild(tip);
+  const productColors={"Pop!":"#4E79A7","Apparel":"#76B7B2","Keychains":"#F28E2B","Vinyl GOLD":"#957500","Plush":"#B07AA1","Board Games":"#777777"};
+  const regionColors={"United States":"#5C4FA3","Europe":"#C05792","Other International":"#1F8C83"};
+  const saleData={
+    2021:1029.293,2022:1322.706,2023:1096.086,2024:1049.850,2025:908.209
+  };
+  const geo={
+    2021:{"United States":743.846,"Europe":214.732,"Other International":70.715},
+    2022:{"United States":966.324,"Europe":260.557,"Other International":95.825},
+    2023:{"United States":755.620,"Europe":268.496,"Other International":71.970},
+    2024:{"United States":681.986,"Europe":283.792,"Other International":84.072},
+    2025:{"United States":546.328,"Europe":288.348,"Other International":73.533}
+  };
+  const add=(parent,tag,value,cls)=>{
+    const el=document.createElement(tag);
+    if(cls)el.className=cls;
+    if(value!==undefined)el.textContent=String(value);
+    parent.appendChild(el);return el;
+  };
+  const cash=value=>Number.isFinite(Number(value))?"$"+Number(value).toFixed(2):"—";
+  const moneyM=value=>"$"+Number(value).toLocaleString(undefined,{minimumFractionDigits:1,maximumFractionDigits:1})+"M";
+  const signed=value=>(value>=0?"+":"")+value.toFixed(1)+"%";
+  let current="";
+  function makeCard(d) {
+    tip.replaceChildren();
+    tip.style.setProperty("--analytics-accent","#277A4D");
+    const head=(name,desc)=>{
+      add(tip,"strong",name,"analytics-tooltip__heading");
+      if(desc)add(tip,"p",desc,"analytics-tooltip__subtitle");
+    };
+    const stat=(label,value,cls)=>{
+      const box=add(tip,"div",undefined,"analytics-tooltip__stat");
+      add(box,"span",label);add(box,"strong",value,cls);
+      return box;
+    };
+    const row=(label,value)=>{
+      const el=add(tip,"div",undefined,"analytics-tooltip__row");
+      add(el,"span",label);add(el,"strong",value);
+    };
+    const bar=(value)=>{
+      const track=add(tip,"div",undefined,"analytics-tooltip__track");
+      const fill=add(track,"div",undefined,"analytics-tooltip__fill");
+      fill.style.width=Math.max(0,Math.min(100,value))+"%";
+    };
+    if(selector==="#idiom20"){
+      const year=Number(d.year), value=Number(d.SalesMillions);
+      if(!Number.isFinite(year)||!Number.isFinite(value))return false;
+      head(String(year),"Funko annual net sales");
+      stat("Net sales (USD)",moneyM(value));
+      if(saleData[year-1]){
+        const change=100*(value/saleData[year-1]-1);
+        row("Year-over-year change",signed(change));
+        add(tip,"p",change<0?"Sales decreased from the previous year.":"Sales increased from the previous year.","analytics-tooltip__note");
+      }else add(tip,"p","First year in the displayed series.","analytics-tooltip__note");
+      return true;
+    }
+    if(selector==="#idiom21"){
+      const year=Number(d.year),region=d.region;
+      if(!geo[year]||!geo[year][region])return false;
+      const value=geo[year][region],share=100*value/saleData[year];
+      tip.style.setProperty("--analytics-accent",regionColors[region]||"#277A4D");
+      head(region,"Regional sales in "+year);
+      stat("Share of annual sales",share.toFixed(1)+"%");
+      row("Regional net sales",moneyM(value));
+      const base=100*geo[2021][region]/saleData[2021];
+      row("Change from 2021",(share-base>=0?"+":"")+(share-base).toFixed(1)+" percentage points");
+      bar(share);
+      return true;
+    }
+    if(selector==="#idiom22"){
+      const year=Number(d.yr)||2021,brand=d.reported_brand_category;
+      const index=Number(d.index);
+      const values=[["Core Collectible",d.coreM],["Loungefly",d.loungeflyM],["Other",d.otherM]];
+      const found=values.find(([name])=>name===brand);
+      tip.style.setProperty("--analytics-accent",brand==="Loungefly"?"#3A9C68":"#7f8997");
+      head(brand||"All brand groups","Sales performance in "+year);
+      if(found&&Number.isFinite(Number(found[1]))){
+        stat("Net sales",moneyM(found[1]));
+        if(Number.isFinite(index)){row("Sales index (2021 = 100)",index.toFixed(1));row("Change from 2021",signed(index-100));}
+      }
+      for(const [name,v] of values)if(Number.isFinite(Number(v)))row(name,moneyM(v));
+      return true;
+    }
+    if(selector==="#idiom06"){
+      if(!d.product_type)return false;
+      tip.style.setProperty("--analytics-accent","#A47B00");
+      head(d.product_type,"Exclusive vs. non-exclusive pricing");
+      stat("Exclusive-tagged average",cash(d.Exclusive_Average));
+      row("No exclusive tag average",cash(d.No_Exclusive_Average));
+      const diff=Number(d.Exclusive_Average)-Number(d.No_Exclusive_Average);
+      if(Number.isFinite(diff))row("Exclusive premium",(diff>=0?"+":"-")+cash(Math.abs(diff)));
+      if(d.Difference_Percent_Label)row("Relative difference",d.Difference_Percent_Label);
+      return true;
+    }
+    if(selector==="#idiom15"){
+      const type=d.ProductType;
+      if(!type)return false;
+      tip.style.setProperty("--analytics-accent",productColors[type]||"#A47B00");
+      head(type,"Listed price distribution (USD)");
+      if(Number.isFinite(Number(d.MedianPrice)))stat("Median listed price",cash(d.MedianPrice));
+      if(Number.isFinite(Number(d.Q1))&&Number.isFinite(Number(d.Q3)))row("Middle 50% (Q1–Q3)",cash(d.Q1)+" – "+cash(d.Q3));
+      if(Number.isFinite(Number(d.MinPrice)))row("Minimum",cash(d.MinPrice));
+      if(Number.isFinite(Number(d.MaxPrice)))row("Maximum",cash(d.MaxPrice));
+      if(d.ProductCount!=null)row("Products",Number(d.ProductCount).toLocaleString());
+      if(d.title&&d.PriceValue!=null)row("Selected product",d.title+" · "+cash(d.PriceValue));
+      return true;
+    }
+    if(selector==="#idiom14"){
+      const group=d.ProductGroup||d.PriceBand||d.ExclusiveStatus;
+      if(!group)return false;
+      const type=d.ProductGroup;
+      tip.style.setProperty("--analytics-accent",productColors[type]||"#A47B00");
+      head(type||d.PriceBand||d.ExclusiveStatus,"Price pathway");
+      if(d.PriceBand)row("Price band",d.PriceBand);
+      if(d.ExclusiveStatus)row("Exclusive status",d.ExclusiveStatus);
+      if(d.MinPrice!=null&&d.MaxPrice!=null)row("Price range",cash(d.MinPrice)+" – "+cash(d.MaxPrice));
+      const count=d.FlowCount??d.ProductCount??d.Count;
+      if(count!=null)stat("Products",Number(count).toLocaleString());
+      if(d.SourceShare!=null)row("Share of source",(100*Number(d.SourceShare)).toFixed(1)+"%");
+      if(d.TargetShare!=null)row("Share of target",(100*Number(d.TargetShare)).toFixed(1)+"%");
+      return true;
+    }
+    return false;
+  }
+  view.addEventListener("mousemove",(event,item)=>{
+    const d=item?.datum;
+    if(!d){tip.hidden=true;current="";return;}
+    const key=JSON.stringify(d);
+    if(current!==key){current=key;if(!makeCard(d)){tip.hidden=true;return;}}
+    tip.hidden=false;
+    const bounds=tip.getBoundingClientRect(),gap=12;
+    tip.style.left=Math.max(gap,Math.min(event.clientX+16,window.innerWidth-bounds.width-gap))+"px";
+    tip.style.top=Math.max(gap,Math.min(event.clientY+16,window.innerHeight-bounds.height-gap))+"px";
+  });
+  view.addEventListener("mouseout",()=>{tip.hidden=true;current="";});
+}
 
 /* Simple map tooltips; no decorative search/globe icons or illustrative labels. */
 function setupMapTooltip(view, selector) {
