@@ -1,0 +1,336 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "description": "Funko product-type pictogram; each full symbol represents 25 products. Transforms calculate partial groups from the live catalogue.",
+  "width": 585,
+  "height": 388,
+  "padding": {
+    "top": 6,
+    "left": 2,
+    "right": 4,
+    "bottom": 4
+  },
+  "autosize": {
+    "type": "pad",
+    "resize": true
+  },
+  "background": "transparent",
+  "title": {
+    "text": "How Many Products Are in Each Product Type?",
+    "font": "Inter",
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "anchor": "start",
+    "offset": 12
+  },
+  "data": [
+    {
+      "name": "source",
+      "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
+      "format": {
+        "type": "csv"
+      },
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum.product_type) && datum.product_type != ''"
+        }
+      ]
+    },
+    {
+      "name": "types",
+      "source": "source",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "product_type"
+          ],
+          "ops": [
+            "count"
+          ],
+          "fields": [
+            "uid"
+          ],
+          "as": [
+            "Count"
+          ]
+        },
+        {
+          "type": "window",
+          "sort": {
+            "field": [
+              "Count",
+              "product_type"
+            ],
+            "order": [
+              "descending",
+              "ascending"
+            ]
+          },
+          "ops": [
+            "row_number"
+          ],
+          "as": [
+            "Rank"
+          ]
+        },
+        {
+          "type": "filter",
+          "expr": "datum.Rank <= 6"
+        },
+        {
+          "type": "formula",
+          "as": "Color",
+          "expr": "datum.product_type === 'Pop!' ? '#4E79A7' : datum.product_type === 'Apparel' ? '#76B7B2' : datum.product_type === 'Board Games' ? '#7F7F7F' : datum.product_type === 'Keychains' ? '#F28E2B' : datum.product_type === 'Vinyl GOLD' ? '#EDC948' : '#B07AA1'"
+        },
+        {
+          "type": "formula",
+          "as": "Shape",
+          "expr": "datum.product_type === 'Pop!' ? 'M0 -5 A4 4 0 1 1 0 3 A4 4 0 1 1 0 -5 M-5 12 Q-4 4 0 4 Q4 4 5 12' : datum.product_type === 'Apparel' ? 'M-6 -7 L-2 -10 L2 -10 L6 -7 L10 -5 L7 0 L5 -1 L5 11 L-5 11 L-5 -1 L-7 0 L-10 -5 Z' : datum.product_type === 'Board Games' ? 'M-9 -9 L9 -9 L9 9 L-9 9 Z M-4 -4 L-3 -4 M4 -4 L5 -4 M-4 4 L-3 4 M4 4 L5 4' : datum.product_type === 'Keychains' ? 'M-6 -8 A4 4 0 1 1 -6 0 A4 4 0 1 1 -6 -8 M-3 -1 L4 6 M2 3 L9 3 L9 10 L2 10 Z' : datum.product_type === 'Vinyl GOLD' ? 'M0 -9 A5 5 0 1 1 0 1 A5 5 0 1 1 0 -9 M-3 2 L-5 10 L0 7 L5 10 L3 2' : 'M-7 -7 A3 3 0 1 1 -7 -1 A3 3 0 1 1 -7 -7 M7 -7 A3 3 0 1 1 7 -1 A3 3 0 1 1 7 -7 M0 -7 A8 8 0 1 1 0 9 A8 8 0 1 1 0 -7'"
+        }
+      ]
+    },
+    {
+      "name": "slots",
+      "transform": [
+        {
+          "type": "sequence",
+          "start": 0,
+          "stop": 32,
+          "as": "slot"
+        }
+      ]
+    },
+    {
+      "name": "icons",
+      "source": "types",
+      "transform": [
+        {
+          "type": "cross",
+          "with": "slots",
+          "as": [
+            "type",
+            "slotRow"
+          ]
+        },
+        {
+          "type": "formula",
+          "as": "product_type",
+          "expr": "datum.type.product_type"
+        },
+        {
+          "type": "formula",
+          "as": "Count",
+          "expr": "datum.type.Count"
+        },
+        {
+          "type": "formula",
+          "as": "Rank",
+          "expr": "datum.type.Rank"
+        },
+        {
+          "type": "formula",
+          "as": "Color",
+          "expr": "datum.type.Color"
+        },
+        {
+          "type": "formula",
+          "as": "Shape",
+          "expr": "datum.type.Shape"
+        },
+        {
+          "type": "formula",
+          "as": "slot",
+          "expr": "datum.slotRow.slot"
+        },
+        {
+          "type": "filter",
+          "expr": "datum.slot < ceil(datum.Count / 25)"
+        },
+        {
+          "type": "formula",
+          "as": "remainder",
+          "expr": "datum.Count % 25"
+        },
+        {
+          "type": "formula",
+          "as": "partial",
+          "expr": "datum.slot == floor(datum.Count / 25) && datum.remainder > 0"
+        },
+        {
+          "type": "formula",
+          "as": "x",
+          "expr": "18 + (datum.slot % 20) * 25"
+        },
+        {
+          "type": "formula",
+          "as": "y",
+          "expr": "datum.Rank == 1 ? 82 + floor(datum.slot / 20) * 25 : 151 + (datum.Rank - 2) * 39"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "symbol",
+      "from": {
+        "data": "types"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "18 + (datum.Rank-1)*95"
+          },
+          "y": {
+            "value": 35
+          },
+          "shape": {
+            "field": "Shape"
+          },
+          "size": {
+            "value": 120
+          },
+          "fill": {
+            "value": "transparent"
+          },
+          "stroke": {
+            "field": "Color"
+          },
+          "strokeWidth": {
+            "value": 1.8
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "types"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "31 + (datum.Rank-1)*95"
+          },
+          "y": {
+            "value": 35
+          },
+          "text": {
+            "field": "product_type"
+          },
+          "fill": {
+            "value": "#29334b"
+          },
+          "font": {
+            "value": "Inter"
+          },
+          "fontSize": {
+            "value": 10
+          },
+          "baseline": {
+            "value": "middle"
+          }
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "from": {
+        "data": "icons"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "field": "y"
+          },
+          "shape": {
+            "field": "Shape"
+          },
+          "size": {
+            "value": 195
+          },
+          "fill": {
+            "value": "transparent"
+          },
+          "stroke": {
+            "field": "Color"
+          },
+          "strokeWidth": {
+            "value": 1.7
+          },
+          "strokeOpacity": {
+            "signal": "datum.partial ? 0.6 : 1"
+          },
+          "tooltip": {
+            "signal": "{'Product type': datum.product_type, 'Product total': datum.Count, 'Icon represents': datum.partial ? datum.remainder + ' of 25 products (incomplete final group)' : '25 products'}"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "types"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 539
+          },
+          "y": {
+            "signal": "datum.Rank == 1 ? 97 : 151 + (datum.Rank-2)*39"
+          },
+          "text": {
+            "field": "Count"
+          },
+          "font": {
+            "value": "Inter"
+          },
+          "fontWeight": {
+            "value": "bold"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fill": {
+            "value": "#132341"
+          },
+          "align": {
+            "value": "right"
+          },
+          "baseline": {
+            "value": "middle"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 4
+          },
+          "y": {
+            "value": 365
+          },
+          "text": {
+            "value": "1 full icon = 25 products. A faded icon marks an incomplete final group; counts at right are exact."
+          },
+          "font": {
+            "value": "Inter"
+          },
+          "fontSize": {
+            "value": 10
+          },
+          "fill": {
+            "value": "#626879"
+          }
+        }
+      }
+    }
+  ]
+}
