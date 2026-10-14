@@ -16,7 +16,7 @@
       "expr": "event_zoom"
     },
     "center": {
-      "expr": "event_center"
+      "expr": "event_pan_center"
     }
   },
   "layer": [
@@ -408,6 +408,13 @@
           "Other venues"
         ]
       }
+    },
+    {
+      "name": "event_pan_center",
+      "value": [
+        0,
+        0
+      ]
     }
   ]
 }
