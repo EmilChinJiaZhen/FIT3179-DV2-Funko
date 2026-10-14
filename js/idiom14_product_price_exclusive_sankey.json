@@ -36,6 +36,10 @@
     {
       "name": "x3",
       "update": "width * 0.86"
+    },
+    {
+      "name": "selectedFlow",
+      "value": ""
     }
   ],
   "data": [
@@ -709,7 +713,7 @@
         },
         "update": {
           "strokeOpacity": {
-            "value": 0.4
+            "signal": "selectedFlow === '' || datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow ? 0.45 : 0.035"
           }
         }
       }
@@ -748,7 +752,7 @@
         },
         "update": {
           "strokeOpacity": {
-            "value": 0.43
+            "signal": "selectedFlow === '' || datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow ? 0.45 : 0.035"
           }
         }
       }
@@ -782,6 +786,11 @@
           "strokeWidth": {
             "value": 1
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedFlow === '' || (datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -814,6 +823,11 @@
           "strokeWidth": {
             "value": 1
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedFlow === '' || (datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -845,6 +859,11 @@
           },
           "strokeWidth": {
             "value": 1
+          }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedFlow === '' || (datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow) ? 1 : 0.16"
           }
         }
       }
@@ -886,6 +905,11 @@
           "limit": {
             "value": 125
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedFlow === '' || (datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -926,6 +950,11 @@
           "limit": {
             "value": 125
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedFlow === '' || (datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -963,6 +992,11 @@
           "fill": {
             "value": "#333333"
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedFlow === '' || (datum.ProductGroup === selectedFlow || datum.PriceBand === selectedFlow || datum.ExclusiveStatus === selectedFlow) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -994,7 +1028,8 @@
           "fill": {
             "value": "#555555"
           }
-        }
+        },
+        "update": {}
       }
     },
     {
@@ -1025,7 +1060,8 @@
           "fill": {
             "value": "#555555"
           }
-        }
+        },
+        "update": {}
       }
     },
     {
@@ -1056,7 +1092,8 @@
           "fill": {
             "value": "#555555"
           }
-        }
+        },
+        "update": {}
       }
     }
   ],
