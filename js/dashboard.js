@@ -61,6 +61,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupDraggableMap(embedResult.view, container, selector);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapControlPanel(embedResult.view, container, selector);
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
+    if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
@@ -715,3 +716,43 @@ const PRODUCT_TYPE_COLORS = {
 };
 
 
+
+/* Click-to-select interactions for the custom Vega idioms.
+   Selecting the same item, clicking empty chart space, or pressing Escape resets it. */
+function setupChartClickSelection(view, container, selector) {
+  const configs = {
+    "#idiom02": {signal:"selectedTreeType", fields:["product_type"]},
+    "#idiom12": {signal:"selectedChord", fields:["license","product_type"]},
+    "#idiom19": {signal:"selectedPictogramType", fields:["product_type"]},
+    "#idiom14": {signal:"selectedFlow", fields:["ProductGroup","PriceBand","ExclusiveStatus"]},
+    "#idiom22": {signal:"selectedBrand", fields:["reported_brand_category"]}
+  };
+  const config=configs[selector];
+  if(!config)return;
+  const svg=container.querySelector("svg.marks");
+  if(!svg)return;
+  svg.classList.add("interactive-chart-selection");
+  const update=next=>view.signal(config.signal,next).runAsync().catch(console.error);
+  view.addEventListener("click",(event,item)=>{
+    const d=item?.datum;
+    if(!d){update("");return;}
+    let value="";
+    if(selector==="#idiom12"){
+      if(item?.mark?.marktype==="arc" && d.license)value=d.license;
+      else if(item?.mark?.marktype==="arc" && d.product_type)value=d.product_type;
+      else value=d.license||d.product_type||"";
+    } else if(selector==="#idiom14"){
+      const dataName=item?.mark?.name||"";
+      if(dataName.startsWith("nodes1"))value=d.ProductGroup||"";
+      else if(dataName.startsWith("nodes2"))value=d.PriceBand||"";
+      else if(dataName.startsWith("nodes3"))value=d.ExclusiveStatus||"";
+      else value=d.ProductGroup||d.PriceBand||d.ExclusiveStatus||"";
+    } else {
+      for(const field of config.fields)if(d[field]){value=String(d[field]);break;}
+    }
+    if(value)update(view.signal(config.signal)===value?"":value);
+  });
+  const reset=event=>{if(event.key==="Escape")update("");};
+  container.addEventListener("keydown",reset);
+  svg.setAttribute("tabindex","0");
+}
