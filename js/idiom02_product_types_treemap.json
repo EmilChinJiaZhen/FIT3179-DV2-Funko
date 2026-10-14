@@ -469,7 +469,8 @@
           "cornerRadius": {
             "value": 0
           }
-        }
+        },
+        "update": {}
       }
     },
     {
@@ -510,7 +511,7 @@
         },
         "update": {
           "fillOpacity": {
-            "value": 0.88
+            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
           },
           "stroke": {
             "value": "transparent"
@@ -574,6 +575,9 @@
           },
           "font": {
             "value": "Inter"
+          },
+          "fillOpacity": {
+            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
           }
         }
       }
@@ -620,6 +624,9 @@
           },
           "font": {
             "value": "Inter"
+          },
+          "fillOpacity": {
+            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
           }
         }
       }
@@ -677,6 +684,12 @@
       "titleFontWeight": "bold",
       "labelLimit": 120,
       "padding": 8
+    }
+  ],
+  "signals": [
+    {
+      "name": "selectedTreeType",
+      "value": ""
     }
   ]
 }
