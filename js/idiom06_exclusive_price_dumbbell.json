@@ -244,75 +244,7 @@
             "titleFont": "Inter",
             "labelFont": "Inter"
           }
-        },
-        "tooltip": [
-          {
-            "field": "product_type",
-            "type": "nominal",
-            "title": "Product type"
-          },
-          {
-            "field": "Exclusive_Status",
-            "type": "nominal",
-            "title": "Status"
-          },
-          {
-            "field": "Average_Price",
-            "type": "quantitative",
-            "title": "Average price",
-            "format": "$.2f"
-          },
-          {
-            "field": "Median_Price",
-            "type": "quantitative",
-            "title": "Median price",
-            "format": "$.2f"
-          },
-          {
-            "field": "Price_Range",
-            "type": "nominal",
-            "title": "Price range"
-          },
-          {
-            "field": "Product_Count",
-            "type": "quantitative",
-            "title": "Products in this group",
-            "format": ","
-          },
-          {
-            "field": "Group_Share_Label",
-            "type": "nominal",
-            "title": "Share of product type"
-          },
-          {
-            "field": "Exclusive_Average",
-            "type": "quantitative",
-            "title": "Exclusive-tagged avg.",
-            "format": "$.2f"
-          },
-          {
-            "field": "No_Exclusive_Average",
-            "type": "quantitative",
-            "title": "No-exclusive-tag avg.",
-            "format": "$.2f"
-          },
-          {
-            "field": "Difference_Label",
-            "type": "nominal",
-            "title": "Exclusive price difference"
-          },
-          {
-            "field": "Difference_Percent_Label",
-            "type": "nominal",
-            "title": "Exclusive difference (%)"
-          },
-          {
-            "field": "Total_Products",
-            "type": "quantitative",
-            "title": "Total products in type",
-            "format": ","
-          }
-        ]
+        }
       },
       "transform": [
         {
@@ -352,75 +284,7 @@
             "titleFont": "Inter",
             "labelFont": "Inter"
           }
-        },
-        "tooltip": [
-          {
-            "field": "product_type",
-            "type": "nominal",
-            "title": "Product type"
-          },
-          {
-            "field": "Exclusive_Status",
-            "type": "nominal",
-            "title": "Status"
-          },
-          {
-            "field": "Average_Price",
-            "type": "quantitative",
-            "title": "Average price",
-            "format": "$.2f"
-          },
-          {
-            "field": "Median_Price",
-            "type": "quantitative",
-            "title": "Median price",
-            "format": "$.2f"
-          },
-          {
-            "field": "Price_Range",
-            "type": "nominal",
-            "title": "Price range"
-          },
-          {
-            "field": "Product_Count",
-            "type": "quantitative",
-            "title": "Products in this group",
-            "format": ","
-          },
-          {
-            "field": "Group_Share_Label",
-            "type": "nominal",
-            "title": "Share of product type"
-          },
-          {
-            "field": "Exclusive_Average",
-            "type": "quantitative",
-            "title": "Exclusive-tagged avg.",
-            "format": "$.2f"
-          },
-          {
-            "field": "No_Exclusive_Average",
-            "type": "quantitative",
-            "title": "No-exclusive-tag avg.",
-            "format": "$.2f"
-          },
-          {
-            "field": "Difference_Label",
-            "type": "nominal",
-            "title": "Exclusive price difference"
-          },
-          {
-            "field": "Difference_Percent_Label",
-            "type": "nominal",
-            "title": "Exclusive difference (%)"
-          },
-          {
-            "field": "Total_Products",
-            "type": "quantitative",
-            "title": "Total products in type",
-            "format": ","
-          }
-        ]
+        }
       },
       "transform": [
         {
@@ -460,75 +324,7 @@
             "titleFont": "Inter",
             "labelFont": "Inter"
           }
-        },
-        "tooltip": [
-          {
-            "field": "product_type",
-            "type": "nominal",
-            "title": "Product type"
-          },
-          {
-            "field": "Exclusive_Status",
-            "type": "nominal",
-            "title": "Status"
-          },
-          {
-            "field": "Average_Price",
-            "type": "quantitative",
-            "title": "Average price",
-            "format": "$.2f"
-          },
-          {
-            "field": "Median_Price",
-            "type": "quantitative",
-            "title": "Median price",
-            "format": "$.2f"
-          },
-          {
-            "field": "Price_Range",
-            "type": "nominal",
-            "title": "Price range"
-          },
-          {
-            "field": "Product_Count",
-            "type": "quantitative",
-            "title": "Products in this group",
-            "format": ","
-          },
-          {
-            "field": "Group_Share_Label",
-            "type": "nominal",
-            "title": "Share of product type"
-          },
-          {
-            "field": "Exclusive_Average",
-            "type": "quantitative",
-            "title": "Exclusive-tagged avg.",
-            "format": "$.2f"
-          },
-          {
-            "field": "No_Exclusive_Average",
-            "type": "quantitative",
-            "title": "No-exclusive-tag avg.",
-            "format": "$.2f"
-          },
-          {
-            "field": "Difference_Label",
-            "type": "nominal",
-            "title": "Exclusive price difference"
-          },
-          {
-            "field": "Difference_Percent_Label",
-            "type": "nominal",
-            "title": "Exclusive difference (%)"
-          },
-          {
-            "field": "Total_Products",
-            "type": "quantitative",
-            "title": "Total products in type",
-            "format": ","
-          }
-        ]
+        }
       },
       "transform": [
         {
