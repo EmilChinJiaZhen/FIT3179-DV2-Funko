@@ -160,8 +160,23 @@ function setupAnalyticsTooltip(view, selector) {
       if(!d.product_type)return false;
       tip.style.setProperty("--analytics-accent","#A47B00");
       head(d.product_type,"Exclusive vs. non-exclusive pricing");
-      stat("Exclusive-tagged average",cash(d.Exclusive_Average));
-      row("No exclusive tag average",cash(d.No_Exclusive_Average));
+      const exclusive=Number(d.Exclusive_Average);
+      const regular=Number(d.No_Exclusive_Average);
+      if(Number.isFinite(exclusive)&&Number.isFinite(regular)) {
+        const compare=add(tip,"div",undefined,"analytics-tooltip__bar-chart");
+        const maxValue=Math.max(exclusive,regular,1);
+        const chart=add(compare,"div",undefined,"analytics-tooltip__bar-columns");
+        for(const [label,value,color] of [["No exclusive tag",regular,"#B8B8B8"],["Exclusive-tagged",exclusive,"#C9A227"]]){
+          const column=add(chart,"div",undefined,"analytics-tooltip__bar-column");
+          add(column,"strong",cash(value),"analytics-tooltip__bar-value");
+          const slot=add(column,"div",undefined,"analytics-tooltip__bar-slot");
+          const rect=add(slot,"div",undefined,"analytics-tooltip__bar-rect");
+          rect.style.height=(100*value/maxValue)+"%";
+          rect.style.backgroundColor=color;
+          add(column,"span",label,"analytics-tooltip__bar-category");
+        }
+        add(compare,"p","Average listed price (USD)","analytics-tooltip__bar-axis");
+      }
       const diff=Number(d.Exclusive_Average)-Number(d.No_Exclusive_Average);
       if(Number.isFinite(diff))row("Exclusive premium",(diff>=0?"+":"-")+cash(Math.abs(diff)));
       if(d.Difference_Percent_Label)row("Relative difference",d.Difference_Percent_Label);
@@ -198,6 +213,11 @@ function setupAnalyticsTooltip(view, selector) {
     return false;
   }
   view.addEventListener("mousemove",(event,item)=>{
+    // These line charts have interactive points, but the connecting strokes
+    // must not trigger the custom tooltip.
+    if((selector==="#idiom20" || selector==="#idiom22") && item?.mark?.marktype!=="symbol"){
+      tip.hidden=true;current="";return;
+    }
     const d=item?.datum;
     if(!d){tip.hidden=true;current="";return;}
     const key=JSON.stringify(d);
