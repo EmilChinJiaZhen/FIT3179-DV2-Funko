@@ -138,6 +138,26 @@
           "expr": "datum.Rank == 1 ? 82 + floor(datum.slot / 20) * 25 : 151 + (datum.Rank - 2) * 39"
         }
       ]
+    },
+    {
+      "name": "fullIcons",
+      "source": "icons",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!datum.partial"
+        }
+      ]
+    },
+    {
+      "name": "partialIcons",
+      "source": "icons",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.partial"
+        }
+      ]
     }
   ],
   "marks": [
@@ -203,7 +223,7 @@
     {
       "type": "path",
       "from": {
-        "data": "icons"
+        "data": "fullIcons"
       },
       "encode": {
         "enter": {
@@ -222,17 +242,77 @@
           "strokeWidth": {
             "value": 1.7
           },
-          "strokeOpacity": {
-            "signal": "datum.partial ? 0.65 : 1"
-          },
-          "tooltip": {
-            "signal": "{'Product type': datum.product_type, 'Product total': datum.Count, 'Icon represents': datum.partial ? datum.remainder + ' of 25 products (incomplete final group)' : '25 products'}"
-          },
           "path": {
             "field": "Shape"
           }
         }
       }
+    },
+    {
+      "type": "group",
+      "from": {
+        "facet": {
+          "name": "partialIcon",
+          "data": "partialIcons",
+          "groupby": [
+            "product_type",
+            "slot"
+          ]
+        }
+      },
+      "clip": true,
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "datum.x - 10"
+          },
+          "y": {
+            "signal": "datum.y - 13"
+          },
+          "width": {
+            "value": 10
+          },
+          "height": {
+            "value": 26
+          },
+          "stroke": {
+            "value": "transparent"
+          },
+          "fill": {
+            "value": "transparent"
+          }
+        }
+      },
+      "marks": [
+        {
+          "type": "path",
+          "from": {
+            "data": "partialIcon"
+          },
+          "encode": {
+            "enter": {
+              "x": {
+                "value": 10
+              },
+              "y": {
+                "value": 13
+              },
+              "path": {
+                "field": "Shape"
+              },
+              "fill": {
+                "value": "transparent"
+              },
+              "stroke": {
+                "field": "Color"
+              },
+              "strokeWidth": {
+                "value": 1.7
+              }
+            }
+          }
+        }
+      ]
     },
     {
       "type": "text",
@@ -282,7 +362,7 @@
             "value": 365
           },
           "text": {
-            "value": "1 full icon = 25 products. A faded icon marks an incomplete final group; counts at right are exact."
+            "value": "1 full icon = 25 products. A half icon marks an incomplete final group; counts at right are exact."
           },
           "font": {
             "value": "Inter"
