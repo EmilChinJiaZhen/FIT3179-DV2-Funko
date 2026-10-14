@@ -53,6 +53,10 @@
     {
       "name": "rightSpan",
       "update": "120 * PI / 180"
+    },
+    {
+      "name": "selectedChord",
+      "value": ""
     }
   ],
   "data": [
@@ -567,7 +571,7 @@
             "field": "product_type"
           },
           "fillOpacity": {
-            "value": 0.34
+            "signal": "selectedChord === '' || datum.license === selectedChord || datum.product_type === selectedChord ? 0.34 : 0.035"
           }
         },
         "hover": {
@@ -612,6 +616,11 @@
           "stroke": {
             "value": null
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -646,6 +655,11 @@
           },
           "stroke": {
             "value": null
+          }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16"
           }
         }
       }
@@ -687,6 +701,11 @@
           "lineHeight": {
             "value": 11
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -721,6 +740,11 @@
           "fill": {
             "value": "#222222"
           }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16"
+          }
         }
       }
     },
@@ -749,7 +773,8 @@
           "fill": {
             "value": "#555555"
           }
-        }
+        },
+        "update": {}
       }
     },
     {
@@ -771,7 +796,8 @@
           "strokeWidth": {
             "value": 1
           }
-        }
+        },
+        "update": {}
       }
     },
     {
@@ -802,7 +828,8 @@
           "fill": {
             "value": "#555555"
           }
-        }
+        },
+        "update": {}
       }
     },
     {
@@ -824,7 +851,8 @@
           "strokeWidth": {
             "value": 1
           }
-        }
+        },
+        "update": {}
       }
     },
     {
@@ -852,7 +880,8 @@
           "fill": {
             "value": "#666666"
           }
-        }
+        },
+        "update": {}
       }
     }
   ],
