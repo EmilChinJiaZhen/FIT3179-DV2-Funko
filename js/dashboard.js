@@ -100,8 +100,12 @@ function setupMapTooltip(view, selector) {
         tip.style.setProperty("--map-color","#7E57C2");
         add(tip,"small","Relative index, not a percentage of people searching.","map-info-tooltip__muted");
       } else if(selector==="#idiom09") {
-        for(const [k,v] of [["Type",d.VerifiedType],["Venue / store",d.Venue],["Location",[d.City,d.Country].filter(Boolean).join(", ")],["Date / status",d.Dates],["Verification",d.Verification]]) {
-          if(v)add(tip,"div",k+": "+v,"map-info-tooltip__row");
+        for(const [icon,k,v] of [["🎟️","Type",d.VerifiedType],["🏛️","Venue / store",d.Venue],["📍","Location",[d.City,d.Country].filter(Boolean).join(", ")],["📅","Date / status",d.Dates],["✅","Verification",d.Verification]]) {
+          if(v) {
+            const row=add(tip,"div","","map-info-tooltip__row map-info-tooltip__event-row");
+            add(row,"span",icon,"map-info-tooltip__event-icon").setAttribute("aria-hidden","true");
+            add(row,"span",k+": "+v);
+          }
         }
       } else {
         tip.style.setProperty("--map-color",colors[d.Region]||"#5C4FA3");
