@@ -59,6 +59,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (selector === "#idiom12") setupChordRelationshipTooltip(embedResult.view);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapTooltip(embedResult.view, selector);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupDraggableMap(embedResult.view, container, selector);
+    if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapControlPanel(embedResult.view, container, selector);
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
@@ -116,6 +117,49 @@ function setupDraggableMap(view, container, selector) {
   svg.addEventListener("pointerup",stop);
   svg.addEventListener("pointercancel",stop);
   svg.addEventListener("lostpointercapture",stop);
+}
+
+
+/* Make Vega-bound zoom/region controls readable and provide a one-click
+   reset of zoom, region and drag position without reloading the page. */
+function setupMapControlPanel(view, container, selector) {
+  const prefix={"#idiom08":"search","#idiom09":"event","#idiom18":"origin"}[selector];
+  if(!prefix)return;
+  const bindings=container.querySelector(".vega-bindings");
+  if(!bindings)return;
+  bindings.classList.add("funko-map-controls");
+  const wrappers=Array.from(bindings.querySelectorAll(".vega-bind"));
+  for(const group of wrappers) {
+    const input=group.querySelector("input[type=range], select");
+    if(!input)continue;
+    group.classList.add("funko-map-control");
+    if(input.type==="range") {
+      group.classList.add("funko-map-control--zoom");
+      const output=document.createElement("output");
+      output.className="funko-map-zoom-value";
+      output.textContent=input.value+"%";
+      input.addEventListener("input",()=>{output.textContent=input.value+"%";});
+      group.appendChild(output);
+    } else {
+      group.classList.add("funko-map-control--select");
+    }
+  }
+  const reset=document.createElement("button");
+  reset.type="button";
+  reset.className="funko-map-reset";
+  reset.textContent="↺ Reset view";
+  reset.setAttribute("aria-label","Reset map zoom and position");
+  reset.addEventListener("click",()=>{
+    const range=bindings.querySelector('input[type="range"]');
+    const region=bindings.querySelector("select");
+    if(range){range.value="130";range.dispatchEvent(new Event("input",{bubbles:true}));range.dispatchEvent(new Event("change",{bubbles:true}));}
+    if(region){region.selectedIndex=0;region.dispatchEvent(new Event("change",{bubbles:true}));}
+    view.signal(prefix+"_zoom",130);
+    view.signal(prefix+"_center",[0,0]);
+    view.signal(prefix+"_pan_center",[0,0]);
+    view.runAsync().catch(console.error);
+  });
+  bindings.appendChild(reset);
 }
 
 /* Vega pictogram: only the clipped half-group has a hover card. */
