@@ -1376,3 +1376,18 @@ body {
 .pictogram-partial-tooltip__note { margin:10px 0 0; color:#626879; font-size:11px; line-height:1.45; }
 .pictogram-chart__icon--half { cursor: help; }
 .pictogram-chart__icon--half:focus-visible { outline:2px solid var(--product-color,#4E79A7); outline-offset:3px; }
+
+/* Pricing and time custom data tooltip cards. */
+.analytics-tooltip {position:fixed; z-index:550; width:305px; max-width:calc(100vw - 24px); padding:15px 16px; border:1px solid #ddd6cc; border-radius:11px; background:#fffaf3; color:#132341; font:12px/1.45 "Inter",Arial,sans-serif; box-shadow:0 12px 30px rgba(19,35,65,.17); pointer-events:none;}
+.analytics-tooltip[hidden]{display:none;}
+.analytics-tooltip__heading{display:block; font-size:16px; line-height:1.3; font-weight:700;}
+.analytics-tooltip__subtitle{margin:3px 0 12px; font-size:11px; color:#626879;}
+.analytics-tooltip__stat{padding:9px 0 12px; border-bottom:1px solid #e7dfd5;}
+.analytics-tooltip__stat>span{display:block; font-size:11px; color:#626879;}
+.analytics-tooltip__stat>strong{display:block; font-size:24px; line-height:1.3; font-weight:700; color:var(--analytics-accent,#277A4D);}
+.analytics-tooltip__row{display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px solid #eee9e2;}
+.analytics-tooltip__row>span{color:#626879; flex:1 1 auto;}
+.analytics-tooltip__row>strong{font-weight:700; text-align:right; flex:0 1 auto;}
+.analytics-tooltip__track{height:8px; background:#e5dfd6; border-radius:30px; overflow:hidden; margin-top:12px;}
+.analytics-tooltip__fill{height:100%; border-radius:30px; background:var(--analytics-accent,#277A4D);}
+.analytics-tooltip__note{font-size:11px; color:#626879; margin:10px 0 0;}
