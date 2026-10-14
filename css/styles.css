@@ -1650,3 +1650,23 @@ body {
 @media (min-width: 1101px) {
   .origin-map-layout #idiom18.vega-embed > details { right: 6px !important; }
 }
+
+/* The Vega specifications contain a map and its legend in one SVG.
+   The former 100%-width rule shrank both together to fit the column.
+   Scale the SVG itself (not its enclosing controls) to restore readability. */
+@media (min-width: 1101px) {
+  .chapter--global .funko-map-layout #idiom09 .vega-embed svg.marks,
+  .chapter--global .origin-map-layout #idiom18 .vega-embed svg.marks,
+  .chapter--global .funko-map-layout #idiom09.vega-embed svg.marks,
+  .chapter--global .origin-map-layout #idiom18.vega-embed svg.marks {
+    width: 125% !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+  .chapter--global .funko-map-layout,
+  .chapter--global .origin-map-layout,
+  .chapter--global #idiom09,
+  .chapter--global #idiom18 {
+    overflow: visible;
+  }
+}
