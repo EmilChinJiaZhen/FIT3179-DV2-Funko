@@ -108,7 +108,7 @@
         "x": {
           "field": "year",
           "type": "ordinal",
-          "title": "Drag to select years",
+          "title": "Drag across the timeline to zoom in. Double-click to reset",
           "axis": {
             "labelAngle": 0
           }
