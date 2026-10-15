@@ -757,3 +757,71 @@ function setupChartClickSelection(view, container, selector) {
   // Do not force keyboard focus onto the entire SVG: browsers draw an unwanted outline.
   svg.removeAttribute("tabindex");
 }
+
+
+// Keep the sticky chapter navigation in sync with clicks and manual scrolling.
+function setupChapterNavigation() {
+  const nav = document.querySelector(".chapter-nav");
+  if (!nav) return;
+  const links = [...nav.querySelectorAll('a[href^="#"]')];
+  const items = links.map(link => ({
+    link, section: document.getElementById(decodeURIComponent(link.hash.slice(1)))
+  })).filter(item => item.section);
+  if (!items.length) return;
+
+  let selected = null;
+  let scrollingTo = null;
+  let unlockTimer = null;
+  let raf = 0;
+  const positionHighlight = () => {
+    if (!selected) return;
+    const rect = selected.getBoundingClientRect();
+    const parent = nav.getBoundingClientRect();
+    nav.style.setProperty("--chapter-highlight-left", `${rect.left - parent.left}px`);
+    nav.style.setProperty("--chapter-highlight-top", `${rect.top - parent.top}px`);
+    nav.style.setProperty("--chapter-highlight-width", `${rect.width}px`);
+    nav.style.setProperty("--chapter-highlight-height", `${rect.height}px`);
+    nav.style.setProperty("--chapter-highlight-opacity", "1");
+  };
+  const activate = link => {
+    if (selected === link) return;
+    selected = link;
+    items.forEach(({link: item}) => {
+      if (item === link) item.setAttribute("aria-current", "location");
+      else item.removeAttribute("aria-current");
+    });
+    positionHighlight();
+  };
+  const updateFromScroll = () => {
+    raf = 0;
+    if (scrollingTo) {
+      const target = scrollingTo.section.getBoundingClientRect();
+      if (Math.abs(target.top - (nav.getBoundingClientRect().bottom + 12)) < 110) {
+        scrollingTo = null;
+        clearTimeout(unlockTimer);
+      } else return;
+    }
+    const line = nav.getBoundingClientRect().bottom + 70;
+    let current = items[0];
+    for (const item of items) {
+      if (item.section.getBoundingClientRect().top <= line) current = item;
+    }
+    activate(current.link);
+  };
+  items.forEach(item => item.link.addEventListener("click", () => {
+    scrollingTo = item;
+    clearTimeout(unlockTimer);
+    unlockTimer = setTimeout(() => { scrollingTo = null; updateFromScroll(); }, 1500);
+    activate(item.link);
+  }));
+  window.addEventListener("scroll", () => {
+    if (!raf) raf = requestAnimationFrame(updateFromScroll);
+  }, { passive: true });
+  window.addEventListener("resize", () => {
+    positionHighlight();
+    updateFromScroll();
+  });
+  activate(items.find(item => item.link.hash === window.location.hash)?.link || items[0].link);
+  requestAnimationFrame(() => { positionHighlight(); updateFromScroll(); });
+}
+setupChapterNavigation();
