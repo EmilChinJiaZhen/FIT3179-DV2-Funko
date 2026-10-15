@@ -1771,3 +1771,36 @@ body {
   font: 400 12px/1.5 "Inter", Arial, sans-serif;
   color: #324157;
 }
+
+/* Sliding active-chapter indicator inside the sticky navigation. */
+.chapter-nav { position: sticky; isolation: isolate; }
+.chapter-nav::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: var(--chapter-highlight-top, 12px);
+  left: var(--chapter-highlight-left, 0px);
+  width: var(--chapter-highlight-width, 0px);
+  height: var(--chapter-highlight-height, 0px);
+  box-sizing: border-box;
+  border-radius: 999px;
+  border: 1px solid #7e9fc9;
+  background: #dceafa;
+  box-shadow: 0 2px 8px rgba(36, 74, 124, 0.12);
+  opacity: var(--chapter-highlight-opacity, 0);
+  pointer-events: none;
+  transition: left 360ms cubic-bezier(.22,1,.36,1),
+              top 360ms cubic-bezier(.22,1,.36,1),
+              width 360ms cubic-bezier(.22,1,.36,1),
+              height 360ms cubic-bezier(.22,1,.36,1),
+              opacity 180ms ease;
+}
+.chapter-nav a { position: relative; z-index: 1; }
+.chapter-nav a[aria-current="location"] { background: transparent; color: #173e73; }
+.chapter-nav a[aria-current="location"]:hover,
+.chapter-nav a[aria-current="location"]:focus { background: transparent; }
+.chapter-nav a:focus-visible { outline: 2px solid #245d9f; outline-offset: 3px; }
+.chapter { scroll-margin-top: 92px; }
+@media (prefers-reduced-motion: reduce) {
+  .chapter-nav::before { transition: none; }
+}
