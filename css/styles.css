@@ -1748,7 +1748,7 @@ body {
   line-height: 1.85;
 }
 .dashboard-conclusion__body strong {
-  color: #305d8b;
+  color: #000000;
   font-weight: 750;
 }
 @media (max-width: 700px) {
@@ -1760,3 +1760,6 @@ body {
 
 /* Neutral emphasis for findings; category and regional colours remain distinct. */
 .finding-emphasis.emphasis-black { color: #1f2230; }
+
+/* Black emphasis for the net sales findings. */
+.finding-emphasis.text-black { color: #000000; }
