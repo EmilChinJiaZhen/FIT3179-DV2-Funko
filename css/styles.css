@@ -1763,3 +1763,11 @@ body {
 
 /* Black emphasis for the net sales findings. */
 .finding-emphasis.text-black { color: #000000; }
+
+/* Place the timeline interaction tip below the selector, not on its x-axis. */
+.sales-timeline-hint {
+  margin: 20px 0 0;
+  text-align: left;
+  font: 400 12px/1.5 "Inter", Arial, sans-serif;
+  color: #324157;
+}
