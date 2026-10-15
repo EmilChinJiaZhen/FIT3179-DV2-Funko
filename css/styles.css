@@ -1757,3 +1757,6 @@ body {
   .dashboard-conclusion__body { grid-template-columns: 1fr; gap: 16px; }
 }
 
+
+/* Neutral emphasis for findings; category and regional colours remain distinct. */
+.finding-emphasis.emphasis-black { color: #1f2230; }
