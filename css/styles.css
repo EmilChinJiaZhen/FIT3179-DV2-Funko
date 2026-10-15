@@ -1806,5 +1806,5 @@ body {
 }
 
 /* Small hand/drag icon beside the annual-sales timeline instruction. */
-.sales-timeline-hint { display: flex; align-items: center; gap: 7px; }
+.sales-timeline-hint { display: flex; align-items: center; gap: 7px; padding-left: 56px; }
 .sales-timeline-hint__icon { flex: 0 0 16px; width: 16px; height: 16px; }
