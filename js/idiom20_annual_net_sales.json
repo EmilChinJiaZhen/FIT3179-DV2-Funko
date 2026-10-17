@@ -107,7 +107,7 @@
             "font": "Inter",
             "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#172238"
+            "color": "#C62828"
           },
           "encoding": {
             "text": {
@@ -130,7 +130,7 @@
             "font": "Inter",
             "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#172238"
+            "color": "#C62828"
           },
           "encoding": {
             "text": {
@@ -196,7 +196,7 @@
   "params": [
     {
       "name": "storyYear",
-      "value": 0
+      "value": 2022
     }
   ]
 }
