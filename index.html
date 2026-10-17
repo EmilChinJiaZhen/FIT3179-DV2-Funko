@@ -161,11 +161,25 @@
               <button type="button" class="pictogram-compare__toggle" id="pictogram-compare-toggle" aria-expanded="false" aria-controls="pictogram-compare-panel">Compare product types <span aria-hidden="true">↔</span></button>
               <div class="pictogram-compare__panel" id="pictogram-compare-panel" hidden>
                 <div class="pictogram-compare__fields">
-                  <label>First type<select id="pictogram-compare-a"></select></label>
-                  <label>Second type<select id="pictogram-compare-b"></select></label>
+                  <label><span>Product type A</span><select id="pictogram-compare-a"></select></label>
+                  <label><span>Product type B</span><select id="pictogram-compare-b"></select></label>
                 </div>
-                <p class="pictogram-compare__result" id="pictogram-compare-result" aria-live="polite"></p>
-                <button type="button" class="pictogram-compare__close" id="pictogram-compare-clear">Close comparison</button>
+                <div class="pictogram-compare__bars" aria-label="Comparison of product counts">
+                  <div class="pictogram-compare__bar-item">
+                    <div class="pictogram-compare__bar-heading"><span id="pictogram-compare-a-name"></span><strong id="pictogram-compare-a-count"></strong></div>
+                    <div class="pictogram-compare__track"><span id="pictogram-compare-a-fill"></span></div>
+                  </div>
+                  <div class="pictogram-compare__bar-item">
+                    <div class="pictogram-compare__bar-heading"><span id="pictogram-compare-b-name"></span><strong id="pictogram-compare-b-count"></strong></div>
+                    <div class="pictogram-compare__track"><span id="pictogram-compare-b-fill"></span></div>
+                  </div>
+                </div>
+                <div class="pictogram-compare__summary" aria-live="polite">
+                  <div><span>Difference</span><strong id="pictogram-compare-difference"></strong></div>
+                  <div><span>Ratio</span><strong id="pictogram-compare-ratio"></strong></div>
+                </div>
+                <p class="pictogram-compare__result" id="pictogram-compare-result"></p>
+                <button type="button" class="pictogram-compare__close" id="pictogram-compare-clear">Close comparison <span aria-hidden="true">×</span></button>
               </div>
             </div>
           </aside>
