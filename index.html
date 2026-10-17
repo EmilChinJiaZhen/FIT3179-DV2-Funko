@@ -157,6 +157,17 @@
               much smaller, showing that Funko's catalogue is strongly built
               around its core figure format.
             </p>
+            <div class="pictogram-compare" aria-label="Compare two product types">
+              <button type="button" class="pictogram-compare__toggle" id="pictogram-compare-toggle" aria-expanded="false" aria-controls="pictogram-compare-panel">Compare product types <span aria-hidden="true">↔</span></button>
+              <div class="pictogram-compare__panel" id="pictogram-compare-panel" hidden>
+                <div class="pictogram-compare__fields">
+                  <label>First type<select id="pictogram-compare-a"></select></label>
+                  <label>Second type<select id="pictogram-compare-b"></select></label>
+                </div>
+                <p class="pictogram-compare__result" id="pictogram-compare-result" aria-live="polite"></p>
+                <button type="button" class="pictogram-compare__close" id="pictogram-compare-clear">Close comparison</button>
+              </div>
+            </div>
           </aside>
 
           <div class="story-chart">
