@@ -59,20 +59,24 @@ function syncProductView(selector, view) {
 }
 function updateLinkedProductType(type) {
   activeProductType = type || "";
-  document.querySelectorAll(".product-filter-button").forEach(button => {
-    const selected = button.dataset.productType === activeProductType;
-    button.classList.toggle("is-active", selected);
-    button.setAttribute("aria-pressed", String(selected));
-  });
+  const select = document.getElementById("global-product-type");
+  if (select) {
+    // Keep the dropdown consistent with selections made directly on charts.
+    if ([...select.options].some(option => option.value === activeProductType)) select.value = activeProductType;
+    else select.value = "";
+  }
+  const resetButton = document.getElementById("global-product-reset");
+  if (resetButton) resetButton.hidden = !activeProductType;
   for (const [selector, view] of productViews) syncProductView(selector, view);
 }
 function registerLinkedProductView(selector, view) {
   productViews.set(selector, view);
   syncProductView(selector, view);
 }
-document.querySelectorAll(".product-filter-button").forEach(button => {
-  button.addEventListener("click", () => updateLinkedProductType(button.dataset.productType || ""));
+document.getElementById("global-product-type")?.addEventListener("change", event => {
+  updateLinkedProductType(event.target.value);
 });
+document.getElementById("global-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
 
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
