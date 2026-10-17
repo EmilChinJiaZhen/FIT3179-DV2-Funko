@@ -1978,3 +1978,9 @@ body {
 .tree-story { margin-top: 22px; }
 .tree-story__detail { margin: 4px 0 0; color: #C62828; font: 600 12px/1.55 "Inter", Arial, sans-serif; }
 .tree-story__detail[hidden] { display: none; }
+
+/* Optional, locally hosted transparent Funko figure photo in lollipop tooltips. */
+.license-share-tooltip__figure { display:flex; flex-direction:column; align-items:center; gap:4px; margin:0 0 10px; }
+.license-share-tooltip__figure[hidden] { display:none; }
+.license-share-tooltip__figure img { display:block; width:auto; max-width:100%; height:115px; object-fit:contain; }
+.license-share-tooltip__figure small { color:#647087; font-size:10px; line-height:1.3; text-align:center; }
