@@ -72,6 +72,25 @@
             "size": 115,
             "color": "#4E79A7"
           }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "shape": "circle",
+            "filled": false,
+            "stroke": "#172238",
+            "strokeWidth": 2.5,
+            "size": 380
+          },
+          "encoding": {
+            "opacity": {
+              "condition": {
+                "test": "toNumber(datum.year) === storyYear",
+                "value": 1
+              },
+              "value": 0
+            }
+          }
         }
       ],
       "transform": [
@@ -127,5 +146,11 @@
       }
     }
   ],
-  "spacing": 12
+  "spacing": 12,
+  "params": [
+    {
+      "name": "storyYear",
+      "value": 0
+    }
+  ]
 }
