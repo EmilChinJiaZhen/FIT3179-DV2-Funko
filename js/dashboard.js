@@ -78,6 +78,27 @@ document.getElementById("global-product-type")?.addEventListener("change", event
 });
 document.getElementById("global-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
 
+// Optional story annotations for the annual-sales chart. These emphasise
+// recorded values only; they do not change the timeline brush or infer causes.
+function setupSalesStory(view) {
+  const buttons = [...document.querySelectorAll(".sales-story__button")];
+  const detail = document.getElementById("sales-story-detail");
+  if (!buttons.length || !detail) return;
+  const stories = {
+    2022: "Sales reached approximately $1.32 billion in 2022, 28.5% higher than in 2021.",
+    2025: "By 2025, annual sales were 31.3% below the 2022 peak, after three consecutive yearly declines."
+  };
+  let selectedYear = 0;
+  buttons.forEach(button => button.addEventListener("click", () => {
+    const year = Number(button.dataset.storyYear);
+    selectedYear = selectedYear === year ? 0 : year;
+    buttons.forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.storyYear) === selectedYear)));
+    detail.hidden = !selectedYear;
+    detail.textContent = selectedYear ? stories[selectedYear] : "";
+    view.signal("storyYear", selectedYear).runAsync().catch(console.error);
+  }));
+}
+
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
 visualisations.forEach(async ([selector, specPath]) => {
@@ -110,6 +131,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
     const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
+    if (selector === "#idiom20") setupSalesStory(embedResult.view);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
     if (selector === "#idiom19") setupPictogramPartialTooltip(embedResult.view);
