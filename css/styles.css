@@ -1598,7 +1598,8 @@ body {
   outline-offset: 3px;
 }
 .funko-map-controls select { min-width: 0; width: 104px; max-width: 104px; padding-right: 17px; }
-#idiom09 .funko-map-control--select select { width: 107px; max-width: 107px; }
+/* Give location-type choices enough space without changing the map dimensions. */
+#idiom09 .funko-map-control--select select { box-sizing: border-box; width: 174px; min-width: 174px; max-width: 174px; padding-right: 25px; text-overflow: clip; }
 .funko-map-controls .funko-map-reset { padding: 7px 8px; }
 @media (min-width: 1101px) {
   /* Existing 72px translation shifted the event map outside its chart column. */
