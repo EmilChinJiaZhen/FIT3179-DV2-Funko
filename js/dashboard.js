@@ -885,7 +885,12 @@ function setupLicenseShareTooltip(view) {
       other.textContent = "All other licenses: " + (100 - share).toFixed(1) + "%";
       stats.append(value, fraction, other);
       layout.append(pie, stats);
-      const figure = LICENSE_FIGURE_IMAGES[license];
+      // Some catalogue license names contain literal surrounding quotes,
+      // including "Five Nights at Freddy's". Keep the original label and
+      // count untouched; normalize only the image mapping lookup.
+      const imageLicense = String(license).trim()
+        .replace(/^[\s"'“”‘’]+|[\s"'“”‘’]+$/g, "").trim();
+      const figure = LICENSE_FIGURE_IMAGES[imageLicense];
       if (figure) {
         const media = document.createElement("div");
         media.className = "license-share-tooltip__figure";
