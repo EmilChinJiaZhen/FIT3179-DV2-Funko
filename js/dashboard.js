@@ -422,7 +422,13 @@ function setupAnalyticsTooltip(view, selector) {
       fill.style.width=Math.max(0,Math.min(100,value))+"%";
     };
     if(selector==="#idiom20"){
-      const year=Number(d.year), value=Number(d.SalesMillions);
+      const year=Number(d.year);
+      // The compiled Vega-Lite point item may carry only the original CSV
+      // fields rather than the calculated SalesMillions field.
+      const value=Number.isFinite(Number(d.SalesMillions)) && d.SalesMillions != null
+        ? Number(d.SalesMillions)
+        : (d.net_sales_usd_thousands != null
+          ? Number(d.net_sales_usd_thousands)/1000 : saleData[year]);
       if(!Number.isFinite(year)||!Number.isFinite(value))return false;
       head(String(year),"Funko annual net sales");
       stat("Net sales (USD)",moneyM(value));
@@ -523,14 +529,10 @@ function setupAnalyticsTooltip(view, selector) {
     const raw=item?.datum;
     const d=raw?.datum && raw.year == null ? raw.datum : raw;
     if(selector==="#idiom20"){
-      const svg=document.querySelector("#idiom20 svg.marks");
-      const bounds=svg?.getBoundingClientRect();
-      // The small brush selector occupies the bottom of the combined SVG.
-      // Only the upper/main chart should display sales tooltips.
-      const relativeY=bounds ? (event.clientY-bounds.top)/(bounds.height||1) : -1;
+      // The timeline navigator has non-interactive marks. Only main-chart
+      // point symbols should open the custom tooltip; never lines or labels.
       if(!d || !Number.isFinite(Number(d.year)) ||
-         !Number.isFinite(Number(d.SalesMillions)) ||
-         (bounds && (relativeY < 0 || relativeY > 0.78))){
+         item?.mark?.marktype !== "symbol"){
         tip.hidden=true;current="";return;
       }
     } else if((selector==="#idiom22") && item?.mark?.marktype!=="symbol"){
