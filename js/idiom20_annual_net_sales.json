@@ -159,8 +159,10 @@
         "color": "#3a9c68",
         "strokeWidth": 2,
         "point": {
-          "size": 45
-        }
+          "size": 45,
+          "interactive": false
+        },
+        "interactive": false
       },
       "params": [
         {
