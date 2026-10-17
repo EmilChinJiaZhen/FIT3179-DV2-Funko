@@ -600,13 +600,12 @@
         ]
       },
       "mark": {
-        "type": "text",
+        "type": "image",
+        "width": 18,
+        "height": 40,
         "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "color": "#848484"
+        "baseline": "bottom",
+        "opacity": 1
       },
       "encoding": {
         "x": {
@@ -615,8 +614,8 @@
         "y": {
           "value": 225
         },
-        "text": {
-          "field": "label"
+        "url": {
+          "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C32%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
         }
       }
     },
@@ -658,13 +657,12 @@
         ]
       },
       "mark": {
-        "type": "text",
+        "type": "image",
+        "width": 18,
+        "height": 40,
         "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 18,
-        "fontWeight": "normal",
-        "color": "#848484"
+        "baseline": "bottom",
+        "opacity": 1
       },
       "encoding": {
         "x": {
@@ -673,8 +671,8 @@
         "y": {
           "value": 265
         },
-        "text": {
-          "field": "label"
+        "url": {
+          "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C26%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
         }
       }
     },
@@ -716,13 +714,12 @@
         ]
       },
       "mark": {
-        "type": "text",
+        "type": "image",
+        "width": 18,
+        "height": 40,
         "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 26,
-        "fontWeight": "normal",
-        "color": "#848484"
+        "baseline": "bottom",
+        "opacity": 1
       },
       "encoding": {
         "x": {
@@ -731,8 +728,8 @@
         "y": {
           "value": 310
         },
-        "text": {
-          "field": "label"
+        "url": {
+          "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C13%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
         }
       }
     },
@@ -774,13 +771,12 @@
         ]
       },
       "mark": {
-        "type": "text",
+        "type": "image",
+        "width": 18,
+        "height": 40,
         "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 35,
-        "fontWeight": "normal",
-        "color": "#848484"
+        "baseline": "bottom",
+        "opacity": 1
       },
       "encoding": {
         "x": {
@@ -789,8 +785,8 @@
         "y": {
           "value": 356
         },
-        "text": {
-          "field": "label"
+        "url": {
+          "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C2%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
         }
       }
     },
