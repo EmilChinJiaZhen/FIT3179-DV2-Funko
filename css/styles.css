@@ -1948,3 +1948,29 @@ body {
   border-radius: 5px;
   font-size: 11px;
 }
+
+/* Regional annotation in a reserved strip below the chart and legend. */
+#idiom21 { padding-bottom: 42px; box-sizing: border-box; }
+#idiom21 .region-story-chart-note {
+  position: absolute;
+  top: auto;
+  transform: translate(-50%, 0);
+  z-index: 2;
+  width: max-content;
+  max-width: 200px;
+  padding: 3px 7px;
+  background: #fffaf3;
+  color: #C62828;
+  border: 1px solid rgba(198, 40, 40, 0.3);
+  border-radius: 5px;
+  pointer-events: none;
+  font-size: 11px;
+}
+#idiom21 .region-story-pointer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+#idiom21 .region-story-pointer[hidden], #idiom21 .region-story-chart-note[hidden] { display: none; }
