@@ -37,66 +37,6 @@
       "as": "SalesMillions"
     }
   ],
-  "mark": {
-    "type": "bar"
-  },
-  "encoding": {
-    "x": {
-      "field": "year",
-      "type": "ordinal",
-      "title": "Year",
-      "axis": {
-        "labelAngle": 0
-      }
-    },
-    "y": {
-      "aggregate": "sum",
-      "field": "SalesMillions",
-      "type": "quantitative",
-      "title": "Share of annual net sales",
-      "stack": "normalize",
-      "axis": {
-        "format": ".0%"
-      },
-      "scale": {
-        "domain": [
-          0,
-          1
-        ]
-      }
-    },
-    "color": {
-      "field": "region",
-      "type": "nominal",
-      "title": "Region",
-      "scale": {
-        "domain": [
-          "United States",
-          "Europe",
-          "Other International"
-        ],
-        "range": [
-          "#5C4FA3",
-          "#C05792",
-          "#1F8C83"
-        ]
-      },
-      "legend": {
-        "orient": "bottom"
-      }
-    },
-    "order": {
-      "field": "region",
-      "sort": "ascending"
-    },
-    "opacity": {
-      "condition": {
-        "param": "selectedRegion",
-        "value": 1
-      },
-      "value": 0.2
-    }
-  },
   "params": [
     {
       "name": "selectedRegion",
@@ -108,6 +48,158 @@
         "on": "click",
         "clear": "dblclick",
         "toggle": true
+      }
+    },
+    {
+      "name": "regionStoryYear",
+      "value": 2025
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": {
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "SalesMillions",
+          "type": "quantitative",
+          "title": "Share of annual net sales",
+          "stack": "normalize",
+          "axis": {
+            "format": ".0%"
+          },
+          "scale": {
+            "domain": [
+              0,
+              1
+            ]
+          }
+        },
+        "color": {
+          "field": "region",
+          "type": "nominal",
+          "title": "Region",
+          "scale": {
+            "domain": [
+              "United States",
+              "Europe",
+              "Other International"
+            ],
+            "range": [
+              "#5C4FA3",
+              "#C05792",
+              "#1F8C83"
+            ]
+          },
+          "legend": {
+            "orient": "bottom"
+          }
+        },
+        "order": {
+          "field": "region",
+          "sort": "ascending"
+        },
+        "opacity": {
+          "condition": {
+            "param": "selectedRegion",
+            "value": 1
+          },
+          "value": 0.2
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "SalesMillions",
+              "as": "RegionSales"
+            }
+          ],
+          "groupby": [
+            "year",
+            "region"
+          ]
+        },
+        {
+          "stack": "RegionSales",
+          "groupby": [
+            "year"
+          ],
+          "sort": [
+            {
+              "field": "region",
+              "order": "ascending"
+            }
+          ],
+          "offset": "normalize",
+          "as": [
+            "y0",
+            "y1"
+          ]
+        },
+        {
+          "calculate": "(datum.y0 + datum.y1)/2",
+          "as": "SegmentMid"
+        },
+        {
+          "filter": "datum.region === 'Europe' && toNumber(datum.year) === regionStoryYear"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontWeight": "bold",
+        "fontSize": 12,
+        "color": "#C62828",
+        "stroke": "#F4F0E8",
+        "strokeWidth": 3,
+        "strokeJoin": "round",
+        "align": "center",
+        "baseline": "middle",
+        "dx": 0,
+        "dy": 0
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal"
+        },
+        "y": {
+          "field": "SegmentMid",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              1
+            ]
+          }
+        },
+        "text": {
+          "condition": [
+            {
+              "test": "toNumber(datum.year) === 2021",
+              "value": "Europe 20.9%"
+            },
+            {
+              "test": "toNumber(datum.year) === 2025",
+              "value": "Europe 31.8%"
+            }
+          ],
+          "value": ""
+        }
       }
     }
   ]
