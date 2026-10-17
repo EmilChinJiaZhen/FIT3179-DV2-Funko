@@ -134,25 +134,24 @@
           ]
         },
         {
-          "stack": "RegionSales",
-          "groupby": [
-            "year"
-          ],
-          "sort": [
+          "joinaggregate": [
             {
-              "field": "region",
-              "order": "ascending"
+              "op": "sum",
+              "field": "RegionSales",
+              "as": "YearSales"
             }
           ],
-          "offset": "normalize",
-          "as": [
-            "y0",
-            "y1"
+          "groupby": [
+            "year"
           ]
         },
         {
-          "calculate": "(datum.y0 + datum.y1)/2",
+          "calculate": "datum.RegionSales / datum.YearSales / 2",
           "as": "SegmentMid"
+        },
+        {
+          "calculate": "toNumber(datum.year) === 2021 ? 'Europe 20.9%' : 'Europe 31.8%'",
+          "as": "StoryLabel"
         },
         {
           "filter": "datum.region === 'Europe' && toNumber(datum.year) === regionStoryYear"
@@ -188,17 +187,8 @@
           }
         },
         "text": {
-          "condition": [
-            {
-              "test": "toNumber(datum.year) === 2021",
-              "value": "Europe 20.9%"
-            },
-            {
-              "test": "toNumber(datum.year) === 2025",
-              "value": "Europe 31.8%"
-            }
-          ],
-          "value": ""
+          "field": "StoryLabel",
+          "type": "nominal"
         }
       }
     }
