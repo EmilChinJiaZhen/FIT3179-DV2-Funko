@@ -1934,3 +1934,17 @@ body {
   z-index: 2;
 }
 .region-story-chart-note[hidden] { display: none; }
+
+/* Region labels sit within the Europe segment instead of above the plot. */
+.region-story-chart-note {
+  top: auto;
+  z-index: 10;
+  max-width: 150px;
+  padding: 4px 7px;
+  color: #C62828;
+  background: #fffaf3;
+  border: 1px solid rgba(198,40,40,0.24);
+  box-shadow: 0 1px 5px rgba(25,35,50,0.11);
+  border-radius: 5px;
+  font-size: 11px;
+}
