@@ -39,9 +39,14 @@ function chartContainsType(selector, view, type) {
   if (selector === "#idiom06") {
     // Vega-Lite compiles intermediate dataset names; inspect loaded rows instead
     // of assuming a particular generated name.
-    const state = view.getState({data:v => Array.isArray(v)});
-    const rows = Object.values(state.data || {}).flatMap(v => Array.isArray(v) ? v : []);
-    return rows.some(row => row.product_type === type);
+    try {
+      const state = view.getState({data: () => true});
+      const rows = Object.values(state.data || {}).flatMap(v =>
+        Array.isArray(v) ? v : Array.isArray(v?.values) ? v.values : []);
+      return rows.some(row => row.product_type === type);
+    } catch (_) {
+      return false;
+    }
   }
   try {
     return view.data(config.data).some(row => row[config.field] === type);
@@ -107,6 +112,19 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
     if (productViewConfig[selector]) registerLinkedProductView(selector, embedResult.view);
 
+    if (selector === "#idiom06") {
+      embedResult.view.addEventListener("click", (event, item) => {
+        const type = item?.datum?.product_type || "";
+        if (type) updateLinkedProductType(activeProductType === type ? "" : type);
+      });
+      // The existing dropdown filters the dumbbell; using it also coordinates
+      // the highlight, without altering filters in other charts.
+      const priceSelect = container.querySelector('.vega-bindings select');
+      priceSelect?.addEventListener("change", () => {
+        const type = priceSelect.value === "All" ? "" : priceSelect.value;
+        updateLinkedProductType(type);
+      });
+    }
     if (selector === "#idiom15") {
       embedResult.view.addEventListener("click", (event, item) => {
         const type = item?.datum?.ProductType || "";
