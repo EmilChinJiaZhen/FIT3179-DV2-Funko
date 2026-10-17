@@ -300,8 +300,9 @@ body {
   font-weight: 400;
 }
 
+/* Finding-title emphasis stays neutral so colour remains a data encoding. */
 .accent-word {
-  color: var(--accent-strong);
+  color: #182338;
 }
 
 .story-chart {
