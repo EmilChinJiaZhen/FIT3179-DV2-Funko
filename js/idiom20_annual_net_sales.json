@@ -69,8 +69,9 @@
           "mark": {
             "type": "point",
             "filled": true,
-            "size": 115,
-            "color": "#4E79A7"
+            "size": 220,
+            "color": "#4E79A7",
+            "interactive": true
           }
         },
         {
@@ -140,16 +141,6 @@
               "value": "2025 · 31.3% below peak"
             }
           }
-        },
-        {
-          "mark": {
-            "type": "point",
-            "filled": true,
-            "size": 520,
-            "opacity": 0.002,
-            "color": "#4E79A7"
-          },
-          "encoding": {}
         }
       ],
       "transform": [
