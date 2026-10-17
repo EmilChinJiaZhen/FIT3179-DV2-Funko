@@ -59,15 +59,20 @@ function syncProductView(selector, view) {
 }
 function updateLinkedProductType(type) {
   activeProductType = type || "";
-  const reset = document.getElementById("linked-product-reset");
-  if (reset) reset.hidden = !activeProductType;
+  document.querySelectorAll(".product-filter-button").forEach(button => {
+    const selected = button.dataset.productType === activeProductType;
+    button.classList.toggle("is-active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
   for (const [selector, view] of productViews) syncProductView(selector, view);
 }
 function registerLinkedProductView(selector, view) {
   productViews.set(selector, view);
   syncProductView(selector, view);
 }
-document.getElementById("linked-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
+document.querySelectorAll(".product-filter-button").forEach(button => {
+  button.addEventListener("click", () => updateLinkedProductType(button.dataset.productType || ""));
+});
 
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
