@@ -81,7 +81,7 @@ document.getElementById("global-product-reset")?.addEventListener("click", () =>
 // Optional story annotations for the annual-sales chart. These emphasise
 // recorded values only; they do not change the timeline brush or infer causes.
 function setupSalesStory(view) {
-  const buttons = [...document.querySelectorAll(".sales-story__button")];
+  const buttons = [...document.querySelectorAll(".sales-story__button[data-story-year]")];
   if (!buttons.length) return;
   let selectedYear = 2022;
   buttons.forEach(button => button.setAttribute("aria-pressed", String(Number(button.dataset.storyYear) === selectedYear)));
@@ -97,7 +97,7 @@ function setupSalesStory(view) {
 // Regional sales annotations are HTML overlays, kept separate from the Vega-Lite
 // specification so the original chart and its region selection remain intact.
 function setupRegionStory(view) {
-  const buttons = [...document.querySelectorAll(".region-story__button")];
+  const buttons = [...document.querySelectorAll(".region-story__button[data-region-year]")];
   const container = document.getElementById("idiom21");
   if (!container || !buttons.length) return;
   const note = document.createElement("div");
@@ -109,15 +109,29 @@ function setupRegionStory(view) {
     buttons.forEach(button => button.setAttribute("aria-pressed",
       String(Number(button.dataset.regionYear) === selectedYear)));
     note.hidden = !selectedYear;
-    note.textContent = selectedYear === 2021
-      ? "Europe: 20.9% (2021)" : "Europe: 31.8% (2025)";
-    note.style.left = selectedYear === 2021 ? "16%" : "85%";
+    if (!selectedYear) return;
+    note.textContent = selectedYear === 2021 ? "Europe · 20.9%" : "Europe · 31.8%";
+    const svg = container.querySelector("svg.marks");
+    const containerRect = container.getBoundingClientRect();
+    const svgRect = svg?.getBoundingClientRect();
+    // Keep the label centred within the matching year's column, near the
+    // Europe share at the bottom of the stack. Use the chart's actual size.
+    if (svgRect) {
+      const plotLeft = 0.14 * svgRect.width;
+      const plotWidth = 0.77 * svgRect.width;
+      const index = selectedYear === 2021 ? 0 : 4;
+      note.style.left = (svgRect.left - containerRect.left + plotLeft + plotWidth * ((index + 0.5) / 5)) + "px";
+      const share = selectedYear === 2021 ? 0.209 : 0.318;
+      note.style.top = (svgRect.top - containerRect.top + 0.12 * svgRect.height +
+        0.78 * svgRect.height * (1 - share / 2)) + "px";
+    }
   };
   buttons.forEach(button => button.addEventListener("click", () => {
     const year = Number(button.dataset.regionYear);
     selectedYear = selectedYear === year ? 0 : year;
     render();
   }));
+  window.addEventListener("resize", render);
   render();
 }
 
