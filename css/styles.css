@@ -2013,9 +2013,3 @@ body {
 .pictogram-compare__close:hover { text-decoration:underline; }
 .pictogram-compare__close span { font-size:15px; margin-left:4px; }
 @media(max-width:440px){ .pictogram-compare__fields { grid-template-columns:1fr; } .pictogram-compare__panel { padding:14px; } }
-
-/* Raincloud price filters: compact controls, without resizing the chart itself. */
-#idiom15 .vega-bindings { display:flex; flex-wrap:wrap; align-items:center; gap:7px 15px; margin-top:7px; max-width:100%; }
-#idiom15 .vega-bindings .vega-bind { display:inline-flex; align-items:center; gap:5px; margin:0; font-size:11px; white-space:nowrap; }
-#idiom15 .vega-bindings input[type="range"] { width:86px; height:13px; accent-color:#C9A227; cursor:pointer; vertical-align:middle; }
-#idiom15 .vega-bindings input[type="number"] { width:49px; max-width:49px; font-size:11px; padding:3px 4px; }
