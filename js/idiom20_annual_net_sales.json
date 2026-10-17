@@ -141,6 +141,30 @@
               "value": "2025 · 31.3% below peak"
             }
           }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 520,
+            "opacity": 0.002,
+            "color": "#4E79A7"
+          },
+          "encoding": {
+            "tooltip": [
+              {
+                "field": "year",
+                "type": "ordinal",
+                "title": "Year"
+              },
+              {
+                "field": "SalesMillions",
+                "type": "quantitative",
+                "title": "Net sales (USD million)",
+                "format": ",.1f"
+              }
+            ]
+          }
         }
       ],
       "transform": [
