@@ -65,6 +65,19 @@
       <a href="#time">04 Time</a>
     </nav>
 
+    <div class="global-product-selector" aria-label="Linked product type selector">
+      <span class="global-product-selector__label">Highlight product type</span>
+      <div class="global-product-selector__buttons" role="group" aria-label="Product type">
+        <button type="button" class="product-filter-button is-active" data-product-type="" aria-pressed="true">All products</button>
+        <button type="button" class="product-filter-button" data-product-type="Pop!" aria-pressed="false">Pop!</button>
+        <button type="button" class="product-filter-button" data-product-type="Apparel" aria-pressed="false">Apparel</button>
+        <button type="button" class="product-filter-button" data-product-type="Keychains" aria-pressed="false">Keychains</button>
+        <button type="button" class="product-filter-button" data-product-type="Plush" aria-pressed="false">Plush</button>
+        <button type="button" class="product-filter-button" data-product-type="Vinyl GOLD" aria-pressed="false">Vinyl GOLD</button>
+        <button type="button" class="product-filter-button" data-product-type="Board Games" aria-pressed="false">Board Games</button>
+      </div>
+    </div>
+
     <section id="catalogue" class="chapter chapter--catalogue">
       <div class="chapter-shell">
 
@@ -75,10 +88,6 @@
 
         
 
-
-        <div class="linked-product-controls" aria-label="Linked product type highlights">
-          <button type="button" id="linked-product-reset" hidden>Reset selection</button>
-        </div>
 
         <article class="story-row story-row--chord-50">
           <aside class="story-insight">
