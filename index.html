@@ -65,17 +65,18 @@
       <a href="#time">04 Time</a>
     </nav>
 
-    <div class="global-product-selector" aria-label="Linked product type selector">
-      <span class="global-product-selector__label">Highlight product type</span>
-      <div class="global-product-selector__buttons" role="group" aria-label="Product type">
-        <button type="button" class="product-filter-button is-active" data-product-type="" aria-pressed="true">All products</button>
-        <button type="button" class="product-filter-button" data-product-type="Pop!" aria-pressed="false">Pop!</button>
-        <button type="button" class="product-filter-button" data-product-type="Apparel" aria-pressed="false">Apparel</button>
-        <button type="button" class="product-filter-button" data-product-type="Keychains" aria-pressed="false">Keychains</button>
-        <button type="button" class="product-filter-button" data-product-type="Plush" aria-pressed="false">Plush</button>
-        <button type="button" class="product-filter-button" data-product-type="Vinyl GOLD" aria-pressed="false">Vinyl GOLD</button>
-        <button type="button" class="product-filter-button" data-product-type="Board Games" aria-pressed="false">Board Games</button>
-      </div>
+    <div class="global-product-selector" aria-label="Linked product type filter">
+      <label class="global-product-selector__label" for="global-product-type">Product type</label>
+      <select id="global-product-type" aria-label="Highlight product type across product categories and pricing">
+        <option value="">All products</option>
+        <option value="Pop!">Pop!</option>
+        <option value="Apparel">Apparel</option>
+        <option value="Keychains">Keychains</option>
+        <option value="Plush">Plush</option>
+        <option value="Vinyl GOLD">Vinyl GOLD</option>
+        <option value="Board Games">Board Games</option>
+      </select>
+      <button id="global-product-reset" type="button" hidden>↺ Reset</button>
     </div>
 
     <section id="catalogue" class="chapter chapter--catalogue">
