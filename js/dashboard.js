@@ -82,19 +82,12 @@ document.getElementById("global-product-reset")?.addEventListener("click", () =>
 // recorded values only; they do not change the timeline brush or infer causes.
 function setupSalesStory(view) {
   const buttons = [...document.querySelectorAll(".sales-story__button")];
-  const detail = document.getElementById("sales-story-detail");
-  if (!buttons.length || !detail) return;
-  const stories = {
-    2022: "Sales reached approximately $1.32 billion in 2022, 28.5% higher than in 2021.",
-    2025: "By 2025, annual sales were 31.3% below the 2022 peak, after three consecutive yearly declines."
-  };
+  if (!buttons.length) return;
   let selectedYear = 0;
   buttons.forEach(button => button.addEventListener("click", () => {
     const year = Number(button.dataset.storyYear);
     selectedYear = selectedYear === year ? 0 : year;
     buttons.forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.storyYear) === selectedYear)));
-    detail.hidden = !selectedYear;
-    detail.textContent = selectedYear ? stories[selectedYear] : "";
     view.signal("storyYear", selectedYear).runAsync().catch(console.error);
   }));
 }
