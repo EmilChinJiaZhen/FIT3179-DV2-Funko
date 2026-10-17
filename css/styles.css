@@ -1877,3 +1877,36 @@ body {
   outline: 2px solid #245d9f;
   outline-offset: 3px;
 }
+
+/* Optional annual-sales story markers; no extra chart width or height. */
+.sales-story {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 12px 0 6px;
+  font: 12px/1.5 "Inter", Arial, sans-serif;
+}
+.sales-story__label { color: #485568; font-weight: 650; }
+.sales-story__actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.sales-story__button {
+  border: 1px solid #bfc9d5;
+  border-radius: 999px;
+  background: transparent;
+  color: #24324e;
+  padding: 5px 11px;
+  font: 600 12px/1.4 "Inter", Arial, sans-serif;
+  cursor: pointer;
+}
+.sales-story__button:hover { background: #e8edf5; }
+.sales-story__button[aria-pressed="true"] { color: #fff; background: #243e66; border-color: #243e66; }
+.sales-story__button:focus-visible { outline: 2px solid #245d9f; outline-offset: 2px; }
+.sales-story__detail {
+  width: 100%;
+  margin: 2px 0 0;
+  padding: 8px 12px;
+  border-left: 2px solid #243e66;
+  color: #354358;
+  background: rgba(255,255,255,0.46);
+}
+.sales-story__detail[hidden] { display: none; }
