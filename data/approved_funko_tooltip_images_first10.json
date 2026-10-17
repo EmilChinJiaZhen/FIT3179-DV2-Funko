@@ -1,0 +1,85 @@
+{
+  "purpose": "Official unboxed Funko Pop figures for top-license tooltip; source manifest only (not image files)",
+  "images": [
+    {
+      "license": "NBA",
+      "figure": "Michael Jordan (Shrug)",
+      "product_number": "92982",
+      "official_product_url": "https://funko.com/pop-michael-jordan-shrug/92982.html",
+      "asset_path": "assets/license-tooltips/nba.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "The Nightmare Before Christmas",
+      "figure": "Oogie Boogie (Patchwork)",
+      "product_number": "86148",
+      "official_product_url": "https://funko.com/pop-oogie-boogie-patchwork/86148.html",
+      "asset_path": "assets/license-tooltips/nightmare-before-christmas.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "Five Nights at Freddy's",
+      "figure": "Jumbo Freddy Fazbear",
+      "product_number": "97567",
+      "official_product_url": "https://funko.com/ca/pop-jumbo-freddy-fazbear/97567.html",
+      "asset_path": "assets/license-tooltips/five-nights-at-freddys.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "Star Wars",
+      "figure": "Darth Vader",
+      "product_number": "64557",
+      "official_product_url": "https://funko.com/pop-darth-vader/64557.html",
+      "asset_path": "assets/license-tooltips/star-wars.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "Harry Potter",
+      "figure": "Harry Potter (School Robes)",
+      "product_number": "5858",
+      "official_product_url": "https://funko.com/pop-harry-potter/5858.html",
+      "asset_path": "assets/license-tooltips/harry-potter.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "NFL",
+      "figure": "Josh Allen (Home Uniform)",
+      "product_number": "65684",
+      "official_product_url": "https://funko.com/pop-josh-allen-home-uniform/65684.html",
+      "asset_path": "assets/license-tooltips/nfl.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "The Mandalorian",
+      "figure": "Grogu with Mudhorn Chest Armor",
+      "product_number": "90447",
+      "official_product_url": "https://funko.com/pop-grogu-with-mudhorn-chest-armor/90447.html",
+      "asset_path": "assets/license-tooltips/the-mandalorian.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "Batman",
+      "figure": "Classic Batman",
+      "product_number": "11496-PX-1MA",
+      "official_product_url": "https://funko.com/pop-classic-batman/11496-PX-1MA.html",
+      "asset_path": "assets/license-tooltips/batman.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "Funko",
+      "figure": "Freddy Funko Tux — Green",
+      "product_number": "21210",
+      "official_product_url": "https://funko.com/pop-freddy-funko-tux---green/21210.html",
+      "asset_path": "assets/license-tooltips/funko.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "NHL",
+      "figure": "Connor McDavid",
+      "product_number": "77164",
+      "official_product_url": "https://funko.com/pop-connor-mcdavid/77164.html",
+      "asset_path": "assets/license-tooltips/nhl.png",
+      "asset_status": "pending official transparent figure PNG"
+    }
+  ]
+}
