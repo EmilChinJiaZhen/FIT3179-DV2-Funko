@@ -529,10 +529,9 @@ function setupAnalyticsTooltip(view, selector) {
     const raw=item?.datum;
     const d=raw?.datum && raw.year == null ? raw.datum : raw;
     if(selector==="#idiom20"){
-      // The timeline navigator has non-interactive marks. Only main-chart
-      // point symbols should open the custom tooltip; never lines or labels.
-      if(!d || !Number.isFinite(Number(d.year)) ||
-         item?.mark?.marktype !== "symbol"){
+      // Restore the permissive data-point handling used with the extra
+      // hover layer, which reliably triggered the custom tooltip.
+      if(!d || !Number.isFinite(Number(d.year))){
         tip.hidden=true;current="";return;
       }
     } else if((selector==="#idiom22") && item?.mark?.marktype!=="symbol"){
