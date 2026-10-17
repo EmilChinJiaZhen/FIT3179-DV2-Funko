@@ -445,14 +445,6 @@
       },
       "encode": {
         "enter": {
-          "x": {
-            "scale": "xscale",
-            "field": "MinPrice"
-          },
-          "x2": {
-            "scale": "xscale",
-            "field": "MaxPrice"
-          },
           "y": {
             "field": "BaseY"
           },
@@ -466,6 +458,14 @@
         "update": {
           "opacity": {
             "signal": "linkedPriceType === '' || datum.ProductType === linkedPriceType ? 1 : 0.17"
+          },
+          "x": {
+            "scale": "xscale",
+            "field": "MinPrice"
+          },
+          "x2": {
+            "scale": "xscale",
+            "field": "MaxPrice"
           }
         }
       }
@@ -477,14 +477,6 @@
       },
       "encode": {
         "enter": {
-          "x": {
-            "scale": "xscale",
-            "field": "Q1"
-          },
-          "x2": {
-            "scale": "xscale",
-            "field": "Q3"
-          },
           "y": {
             "signal": "datum.BaseY - 5"
           },
@@ -508,6 +500,14 @@
         "update": {
           "opacity": {
             "signal": "linkedPriceType === '' || datum.ProductType === linkedPriceType ? 1 : 0.17"
+          },
+          "x": {
+            "scale": "xscale",
+            "field": "Q1"
+          },
+          "x2": {
+            "scale": "xscale",
+            "field": "Q3"
           }
         }
       }
@@ -519,10 +519,6 @@
       },
       "encode": {
         "enter": {
-          "x": {
-            "scale": "xscale",
-            "field": "MedianPrice"
-          },
           "y": {
             "signal": "datum.BaseY - 7"
           },
@@ -539,6 +535,10 @@
         "update": {
           "opacity": {
             "signal": "linkedPriceType === '' || datum.ProductType === linkedPriceType ? 1 : 0.17"
+          },
+          "x": {
+            "scale": "xscale",
+            "field": "MedianPrice"
           }
         }
       }
@@ -550,10 +550,6 @@
       },
       "encode": {
         "enter": {
-          "x": {
-            "scale": "xscale",
-            "field": "PriceValue"
-          },
           "y": {
             "field": "PointY"
           },
@@ -606,6 +602,10 @@
           },
           "opacity": {
             "signal": "linkedPriceType === '' || datum.ProductType === linkedPriceType ? 1 : 0.17"
+          },
+          "x": {
+            "scale": "xscale",
+            "field": "PriceValue"
           }
         }
       }
