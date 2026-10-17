@@ -1815,3 +1815,26 @@ body {
 .page-footer { text-align: center; }
 .page-footer__title { color: #182338; font-weight: 700; }
 .page-footer__institution { font-size: 12px; }
+
+/* Shared catalogue product-type selection hint and reset. */
+.linked-product-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 0 0 20px;
+  color: #485568;
+  font: 500 12px/1.55 "Inter", Arial, sans-serif;
+}
+.linked-product-controls button {
+  border: 1px solid #aab6c8;
+  border-radius: 999px;
+  background: transparent;
+  color: #24324e;
+  padding: 5px 11px;
+  font: 600 12px "Inter", Arial, sans-serif;
+  cursor: pointer;
+}
+.linked-product-controls button:hover { background: #e8edf5; }
+.linked-product-controls button:focus-visible { outline: 2px solid #245d9f; outline-offset: 2px; }
+.linked-product-controls button[hidden] { display: none; }
