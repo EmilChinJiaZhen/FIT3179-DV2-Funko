@@ -1839,41 +1839,41 @@ body {
 .linked-product-controls button:focus-visible { outline: 2px solid #245d9f; outline-offset: 2px; }
 .linked-product-controls button[hidden] { display: none; }
 
-/* Standalone linked-chart product selector placed before the first chapter. */
+/* Compact shared filter, visually distinct from chapter navigation. */
 .global-product-selector {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 20px;
-  margin: 0 0 28px;
-  padding: 4px 0;
+  gap: 10px 12px;
+  margin: 0 0 30px;
+  padding: 0;
 }
 .global-product-selector__label {
+  font: 650 13px/1.5 "Inter", Arial, sans-serif;
   color: #263149;
-  font: 700 13px/1.5 "Inter", Arial, sans-serif;
 }
-.global-product-selector__buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.product-filter-button {
-  border: 1px solid #cad3df;
-  border-radius: 999px;
+#global-product-type {
+  width: 205px;
+  max-width: 100%;
+  min-height: 38px;
+  border: 1px solid #c9c5d0;
+  border-radius: 8px;
   background: #fff;
-  color: #354358;
-  padding: 8px 13px;
-  font: 600 12px/1.3 "Inter", Arial, sans-serif;
+  color: #263149;
+  padding: 7px 12px;
+  font: 500 13px "Inter", Arial, sans-serif;
   cursor: pointer;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
 }
-.product-filter-button:hover { background: #ecf1f7; }
-.product-filter-button.is-active {
-  background: #243e66;
-  border-color: #243e66;
-  color: white;
+#global-product-reset {
+  border: 0;
+  background: transparent;
+  color: #485568;
+  padding: 7px 8px;
+  font: 600 12px "Inter", Arial, sans-serif;
+  cursor: pointer;
 }
-.product-filter-button:focus-visible { outline: 2px solid #245d9f; outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) {
-  .product-filter-button { transition: none; }
+#global-product-reset[hidden] { display: none; }
+#global-product-type:focus-visible, #global-product-reset:focus-visible {
+  outline: 2px solid #245d9f;
+  outline-offset: 3px;
 }
