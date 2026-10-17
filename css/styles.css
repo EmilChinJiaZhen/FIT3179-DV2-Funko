@@ -1914,3 +1914,6 @@ body {
 /* Keep story controls with the narrative findings, separate from chart axes. */
 .chapter--time .story-insight .sales-story { margin: 24px 0 0; align-items: flex-start; }
 .chapter--time .story-insight .sales-story__actions { width: 100%; }
+
+/* Regional story buttons sit beneath their finding, not below the chart. */
+.chapter--time .story-insight .region-story { margin-top: 24px; }
