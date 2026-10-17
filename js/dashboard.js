@@ -21,46 +21,48 @@ const visualisations = [
   ["#idiom18", "js/idiom18_pop_culture_convention_attendance_proportional_symbol_map.json"]
 ];
 
-// Coordinated product-type selection for Section 1. Views may finish loading in any order.
-const linkedProductViews = new Map();
-let activeProductType = "";
-const linkedProductSignals = {
-  "#idiom02": "selectedTreeType",
-  "#idiom19": "selectedPictogramType",
-  "#idiom12": "selectedChord"
+// One shared product-type selection across Sections 1 and 3.
+// A chart without the selected category stays unchanged, rather than dimming all marks.
+const productViewConfig = {
+  "#idiom02": {signal:"selectedTreeType", data:"product_types", field:"key"},
+  "#idiom19": {signal:"selectedPictogramType", data:"types", field:"product_type"},
+  "#idiom12": {signal:"selectedChord", data:"type_nodes", field:"product_type"},
+  "#idiom14": {signal:"selectedFlow", data:"nodes1", field:"ProductGroup"},
+  "#idiom15": {signal:"linkedPriceType", data:"stats", field:"ProductType"},
+  "#idiom06": {signal:"linkedProductType", data:null, field:"product_type"}
 };
+const productViews = new Map();
+let activeProductType = "";
+function chartContainsType(selector, view, type) {
+  if (!type) return true;
+  const config = productViewConfig[selector];
+  if (selector === "#idiom06") {
+    // Vega-Lite compiles intermediate dataset names; inspect loaded rows instead
+    // of assuming a particular generated name.
+    const state = view.getState({data:v => Array.isArray(v)});
+    const rows = Object.values(state.data || {}).flatMap(v => Array.isArray(v) ? v : []);
+    return rows.some(row => row.product_type === type);
+  }
+  try {
+    return view.data(config.data).some(row => row[config.field] === type);
+  } catch (_) { return false; }
+}
+function syncProductView(selector, view) {
+  const config = productViewConfig[selector];
+  const target = chartContainsType(selector, view, activeProductType) ? activeProductType : "";
+  view.signal(config.signal, target).runAsync().catch(console.error);
+}
 function updateLinkedProductType(type) {
   activeProductType = type || "";
-  const status = document.getElementById("linked-product-status");
   const reset = document.getElementById("linked-product-reset");
-  if (status) status.textContent = activeProductType
-    ? `Highlighted across charts: ${activeProductType}`
-    : "Select a product type in the treemap, pictogram or chord diagram to highlight it across all three.";
   if (reset) reset.hidden = !activeProductType;
-  for (const [selector, view] of linkedProductViews) {
-    view.signal(linkedProductSignals[selector], activeProductType).runAsync().catch(console.error);
-  }
+  for (const [selector, view] of productViews) syncProductView(selector, view);
 }
 function registerLinkedProductView(selector, view) {
-  linkedProductViews.set(selector, view);
-  view.signal(linkedProductSignals[selector], activeProductType).runAsync().catch(console.error);
+  productViews.set(selector, view);
+  syncProductView(selector, view);
 }
 document.getElementById("linked-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
-
-// Coordinate product-type emphasis between the pricing Sankey and raincloud.
-const priceTypeNames = new Set(["Pop!","Apparel","Board Games","Keychains","Plush","Vinyl GOLD","Pop! Jumbo","Action Figures"]);
-const priceViews = new Map();
-let activePriceType = "";
-function setPriceType(type) {
-  activePriceType = type || "";
-  for (const [selector, view] of priceViews) {
-    view.signal(selector === "#idiom14" ? "selectedFlow" : "linkedPriceType", activePriceType).runAsync().catch(console.error);
-  }
-}
-function registerPriceView(selector, view) {
-  priceViews.set(selector, view);
-  view.signal(selector === "#idiom14" ? "selectedFlow" : "linkedPriceType", activePriceType).runAsync().catch(console.error);
-}
 
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
@@ -103,12 +105,12 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapControlPanel(embedResult.view, container, selector);
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
     if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
-    if (linkedProductSignals[selector]) registerLinkedProductView(selector, embedResult.view);
-    if (selector === "#idiom14" || selector === "#idiom15") registerPriceView(selector, embedResult.view);
+    if (productViewConfig[selector]) registerLinkedProductView(selector, embedResult.view);
+
     if (selector === "#idiom15") {
       embedResult.view.addEventListener("click", (event, item) => {
         const type = item?.datum?.ProductType || "";
-        if (type && priceTypeNames.has(type)) setPriceType(activePriceType === type ? "" : type);
+        if (type) updateLinkedProductType(activeProductType === type ? "" : type);
       });
     }
   } catch (error) {
@@ -781,9 +783,8 @@ function setupChartClickSelection(view, container, selector) {
   const svg=container.querySelector("svg.marks");
   if(!svg)return;
   svg.classList.add("interactive-chart-selection");
-  const linked = Object.hasOwn(linkedProductSignals, selector);
-  const update = next => linked
-    ? updateLinkedProductType(next)
+  const linked = selector === "#idiom02" || selector === "#idiom12" || selector === "#idiom19";
+  const update = next => linked ? updateLinkedProductType(next)
     : view.signal(config.signal, next).runAsync().catch(console.error);
   view.addEventListener("click", (event, item) => {
     const d = item?.datum;
@@ -813,10 +814,10 @@ function setupChartClickSelection(view, container, selector) {
     } else {
       for (const field of config.fields) if (d[field]) { value = String(d[field]); break; }
     }
-    if (selector === "#idiom14" && priceTypeNames.has(value)) {
-      setPriceType(activePriceType === value ? "" : value);
+    if (selector === "#idiom14" && value && item?.mark?.name?.startsWith("nodes1") && value !== "Other product types") {
+      updateLinkedProductType(activeProductType === value ? "" : value);
     } else if (value) {
-      if (selector === "#idiom14") setPriceType("");
+      if (selector === "#idiom14") updateLinkedProductType("");
       update((linked ? activeProductType : view.signal(config.signal)) === value ? "" : value);
     }
   });
