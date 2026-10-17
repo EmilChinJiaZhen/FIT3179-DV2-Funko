@@ -523,8 +523,14 @@ function setupAnalyticsTooltip(view, selector) {
     const raw=item?.datum;
     const d=raw?.datum && raw.year == null ? raw.datum : raw;
     if(selector==="#idiom20"){
+      const svg=document.querySelector("#idiom20 svg.marks");
+      const bounds=svg?.getBoundingClientRect();
+      // The small brush selector occupies the bottom of the combined SVG.
+      // Only the upper/main chart should display sales tooltips.
+      const relativeY=bounds ? (event.clientY-bounds.top)/(bounds.height||1) : -1;
       if(!d || !Number.isFinite(Number(d.year)) ||
-         !Number.isFinite(Number(d.SalesMillions))){
+         !Number.isFinite(Number(d.SalesMillions)) ||
+         (bounds && (relativeY < 0 || relativeY > 0.78))){
         tip.hidden=true;current="";return;
       }
     } else if((selector==="#idiom22") && item?.mark?.marktype!=="symbol"){
