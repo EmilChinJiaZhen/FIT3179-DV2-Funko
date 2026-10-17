@@ -888,9 +888,16 @@ function setupLicenseShareTooltip(view) {
       // Some catalogue license names contain literal surrounding quotes,
       // including "Five Nights at Freddy's". Keep the original label and
       // count untouched; normalize only the image mapping lookup.
-      const imageLicense = String(license).trim()
-        .replace(/^[\s"'“”‘’]+|[\s"'“”‘’]+$/g, "").trim();
-      const figure = LICENSE_FIGURE_IMAGES[imageLicense];
+      // Match picture identifiers independently of the original CSV spelling:
+      // some licenses contain extra quote characters and punctuation.
+      const imageLicense = String(license).normalize("NFKC")
+        .replace(/[“”‘’]/g, "'").replace(/^["'\s]+|["'\s]+$/g, "").trim();
+      const licenseKey = imageLicense.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+      const figure = (licenseKey.includes("five nights at fredd")
+          ? LICENSE_FIGURE_IMAGES["Five Nights at Freddy's"]
+          : LICENSE_FIGURE_IMAGES[imageLicense])
+        || Object.entries(LICENSE_FIGURE_IMAGES).find(([name]) =>
+            name.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim() === licenseKey)?.[1];
       if (figure) {
         const media = document.createElement("div");
         media.className = "license-share-tooltip__figure";
