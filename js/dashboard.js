@@ -510,12 +510,19 @@ function setupAnalyticsTooltip(view, selector) {
     return false;
   }
   view.addEventListener("mousemove",(event,item)=>{
-    // These line charts have interactive points, but the connecting strokes
-    // must not trigger the custom tooltip.
-    if((selector==="#idiom20" || selector==="#idiom22") && item?.mark?.marktype!=="symbol"){
+    // Vega-Lite can report point marks with different internal mark names,
+    // especially when annotations are layered. Identify the sales datum
+    // instead of relying on its implementation-specific mark type.
+    const raw=item?.datum;
+    const d=raw?.datum && raw.year == null ? raw.datum : raw;
+    if(selector==="#idiom20"){
+      if(!d || !Number.isFinite(Number(d.year)) ||
+         !Number.isFinite(Number(d.SalesMillions))){
+        tip.hidden=true;current="";return;
+      }
+    } else if((selector==="#idiom22") && item?.mark?.marktype!=="symbol"){
       tip.hidden=true;current="";return;
     }
-    const d=item?.datum;
     if(!d){tip.hidden=true;current="";return;}
     const key=JSON.stringify(d);
     if(current!==key){current=key;if(!makeCard(d)){tip.hidden=true;return;}}
