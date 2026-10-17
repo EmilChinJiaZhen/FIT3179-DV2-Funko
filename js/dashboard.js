@@ -529,9 +529,15 @@ function setupAnalyticsTooltip(view, selector) {
     const raw=item?.datum;
     const d=raw?.datum && raw.year == null ? raw.datum : raw;
     if(selector==="#idiom20"){
-      // Restore the permissive data-point handling used with the extra
-      // hover layer, which reliably triggered the custom tooltip.
-      if(!d || !Number.isFinite(Number(d.year))){
+      // The Vega-Lite concat has one SVG containing both plots. Suppress
+      // custom tooltips over the lower brush navigator without changing
+      // hit testing or the working tooltip on the upper sales chart.
+      const chartSvg = document.querySelector("#idiom20 svg.marks");
+      const svgBounds = chartSvg?.getBoundingClientRect();
+      const pointerRatio = svgBounds && svgBounds.height
+        ? (event.clientY - svgBounds.top) / svgBounds.height : 0;
+      if(!d || !Number.isFinite(Number(d.year)) ||
+         (svgBounds && (pointerRatio < 0 || pointerRatio > 0.79))){
         tip.hidden=true;current="";return;
       }
     } else if((selector==="#idiom22") && item?.mark?.marktype!=="symbol"){
