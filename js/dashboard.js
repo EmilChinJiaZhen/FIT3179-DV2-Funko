@@ -170,17 +170,10 @@ function setupRegionStory(view) {
 
 function setupTreemapStory(view) {
   const buttons = [...document.querySelectorAll(".tree-story__button")];
-  const detail = document.getElementById("tree-story-detail");
-  const messages = {
-    "nba-pop": "NBA leads Pop! in this treemap with 30 sampled products.",
-    "nba-gold": "NBA leads Vinyl GOLD in this treemap with 26 sampled products.",
-    "star-apparel": "Star Wars leads Apparel in this treemap with 11 sampled products."
-  };
   let selected = "nba-pop";
   buttons.forEach(button => button.addEventListener("click", () => {
     selected = selected === button.dataset.treeMoment ? "" : button.dataset.treeMoment;
     buttons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.treeMoment === selected)));
-    if (detail) { detail.hidden = !selected; detail.textContent = messages[selected] || ""; }
     view.signal("treeMoment", selected).runAsync().catch(console.error);
   }));
 }
