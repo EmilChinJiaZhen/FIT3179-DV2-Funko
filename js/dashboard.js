@@ -105,6 +105,12 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
     if (linkedProductSignals[selector]) registerLinkedProductView(selector, embedResult.view);
     if (selector === "#idiom14" || selector === "#idiom15") registerPriceView(selector, embedResult.view);
+    if (selector === "#idiom15") {
+      embedResult.view.addEventListener("click", (event, item) => {
+        const type = item?.datum?.ProductType || "";
+        if (type && priceTypeNames.has(type)) setPriceType(activePriceType === type ? "" : type);
+      });
+    }
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
