@@ -149,6 +149,11 @@
             "size": 520,
             "opacity": 0.002,
             "color": "#4E79A7"
+          },
+          "encoding": {
+            "tooltip": {
+              "value": ""
+            }
           }
         }
       ],
