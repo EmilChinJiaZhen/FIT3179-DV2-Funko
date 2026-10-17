@@ -49,127 +49,66 @@
         "clear": "dblclick",
         "toggle": true
       }
-    },
-    {
-      "name": "regionStoryYear",
-      "value": 2025
     }
   ],
-  "layer": [
-    {
-      "mark": {
-        "type": "bar"
-      },
-      "encoding": {
-        "x": {
-          "field": "year",
-          "type": "ordinal",
-          "title": "Year",
-          "axis": {
-            "labelAngle": 0
-          }
-        },
-        "y": {
-          "aggregate": "sum",
-          "field": "SalesMillions",
-          "type": "quantitative",
-          "title": "Share of annual net sales",
-          "stack": "normalize",
-          "axis": {
-            "format": ".0%"
-          },
-          "scale": {
-            "domain": [
-              0,
-              1
-            ]
-          }
-        },
-        "color": {
-          "field": "region",
-          "type": "nominal",
-          "title": "Region",
-          "scale": {
-            "domain": [
-              "United States",
-              "Europe",
-              "Other International"
-            ],
-            "range": [
-              "#5C4FA3",
-              "#C05792",
-              "#1F8C83"
-            ]
-          },
-          "legend": {
-            "orient": "bottom"
-          }
-        },
-        "order": {
-          "field": "region",
-          "sort": "ascending"
-        },
-        "opacity": {
-          "condition": {
-            "param": "selectedRegion",
-            "value": 1
-          },
-          "value": 0.2
-        }
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": 0
       }
     },
-    {
-      "data": {
-        "values": [
-          {
-            "year": "2021",
-            "annotationY": 0.84,
-            "storyYear": 2021,
-            "label": "Europe: 20.9%"
-          },
-          {
-            "year": "2025",
-            "annotationY": 0.84,
-            "storyYear": 2025,
-            "label": "Europe: 31.8%"
-          }
+    "y": {
+      "aggregate": "sum",
+      "field": "SalesMillions",
+      "type": "quantitative",
+      "title": "Share of annual net sales",
+      "stack": "normalize",
+      "axis": {
+        "format": ".0%"
+      },
+      "scale": {
+        "domain": [
+          0,
+          1
+        ]
+      }
+    },
+    "color": {
+      "field": "region",
+      "type": "nominal",
+      "title": "Region",
+      "scale": {
+        "domain": [
+          "United States",
+          "Europe",
+          "Other International"
+        ],
+        "range": [
+          "#5C4FA3",
+          "#C05792",
+          "#1F8C83"
         ]
       },
-      "transform": [
-        {
-          "filter": "datum.storyYear === regionStoryYear"
-        }
-      ],
-      "mark": {
-        "type": "text",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": "bold",
-        "color": "#C62828",
-        "align": "center",
-        "baseline": "middle",
-        "dy": 0
-      },
-      "encoding": {
-        "x": {
-          "field": "year",
-          "type": "ordinal"
-        },
-        "y": {
-          "field": "annotationY",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              0,
-              1
-            ]
-          }
-        },
-        "text": {
-          "field": "label",
-          "type": "nominal"
-        }
+      "legend": {
+        "orient": "bottom"
       }
+    },
+    "order": {
+      "field": "region",
+      "sort": "ascending"
+    },
+    "opacity": {
+      "condition": {
+        "param": "selectedRegion",
+        "value": 1
+      },
+      "value": 0.2
     }
-  ]
+  }
 }
