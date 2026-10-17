@@ -47,6 +47,21 @@ function registerLinkedProductView(selector, view) {
 }
 document.getElementById("linked-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
 
+// Coordinate product-type emphasis between the pricing Sankey and raincloud.
+const priceTypeNames = new Set(["Pop!","Apparel","Board Games","Keychains","Plush","Vinyl GOLD","Pop! Jumbo","Action Figures"]);
+const priceViews = new Map();
+let activePriceType = "";
+function setPriceType(type) {
+  activePriceType = type || "";
+  for (const [selector, view] of priceViews) {
+    view.signal(selector === "#idiom14" ? "selectedFlow" : "linkedPriceType", activePriceType).runAsync().catch(console.error);
+  }
+}
+function registerPriceView(selector, view) {
+  priceViews.set(selector, view);
+  view.signal(selector === "#idiom14" ? "selectedFlow" : "linkedPriceType", activePriceType).runAsync().catch(console.error);
+}
+
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
 visualisations.forEach(async ([selector, specPath]) => {
@@ -89,6 +104,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
     if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
     if (linkedProductSignals[selector]) registerLinkedProductView(selector, embedResult.view);
+    if (selector === "#idiom14" || selector === "#idiom15") registerPriceView(selector, embedResult.view);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
@@ -791,7 +807,12 @@ function setupChartClickSelection(view, container, selector) {
     } else {
       for (const field of config.fields) if (d[field]) { value = String(d[field]); break; }
     }
-    if (value) update((linked ? activeProductType : view.signal(config.signal)) === value ? "" : value);
+    if (selector === "#idiom14" && priceTypeNames.has(value)) {
+      setPriceType(activePriceType === value ? "" : value);
+    } else if (value) {
+      if (selector === "#idiom14") setPriceType("");
+      update((linked ? activeProductType : view.signal(config.signal)) === value ? "" : value);
+    }
   });
   const reset = event => { if (event.key === "Escape") update(""); };
   container.addEventListener("keydown", reset);
