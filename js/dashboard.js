@@ -372,6 +372,8 @@ function setupPictogramComparison(view) {
   const bSelect = document.getElementById("pictogram-compare-b");
   const result = document.getElementById("pictogram-compare-result");
   const close = document.getElementById("pictogram-compare-clear");
+  const fields = Object.fromEntries(["a-name","a-count","a-fill","b-name","b-count","b-fill","difference","ratio"].map(key =>
+    [key, document.getElementById("pictogram-compare-" + key)]));
   if (!toggle || !panel || !aSelect || !bSelect || !result || !close) return;
   const types = view.data("types").map(row => ({
     name: row.product_type, count: Number(row.Count)
@@ -393,10 +395,18 @@ function setupPictogramComparison(view) {
     if (a && b && enabled) {
       const high = a.count >= b.count ? a : b;
       const low = a.count >= b.count ? b : a;
-      result.textContent = high.name + " has " +
-        (high.count - low.count).toLocaleString() + " more products (" +
-        (high.count / Math.max(low.count, 1)).toFixed(1) + "× as many) than " +
-        low.name + " in the displayed sample.";
+      const maxCount = Math.max(a.count, b.count, 1);
+      const colors = {"Pop!":"#4E79A7","Apparel":"#76B7B2","Board Games":"#7F7F7F",
+        "Keychains":"#F28E2B","Vinyl GOLD":"#EDC948","Plush":"#B07AA1"};
+      for (const [key, type] of [["a", a], ["b", b]]) {
+        fields[key + "-name"].textContent = type.name;
+        fields[key + "-count"].textContent = type.count.toLocaleString();
+        fields[key + "-fill"].style.width = (100 * type.count / maxCount) + "%";
+        fields[key + "-fill"].style.backgroundColor = colors[type.name] || "#4E79A7";
+      }
+      fields.difference.textContent = (high.count - low.count).toLocaleString() + " products";
+      fields.ratio.textContent = (high.count / Math.max(low.count, 1)).toFixed(1) + "×";
+      result.textContent = high.name + " has more products than " + low.name + " in this sample.";
     }
     view.signal("comparePictogramA", enabled ? first : "");
     view.signal("comparePictogramB", enabled ? second : "");
