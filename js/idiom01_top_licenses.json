@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "title": {
-    "text": "Funko Pop! Figures by License",
+    "text": "Funko Products by License",
     "anchor": "start",
     "fontSize": 20,
     "font": "Inter",
