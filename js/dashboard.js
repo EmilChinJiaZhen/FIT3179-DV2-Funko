@@ -100,31 +100,57 @@ function setupRegionStory(view) {
   const buttons = [...document.querySelectorAll(".region-story__button[data-region-year]")];
   const container = document.getElementById("idiom21");
   if (!container || !buttons.length) return;
+
+  // Callout text lives below the entire plot/legend. Only a thin pointer
+  // crosses the plotted area; it never obscures bars or axis labels.
   const note = document.createElement("div");
   note.className = "region-story-chart-note";
   note.setAttribute("role", "status");
-  container.appendChild(note);
+  const pointer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  pointer.classList.add("region-story-pointer");
+  pointer.setAttribute("aria-hidden", "true");
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  line.setAttribute("fill", "none");
+  line.setAttribute("stroke", "#C62828");
+  line.setAttribute("stroke-width", "1.4");
+  line.setAttribute("stroke-linecap", "round");
+  const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  dot.setAttribute("r", "3");
+  dot.setAttribute("fill", "#C62828");
+  pointer.append(line, dot);
+  container.append(pointer, note);
   let selectedYear = 2025;
+
   const render = () => {
     buttons.forEach(button => button.setAttribute("aria-pressed",
       String(Number(button.dataset.regionYear) === selectedYear)));
-    note.hidden = !selectedYear;
+    note.hidden = pointer.hidden = !selectedYear;
     if (!selectedYear) return;
-    note.textContent = selectedYear === 2021 ? "Europe · 20.9%" : "Europe · 31.8%";
+
+    note.textContent = selectedYear === 2021 ? "Europe: 20.9% (2021)" : "Europe: 31.8% (2025)";
     const svg = container.querySelector("svg.marks");
+    if (!svg) return;
     const containerRect = container.getBoundingClientRect();
-    const svgRect = svg?.getBoundingClientRect();
-    // Keep the label centred within the matching year's column, near the
-    // Europe share at the bottom of the stack. Use the chart's actual size.
-    if (svgRect) {
-      const plotLeft = 0.14 * svgRect.width;
-      const plotWidth = 0.77 * svgRect.width;
-      const index = selectedYear === 2021 ? 0 : 4;
-      note.style.left = (svgRect.left - containerRect.left + plotLeft + plotWidth * ((index + 0.5) / 5)) + "px";
-      const share = selectedYear === 2021 ? 0.209 : 0.318;
-      note.style.top = (svgRect.top - containerRect.top + 0.12 * svgRect.height +
-        0.78 * svgRect.height * (1 - share / 2)) + "px";
-    }
+    const plotRect = svg.getBoundingClientRect();
+    const plotX = plotRect.left - containerRect.left;
+    const plotY = plotRect.top - containerRect.top;
+    const plotWidth = plotRect.width, plotHeight = plotRect.height;
+    // Five evenly spaced year columns. Align to the centre of the first/last
+    // bar while leaving the callout outside the data region.
+    const yearIndex = selectedYear === 2021 ? 0 : 4;
+    const x = plotX + plotWidth * (0.16 + 0.73 * (yearIndex + 0.5) / 5);
+    const share = selectedYear === 2021 ? 0.209 : 0.318;
+    const y = plotY + plotHeight * (0.12 + 0.76 * (1 - share / 2));
+    const labelY = Math.max(plotY + plotHeight + 16, container.clientHeight - 27);
+    const labelX = Math.max(100, Math.min(container.clientWidth - 100, x));
+    note.style.left = labelX + "px";
+    note.style.top = labelY + "px";
+    pointer.setAttribute("viewBox", `0 0 ${container.clientWidth} ${container.clientHeight}`);
+    pointer.setAttribute("width", container.clientWidth);
+    pointer.setAttribute("height", container.clientHeight);
+    line.setAttribute("d", `M ${labelX} ${labelY - 4} L ${x} ${y + 7}`);
+    dot.setAttribute("cx", x);
+    dot.setAttribute("cy", y + 7);
   };
   buttons.forEach(button => button.addEventListener("click", () => {
     const year = Number(button.dataset.regionYear);
