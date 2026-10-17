@@ -70,7 +70,7 @@
   ],
   "data": [
     {
-      "name": "base",
+      "name": "base_unfiltered",
       "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
       "format": {
         "type": "csv"
@@ -116,7 +116,13 @@
           "type": "formula",
           "expr": "indexof(lower(toString(datum.tags)), 'exclusive') >= 0 ? 'Exclusive-tagged' : 'No exclusive tag'",
           "as": "ExclusiveStatus"
-        },
+        }
+      ]
+    },
+    {
+      "name": "base",
+      "source": "base_unfiltered",
+      "transform": [
         {
           "type": "filter",
           "expr": "datum.PriceValue >= priceFilterMin && (priceFilterMax === 100 || datum.PriceValue <= priceFilterMax)"
@@ -125,7 +131,7 @@
     },
     {
       "name": "product_totals",
-      "source": "base",
+      "source": "base_unfiltered",
       "transform": [
         {
           "type": "aggregate",
