@@ -1974,3 +1974,7 @@ body {
   overflow: visible;
 }
 #idiom21 .region-story-pointer[hidden], #idiom21 .region-story-chart-note[hidden] { display: none; }
+
+.tree-story { margin-top: 22px; }
+.tree-story__detail { margin: 4px 0 0; color: #C62828; font: 600 12px/1.55 "Inter", Arial, sans-serif; }
+.tree-story__detail[hidden] { display: none; }
