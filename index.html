@@ -336,7 +336,16 @@
             <h3>Funko sales peaked in <span class="accent-word">2022, then declined.</span></h3>
             <p>Net sales rose <span class="finding-emphasis text-black">28.5% in 2022</span>, reaching $1.32 billion, before declining for three consecutive years. By 2025, sales had fallen <span class="finding-emphasis text-black">31.3% from their peak</span>, dropping below their 2021 level. Although the decline slowed in 2024, it accelerated again in 2025. This suggests that <span class="finding-emphasis text-black">Funko struggled to sustain its earlier growth</span>, with the brief slowdown in revenue losses not developing into a lasting recovery. The pattern also highlights how a strong sales peak does not necessarily translate into stable long-term growth.</p>
           </aside>
-          <div class="story-chart"><div id="idiom20" class="vis-container"></div><p class="sales-timeline-hint"><svg class="sales-timeline-hint__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13.5V6a2 2 0 0 1 4 0v5"/><path d="M12 10a2 2 0 0 1 4 0v2"/><path d="M16 11a2 2 0 0 1 4 0v4c0 4-2.5 7-6.5 7h-2c-2 0-3.4-1-4.5-2.5l-3.5-5a2 2 0 0 1 3.2-2.4L8 13.5"/></svg><span>Drag across the timeline to zoom in. Double-click to reset</span></p></div>
+          <div class="story-chart"><div id="idiom20" class="vis-container"></div>
+            <div class="sales-story" aria-label="Explore the annual sales story">
+              <span class="sales-story__label">Explore key moments</span>
+              <div class="sales-story__actions" role="group" aria-label="Highlight a financial year">
+                <button type="button" class="sales-story__button" data-story-year="2022" aria-pressed="false">2022 peak</button>
+                <button type="button" class="sales-story__button" data-story-year="2025" aria-pressed="false">2025 decline</button>
+              </div>
+              <p id="sales-story-detail" class="sales-story__detail" aria-live="polite" hidden></p>
+            </div>
+            <p class="sales-timeline-hint"><svg class="sales-timeline-hint__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13.5V6a2 2 0 0 1 4 0v5"/><path d="M12 10a2 2 0 0 1 4 0v2"/><path d="M16 11a2 2 0 0 1 4 0v4c0 4-2.5 7-6.5 7h-2c-2 0-3.4-1-4.5-2.5l-3.5-5a2 2 0 0 1 3.2-2.4L8 13.5"/></svg><span>Drag across the timeline to zoom in. Double-click to reset</span></p></div>
         </article>
 
         <article class="story-row story-row--reverse">
