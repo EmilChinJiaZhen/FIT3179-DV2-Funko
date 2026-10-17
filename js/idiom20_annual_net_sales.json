@@ -80,7 +80,8 @@
             "filled": false,
             "stroke": "#172238",
             "strokeWidth": 2.5,
-            "size": 380
+            "size": 380,
+            "interactive": false
           },
           "encoding": {
             "opacity": {
@@ -107,7 +108,8 @@
             "font": "Inter",
             "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#C62828"
+            "color": "#C62828",
+            "interactive": false
           },
           "encoding": {
             "text": {
@@ -130,12 +132,37 @@
             "font": "Inter",
             "fontSize": 12,
             "fontWeight": "bold",
-            "color": "#C62828"
+            "color": "#C62828",
+            "interactive": false
           },
           "encoding": {
             "text": {
               "value": "2025 · 31.3% below peak"
             }
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 520,
+            "opacity": 0.002,
+            "color": "#4E79A7"
+          },
+          "encoding": {
+            "tooltip": [
+              {
+                "field": "year",
+                "type": "ordinal",
+                "title": "Year"
+              },
+              {
+                "field": "SalesMillions",
+                "type": "quantitative",
+                "title": "Net sales (USD million)",
+                "format": ",.1f"
+              }
+            ]
           }
         }
       ],
