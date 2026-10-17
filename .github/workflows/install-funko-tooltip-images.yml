@@ -1,0 +1,57 @@
+name: Install approved Funko tooltip figures
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - funko_tooltip_assets_transparent.zip
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Extract approved transparent PNGs
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          archive = Path("funko_tooltip_assets_transparent.zip")
+          if not archive.is_file():
+              raise SystemExit("Upload funko_tooltip_assets_transparent.zip to the repository root first.")
+          names = {
+              "nba.png", "nightmare-before-christmas.png", "five-nights-at-freddys.png",
+              "star-wars.png", "harry-potter.png", "nfl.png", "the-mandalorian.png",
+              "batman.png", "funko.png", "my-hero-academia.png", "nhl.png",
+              "the-office.png"
+          }
+          target = Path("assets/license-tooltips")
+          target.mkdir(parents=True, exist_ok=True)
+          with ZipFile(archive) as z:
+              members = {Path(name).name: name for name in z.namelist() if not name.endswith("/")}
+              missing = names - members.keys()
+              if missing:
+                  raise SystemExit("Missing images: " + ", ".join(sorted(missing)))
+              for name in sorted(names):
+                  content = z.read(members[name])
+                  if not content.startswith(b"\x89PNG\r\n\x1a\n"):
+                      raise SystemExit("Not a PNG: " + name)
+                  (target / name).write_bytes(content)
+          print("Installed all 12 transparent PNG images.")
+          PY
+      - name: Commit image assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/license-tooltips/
+          if ! git diff --cached --quiet; then
+            git commit -m "Install twelve approved transparent Funko tooltip figures"
+            git push
+          fi
