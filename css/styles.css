@@ -1988,3 +1988,16 @@ body {
 /* The license lollipop visualises Pop! only: dim it when another product type is selected. */
 #idiom01.product-type-inactive { opacity: 0.28; pointer-events: none; transition: opacity 220ms ease; }
 #idiom01:not(.product-type-inactive) { opacity: 1; transition: opacity 220ms ease; }
+
+/* A compact, opt-in comparison underneath the pictogram finding. */
+.pictogram-compare { margin-top: 23px; }
+.pictogram-compare__toggle, .pictogram-compare__close { cursor:pointer; border:1px solid #bac8db; border-radius:24px; background:transparent; color:#24436f; font:600 13px/1.4 "Inter",Arial,sans-serif; padding:8px 14px; }
+.pictogram-compare__toggle.is-active { background:#24436f; color:white; border-color:#24436f; }
+.pictogram-compare__panel { margin-top:12px; }
+.pictogram-compare__panel[hidden] { display:none; }
+.pictogram-compare__fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.pictogram-compare__fields label { display:flex; flex-direction:column; gap:5px; color:#314463; font:600 12px/1.4 "Inter",Arial,sans-serif; }
+.pictogram-compare__fields select { width:100%; min-width:0; padding:8px; border:1px solid #bdc9d9; background:#fffaf4; border-radius:7px; color:#132341; font:400 13px "Inter",Arial,sans-serif; }
+.pictogram-compare__result { color:#33435c; font-size:14px; line-height:1.5; margin:11px 0; }
+.pictogram-compare__close { font-size:12px; padding:6px 12px; }
+@media(max-width:440px){.pictogram-compare__fields{grid-template-columns:1fr;}}
