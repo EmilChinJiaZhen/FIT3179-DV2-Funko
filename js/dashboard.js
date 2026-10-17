@@ -132,25 +132,32 @@ function setupRegionStory(view) {
     if (!svg) return;
     const containerRect = container.getBoundingClientRect();
     const plotRect = svg.getBoundingClientRect();
-    const plotX = plotRect.left - containerRect.left;
-    const plotY = plotRect.top - containerRect.top;
-    const plotWidth = plotRect.width, plotHeight = plotRect.height;
-    // Five evenly spaced year columns. Align to the centre of the first/last
-    // bar while leaving the callout outside the data region.
+    // Locate the actual pink Europe rectangles drawn by Vega, rather than
+    // approximating the plot size from the SVG's outer dimensions.
+    const europeBars = [...svg.querySelectorAll("path, rect")].filter(el => {
+      const fill = (el.getAttribute("fill") || getComputedStyle(el).fill || "").toLowerCase();
+      if (fill !== "#c05792" && fill !== "rgb(192, 87, 146)") return false;
+      const box = el.getBoundingClientRect();
+      return box.width > 18 && box.height > 18;
+    }).sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left);
     const yearIndex = selectedYear === 2021 ? 0 : 4;
-    const x = plotX + plotWidth * (0.16 + 0.73 * (yearIndex + 0.5) / 5);
-    const share = selectedYear === 2021 ? 0.209 : 0.318;
-    const y = plotY + plotHeight * (0.12 + 0.76 * (1 - share / 2));
-    const labelY = Math.max(plotY + plotHeight + 16, container.clientHeight - 27);
+    if (europeBars.length < 5) {
+      note.hidden = pointer.hidden = true;
+      return;
+    }
+    const barRect = europeBars[yearIndex].getBoundingClientRect();
+    const x = (barRect.left + barRect.right) / 2 - containerRect.left;
+    const y = (barRect.top + barRect.bottom) / 2 - containerRect.top;
+    const labelY = Math.max(plotRect.bottom - containerRect.top + 16, container.clientHeight - 27);
     const labelX = Math.max(100, Math.min(container.clientWidth - 100, x));
     note.style.left = labelX + "px";
     note.style.top = labelY + "px";
     pointer.setAttribute("viewBox", `0 0 ${container.clientWidth} ${container.clientHeight}`);
     pointer.setAttribute("width", container.clientWidth);
     pointer.setAttribute("height", container.clientHeight);
-    line.setAttribute("d", `M ${labelX} ${labelY - 4} L ${x} ${y + 7}`);
+    line.setAttribute("d", `M ${labelX} ${labelY - 4} L ${x} ${y}`);
     dot.setAttribute("cx", x);
-    dot.setAttribute("cy", y + 7);
+    dot.setAttribute("cy", y);
   };
   buttons.forEach(button => button.addEventListener("click", () => {
     const year = Number(button.dataset.regionYear);
