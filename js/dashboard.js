@@ -826,6 +826,23 @@ function getLicenseShares() {
   return licenseSharesPromise;
 }
 
+// Official Funko product-photo assets are only displayed after their local PNG
+// files are uploaded. Missing assets gracefully leave the existing tooltip intact.
+const LICENSE_FIGURE_IMAGES = {
+  "NBA": ["nba.png", "Michael Jordan"],
+  "The Nightmare Before Christmas": ["nightmare-before-christmas.png", "Oogie Boogie"],
+  "Five Nights at Freddy's": ["five-nights-at-freddys.png", "Freddy Fazbear"],
+  "Star Wars": ["star-wars.png", "Darth Vader"],
+  "Harry Potter": ["harry-potter.png", "Harry Potter"],
+  "NFL": ["nfl.png", "Josh Allen"],
+  "The Mandalorian": ["the-mandalorian.png", "Grogu"],
+  "Batman": ["batman.png", "Classic Batman"],
+  "Funko": ["funko.png", "Freddy Funko"],
+  "My Hero Academia": ["my-hero-academia.png", "All Might"],
+  "NHL": ["nhl.png", "Connor McDavid"],
+  "The Office": ["the-office.png", "Dwight Schrute"]
+};
+
 function setupLicenseShareTooltip(view) {
   const tip = document.createElement("div");
   tip.className = "license-share-tooltip";
@@ -868,6 +885,30 @@ function setupLicenseShareTooltip(view) {
       other.textContent = "All other licenses: " + (100 - share).toFixed(1) + "%";
       stats.append(value, fraction, other);
       layout.append(pie, stats);
+      const figure = LICENSE_FIGURE_IMAGES[license];
+      if (figure) {
+        const media = document.createElement("div");
+        media.className = "license-share-tooltip__figure";
+        media.hidden = true; // Never show an unverified or missing image.
+        const image = document.createElement("img");
+        image.alt = "Representative Funko Pop! figure: " + figure[1];
+        image.loading = "eager";
+        image.decoding = "async";
+        image.onload = () => {
+          if (current !== license) return;
+          media.hidden = false;
+          // Image loading changes tooltip height: place it back inside viewport.
+          const rect = tip.getBoundingClientRect();
+          const top = parseFloat(tip.style.top) || 12;
+          tip.style.top = Math.max(12, Math.min(top, window.innerHeight - rect.height - 12)) + "px";
+        };
+        image.onerror = () => { media.hidden = true; };
+        image.src = "assets/license-tooltips/" + figure[0];
+        const caption = document.createElement("small");
+        caption.textContent = figure[1] + " · Representative Pop! figure";
+        media.append(image, caption);
+        tip.append(media);
+      }
       tip.append(heading, desc, layout);
     }
     tip.hidden = false;
