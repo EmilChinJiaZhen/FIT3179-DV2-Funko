@@ -915,7 +915,7 @@ function setupLicenseShareTooltip(view) {
           tip.style.top = Math.max(12, Math.min(top, window.innerHeight - rect.height - 12)) + "px";
         };
         image.onerror = () => { media.hidden = true; };
-        image.src = "assets/license-tooltips/" + figure[0];
+        image.src = "assets/license-tooltips/" + figure[0] + (imageLicense === "Funko" ? "?v=de3366cb4a16" : "");
         const caption = document.createElement("small");
         caption.textContent = figure[1] + " · Representative Pop! figure";
         media.append(image, caption);
