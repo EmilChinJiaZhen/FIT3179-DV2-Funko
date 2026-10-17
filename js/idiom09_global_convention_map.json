@@ -537,15 +537,13 @@
           "All",
           "Convention",
           "Store / fan event",
-          "Official Funko store",
-          "Venue"
+          "Official Funko store"
         ],
         "labels": [
           "All locations",
           "Conventions",
           "Store / fan events",
-          "Official Funko stores",
-          "Other venues"
+          "Official Funko stores"
         ]
       }
     },
