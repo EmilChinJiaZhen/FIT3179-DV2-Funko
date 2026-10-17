@@ -91,6 +91,52 @@
               "value": 0
             }
           }
+        },
+        {
+          "transform": [
+            {
+              "filter": "toNumber(datum.year) === 2022 && storyYear === 2022"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "dx": 13,
+            "dy": 22,
+            "font": "Inter",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#172238"
+          },
+          "encoding": {
+            "text": {
+              "value": "2022 peak · $1.32B (+28.5%)"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "toNumber(datum.year) === 2025 && storyYear === 2025"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "middle",
+            "dx": -13,
+            "dy": -23,
+            "font": "Inter",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#172238"
+          },
+          "encoding": {
+            "text": {
+              "value": "2025 · 31.3% below peak"
+            }
+          }
         }
       ],
       "transform": [
