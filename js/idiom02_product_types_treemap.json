@@ -630,6 +630,43 @@
           }
         }
       }
+    },
+    {
+      "type": "rect",
+      "interactive": false,
+      "from": {
+        "data": "licenses"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "value": "transparent"
+          },
+          "stroke": {
+            "value": "#C62828"
+          },
+          "strokeWidth": {
+            "value": 3
+          }
+        },
+        "update": {
+          "opacity": {
+            "signal": "(treeMoment === 'nba-pop' && datum.product_type === 'Pop!' && datum.license === 'NBA') || (treeMoment === 'nba-gold' && datum.product_type === 'Vinyl GOLD' && datum.license === 'NBA') || (treeMoment === 'star-apparel' && datum.product_type === 'Apparel' && datum.license === 'Star Wars') ? 1 : 0"
+          }
+        }
+      }
     }
   ],
   "config": {
@@ -690,6 +727,10 @@
     {
       "name": "selectedTreeType",
       "value": ""
+    },
+    {
+      "name": "treeMoment",
+      "value": "nba-pop"
     }
   ]
 }
