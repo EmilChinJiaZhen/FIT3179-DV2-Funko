@@ -93,6 +93,18 @@ function setupSalesStory(view) {
   }));
 }
 
+// Optional linked-to-the-data story annotations on the regional sales share chart.
+function setupRegionStory(view) {
+  const buttons = [...document.querySelectorAll(".region-story__button")];
+  let selectedYear = 2025;
+  buttons.forEach(button => button.addEventListener("click", () => {
+    const year = Number(button.dataset.regionYear);
+    selectedYear = selectedYear === year ? 0 : year;
+    buttons.forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.regionYear) === selectedYear)));
+    view.signal("regionStoryYear", selectedYear).runAsync().catch(console.error);
+  }));
+}
+
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
 visualisations.forEach(async ([selector, specPath]) => {
@@ -126,6 +138,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     delete spec.title;
     const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
     if (selector === "#idiom20") setupSalesStory(embedResult.view);
+    if (selector === "#idiom21") setupRegionStory(embedResult.view);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
     if (selector === "#idiom19") setupPictogramPartialTooltip(embedResult.view);
