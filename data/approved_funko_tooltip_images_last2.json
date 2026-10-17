@@ -1,0 +1,21 @@
+{
+  "purpose": "Approved official Funko Pop figure source list; original figure-only PNG assets still need to be supplied",
+  "images": [
+    {
+      "license": "My Hero Academia",
+      "figure": "All Might",
+      "product_number": "12381-PX-1QQ",
+      "official_product_url": "https://funko.com/pop-all-might/12381-PX-1QQ.html",
+      "asset_path": "assets/license-tooltips/my-hero-academia.png",
+      "asset_status": "pending official transparent figure PNG"
+    },
+    {
+      "license": "The Office",
+      "figure": "Dwight Schrute",
+      "product_number": "34906",
+      "official_product_url": "https://funko.com/pop-dwight-schrute/34906.html",
+      "asset_path": "assets/license-tooltips/the-office.png",
+      "asset_status": "pending official transparent figure PNG"
+    }
+  ]
+}
