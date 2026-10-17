@@ -119,56 +119,35 @@
       }
     },
     {
+      "data": {
+        "values": [
+          {
+            "year": "2021",
+            "annotationY": 0.84,
+            "storyYear": 2021,
+            "label": "Europe: 20.9%"
+          },
+          {
+            "year": "2025",
+            "annotationY": 0.84,
+            "storyYear": 2025,
+            "label": "Europe: 31.8%"
+          }
+        ]
+      },
       "transform": [
         {
-          "aggregate": [
-            {
-              "op": "sum",
-              "field": "SalesMillions",
-              "as": "RegionSales"
-            }
-          ],
-          "groupby": [
-            "year",
-            "region"
-          ]
-        },
-        {
-          "joinaggregate": [
-            {
-              "op": "sum",
-              "field": "RegionSales",
-              "as": "YearSales"
-            }
-          ],
-          "groupby": [
-            "year"
-          ]
-        },
-        {
-          "calculate": "datum.RegionSales / datum.YearSales / 2",
-          "as": "SegmentMid"
-        },
-        {
-          "calculate": "toNumber(datum.year) === 2021 ? 'Europe 20.9%' : 'Europe 31.8%'",
-          "as": "StoryLabel"
-        },
-        {
-          "filter": "datum.region === 'Europe' && toNumber(datum.year) === regionStoryYear"
+          "filter": "datum.storyYear === regionStoryYear"
         }
       ],
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontWeight": "bold",
         "fontSize": 12,
+        "fontWeight": "bold",
         "color": "#C62828",
-        "stroke": "#F4F0E8",
-        "strokeWidth": 3,
-        "strokeJoin": "round",
         "align": "center",
         "baseline": "middle",
-        "dx": 0,
         "dy": 0
       },
       "encoding": {
@@ -177,7 +156,7 @@
           "type": "ordinal"
         },
         "y": {
-          "field": "SegmentMid",
+          "field": "annotationY",
           "type": "quantitative",
           "scale": {
             "domain": [
@@ -187,7 +166,7 @@
           }
         },
         "text": {
-          "field": "StoryLabel",
+          "field": "label",
           "type": "nominal"
         }
       }
