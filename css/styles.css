@@ -1917,3 +1917,20 @@ body {
 
 /* Regional story buttons sit beneath their finding, not below the chart. */
 .chapter--time .story-insight .region-story { margin-top: 24px; }
+
+/* Regional story callouts are outside Vega-Lite's chart specification. */
+#idiom21 { position: relative; }
+.region-story-chart-note {
+  position: absolute;
+  top: 48px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+  color: #C62828;
+  font: 700 12px/1.4 "Inter", Arial, sans-serif;
+  background: rgba(244,240,232,0.94);
+  padding: 3px 6px;
+  border-radius: 4px;
+  z-index: 2;
+}
+.region-story-chart-note[hidden] { display: none; }
