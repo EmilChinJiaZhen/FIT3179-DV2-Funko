@@ -228,6 +228,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapStory(embedResult.view);
     if (selector === "#idiom19") setupPictogramPartialTooltip(embedResult.view);
+    if (selector === "#idiom19") setupPictogramComparison(embedResult.view);
     if (selector === "#idiom12") setupChordRelationshipTooltip(embedResult.view);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapTooltip(embedResult.view, selector);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupDraggableMap(embedResult.view, container, selector);
@@ -361,6 +362,58 @@ function setupMapControlPanel(view, container, selector) {
     view.runAsync().catch(console.error);
   });
   bindings.appendChild(reset);
+}
+
+/* Optional comparison stays inside the pictogram; linked selections elsewhere remain unchanged. */
+function setupPictogramComparison(view) {
+  const toggle = document.getElementById("pictogram-compare-toggle");
+  const panel = document.getElementById("pictogram-compare-panel");
+  const aSelect = document.getElementById("pictogram-compare-a");
+  const bSelect = document.getElementById("pictogram-compare-b");
+  const result = document.getElementById("pictogram-compare-result");
+  const close = document.getElementById("pictogram-compare-clear");
+  if (!toggle || !panel || !aSelect || !bSelect || !result || !close) return;
+  const types = view.data("types").map(row => ({
+    name: row.product_type, count: Number(row.Count)
+  })).filter(row => row.name && Number.isFinite(row.count));
+  if (types.length < 2) return;
+  for (const select of [aSelect, bSelect]) {
+    select.replaceChildren(...types.map(row => new Option(row.name, row.name)));
+  }
+  aSelect.value = types[0].name;
+  bSelect.value = types[1].name;
+  let enabled = false;
+  const update = () => {
+    const first = aSelect.value, second = bSelect.value;
+    panel.hidden = !enabled;
+    toggle.setAttribute("aria-expanded", String(enabled));
+    toggle.classList.toggle("is-active", enabled);
+    const a = types.find(t => t.name === first);
+    const b = types.find(t => t.name === second);
+    if (a && b && enabled) {
+      const high = a.count >= b.count ? a : b;
+      const low = a.count >= b.count ? b : a;
+      result.textContent = high.name + " has " +
+        (high.count - low.count).toLocaleString() + " more products (" +
+        (high.count / Math.max(low.count, 1)).toFixed(1) + "× as many) than " +
+        low.name + " in the displayed sample.";
+    }
+    view.signal("comparePictogramA", enabled ? first : "");
+    view.signal("comparePictogramB", enabled ? second : "");
+    view.runAsync().catch(console.error);
+  };
+  const avoidSame = changed => {
+    if (aSelect.value === bSelect.value) {
+      const other = types.find(t => t.name !== changed.value);
+      (changed === aSelect ? bSelect : aSelect).value = other.name;
+    }
+    update();
+  };
+  aSelect.addEventListener("change", () => avoidSame(aSelect));
+  bSelect.addEventListener("change", () => avoidSame(bSelect));
+  toggle.addEventListener("click", () => { enabled = !enabled; update(); });
+  close.addEventListener("click", () => { enabled = false; update(); toggle.focus(); });
+  update();
 }
 
 /* Vega pictogram: only the clipped half-group has a hover card. */
