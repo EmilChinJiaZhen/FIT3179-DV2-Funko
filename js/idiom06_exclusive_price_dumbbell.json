@@ -181,6 +181,13 @@
         "labelFontSize": 13,
         "labelLimit": 180
       }
+    },
+    "opacity": {
+      "condition": {
+        "test": "linkedProductType === '' || datum.product_type === linkedProductType",
+        "value": 1
+      },
+      "value": 0.16
     }
   },
   "layer": [
@@ -435,6 +442,10 @@
           "Action Figures"
         ]
       }
+    },
+    {
+      "name": "linkedProductType",
+      "value": ""
     }
   ]
 }
