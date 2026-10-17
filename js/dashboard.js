@@ -94,15 +94,31 @@ function setupSalesStory(view) {
 }
 
 // Optional linked-to-the-data story annotations on the regional sales share chart.
+// Regional sales annotations are HTML overlays, kept separate from the Vega-Lite
+// specification so the original chart and its region selection remain intact.
 function setupRegionStory(view) {
   const buttons = [...document.querySelectorAll(".region-story__button")];
+  const container = document.getElementById("idiom21");
+  if (!container || !buttons.length) return;
+  const note = document.createElement("div");
+  note.className = "region-story-chart-note";
+  note.setAttribute("role", "status");
+  container.appendChild(note);
   let selectedYear = 2025;
+  const render = () => {
+    buttons.forEach(button => button.setAttribute("aria-pressed",
+      String(Number(button.dataset.regionYear) === selectedYear)));
+    note.hidden = !selectedYear;
+    note.textContent = selectedYear === 2021
+      ? "Europe: 20.9% (2021)" : "Europe: 31.8% (2025)";
+    note.style.left = selectedYear === 2021 ? "16%" : "85%";
+  };
   buttons.forEach(button => button.addEventListener("click", () => {
     const year = Number(button.dataset.regionYear);
     selectedYear = selectedYear === year ? 0 : year;
-    buttons.forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.regionYear) === selectedYear)));
-    view.signal("regionStoryYear", selectedYear).runAsync().catch(console.error);
+    render();
   }));
+  render();
 }
 
 // Render chart titles as normal HTML, outside the SVG. This keeps their
