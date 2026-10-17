@@ -83,7 +83,8 @@ document.getElementById("global-product-reset")?.addEventListener("click", () =>
 function setupSalesStory(view) {
   const buttons = [...document.querySelectorAll(".sales-story__button")];
   if (!buttons.length) return;
-  let selectedYear = 0;
+  let selectedYear = 2022;
+  buttons.forEach(button => button.setAttribute("aria-pressed", String(Number(button.dataset.storyYear) === selectedYear)));
   buttons.forEach(button => button.addEventListener("click", () => {
     const year = Number(button.dataset.storyYear);
     selectedYear = selectedYear === year ? 0 : year;
