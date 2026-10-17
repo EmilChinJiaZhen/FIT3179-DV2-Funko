@@ -21,6 +21,32 @@ const visualisations = [
   ["#idiom18", "js/idiom18_pop_culture_convention_attendance_proportional_symbol_map.json"]
 ];
 
+// Coordinated product-type selection for Section 1. Views may finish loading in any order.
+const linkedProductViews = new Map();
+let activeProductType = "";
+const linkedProductSignals = {
+  "#idiom02": "selectedTreeType",
+  "#idiom19": "selectedPictogramType",
+  "#idiom12": "selectedChord"
+};
+function updateLinkedProductType(type) {
+  activeProductType = type || "";
+  const status = document.getElementById("linked-product-status");
+  const reset = document.getElementById("linked-product-reset");
+  if (status) status.textContent = activeProductType
+    ? `Highlighted across charts: ${activeProductType}`
+    : "Select a product type in the treemap, pictogram or chord diagram to highlight it across all three.";
+  if (reset) reset.hidden = !activeProductType;
+  for (const [selector, view] of linkedProductViews) {
+    view.signal(linkedProductSignals[selector], activeProductType).runAsync().catch(console.error);
+  }
+}
+function registerLinkedProductView(selector, view) {
+  linkedProductViews.set(selector, view);
+  view.signal(linkedProductSignals[selector], activeProductType).runAsync().catch(console.error);
+}
+document.getElementById("linked-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
+
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
 visualisations.forEach(async ([selector, specPath]) => {
@@ -62,6 +88,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapControlPanel(embedResult.view, container, selector);
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
     if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
+    if (linkedProductSignals[selector]) registerLinkedProductView(selector, embedResult.view);
   } catch (error) {
     console.error(`Failed to load ${specPath}`, error);
   }
@@ -732,28 +759,42 @@ function setupChartClickSelection(view, container, selector) {
   const svg=container.querySelector("svg.marks");
   if(!svg)return;
   svg.classList.add("interactive-chart-selection");
-  const update=next=>view.signal(config.signal,next).runAsync().catch(console.error);
-  view.addEventListener("click",(event,item)=>{
-    const d=item?.datum;
-    if(!d){update("");return;}
-    let value="";
-    if(selector==="#idiom12"){
-      if(item?.mark?.marktype==="arc" && d.license)value=d.license;
-      else if(item?.mark?.marktype==="arc" && d.product_type)value=d.product_type;
-      else value=d.license||d.product_type||"";
-    } else if(selector==="#idiom14"){
-      const dataName=item?.mark?.name||"";
-      if(dataName.startsWith("nodes1"))value=d.ProductGroup||"";
-      else if(dataName.startsWith("nodes2"))value=d.PriceBand||"";
-      else if(dataName.startsWith("nodes3"))value=d.ExclusiveStatus||"";
-      else value=d.ProductGroup||d.PriceBand||d.ExclusiveStatus||"";
+  const linked = Object.hasOwn(linkedProductSignals, selector);
+  const update = next => linked
+    ? updateLinkedProductType(next)
+    : view.signal(config.signal, next).runAsync().catch(console.error);
+  view.addEventListener("click", (event, item) => {
+    const d = item?.datum;
+    if (!d) { update(""); return; }
+    let value = "";
+    if (selector === "#idiom12") {
+      // Product-type arcs and ribbons select across charts; license arcs keep
+      // the original chord-only behaviour without mislabelling a license as a type.
+      const isLicenseArc = item?.mark?.marktype === "arc" && d.license && !d.product_type;
+      if (isLicenseArc) {
+        updateLinkedProductType("");
+        view.signal("selectedChord", d.license).runAsync().catch(console.error);
+        return;
+      }
+      value = d.product_type || "";
+      if (!value && d.license) {
+        updateLinkedProductType("");
+        view.signal("selectedChord", d.license).runAsync().catch(console.error);
+        return;
+      }
+    } else if (selector === "#idiom14") {
+      const dataName = item?.mark?.name || "";
+      if (dataName.startsWith("nodes1")) value = d.ProductGroup || "";
+      else if (dataName.startsWith("nodes2")) value = d.PriceBand || "";
+      else if (dataName.startsWith("nodes3")) value = d.ExclusiveStatus || "";
+      else value = d.ProductGroup || d.PriceBand || d.ExclusiveStatus || "";
     } else {
-      for(const field of config.fields)if(d[field]){value=String(d[field]);break;}
+      for (const field of config.fields) if (d[field]) { value = String(d[field]); break; }
     }
-    if(value)update(view.signal(config.signal)===value?"":value);
+    if (value) update((linked ? activeProductType : view.signal(config.signal)) === value ? "" : value);
   });
-  const reset=event=>{if(event.key==="Escape")update("");};
-  container.addEventListener("keydown",reset);
+  const reset = event => { if (event.key === "Escape") update(""); };
+  container.addEventListener("keydown", reset);
   // Do not force keyboard focus onto the entire SVG: browsers draw an unwanted outline.
   svg.removeAttribute("tabindex");
 }
