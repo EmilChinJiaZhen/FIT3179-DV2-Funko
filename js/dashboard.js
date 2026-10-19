@@ -67,18 +67,6 @@ function updateLinkedProductType(type) {
   }
   const resetButton = document.getElementById("global-product-reset");
   if (resetButton) resetButton.hidden = !activeProductType;
-  // The first lollipop chart only covers Pop! figures. When another type
-  // is selected, show it as unrelated/inactive rather than selected.
-  const popLicenseChart = document.getElementById("idiom01");
-  const popLicenseInactive = Boolean(activeProductType && activeProductType !== "Pop!");
-  if (popLicenseChart) {
-    popLicenseChart.classList.toggle("product-type-inactive", popLicenseInactive);
-    popLicenseChart.setAttribute("aria-disabled", String(popLicenseInactive));
-  }
-  if (popLicenseInactive) {
-    const licenseTip = document.querySelector(".license-share-tooltip");
-    if (licenseTip) licenseTip.hidden = true;
-  }
   for (const [selector, view] of productViews) syncProductView(selector, view);
 }
 function registerLinkedProductView(selector, view) {
