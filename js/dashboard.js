@@ -135,20 +135,21 @@ function setupAtlanticTradeFlows(container, spec) {
     const ux=vx/vlen,uy=vy/vlen;
     // The line stops BEFORE the arrow, leaving its entire triangle unobstructed.
     // Keep the arrow tip clear of the destination circle as well.
-    const tipGap=11,headLength=7,clearance=1.5,halfWidth=3.4;
+    const tipGap=11,headLength=7,halfWidth=3.4;
     const tipX=x2-tipGap*ux,tipY=y2-tipGap*uy;
     const baseX=tipX-headLength*ux,baseY=tipY-headLength*uy;
-    const endX=baseX-clearance*ux,endY=baseY-clearance*uy;
+    const endX=baseX,endY=baseY;
     const path=document.createElementNS(ns,"path");
     path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} C${p1[0].toFixed(2)},${p1[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)} ${endX.toFixed(2)},${endY.toFixed(2)}`);
     path.setAttribute("fill","none");
     path.setAttribute("stroke","#C55358");
-    path.setAttribute("stroke-width",String(1.2+1.05*Math.sqrt(r.count)));
-    path.setAttribute("opacity",".68");
+    path.setAttribute("stroke-width",String(Math.min(7.5,1.1+1.65*r.count)));
+    path.setAttribute("opacity",".43");
     path.setAttribute("stroke-linecap","butt");
     const arrow=document.createElementNS(ns,"path");
     arrow.setAttribute("d",`M${tipX.toFixed(2)},${tipY.toFixed(2)} L${(baseX+halfWidth*uy).toFixed(2)},${(baseY-halfWidth*ux).toFixed(2)} L${(baseX-halfWidth*uy).toFixed(2)},${(baseY+halfWidth*ux).toFixed(2)} Z`);
     arrow.setAttribute("fill","#C55358");
+    arrow.setAttribute("opacity",".48");
     arrowheads.push(arrow);
     const title=document.createElementNS(ns,"title");
     title.textContent=key+" — "+r.count+" selected record"+(r.count===1?"":"s");
