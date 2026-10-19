@@ -511,7 +511,7 @@
         },
         "update": {
           "fillOpacity": {
-            "signal": "hoverLinkedType !== '' ? (datum.product_type === hoverLinkedType ? 0.88 : 0.14) : (selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14)"
+            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
           },
           "stroke": {
             "value": "transparent"
@@ -577,7 +577,7 @@
             "value": "Inter"
           },
           "fillOpacity": {
-            "signal": "hoverLinkedType !== '' ? (datum.product_type === hoverLinkedType ? 0.88 : 0.14) : (selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14)"
+            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
           }
         }
       }
@@ -626,7 +626,7 @@
             "value": "Inter"
           },
           "fillOpacity": {
-            "signal": "hoverLinkedType !== '' ? (datum.product_type === hoverLinkedType ? 0.88 : 0.14) : (selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14)"
+            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
           }
         }
       }
@@ -731,10 +731,6 @@
     {
       "name": "treeMoment",
       "value": "nba-pop"
-    },
-    {
-      "name": "hoverLinkedType",
-      "value": ""
     }
   ]
 }
