@@ -114,7 +114,7 @@ function setupAtlanticTradeFlows(container, spec) {
     return [width / 2 + 94 * x, height / 2 - 94 * y];
   };
   const defs = document.createElementNS(ns,"defs");
-  defs.innerHTML = '<marker id="atlantic-trade-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#C55358"/></marker>';
+  defs.innerHTML = '<marker id="atlantic-trade-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4.5 L0,9 Z" fill="#C55358"/></marker>';
   overlay.appendChild(defs);
   let number = 0;
   for (const [routeId, pair] of pairs) {
@@ -125,7 +125,14 @@ function setupAtlanticTradeFlows(container, spec) {
     const offset = (number % 3 - 1) * 12;
     const cx = (x1+x2)/2, cy = Math.min(y1,y2) - Math.max(24,Math.abs(x2-x1)*.18) + offset;
     const path = document.createElementNS(ns,"path");
-    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} Q${cx.toFixed(2)},${cy.toFixed(2)} ${x2.toFixed(2)},${y2.toFixed(2)}`);
+    // Stop the arrow short of the destination dot so the arrowhead is visible.
+    // Use the quadratic tangent at the destination to preserve its direction.
+    const tx = x2 - cx, ty = y2 - cy;
+    const tangentLength = Math.hypot(tx, ty) || 1;
+    const gap = 12;
+    const endX = x2 - gap * tx / tangentLength;
+    const endY = y2 - gap * ty / tangentLength;
+    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} Q${cx.toFixed(2)},${cy.toFixed(2)} ${endX.toFixed(2)},${endY.toFixed(2)}`);
     path.setAttribute("fill","none");
     path.setAttribute("stroke","#C55358");
     path.setAttribute("stroke-width","1.9");
