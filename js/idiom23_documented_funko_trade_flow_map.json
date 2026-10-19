@@ -167,6 +167,454 @@
             "country": "Costa Rica",
             "longitude": -84,
             "latitude": 10
+          },
+          {
+            "route_id": "R7",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R7",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Philippines",
+            "longitude": 122,
+            "latitude": 13
+          },
+          {
+            "route_id": "R8",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R8",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Philippines",
+            "longitude": 122,
+            "latitude": 13
+          },
+          {
+            "route_id": "R9",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R9",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Philippines",
+            "longitude": 122,
+            "latitude": 13
+          },
+          {
+            "route_id": "R10",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R10",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Philippines",
+            "longitude": 122,
+            "latitude": 13
+          },
+          {
+            "route_id": "R11",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R11",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "United Kingdom",
+            "longitude": -2,
+            "latitude": 54
+          },
+          {
+            "route_id": "R12",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R12",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "United Kingdom",
+            "longitude": -2,
+            "latitude": 54
+          },
+          {
+            "route_id": "R13",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R13",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "United Kingdom",
+            "longitude": -2,
+            "latitude": 54
+          },
+          {
+            "route_id": "R14",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R14",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "United Kingdom",
+            "longitude": -2,
+            "latitude": 54
+          },
+          {
+            "route_id": "R15",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R15",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Mexico",
+            "longitude": -102,
+            "latitude": 24
+          },
+          {
+            "route_id": "R16",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R16",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Mexico",
+            "longitude": -102,
+            "latitude": 24
+          },
+          {
+            "route_id": "R17",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R17",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Kazakhstan",
+            "longitude": 67,
+            "latitude": 48
+          },
+          {
+            "route_id": "R18",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R18",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Kazakhstan",
+            "longitude": 67,
+            "latitude": 48
+          },
+          {
+            "route_id": "R19",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R19",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Kazakhstan",
+            "longitude": 67,
+            "latitude": 48
+          },
+          {
+            "route_id": "R20",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R20",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Costa Rica",
+            "longitude": -84,
+            "latitude": 10
+          },
+          {
+            "route_id": "R21",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R21",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Costa Rica",
+            "longitude": -84,
+            "latitude": 10
+          },
+          {
+            "route_id": "R22",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R22",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Peru",
+            "longitude": -75,
+            "latitude": -10
+          },
+          {
+            "route_id": "R23",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R23",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Bolivia",
+            "longitude": -64,
+            "latitude": -17
+          },
+          {
+            "route_id": "R24",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R24",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Ecuador",
+            "longitude": -78,
+            "latitude": -2
+          },
+          {
+            "route_id": "R25",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R25",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Ecuador",
+            "longitude": -78,
+            "latitude": -2
+          },
+          {
+            "route_id": "R26",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R26",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Ecuador",
+            "longitude": -78,
+            "latitude": -2
+          },
+          {
+            "route_id": "R27",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R27",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Ecuador",
+            "longitude": -78,
+            "latitude": -2
+          },
+          {
+            "route_id": "R28",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R28",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Chile",
+            "longitude": -71,
+            "latitude": -33
+          },
+          {
+            "route_id": "R29",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "China",
+            "longitude": 104,
+            "latitude": 35
+          },
+          {
+            "route_id": "R29",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Chile",
+            "longitude": -71,
+            "latitude": -33
+          },
+          {
+            "route_id": "R30",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R30",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Chile",
+            "longitude": -71,
+            "latitude": -33
+          },
+          {
+            "route_id": "R31",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Malaysia",
+            "longitude": 102,
+            "latitude": 4
+          },
+          {
+            "route_id": "R31",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R32",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R32",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Costa Rica",
+            "longitude": -84,
+            "latitude": 10
+          },
+          {
+            "route_id": "R33",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R33",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Costa Rica",
+            "longitude": -84,
+            "latitude": 10
+          },
+          {
+            "route_id": "R34",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R34",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Malaysia",
+            "longitude": 102,
+            "latitude": 4
           }
         ]
       },
@@ -257,5 +705,5 @@
       "labelFont": "Inter"
     }
   },
-  "description": "Selected trade-record routes with one marker per country. Country roles are aggregated across six records; exporting/importing counts are sample record counts, not total Funko trade volumes. Curved schematic SVG routes show recorded direction."
+  "description": "Selected public trade-record examples from 2024–2025. Arrow width encodes count of selected records between country pairs, not shipment volumes. Arcs are schematic and do not show routes taken."
 }
