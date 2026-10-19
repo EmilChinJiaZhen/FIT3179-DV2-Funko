@@ -107,10 +107,8 @@ function setupAtlanticTradeFlows(container, spec) {
   const wrapper=base.parentElement;
   wrapper.style.position="relative";
   wrapper.appendChild(overlay);
-  const defs=document.createElementNS(ns,"defs");
-  defs.innerHTML='<marker id="atlantic-trade-arrow" markerWidth="10" markerHeight="10" refX="8.6" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,5 L0,10 Z" fill="#C55358"/></marker>';
-  overlay.appendChild(defs);
-
+  // Render arrowheads after all flow paths so lines cannot obscure them.
+  const arrowheads=[];
   const positions=new Map();
   const rect=base.getBoundingClientRect();
   for(const node of base.querySelectorAll("path[aria-label],circle[aria-label],symbol[aria-label]")) {
@@ -142,12 +140,25 @@ function setupAtlanticTradeFlows(container, spec) {
     path.setAttribute("stroke-width",String(1.2+1.05*Math.sqrt(r.count)));
     path.setAttribute("opacity",".68");
     path.setAttribute("stroke-linecap","round");
-    path.setAttribute("marker-end","url(#atlantic-trade-arrow)");
+    const ux=vx/vlen,uy=vy/vlen;
+    const headLength=10,halfWidth=5;
+    const leftX=ex-headLength*ux+halfWidth*uy;
+    const leftY=ey-headLength*uy-halfWidth*ux;
+    const rightX=ex-headLength*ux-halfWidth*uy;
+    const rightY=ey-headLength*uy+halfWidth*ux;
+    const arrow=document.createElementNS(ns,"path");
+    arrow.setAttribute("d",`M${ex.toFixed(2)},${ey.toFixed(2)} L${leftX.toFixed(2)},${leftY.toFixed(2)} L${rightX.toFixed(2)},${rightY.toFixed(2)} Z`);
+    arrow.setAttribute("fill","#C55358");
+    arrow.setAttribute("stroke","#FFF7EE");
+    arrow.setAttribute("stroke-width","1.2");
+    arrow.setAttribute("stroke-linejoin","round");
+    arrowheads.push(arrow);
     const title=document.createElementNS(ns,"title");
     title.textContent=key+" — "+r.count+" selected record"+(r.count===1?"":"s");
     path.appendChild(title);
     overlay.appendChild(path);
   }
+  for(const arrow of arrowheads) overlay.appendChild(arrow);
   const align=()=>{const cr=base.getBoundingClientRect(),pr=wrapper.getBoundingClientRect();overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";overlay.style.width=cr.width+"px";overlay.style.height=cr.height+"px";};
   align();
   if(typeof ResizeObserver!=="undefined")new ResizeObserver(align).observe(base);
