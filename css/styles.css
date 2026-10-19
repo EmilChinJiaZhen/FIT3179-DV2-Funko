@@ -2015,3 +2015,11 @@ body {
 .chapter-transition__rule { height:1px; flex:1 1 70px; max-width:165px; background:rgba(45,63,87,.24); }
 .chapter-transition p { margin:0; max-width:570px; color:#5d6573; font:500 clamp(13px,1.25vw,16px)/1.6 "Inter",Arial,sans-serif; text-align:center; letter-spacing:.005em; }
 @media(max-width:650px){.chapter-transition{margin:20px auto 30px;gap:12px;padding:0 18px;}.chapter-transition__rule{flex-basis:22px;}.chapter-transition p{font-size:13px;}}
+
+/* In-chart right-side legend does not participate in Vega sizing. */
+.story-chart:has(#idiom23) { position:relative; }
+.trade-flow-legend { position:absolute; z-index:3; right:3px; top:82px; display:flex; flex-direction:column; gap:9px; padding:10px 8px; background:rgba(246,241,232,.94); border-radius:8px; font:11px/1.35 "Inter",Arial,sans-serif; color:#132341; pointer-events:none; }
+.trade-flow-legend strong { font-size:12px; margin-bottom:3px; }
+.trade-flow-legend span { display:flex; align-items:center; gap:7px; white-space:nowrap; }
+.trade-flow-legend i { display:inline-block; width:9px; height:9px; border-radius:50%; flex:0 0 auto; }
+@media(max-width:600px){.trade-flow-legend{right:1px;top:75px;padding:6px;font-size:9px;gap:6px;}}
