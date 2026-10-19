@@ -116,31 +116,54 @@ function setupAtlanticTradeFlows(container, spec) {
   const defs = document.createElementNS(ns,"defs");
   defs.innerHTML = '<marker id="atlantic-trade-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4.5 L0,9 Z" fill="#C55358"/></marker>';
   overlay.appendChild(defs);
-  let number = 0;
+  // Route-specific cubic control points spread the paths into distinct lanes.
+  // One visible link per directed country pair: R2 and R6 both represent
+  // United States -> Costa Rica, and must not be mistaken for flow magnitude.
+  const seenPairs = new Set();
   for (const [routeId, pair] of pairs) {
     if (!pair.from || !pair.to) continue;
+    const key = pair.from.country + " -> " + pair.to.country;
+    if (seenPairs.has(key)) continue;
+    seenPairs.add(key);
     const [x1,y1] = project(pair.from.longitude,pair.from.latitude);
     const [x2,y2] = project(pair.to.longitude,pair.to.latitude);
-    // Offset parallel records to avoid fully overlapping links.
-    const offset = (number % 3 - 1) * 12;
-    const cx = (x1+x2)/2, cy = Math.min(y1,y2) - Math.max(24,Math.abs(x2-x1)*.18) + offset;
+    const dx = x2 - x1, dy = y2 - y1;
+    let p1, p2;
+    if (key === "Malaysia -> United States") {
+      // High northern arc arriving from east-northeast.
+      p1 = [x1 - 72, y1 - 104]; p2 = [x2 + 102, y2 - 68];
+    } else if (key === "Vietnam -> United States") {
+      // Separate middle arc, approaching the US from the east.
+      p1 = [x1 - 90, y1 - 60]; p2 = [x2 + 82, y2 - 13];
+    } else if (key === "United States -> Malaysia") {
+      // Distinct southern arc for the opposite trade direction.
+      p1 = [x1 + 90, y1 + 100]; p2 = [x2 - 108, y2 + 92];
+    } else if (key === "United States -> Costa Rica") {
+      // Short local link, avoiding the long route to Bolivia.
+      p1 = [x1 + 8, y1 + 24]; p2 = [x2 - 10, y2 - 26];
+    } else if (key === "United States -> Bolivia") {
+      // South-east approach keeps the destination arrow clear.
+      p1 = [x1 + 76, y1 + 28]; p2 = [x2 - 52, y2 - 32];
+    } else {
+      p1 = [x1 + dx * .3, y1 + dy * .3 - 30];
+      p2 = [x1 + dx * .7, y1 + dy * .7 - 30];
+    }
+    // The arrow tip stops outside the destination dot. Its last tangent
+    // determines the precise tip direction without changing data positions.
+    const tx = x2 - p2[0], ty = y2 - p2[1];
+    const length = Math.hypot(tx,ty) || 1;
+    const tipGap = 13;
+    const endX = x2 - tipGap * tx / length;
+    const endY = y2 - tipGap * ty / length;
     const path = document.createElementNS(ns,"path");
-    // Stop the arrow short of the destination dot so the arrowhead is visible.
-    // Use the quadratic tangent at the destination to preserve its direction.
-    const tx = x2 - cx, ty = y2 - cy;
-    const tangentLength = Math.hypot(tx, ty) || 1;
-    const gap = 12;
-    const endX = x2 - gap * tx / tangentLength;
-    const endY = y2 - gap * ty / tangentLength;
-    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} Q${cx.toFixed(2)},${cy.toFixed(2)} ${endX.toFixed(2)},${endY.toFixed(2)}`);
+    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} C${p1[0].toFixed(2)},${p1[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)} ${endX.toFixed(2)},${endY.toFixed(2)}`);
     path.setAttribute("fill","none");
     path.setAttribute("stroke","#C55358");
-    path.setAttribute("stroke-width","1.9");
-    path.setAttribute("opacity",".86");
+    path.setAttribute("stroke-width","1.7");
+    path.setAttribute("opacity",".88");
     path.setAttribute("stroke-linecap","round");
     path.setAttribute("marker-end","url(#atlantic-trade-arrow)");
     overlay.appendChild(path);
-    number++;
   }
   const align = () => {
     const chart = base.getBoundingClientRect();
