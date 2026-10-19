@@ -189,7 +189,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16)"
+            "signal": "comparePictogramA !== '' ? (datum.product_type === comparePictogramA || datum.product_type === comparePictogramB ? 1 : 0.13) : (selectedPictogramType === '' || datum.product_type === selectedPictogramType ? 1 : 0.16)"
           }
         }
       }
@@ -225,7 +225,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16)"
+            "signal": "comparePictogramA !== '' ? (datum.product_type === comparePictogramA || datum.product_type === comparePictogramB ? 1 : 0.13) : (selectedPictogramType === '' || datum.product_type === selectedPictogramType ? 1 : 0.16)"
           }
         }
       }
@@ -258,7 +258,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16)"
+            "signal": "comparePictogramA !== '' ? (datum.product_type === comparePictogramA || datum.product_type === comparePictogramB ? 1 : 0.13) : (selectedPictogramType === '' || datum.product_type === selectedPictogramType ? 1 : 0.16)"
           }
         }
       }
@@ -330,7 +330,7 @@
             },
             "update": {
               "opacity": {
-                "signal": "selectedPictogramType === '' || datum.product_type === selectedPictogramType ? 1 : 0.16)"
+                "signal": "comparePictogramA !== '' ? (datum.product_type === comparePictogramA || datum.product_type === comparePictogramB ? 1 : 0.13) : (selectedPictogramType === '' || datum.product_type === selectedPictogramType ? 1 : 0.16)"
               }
             }
           }
@@ -401,7 +401,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "selectedPictogramType === '' || (datum.product_type === selectedPictogramType) ? 1 : 0.16)"
+            "signal": "comparePictogramA !== '' ? (datum.product_type === comparePictogramA || datum.product_type === comparePictogramB ? 1 : 0.13) : (selectedPictogramType === '' || datum.product_type === selectedPictogramType ? 1 : 0.16)"
           }
         }
       }
