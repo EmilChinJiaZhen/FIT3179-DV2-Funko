@@ -79,6 +79,76 @@ document.getElementById("global-product-type")?.addEventListener("change", event
 });
 document.getElementById("global-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
 
+// Screen-space flows deliberately use a schematic arc rather than a geographic
+// great-circle: an Atlantic-centred world cannot show a continuous Pacific route.
+function setupAtlanticTradeFlows(container, spec) {
+  const base = container.querySelector("svg.marks");
+  const records = spec.layer.find(layer => layer.data?.values?.some(v => v.route_id && v.role))?.data?.values;
+  if (!base || !records) return;
+  const pairs = new Map();
+  for (const row of records) {
+    if (!pairs.has(row.route_id)) pairs.set(row.route_id, {});
+    pairs.get(row.route_id)[row.role === "Exporting country" ? "from" : "to"] = row;
+  }
+  const ns = "http://www.w3.org/2000/svg";
+  const width = Number(spec.width), height = Number(spec.height);
+  const overlay = document.createElementNS(ns, "svg");
+  overlay.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  overlay.setAttribute("preserveAspectRatio", "none");
+  overlay.setAttribute("aria-label", "Curved directional trade links drawn schematically across the map");
+  overlay.classList.add("atlantic-trade-flows");
+  overlay.style.cssText = "position:absolute;pointer-events:none;overflow:visible;z-index:2;";
+  const wrapper = base.parentElement;
+  wrapper.style.position = "relative";
+  wrapper.appendChild(overlay);
+
+  // Same Equal Earth formula and scale as the Vega-Lite map.
+  const project = (longitude, latitude) => {
+    const rad = Math.PI / 180, phi = latitude * rad;
+    const theta = Math.asin(Math.sqrt(3) / 2 * Math.sin(phi));
+    const t2 = theta * theta, t6 = t2 * t2 * t2, t8 = t6 * t2;
+    const a1 = 1.340264, a2 = -.081106, a3 = .000893, a4 = .003796;
+    const denominator = a1 + 3 * a2 * t2 + 7 * a3 * t6 + 9 * a4 * t8;
+    const x = 2 * Math.sqrt(3) * longitude * rad * Math.cos(theta) / (3 * denominator);
+    const y = a1 * theta + a2 * theta ** 3 + a3 * theta ** 7 + a4 * theta ** 9;
+    return [width / 2 + 94 * x, height / 2 - 94 * y];
+  };
+  const defs = document.createElementNS(ns,"defs");
+  defs.innerHTML = '<marker id="atlantic-trade-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#C55358"/></marker>';
+  overlay.appendChild(defs);
+  let number = 0;
+  for (const [routeId, pair] of pairs) {
+    if (!pair.from || !pair.to) continue;
+    const [x1,y1] = project(pair.from.longitude,pair.from.latitude);
+    const [x2,y2] = project(pair.to.longitude,pair.to.latitude);
+    // Offset parallel records to avoid fully overlapping links.
+    const offset = (number % 3 - 1) * 12;
+    const cx = (x1+x2)/2, cy = Math.min(y1,y2) - Math.max(24,Math.abs(x2-x1)*.18) + offset;
+    const path = document.createElementNS(ns,"path");
+    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} Q${cx.toFixed(2)},${cy.toFixed(2)} ${x2.toFixed(2)},${y2.toFixed(2)}`);
+    path.setAttribute("fill","none");
+    path.setAttribute("stroke","#C55358");
+    path.setAttribute("stroke-width","1.9");
+    path.setAttribute("opacity",".86");
+    path.setAttribute("stroke-linecap","round");
+    path.setAttribute("marker-end","url(#atlantic-trade-arrow)");
+    overlay.appendChild(path);
+    number++;
+  }
+  const align = () => {
+    const chart = base.getBoundingClientRect();
+    const parent = wrapper.getBoundingClientRect();
+    overlay.style.left = (chart.left-parent.left) + "px";
+    overlay.style.top = (chart.top-parent.top) + "px";
+    overlay.style.width = chart.width + "px";
+    overlay.style.height = chart.height + "px";
+  };
+  align();
+  const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(align) : null;
+  resizeObserver?.observe(base);
+  window.addEventListener("resize", align);
+}
+
 // Optional story annotations for the annual-sales chart. These emphasise
 // recorded values only; they do not change the timeline brush or infer causes.
 function setupSalesStory(view) {
@@ -211,6 +281,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
     const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
+    if (selector === "#idiom23") setupAtlanticTradeFlows(container, spec);
     if (selector === "#idiom20") setupSalesStory(embedResult.view);
     if (selector === "#idiom21") setupRegionStory(embedResult.view);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
