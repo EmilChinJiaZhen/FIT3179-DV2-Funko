@@ -1,0 +1,410 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 560,
+  "height": 310,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "background": null,
+  "title": {
+    "text": "Where Have Funko-Branded Products Been Traded?",
+    "anchor": "start",
+    "font": "Inter",
+    "fontSize": 20,
+    "fontWeight": "bold"
+  },
+  "projection": {
+    "type": "equalEarth",
+    "scale": 95
+  },
+  "params": [
+    {
+      "name": "tradeYear",
+      "value": "All years",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All years",
+          "2024",
+          "2025"
+        ],
+        "name": "Record year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_land"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#DFDFDE",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 0.65
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_graticules_30"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#C8D7E0",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "type": "Feature",
+            "properties": {
+              "route_id": "R1",
+              "year": 2024,
+              "date": "2024-01-29",
+              "exporting_country": "Malaysia",
+              "importing_country": "United States",
+              "example_product": "Funko Marvel What If POP Vinyl Figure The Watcher",
+              "source_url": "https://www.volza.com/p/pop/export/export-from-malaysia/hsn-code-95030099/"
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  102,
+                  4
+                ],
+                [
+                  -98,
+                  39
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "route_id": "R2",
+              "year": 2024,
+              "date": "2024-12-07",
+              "exporting_country": "United States",
+              "importing_country": "Costa Rica",
+              "example_product": "Funko Pop action figure",
+              "source_url": "https://www.volza.com/p/popping/hsn-code-9503003900/import-data/"
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -98,
+                  39
+                ],
+                [
+                  -84,
+                  10
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "route_id": "R3",
+              "year": 2025,
+              "date": "2025-05-30",
+              "exporting_country": "Vietnam",
+              "importing_country": "United States",
+              "example_product": "Funko Pop & Buddy: Wild Robot",
+              "source_url": "https://www.volza.com/p/pop-set/hsn-code-9503/import-data/imports-in-united-states/"
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  108,
+                  16
+                ],
+                [
+                  -98,
+                  39
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "route_id": "R4",
+              "year": 2025,
+              "date": "2025-04-17",
+              "exporting_country": "United States",
+              "importing_country": "Malaysia",
+              "example_product": "Funko Pop Games Overwatch Reaper",
+              "source_url": "https://www.volza.com/p/popping/hsn-code-39264000/import-data/origin-united-states/"
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -98,
+                  39
+                ],
+                [
+                  102,
+                  4
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "route_id": "R5",
+              "year": 2025,
+              "date": "2025-06-16",
+              "exporting_country": "United States",
+              "importing_country": "Bolivia",
+              "example_product": "Funko Pop Mecha Freddy Figure #1004",
+              "source_url": "https://www.volza.com/p/pop-or-mobile/hsn-code-9503/import-data/origin-united-states/"
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -98,
+                  39
+                ],
+                [
+                  -64,
+                  -17
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "route_id": "R6",
+              "year": 2025,
+              "date": "2025-04-29",
+              "exporting_country": "United States",
+              "importing_country": "Costa Rica",
+              "example_product": "Funko Pop Parks & Recreation 2-pack",
+              "source_url": "https://www.volza.com/p/pop/export-data/exports-from-united-states/"
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -98,
+                  39
+                ],
+                [
+                  -84,
+                  10
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "transform": [
+        {
+          "filter": "tradeYear === 'All years' || toString(datum.properties.year) === tradeYear"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "filled": false,
+        "stroke": "#386CA1",
+        "strokeWidth": 2.5,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "properties.exporting_country",
+            "type": "nominal",
+            "title": "Exporting country"
+          },
+          {
+            "field": "properties.importing_country",
+            "type": "nominal",
+            "title": "Importing country"
+          },
+          {
+            "field": "properties.date",
+            "type": "nominal",
+            "title": "Record date"
+          },
+          {
+            "field": "properties.example_product",
+            "type": "nominal",
+            "title": "Reported product"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "route_id": "R1",
+            "year": 2024,
+            "role": "Exporting country",
+            "country": "Malaysia",
+            "longitude": 102,
+            "latitude": 4
+          },
+          {
+            "route_id": "R1",
+            "year": 2024,
+            "role": "Importing country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R2",
+            "year": 2024,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R2",
+            "year": 2024,
+            "role": "Importing country",
+            "country": "Costa Rica",
+            "longitude": -84,
+            "latitude": 10
+          },
+          {
+            "route_id": "R3",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "Vietnam",
+            "longitude": 108,
+            "latitude": 16
+          },
+          {
+            "route_id": "R3",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R4",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R4",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Malaysia",
+            "longitude": 102,
+            "latitude": 4
+          },
+          {
+            "route_id": "R5",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R5",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Bolivia",
+            "longitude": -64,
+            "latitude": -17
+          },
+          {
+            "route_id": "R6",
+            "year": 2025,
+            "role": "Exporting country",
+            "country": "United States",
+            "longitude": -98,
+            "latitude": 39
+          },
+          {
+            "route_id": "R6",
+            "year": 2025,
+            "role": "Importing country",
+            "country": "Costa Rica",
+            "longitude": -84,
+            "latitude": 10
+          }
+        ]
+      },
+      "transform": [
+        {
+          "filter": "tradeYear === 'All years' || toString(datum.year) === tradeYear"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 58,
+        "fill": "#1F4C78",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "title": "Country"
+          },
+          {
+            "field": "role",
+            "title": "Record role"
+          },
+          {
+            "field": "year",
+            "title": "Year"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Inter"
+    },
+    "axis": {
+      "labelFont": "Inter"
+    }
+  }
+}
