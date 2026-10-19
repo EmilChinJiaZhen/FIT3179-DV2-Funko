@@ -16,11 +16,12 @@
   },
   "projection": {
     "type": "equalEarth",
-    "center": [
-      170,
+    "rotate": [
+      -170,
+      0,
       0
     ],
-    "scale": 95
+    "scale": 94
   },
   "params": [],
   "layer": [
