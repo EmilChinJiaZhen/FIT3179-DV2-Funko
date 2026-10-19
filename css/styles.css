@@ -2009,3 +2009,9 @@ body {
 .pictogram-compare__close:hover { text-decoration:underline; }
 .pictogram-compare__close span { font-size:15px; margin-left:4px; }
 @media(max-width:440px){ .pictogram-compare__fields { grid-template-columns:1fr; } .pictogram-compare__panel { padding:14px; } }
+
+/* Quiet editorial bridges connect successive story chapters. */
+.chapter-transition { max-width:1060px; margin:26px auto 42px; padding:0 24px; display:flex; align-items:center; justify-content:center; gap:22px; }
+.chapter-transition__rule { height:1px; flex:1 1 70px; max-width:165px; background:rgba(45,63,87,.24); }
+.chapter-transition p { margin:0; max-width:570px; color:#5d6573; font:500 clamp(13px,1.25vw,16px)/1.6 "Inter",Arial,sans-serif; text-align:center; letter-spacing:.005em; }
+@media(max-width:650px){.chapter-transition{margin:20px auto 30px;gap:12px;padding:0 18px;}.chapter-transition__rule{flex-basis:22px;}.chapter-transition p{font-size:13px;}}
