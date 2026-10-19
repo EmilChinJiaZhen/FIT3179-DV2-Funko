@@ -1006,6 +1006,25 @@ function setupLicenseShareTooltip(view) {
   view.addEventListener("mouseout", () => { tip.hidden = true; current = ""; });
 }
 
+/* Animate the four summary numbers once per page load, using real KPI results. */
+function animateKpiNumber(element, value, format, duration = 1350) {
+  if (!element || !Number.isFinite(value)) return;
+  const finalText = format(value);
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+    element.textContent = finalText;
+    return;
+  }
+  const start = performance.now();
+  const render = now => {
+    const progress = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    element.textContent = progress >= 1 ? finalText : format(value * eased);
+    if (progress < 1) requestAnimationFrame(render);
+  };
+  element.textContent = format(0);
+  requestAnimationFrame(render);
+}
+
 /* ---------- Dashboard KPIs from the same catalogue sample ---------- */
 async function renderDashboardKpis() {
   const productEl = document.querySelector("#kpi-products");
@@ -1020,14 +1039,19 @@ async function renderDashboardKpis() {
     const products = rows.filter(row => String(row.product_type || "").trim());
     const licenses = new Set(products.map(row => String(row.license || "").trim()).filter(Boolean));
     const pops = products.filter(row => String(row.product_type || "").trim() === "Pop!").length;
-    productEl.textContent = products.length.toLocaleString();
-    licensesEl.textContent = licenses.size.toLocaleString();
-    shareEl.textContent = products.length ? (100 * pops / products.length).toFixed(1) + "%" : "—";
+    animateKpiNumber(productEl, products.length, n => Math.round(n).toLocaleString());
+    animateKpiNumber(licensesEl, licenses.size, n => Math.round(n).toLocaleString());
+    if (products.length) {
+      animateKpiNumber(shareEl, 100 * pops / products.length, n => n.toFixed(1) + "%");
+    } else {
+      shareEl.textContent = "—";
+    }
   } catch (error) {
     console.error("Failed to load dashboard KPIs", error);
     productEl.textContent = licensesEl.textContent = shareEl.textContent = "N/A";
   }
 }
+animateKpiNumber(document.getElementById("kpi-sales"), 908.2, n => "$" + n.toFixed(1) + "M");
 renderDashboardKpis();
 
 /* ---------- Product type pictogram ---------- */
