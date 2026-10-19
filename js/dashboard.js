@@ -113,20 +113,43 @@ function setupAtlanticTradeFlows(container, spec) {
     const y = a1 * theta + a2 * theta ** 3 + a3 * theta ** 7 + a4 * theta ** 9;
     return [width / 2 + 94 * x, height / 2 - 94 * y];
   };
+  // Anchor flows to the ACTUAL Vega-rendered country symbols, not an
+  // independently approximated projection. This also respects Vega padding.
+  const locateRenderedCountries = () => {
+    const map = new Map();
+    const baseRect = base.getBoundingClientRect();
+    if (!baseRect.width || !baseRect.height) return map;
+    for (const node of base.querySelectorAll("path[aria-label], circle[aria-label], symbol[aria-label]")) {
+      const label = node.getAttribute("aria-label") || "";
+      for (const country of ["United States","Costa Rica","Malaysia","Vietnam","Bolivia"]) {
+        const re = new RegExp("(?:^|[;,]\\\\s*)(?:country|Country):\\\\s*" + country + "(?:[;,]|$)");
+        if (!re.test(label) && !label.includes("country: " + country)) continue;
+        const rect = node.getBoundingClientRect();
+        if (rect.width < 2 || rect.height < 2 || rect.width > 40 || rect.height > 40) continue;
+        map.set(country, [
+          ((rect.left + rect.right) / 2 - baseRect.left) / baseRect.width * width,
+          ((rect.top + rect.bottom) / 2 - baseRect.top) / baseRect.height * height
+        ]);
+      }
+    }
+    return map;
+  };
   const defs = document.createElementNS(ns,"defs");
   defs.innerHTML = '<marker id="atlantic-trade-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4.5 L0,9 Z" fill="#C55358"/></marker>';
   overlay.appendChild(defs);
   // Route-specific cubic control points spread the paths into distinct lanes.
   // One visible link per directed country pair: R2 and R6 both represent
   // United States -> Costa Rica, and must not be mistaken for flow magnitude.
+  const positions = locateRenderedCountries();
+  if (positions.size < 5) { console.warn("Trade-map country anchors unavailable", [...positions.keys()]); return; }
   const seenPairs = new Set();
   for (const [routeId, pair] of pairs) {
     if (!pair.from || !pair.to) continue;
     const key = pair.from.country + " -> " + pair.to.country;
     if (seenPairs.has(key)) continue;
     seenPairs.add(key);
-    const [x1,y1] = project(pair.from.longitude,pair.from.latitude);
-    const [x2,y2] = project(pair.to.longitude,pair.to.latitude);
+    const [x1,y1] = positions.get(pair.from.country);
+    const [x2,y2] = positions.get(pair.to.country);
     const dx = x2 - x1, dy = y2 - y1;
     let p1, p2;
     if (key === "Malaysia -> United States") {
