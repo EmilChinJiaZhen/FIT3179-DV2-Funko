@@ -208,7 +208,8 @@
         "size": 115,
         "stroke": "#FFFFFF",
         "strokeWidth": 1.6,
-        "opacity": 1
+        "opacity": 1,
+        "fill": "#285C85"
       },
       "encoding": {
         "longitude": {
@@ -218,23 +219,6 @@
         "latitude": {
           "field": "latitude",
           "type": "quantitative"
-        },
-        "color": {
-          "field": "trade_role",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Import and export",
-              "Export only",
-              "Import only"
-            ],
-            "range": [
-              "#274E79",
-              "#138C83",
-              "#C98B34"
-            ]
-          },
-          "legend": null
         },
         "tooltip": [
           {
