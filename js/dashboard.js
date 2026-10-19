@@ -18,7 +18,8 @@ const visualisations = [
 
   ["#idiom08", "js/idiom08_funko_search_interest_choropleth.json"],
   ["#idiom09", "js/idiom09_global_convention_map.json"],
-  ["#idiom18", "js/idiom18_pop_culture_convention_attendance_proportional_symbol_map.json"]
+  ["#idiom18", "js/idiom18_pop_culture_convention_attendance_proportional_symbol_map.json"],
+  ["#idiom23", "js/idiom23_documented_funko_trade_flow_map.json"]
 ];
 
 // One shared product-type selection across Sections 1 and 3.
