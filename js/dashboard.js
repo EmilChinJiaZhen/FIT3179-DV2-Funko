@@ -121,12 +121,12 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const showCountry = (country,event) => {
     const counts=countryStats.get(country);
     if(!counts)return;
-    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Based on the selected documented examples, not total national trade.</div>`;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Counts cover the documented records in this dataset, not all national trade.</div>`;
     tip.hidden=false;positionTip(event);
   };
   const showRoute = (route,event) => {
     const from=route.from.country,to=route.to.country;
-    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Sample records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Line width represents the number of selected records for this country pair, not product units or shipment value.</div>`;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Line width represents records in this dataset, not product units or shipment value.</div>`;
     tip.hidden=false;positionTip(event);
   };
   const hideTip=()=>{tip.hidden=true;};
@@ -164,8 +164,10 @@ function setupAtlanticTradeFlows(container, spec, view) {
     const dx=x2-x1,dy=y2-y1,dist=Math.hypot(dx,dy)||1;
     const nx=-dy/dist,ny=dx/dist;
     // Signed offsets are consistent for both orientations so reverse connections separate.
-    const canonical=r.from.country.localeCompare(r.to.country)<0?1:-1;
-    const bend=Math.min(85,Math.max(18,dist*.15))*canonical;
+    // Use the same signed offset in each route's OWN travel direction.
+    // Reversing a route reverses its perpendicular, placing Malaysia → US
+    // and US → Malaysia on opposite sides rather than on top of each other.
+    const bend=Math.min(95,Math.max(25,dist*.19));
     const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend];
     const p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
     const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1;
