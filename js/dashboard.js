@@ -132,26 +132,23 @@ function setupAtlanticTradeFlows(container, spec) {
     const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend];
     const p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
     const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1;
-    const gap=9,ex=x2-gap*vx/vlen,ey=y2-gap*vy/vlen;
+    const ux=vx/vlen,uy=vy/vlen;
+    // The line stops BEFORE the arrow, leaving its entire triangle unobstructed.
+    // Keep the arrow tip clear of the destination circle as well.
+    const tipGap=11,headLength=7,clearance=1.5,halfWidth=3.4;
+    const tipX=x2-tipGap*ux,tipY=y2-tipGap*uy;
+    const baseX=tipX-headLength*ux,baseY=tipY-headLength*uy;
+    const endX=baseX-clearance*ux,endY=baseY-clearance*uy;
     const path=document.createElementNS(ns,"path");
-    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} C${p1[0].toFixed(2)},${p1[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)} ${ex.toFixed(2)},${ey.toFixed(2)}`);
+    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} C${p1[0].toFixed(2)},${p1[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)} ${endX.toFixed(2)},${endY.toFixed(2)}`);
     path.setAttribute("fill","none");
     path.setAttribute("stroke","#C55358");
     path.setAttribute("stroke-width",String(1.2+1.05*Math.sqrt(r.count)));
     path.setAttribute("opacity",".68");
-    path.setAttribute("stroke-linecap","round");
-    const ux=vx/vlen,uy=vy/vlen;
-    const headLength=10,halfWidth=5;
-    const leftX=ex-headLength*ux+halfWidth*uy;
-    const leftY=ey-headLength*uy-halfWidth*ux;
-    const rightX=ex-headLength*ux-halfWidth*uy;
-    const rightY=ey-headLength*uy+halfWidth*ux;
+    path.setAttribute("stroke-linecap","butt");
     const arrow=document.createElementNS(ns,"path");
-    arrow.setAttribute("d",`M${ex.toFixed(2)},${ey.toFixed(2)} L${leftX.toFixed(2)},${leftY.toFixed(2)} L${rightX.toFixed(2)},${rightY.toFixed(2)} Z`);
+    arrow.setAttribute("d",`M${tipX.toFixed(2)},${tipY.toFixed(2)} L${(baseX+halfWidth*uy).toFixed(2)},${(baseY-halfWidth*ux).toFixed(2)} L${(baseX-halfWidth*uy).toFixed(2)},${(baseY+halfWidth*ux).toFixed(2)} Z`);
     arrow.setAttribute("fill","#C55358");
-    arrow.setAttribute("stroke","#FFF7EE");
-    arrow.setAttribute("stroke-width","1.2");
-    arrow.setAttribute("stroke-linejoin","round");
     arrowheads.push(arrow);
     const title=document.createElementNS(ns,"title");
     title.textContent=key+" — "+r.count+" selected record"+(r.count===1?"":"s");
