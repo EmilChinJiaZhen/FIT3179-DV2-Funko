@@ -2038,3 +2038,6 @@ body {
 .trade-map-tooltip__muted { font-size:11px;color:#697080;line-height:1.55; margin-top:9px; }
 .trade-map-tooltip__route { color:#B84850; }
 @media(max-width:900px){.trade-width-legend{position:static; width:100%; max-width:400px; margin:4px 0 0; flex-direction:row;flex-wrap:wrap;align-items:center;}.trade-width-legend__note{width:100%;}}
+
+/* Present the trade-record line legend as unobtrusive labels and examples. */
+.trade-width-legend { background:transparent; border:0; box-shadow:none; padding:4px 0; border-radius:0; }
