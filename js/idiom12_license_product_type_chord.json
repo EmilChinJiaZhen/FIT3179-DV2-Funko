@@ -57,6 +57,10 @@
     {
       "name": "selectedChord",
       "value": ""
+    },
+    {
+      "name": "hoverLinkedType",
+      "value": ""
     }
   ],
   "data": [
@@ -571,7 +575,7 @@
             "field": "product_type"
           },
           "fillOpacity": {
-            "signal": "selectedChord === '' || datum.license === selectedChord || datum.product_type === selectedChord ? 0.34 : 0.035"
+            "signal": "hoverLinkedType !== '' ? (datum.product_type === hoverLinkedType ? 0.34 : 0.035) : (selectedChord === '' || datum.license === selectedChord || datum.product_type === selectedChord ? 0.34 : 0.035)"
           }
         },
         "hover": {
@@ -659,7 +663,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16"
+            "signal": "hoverLinkedType !== '' ? (datum.product_type === hoverLinkedType ? 1 : 0.16) : (selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16)"
           }
         }
       }
@@ -743,7 +747,7 @@
         },
         "update": {
           "opacity": {
-            "signal": "selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16"
+            "signal": "hoverLinkedType !== '' ? (datum.product_type === hoverLinkedType ? 1 : 0.16) : (selectedChord === '' || (datum.license === selectedChord || datum.product_type === selectedChord) ? 1 : 0.16)"
           }
         }
       }
