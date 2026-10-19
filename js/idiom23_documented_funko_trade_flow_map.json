@@ -234,13 +234,7 @@
               "#C98B34"
             ]
           },
-          "legend": {
-            "title": "Country role",
-            "orient": "bottom",
-            "direction": "horizontal",
-            "labelFont": "Inter",
-            "titleFont": "Inter"
-          }
+          "legend": null
         },
         "tooltip": [
           {
