@@ -108,7 +108,7 @@ function setupAtlanticTradeFlows(container, spec) {
   wrapper.style.position="relative";
   wrapper.appendChild(overlay);
   const defs=document.createElementNS(ns,"defs");
-  defs.innerHTML='<marker id="atlantic-trade-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3.5 L0,7 Z" fill="#C55358"/></marker>';
+  defs.innerHTML='<marker id="atlantic-trade-arrow" markerWidth="10" markerHeight="10" refX="8.6" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,5 L0,10 Z" fill="#C55358"/></marker>';
   overlay.appendChild(defs);
 
   const positions=new Map();
@@ -134,13 +134,13 @@ function setupAtlanticTradeFlows(container, spec) {
     const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend];
     const p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
     const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1;
-    const gap=14,ex=x2-gap*vx/vlen,ey=y2-gap*vy/vlen;
+    const gap=9,ex=x2-gap*vx/vlen,ey=y2-gap*vy/vlen;
     const path=document.createElementNS(ns,"path");
     path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} C${p1[0].toFixed(2)},${p1[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)} ${ex.toFixed(2)},${ey.toFixed(2)}`);
     path.setAttribute("fill","none");
     path.setAttribute("stroke","#C55358");
     path.setAttribute("stroke-width",String(1.2+1.05*Math.sqrt(r.count)));
-    path.setAttribute("opacity",".76");
+    path.setAttribute("opacity",".68");
     path.setAttribute("stroke-linecap","round");
     path.setAttribute("marker-end","url(#atlantic-trade-arrow)");
     const title=document.createElementNS(ns,"title");
