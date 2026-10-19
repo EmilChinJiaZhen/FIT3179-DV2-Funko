@@ -18,35 +18,20 @@
     "type": "equalEarth",
     "scale": 95
   },
-  "params": [
-    {
-      "name": "tradeYear",
-      "value": "All years",
-      "bind": {
-        "input": "select",
-        "options": [
-          "All years",
-          "2024",
-          "2025"
-        ],
-        "name": "Record year: "
-      }
-    }
-  ],
+  "params": [],
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
         "format": {
           "type": "topojson",
-          "feature": "ne_110m_land"
+          "feature": "oceans"
         }
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#DFDFDE",
-        "stroke": "#FFFFFF",
-        "strokeWidth": 0.65
+        "fill": "#89CDE8",
+        "stroke": null
       }
     },
     {
@@ -62,6 +47,21 @@
         "fill": null,
         "stroke": "#C8D7E0",
         "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_admin_0_countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#D7D7D7",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 0.65
       }
     },
     {
@@ -219,11 +219,7 @@
           }
         ]
       },
-      "transform": [
-        {
-          "filter": "tradeYear === 'All years' || toString(datum.properties.year) === tradeYear"
-        }
-      ],
+      "transform": [],
       "mark": {
         "type": "geoshape",
         "filled": false,
@@ -357,11 +353,7 @@
           }
         ]
       },
-      "transform": [
-        {
-          "filter": "tradeYear === 'All years' || toString(datum.year) === tradeYear"
-        }
-      ],
+      "transform": [],
       "mark": {
         "type": "circle",
         "size": 58,
