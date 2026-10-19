@@ -78,6 +78,29 @@ document.getElementById("global-product-type")?.addEventListener("change", event
 });
 document.getElementById("global-product-reset")?.addEventListener("click", () => updateLinkedProductType(""));
 
+// Hover previews are temporary and scoped to the three catalogue idioms.
+const catalogueHoverViews = new Map();
+let hoveredCatalogueType = "";
+const validCatalogueTypes = new Set(["Pop!","Apparel","Keychains","Plush","Vinyl GOLD","Board Games"]);
+function syncCatalogueHover(type) {
+  const next = validCatalogueTypes.has(type) ? type : "";
+  if (hoveredCatalogueType === next) return;
+  hoveredCatalogueType = next;
+  for (const view of catalogueHoverViews.values()) {
+    view.signal("hoverLinkedType", next).runAsync().catch(console.error);
+  }
+}
+function setupCatalogueHover(view, container, selector) {
+  catalogueHoverViews.set(selector, view);
+  view.signal("hoverLinkedType", hoveredCatalogueType).runAsync().catch(console.error);
+  view.addEventListener("mousemove", (event, item) => {
+    const type = item?.datum?.product_type;
+    // Ignore licence-only marks; these are not product-type selections.
+    syncCatalogueHover(typeof type === "string" ? type : "");
+  });
+  container.addEventListener("mouseleave", () => syncCatalogueHover(""));
+}
+
 // Optional story annotations for the annual-sales chart. These emphasise
 // recorded values only; they do not change the timeline brush or infer causes.
 function setupSalesStory(view) {
@@ -224,6 +247,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
     if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
     if (productViewConfig[selector]) registerLinkedProductView(selector, embedResult.view);
+    if (["#idiom02","#idiom19","#idiom12"].includes(selector)) setupCatalogueHover(embedResult.view, container, selector);
 
     if (selector === "#idiom06") {
       embedResult.view.addEventListener("click", (event, item) => {
