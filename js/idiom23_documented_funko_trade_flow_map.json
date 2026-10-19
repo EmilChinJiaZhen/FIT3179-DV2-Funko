@@ -170,13 +170,45 @@
           }
         ]
       },
-      "transform": [],
+      "transform": [
+        {
+          "calculate": "datum.role === 'Exporting country' ? 1 : 0",
+          "as": "export_record"
+        },
+        {
+          "calculate": "datum.role === 'Importing country' ? 1 : 0",
+          "as": "import_record"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "export_record",
+              "as": "export_count"
+            },
+            {
+              "op": "sum",
+              "field": "import_record",
+              "as": "import_count"
+            }
+          ],
+          "groupby": [
+            "country",
+            "longitude",
+            "latitude"
+          ]
+        },
+        {
+          "calculate": "datum.export_count > 0 && datum.import_count > 0 ? 'Import and export' : datum.export_count > 0 ? 'Export only' : 'Import only'",
+          "as": "trade_role"
+        }
+      ],
       "mark": {
         "type": "circle",
-        "size": 58,
-        "fill": "#1F4C78",
+        "size": 115,
         "stroke": "#FFFFFF",
-        "strokeWidth": 1
+        "strokeWidth": 1.6,
+        "opacity": 1
       },
       "encoding": {
         "longitude": {
@@ -187,18 +219,49 @@
           "field": "latitude",
           "type": "quantitative"
         },
+        "color": {
+          "field": "trade_role",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Import and export",
+              "Export only",
+              "Import only"
+            ],
+            "range": [
+              "#274E79",
+              "#138C83",
+              "#C98B34"
+            ]
+          },
+          "legend": {
+            "title": "Country role",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "labelFont": "Inter",
+            "titleFont": "Inter"
+          }
+        },
         "tooltip": [
           {
             "field": "country",
+            "type": "nominal",
             "title": "Country"
           },
           {
-            "field": "role",
-            "title": "Record role"
+            "field": "trade_role",
+            "type": "nominal",
+            "title": "Role in selected records"
           },
           {
-            "field": "year",
-            "title": "Year"
+            "field": "export_count",
+            "type": "quantitative",
+            "title": "Exporting records"
+          },
+          {
+            "field": "import_count",
+            "type": "quantitative",
+            "title": "Importing records"
           }
         ]
       }
@@ -216,5 +279,5 @@
       "labelFont": "Inter"
     }
   },
-  "description": "Atlantic-centred map with schematic SVG Bezier flow links between approximate country centres. Links and arrowheads are a visual overlay; they do not follow shipping routes."
+  "description": "Selected trade-record routes with one marker per country. Country roles are aggregated across six records; exporting/importing counts are sample record counts, not total Funko trade volumes. Curved schematic SVG routes show recorded direction."
 }
