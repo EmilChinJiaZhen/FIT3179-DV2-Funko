@@ -2021,3 +2021,20 @@ body {
 @media (min-width: 1101px) {
   .chapter--global .funko-map-layout #idiom23 { transform: translateX(45px); }
 }
+
+/* Flow-map quantitative legend, kept right of the map without changing its scale. */
+.story-chart:has(#idiom23) { position: relative; }
+.trade-width-legend { position:absolute; top:90px; right:0; width:145px; padding:11px 9px; background:rgba(250,247,240,.96); border:1px solid #ded4c8; border-radius:10px; display:flex; flex-direction:column; gap:7px; font:11px/1.3 "Inter",Arial,sans-serif; color:#172941; z-index:3; }
+.trade-width-legend strong {font-weight:750;font-size:12px;}
+.trade-width-legend__item { display:flex; align-items:center;gap:7px; white-space:nowrap; }
+.trade-width-legend__item svg { width:58px;height:16px; flex-shrink:0; }
+.trade-width-legend__note { font-size:10px;line-height:1.45;color:#616d7d; }
+.trade-map-tooltip { position:fixed; z-index:99999; pointer-events:none; width:260px; max-width:calc(100vw - 24px); background:#fffaf3; border:1px solid #ded3c7; box-shadow:0 15px 35px rgba(22,32,48,.17); border-radius:12px; padding:14px 16px; color:#132341; font-family:"Inter",Arial,sans-serif; }
+.trade-map-tooltip[hidden] { display:none!important; }
+.trade-map-tooltip__eyebrow { font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#94716b; margin:0 0 5px; }
+.trade-map-tooltip__title { font-size:16px; font-weight:800;line-height:1.3;margin:0 0 9px; }
+.trade-map-tooltip__stat-row { display:flex;gap:10px;justify-content:space-between;padding:7px 0;border-top:1px solid #eee5da; font-size:12px; }
+.trade-map-tooltip__stat-row b { color:#1f4c78; font-size:14px; }
+.trade-map-tooltip__muted { font-size:11px;color:#697080;line-height:1.55; margin-top:9px; }
+.trade-map-tooltip__route { color:#B84850; }
+@media(max-width:900px){.trade-width-legend{position:static; width:100%; max-width:400px; margin:4px 0 0; flex-direction:row;flex-wrap:wrap;align-items:center;}.trade-width-legend__note{width:100%;}}
