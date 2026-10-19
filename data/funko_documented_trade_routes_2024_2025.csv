@@ -1,0 +1,7 @@
+route_id,year,example_date,exporting_country,importing_country,origin_longitude,origin_latitude,destination_longitude,destination_latitude,example_product,source_url
+"R1","2024","2024-01-29","Malaysia","United States","102","4","-98","39","Funko Marvel What If POP Vinyl Figure The Watcher","https://www.volza.com/p/pop/export/export-from-malaysia/hsn-code-95030099/"
+"R2","2024","2024-12-07","United States","Costa Rica","-98","39","-84","10","Funko Pop action figure","https://www.volza.com/p/popping/hsn-code-9503003900/import-data/"
+"R3","2025","2025-05-30","Vietnam","United States","108","16","-98","39","Funko Pop & Buddy: Wild Robot","https://www.volza.com/p/pop-set/hsn-code-9503/import-data/imports-in-united-states/"
+"R4","2025","2025-04-17","United States","Malaysia","-98","39","102","4","Funko Pop Games Overwatch Reaper","https://www.volza.com/p/popping/hsn-code-39264000/import-data/origin-united-states/"
+"R5","2025","2025-06-16","United States","Bolivia","-98","39","-64","-17","Funko Pop Mecha Freddy Figure #1004","https://www.volza.com/p/pop-or-mobile/hsn-code-9503/import-data/origin-united-states/"
+"R6","2025","2025-04-29","United States","Costa Rica","-98","39","-84","10","Funko Pop Parks & Recreation 2-pack","https://www.volza.com/p/pop/export-data/exports-from-united-states/"
