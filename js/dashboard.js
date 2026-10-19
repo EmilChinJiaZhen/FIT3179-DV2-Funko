@@ -81,7 +81,7 @@ document.getElementById("global-product-reset")?.addEventListener("click", () =>
 
 // Screen-space flows deliberately use a schematic arc rather than a geographic
 // great-circle: an Atlantic-centred world cannot show a continuous Pacific route.
-function setupAtlanticTradeFlows(container, spec) {
+function setupAtlanticTradeFlows(container, spec, view) {
   const base = container.querySelector("svg.marks");
   const records = spec.layer.find(layer => layer.data?.values?.some(v => v.route_id && v.role))?.data?.values;
   if (!base || !records) return;
@@ -99,6 +99,43 @@ function setupAtlanticTradeFlows(container, spec) {
     if (!routes.has(key)) routes.set(key,{from:pair.from,to:pair.to,count:0});
     routes.get(key).count++;
   }
+  const countryStats = new Map();
+  for (const row of records) {
+    if (!countryStats.has(row.country)) countryStats.set(row.country, {imports:0,exports:0});
+    const entry=countryStats.get(row.country);
+    if (row.role === "Importing country") entry.imports++;
+    else entry.exports++;
+  }
+  const tip=document.createElement("div");
+  tip.className="trade-map-tooltip";
+  tip.hidden=true;
+  tip.setAttribute("role","tooltip");
+  document.body.appendChild(tip);
+  const escapeText = value => String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  const positionTip = event => {
+    const x=event.clientX,y=event.clientY;
+    const left=Math.max(12,Math.min(window.innerWidth-274,x+18));
+    const top=(y+18+tip.offsetHeight>window.innerHeight) ? Math.max(12,y-tip.offsetHeight-14):y+18;
+    tip.style.left=left+"px";tip.style.top=top+"px";
+  };
+  const showCountry = (country,event) => {
+    const counts=countryStats.get(country);
+    if(!counts)return;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Based on the selected documented examples, not total national trade.</div>`;
+    tip.hidden=false;positionTip(event);
+  };
+  const showRoute = (route,event) => {
+    const from=route.from.country,to=route.to.country;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Sample records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Line width represents the number of selected records for this country pair, not product units or shipment value.</div>`;
+    tip.hidden=false;positionTip(event);
+  };
+  const hideTip=()=>{tip.hidden=true;};
+  view.addEventListener("mousemove",(event,item)=>{
+    const country=item?.datum?.country;
+    if(typeof country==="string" && countryStats.has(country))showCountry(country,event);
+    else hideTip();
+  });
+  view.addEventListener("mouseout",hideTip);
   const overlay = document.createElementNS(ns,"svg");
   overlay.setAttribute("viewBox",`0 0 ${width} ${height}`);
   overlay.setAttribute("preserveAspectRatio","none");
@@ -155,6 +192,15 @@ function setupAtlanticTradeFlows(container, spec) {
     title.textContent=key+" — "+r.count+" selected record"+(r.count===1?"":"s");
     path.appendChild(title);
     overlay.appendChild(path);
+    const hit=document.createElementNS(ns,"path");
+    hit.setAttribute("d",path.getAttribute("d"));
+    hit.setAttribute("fill","none");
+    hit.setAttribute("stroke","transparent");
+    hit.setAttribute("stroke-width",String(Math.max(13,8+1.65*r.count)));
+    hit.style.pointerEvents="stroke";
+    hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(r,e);});
+    hit.addEventListener("mouseleave",hideTip);
+    overlay.appendChild(hit);
   }
   for(const arrow of arrowheads) overlay.appendChild(arrow);
   const align=()=>{const cr=base.getBoundingClientRect(),pr=wrapper.getBoundingClientRect();overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";overlay.style.width=cr.width+"px";overlay.style.height=cr.height+"px";};
@@ -294,8 +340,8 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
-    if (selector === "#idiom23") setupAtlanticTradeFlows(container, spec);
+    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19","#idiom23"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
+    if (selector === "#idiom23") setupAtlanticTradeFlows(container, spec, embedResult.view);
     if (selector === "#idiom20") setupSalesStory(embedResult.view);
     if (selector === "#idiom21") setupRegionStory(embedResult.view);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
