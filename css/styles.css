@@ -2127,3 +2127,7 @@ body {
 #trade-nav-region {box-sizing:border-box;width:145px;min-width:145px;max-width:145px;padding-right:25px;font-weight:400;}
 .trade-map-navigation label:has(#trade-nav-region) {font-weight:400;}
 .map-event__country {display:block;font-size:12px;margin-top:5px;}
+
+/* Keep the event map's location-type filters beside its findings. */
+.event-location-story {flex-direction:column;align-items:flex-start;gap:7px;margin-top:22px;}
+.event-location-story .sales-story__actions {width:100%;}
