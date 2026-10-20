@@ -2117,10 +2117,6 @@ body {
   }
 }
 
-/* Trade origins: reuse the regional palette and the existing compact dashboard controls. */
-.trade-focus-controls{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:18px;}
-.trade-focus-label{width:100%;font:600 12px/1.4 "Inter",Arial,sans-serif;color:#4a5873;}
-.trade-focus-button{border:1px solid #bfc9d6;border-radius:8px;background:transparent;color:#263c5c;padding:7px 10px;font:600 12px "Inter",Arial,sans-serif;cursor:pointer;}
-.trade-focus-button:hover{background:#ebe7f2;}
-.trade-focus-button[aria-pressed="true"]{border-color:#8060bb;background:#eee9f5;color:#4e3a86;}
-.trade-focus-button:focus-visible{outline:2px solid #8060bb;outline-offset:2px;}
+/* Trade-flow story controls reuse the shared Explore key moments button design. */
+.trade-focus-controls{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:12px;}
+.trade-focus-controls .sales-story__actions{display:flex;flex-wrap:wrap;gap:7px;}
