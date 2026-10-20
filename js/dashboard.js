@@ -986,10 +986,7 @@ function setupMapTooltip(view, selector) {
     if(key!==previous) {
       previous=key;tip.replaceChildren();
       const heading=add(tip,"strong",label,"map-info-tooltip__heading");
-      if(selector==="#idiom09"){
-        // The event itself stays the heading; its country receives the regional colour.
-        colourCountry(heading,d.Country,d.Region);
-      } else colourCountry(heading,label,d.Region||d.properties?.CONTINENT);
+      if(selector!=="#idiom09")colourCountry(heading,label,d.Region||d.properties?.CONTINENT);
       if(selector==="#idiom08") {
         const val=Number(d.Interest);
         if(!Number.isFinite(val)){tip.hidden=true;return;}
