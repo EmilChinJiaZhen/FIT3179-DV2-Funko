@@ -669,8 +669,7 @@
         "stroke": "#FFFFFF",
         "strokeWidth": 1.6,
         "opacity": 1,
-        "fill": "#285C85",
-        "tooltip": null
+        "fill": "#285C85"
       },
       "encoding": {
         "longitude": {
