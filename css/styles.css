@@ -2100,3 +2100,11 @@ body {
   .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-width-legend {grid-column:1;grid-row:3;}
   .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {grid-column:1;grid-row:4;}
 }
+
+/* Trade-flow Vega action dropdown must appear above the adjacent legend and map. */
+.chapter--global .story-chart.funko-map-layout:has(#idiom23) { isolation: auto; overflow: visible; }
+.chapter--global #idiom23 { position: relative; z-index: 40; overflow: visible; }
+.chapter--global #idiom23.vega-embed > details,
+.chapter--global #idiom23 .vega-embed > details { z-index: 1000 !important; }
+.chapter--global #idiom23 .vega-actions { position: relative; z-index: 1001 !important; }
+.chapter--global .story-chart.funko-map-layout:has(#idiom23) > .trade-width-legend { position: relative; z-index: 1; }
