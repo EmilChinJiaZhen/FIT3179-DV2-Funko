@@ -2072,3 +2072,31 @@ body {
   .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-width-legend {grid-column:1;grid-row:2;}
   .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {grid-column:1;grid-row:3;}
 }
+
+/* Flow map: match title order and navigation treatment of the other Place maps. */
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title {
+  grid-column:1 / -1;
+  grid-row:1;
+  margin:0 0 12px;
+  transform:none;
+}
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23 {grid-column:1;grid-row:2;}
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-width-legend {grid-column:2;grid-row:2;}
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
+  grid-column:1 / -1;
+  grid-row:3;
+  display:flex!important;
+  flex-wrap:wrap;
+  align-items:center;
+  width:100%;
+  max-width:100%;
+  gap:10px 15px;
+  margin:14px 0 4px;
+}
+.chapter--global .trade-map-navigation.funko-map-controls input[type="range"] {accent-color:#7251ad;}
+.chapter--global .trade-map-navigation.funko-map-controls .funko-map-control {display:inline-flex;align-items:center;flex-wrap:nowrap;gap:6px;}
+.chapter--global .trade-map-navigation.funko-map-controls .funko-map-reset {background:#fff;}
+@media(max-width:700px) {
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-width-legend {grid-column:1;grid-row:3;}
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {grid-column:1;grid-row:4;}
+}
