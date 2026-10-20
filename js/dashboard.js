@@ -134,6 +134,9 @@ function setupAtlanticTradeFlows(container, spec, view) {
     else if(tooltip.hidden===false)hide();
   });
   view.addEventListener("mouseout",hide);
+  // Hide Vega's automatic bindings: the custom controls below own the same signals.
+  const generatedBindings=container.querySelector(".vega-bindings");
+  if(generatedBindings)generatedBindings.style.display="none";
   const controls=document.querySelector(".trade-map-controls");
   const zoom=controls?.querySelector("#trade-map-zoom");
   const region=controls?.querySelector("#trade-map-region");
@@ -190,8 +193,8 @@ function setupAtlanticTradeFlows(container, spec, view) {
   };
   const refresh=()=>{
     hide();
-    if(zoom)view.signal("tradeZoom",Number(zoom.value));
-    if(region)view.signal("tradeCenter",centers[region.value]||centers.World);
+    if(zoom)view.signal("trade_zoom",Number(zoom.value));
+    if(region)view.signal("trade_pan_center",centers[region.value]||centers.World);
     view.runAsync().then(()=>requestAnimationFrame(draw)).catch(console.error);
     updateZoomLabel();
   };
