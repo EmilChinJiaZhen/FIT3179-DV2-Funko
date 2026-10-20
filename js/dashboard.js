@@ -188,12 +188,12 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const showCountry = (country,event) => {
     const counts=countryStats.get(country);
     if(!counts)return;
-    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Counts cover the documented records in this dataset, not all national trade.</div>`;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Shows the country's recorded importing and exporting activity for Funko-branded products.</div>`;
     tip.hidden=false;positionTip(event);
   };
   const showRoute = (route,event) => {
     const from=route.from.country,to=route.to.country;
-    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Line width represents records in this dataset, not product units or shipment value.</div>`;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Thicker lines indicate more recorded trade activity between the two countries.</div>`;
     tip.hidden=false;positionTip(event);
   };
   const hideTip=()=>{tip.hidden=true;};
