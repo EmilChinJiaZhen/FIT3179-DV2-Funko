@@ -2054,3 +2054,65 @@ body {
 .trade-map-controls button {padding:7px 11px;border-radius:8px;border:1px solid #ac9bd2;color:#624994;background:transparent;font:600 12px "Inter",Arial,sans-serif;cursor:pointer;}
 .trade-map-controls button:hover {background:#eee8f7;}
 @media(max-width:800px) {.chapter--global .trade-map-main {grid-template-columns:minmax(0,1fr);gap:6px;}.chapter--global .trade-map-main .trade-width-legend{width:100%;padding:0;display:flex;flex-direction:row;flex-wrap:wrap;gap:7px 16px;}.chapter--global .trade-map-main .trade-width-legend strong,.chapter--global .trade-map-main .trade-width-legend__note{width:100%;}}
+
+/* Trade-flow row: do not inherit the older two-column map/legend grid.
+   That grid put the map, legend, and controls into tiny independent tracks. */
+.chapter--global .story-chart.funko-map-layout:has(#idiom23) {
+  display:block !important;
+  width:100%;
+  min-width:0;
+  overflow:visible;
+}
+.chapter--global .story-chart.funko-map-layout:has(#idiom23) .trade-map-main {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 136px;
+  gap:22px;
+  align-items:start;
+  width:100%;
+  min-width:0;
+}
+.chapter--global .trade-map-main #idiom23 {
+  width:100%;
+  max-width:none;
+  min-width:0;
+  transform:none !important;
+  overflow:visible;
+}
+.chapter--global .trade-map-main #idiom23 .vega-embed,
+.chapter--global .trade-map-main #idiom23 .vega-embed > div {
+  width:100%;
+  max-width:none;
+}
+.chapter--global .trade-map-main #idiom23 .vega-embed svg.marks {
+  display:block;
+  width:100% !important;
+  max-width:100% !important;
+  height:auto !important;
+}
+.chapter--global .trade-map-main .trade-width-legend {
+  position:static !important;
+  width:136px;
+  padding:56px 0 0;
+  margin:0;
+  background:transparent;
+  border:0;
+}
+.chapter--global .story-chart.funko-map-layout:has(#idiom23) .trade-map-controls {
+  display:flex;
+  width:100%;
+  position:static;
+  margin-top:16px;
+  clear:both;
+}
+@media(max-width:700px) {
+  .chapter--global .story-chart.funko-map-layout:has(#idiom23) .trade-map-main {
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+  }
+  .chapter--global .trade-map-main .trade-width-legend {
+    width:100%;
+    padding:0;
+    flex-direction:row;
+    flex-wrap:wrap;
+  }
+}
