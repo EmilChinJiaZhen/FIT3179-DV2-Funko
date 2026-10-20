@@ -529,23 +529,7 @@
     },
     {
       "name": "event_type_filter",
-      "value": "All",
-      "bind": {
-        "input": "select",
-        "name": "Location type: ",
-        "options": [
-          "All",
-          "Convention",
-          "Store / fan event",
-          "Official Funko store"
-        ],
-        "labels": [
-          "All locations",
-          "Conventions",
-          "Store / fan events",
-          "Official Funko stores"
-        ]
-      }
+      "value": "All"
     },
     {
       "name": "event_pan_center",
