@@ -81,6 +81,35 @@ document.getElementById("global-product-reset")?.addEventListener("click", () =>
 
 // Screen-space flows deliberately use a schematic arc rather than a geographic
 // great-circle: an Atlantic-centred world cannot show a continuous Pacific route.
+// Keep the original, correctly-sized trade-map projection. Unlike bound
+// projection signals, these controls re-embed with literal geographic values.
+// This avoids Vega's projection auto-fit making the map tiny.
+function setupTradeMapControls(container, baseSpec) {
+  const panel=document.getElementById("trade-map-navigation");
+  if(!panel)return;
+  const zoom=panel.querySelector("#trade-nav-zoom");
+  const region=panel.querySelector("#trade-nav-region");
+  const output=panel.querySelector("#trade-nav-value");
+  const reset=panel.querySelector("#trade-nav-reset");
+  const centers={World:[0,0],Americas:[-95,15],Europe:[15,48],"Asia-Pacific":[105,5]};
+  let request=0;
+  const update=async()=>{
+    const thisRequest=++request;
+    if(output)output.textContent=zoom.value+"%";
+    const next=JSON.parse(JSON.stringify(baseSpec));
+    next.projection={type:"equalEarth",scale:94*Number(zoom.value)/100,center:centers[region.value]||[0,0]};
+    try {
+      const result=await vegaEmbed(container,next,{actions:true,renderer:"svg",tooltip:false});
+      if(thisRequest!==request){result.finalize?.();return;}
+      document.querySelectorAll(".trade-map-tooltip").forEach(t=>t.remove());
+      setupAtlanticTradeFlows(container,next,result.view);
+    } catch(err) {console.error("Trade map navigation failed",err);}
+  };
+  zoom.addEventListener("change",update);
+  region.addEventListener("change",update);
+  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";update();});
+}
+
 function setupAtlanticTradeFlows(container, spec, view) {
   const base = container.querySelector("svg.marks");
   const records = spec.layer.find(layer => layer.data?.values?.some(v => v.route_id && v.role))?.data?.values;
@@ -343,7 +372,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
     const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19","#idiom23"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
-    if (selector === "#idiom23") setupAtlanticTradeFlows(container, spec, embedResult.view);
+    if (selector === "#idiom23") { setupAtlanticTradeFlows(container, spec, embedResult.view); setupTradeMapControls(container, spec); }
     if (selector === "#idiom20") setupSalesStory(embedResult.view);
     if (selector === "#idiom21") setupRegionStory(embedResult.view);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
