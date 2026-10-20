@@ -358,7 +358,8 @@ visualisations.forEach(async ([selector, specPath]) => {
       const heading = document.createElement("h4");
       heading.className = "pictogram-chart__title idiom-html-title";
       heading.textContent = Array.isArray(titleText) ? titleText.join(" ") : titleText;
-      container.before(heading);
+      if (selector === "#idiom23") container.parentElement.prepend(heading);
+      else container.before(heading);
 
       const subtitle = title && typeof title === "object" ? title.subtitle : null;
       if (subtitle) {
