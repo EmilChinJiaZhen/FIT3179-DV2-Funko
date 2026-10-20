@@ -955,7 +955,20 @@ function setupMapTooltip(view, selector) {
   tip.setAttribute("role","tooltip");
   tip.hidden=true;
   document.body.appendChild(tip);
-  const colors={"North America":"#5C4FA3","Europe":"#C05792","Asia-Pacific":"#1F8C83"};
+  const colors={"North America":"#5C4FA3","South America":"#5C4FA3","Americas":"#5C4FA3","Europe":"#C05792","Asia":"#1F8C83","Asia-Pacific":"#1F8C83"};
+  const regionOf=(country,region)=>{
+    if(region && colors[region])return region;
+    const c=String(country||"").toLowerCase();
+    if(["united states","usa","canada","mexico","costa rica","brazil","argentina","chile","peru","bolivia","ecuador","colombia"].includes(c))return "Americas";
+    if(["china","vietnam","malaysia","philippines","kazakhstan","japan","india","indonesia","singapore","south korea","thailand","australia","new zealand"].includes(c))return "Asia-Pacific";
+    if(["united kingdom","uk","france","germany","spain","italy","ireland","netherlands","sweden","norway","poland"].includes(c))return "Europe";
+    return null;
+  };
+  const colourCountry=(element,country,region)=>{
+    const area=regionOf(country,region);
+    if(area)element.style.color=colors[area];
+    return area;
+  };
   const add=(parent,tag,txt,cls)=>{
     const el=document.createElement(tag);
     if(cls)el.className=cls;
@@ -972,7 +985,11 @@ function setupMapTooltip(view, selector) {
     const key=selector+"|"+label;
     if(key!==previous) {
       previous=key;tip.replaceChildren();
-      add(tip,"strong",label,"map-info-tooltip__heading");
+      const heading=add(tip,"strong",label,"map-info-tooltip__heading");
+      if(selector==="#idiom09"){
+        // The event itself stays the heading; its country receives the regional colour.
+        colourCountry(heading,d.Country,d.Region);
+      } else colourCountry(heading,label,d.Region||d.properties?.CONTINENT);
       if(selector==="#idiom08") {
         const val=Number(d.Interest);
         if(!Number.isFinite(val)){tip.hidden=true;return;}
@@ -981,7 +998,7 @@ function setupMapTooltip(view, selector) {
         const bar=add(tip,"div","","map-info-tooltip__track");
         const fill=add(bar,"span","","map-info-tooltip__fill");
         fill.style.width=Math.min(100,Math.max(0,val))+"%";
-        tip.style.setProperty("--map-color","#7E57C2");
+        tip.style.setProperty("--map-color","#B36A28");
         add(tip,"small","Relative index, not a percentage of people searching.","map-info-tooltip__muted");
       } else if(selector==="#idiom09") {
         tip.classList.add("map-info-tooltip--event");
@@ -1017,6 +1034,7 @@ function setupMapTooltip(view, selector) {
           row.appendChild(text);
         };
         line("pin",d.Venue||[d.City,d.Country].filter(Boolean).join(", "),d.Venue?[d.City,d.Country].filter(Boolean).join(", "):"");
+        if(d.Country)colourCountry(add(tip,"strong",d.Country,"map-event__country"),d.Country,d.Region);
         line("calendar",d.Dates);
         line("verify",d.Verification);
         add(tip,"p","Funko's participation and event details are shown for the selected location.","map-event__footer");
