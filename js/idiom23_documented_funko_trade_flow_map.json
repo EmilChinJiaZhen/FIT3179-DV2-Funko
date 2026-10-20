@@ -661,6 +661,10 @@
         {
           "calculate": "datum.export_count > 0 && datum.import_count > 0 ? 'Import and export' : datum.export_count > 0 ? 'Export only' : 'Import only'",
           "as": "trade_role"
+        },
+        {
+          "calculate": "indexof(['China','Vietnam','Malaysia','Philippines','Kazakhstan'],datum.country) >= 0 ? 'Asia' : datum.country === 'United Kingdom' ? 'Europe' : 'Americas'",
+          "as": "trade_region"
         }
       ],
       "mark": {
@@ -668,8 +672,7 @@
         "size": 115,
         "stroke": "#FFFFFF",
         "strokeWidth": 1.6,
-        "opacity": 1,
-        "fill": "#285C85"
+        "opacity": 1
       },
       "encoding": {
         "longitude": {
@@ -683,6 +686,23 @@
         "detail": {
           "field": "country",
           "type": "nominal"
+        },
+        "color": {
+          "field": "trade_region",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Asia",
+              "Europe",
+              "Americas"
+            ],
+            "range": [
+              "#1F8C83",
+              "#C05792",
+              "#5C4FA3"
+            ]
+          },
+          "legend": null
         }
       }
     }
