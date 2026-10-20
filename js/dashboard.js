@@ -541,6 +541,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapTooltip(embedResult.view, selector);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupDraggableMap(embedResult.view, container, selector);
     if (["#idiom08","#idiom09","#idiom18"].includes(selector)) setupMapControlPanel(embedResult.view, container, selector);
+    if (selector === "#idiom09") setupEventLocationStory(embedResult.view);
     if (["#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22"].includes(selector)) setupAnalyticsTooltip(embedResult.view, selector);
     if (["#idiom02","#idiom12","#idiom19","#idiom14","#idiom22"].includes(selector)) setupChartClickSelection(embedResult.view, container, selector);
     if (productViewConfig[selector]) registerLinkedProductView(selector, embedResult.view);
@@ -625,6 +626,21 @@ function setupDraggableMap(view, container, selector) {
 
 /* Make Vega-bound zoom/region controls readable and provide a one-click
    reset of zoom, region and drag position without reloading the page. */
+/* Map location-type filter uses the same pill buttons as the other story idioms. */
+function setupEventLocationStory(view) {
+  const buttons=[...document.querySelectorAll("[data-event-location-type]")];
+  if(!buttons.length)return;
+  const sync=()=>{
+    const selected=view.signal("event_type_filter");
+    buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.eventLocationType===selected)));
+  };
+  buttons.forEach(button=>button.addEventListener("click",()=>{
+    const selected=button.dataset.eventLocationType;
+    view.signal("event_type_filter",selected).runAsync().then(sync).catch(console.error);
+  }));
+  sync();
+}
+
 function setupMapControlPanel(view, container, selector) {
   const prefix={"#idiom08":"search","#idiom09":"event","#idiom18":"origin"}[selector];
   if(!prefix)return;
