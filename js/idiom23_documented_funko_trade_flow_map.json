@@ -16,14 +16,27 @@
   },
   "projection": {
     "type": "equalEarth",
-    "rotate": [
-      0,
-      0,
-      0
-    ],
-    "scale": 94
+    "scale": {
+      "expr": "tradeZoom"
+    },
+    "rotate": {
+      "expr": "tradeRotate"
+    }
   },
-  "params": [],
+  "params": [
+    {
+      "name": "tradeZoom",
+      "value": 94
+    },
+    {
+      "name": "tradeRotate",
+      "value": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
   "layer": [
     {
       "data": {
