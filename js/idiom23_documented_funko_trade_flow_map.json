@@ -669,7 +669,8 @@
         "stroke": "#FFFFFF",
         "strokeWidth": 1.6,
         "opacity": 1,
-        "fill": "#285C85"
+        "fill": "#285C85",
+        "tooltip": null
       },
       "encoding": {
         "longitude": {
@@ -679,7 +680,28 @@
         "latitude": {
           "field": "latitude",
           "type": "quantitative"
-        }
+        },
+        "detail": {
+          "field": "country",
+          "type": "nominal"
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "export_count",
+            "type": "quantitative",
+            "title": "Exporting records"
+          },
+          {
+            "field": "import_count",
+            "type": "quantitative",
+            "title": "Importing records"
+          }
+        ]
       }
     }
   ],
