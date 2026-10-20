@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 750,
-  "height": 354,
+  "width": 560,
+  "height": 310,
   "autosize": {
-    "type": "pad",
+    "type": "fit",
     "contains": "padding"
   },
   "background": null,
@@ -16,68 +16,14 @@
   },
   "projection": {
     "type": "equalEarth",
-    "scale": {
-      "expr": "trade_zoom"
-    },
-    "center": {
-      "expr": "trade_pan_center"
-    }
+    "rotate": [
+      0,
+      0,
+      0
+    ],
+    "scale": 94
   },
-  "params": [
-    {
-      "name": "trade_zoom",
-      "value": 130,
-      "bind": {
-        "input": "range",
-        "min": 100,
-        "max": 450,
-        "step": 10,
-        "name": "Zoom: "
-      }
-    },
-    {
-      "name": "trade_center",
-      "value": [
-        0,
-        0
-      ],
-      "bind": {
-        "input": "select",
-        "name": "Map region: ",
-        "options": [
-          [
-            0,
-            0
-          ],
-          [
-            -95,
-            15
-          ],
-          [
-            15,
-            48
-          ],
-          [
-            105,
-            5
-          ]
-        ],
-        "labels": [
-          "World",
-          "Americas",
-          "Europe",
-          "Asia-Pacific"
-        ]
-      }
-    },
-    {
-      "name": "trade_pan_center",
-      "value": [
-        0,
-        0
-      ]
-    }
-  ],
+  "params": [],
   "layer": [
     {
       "data": {
