@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 560,
-  "height": 310,
+  "width": 750,
+  "height": 354,
   "autosize": {
     "type": "pad",
     "contains": "padding"
@@ -19,23 +19,18 @@
     "scale": {
       "expr": "tradeZoom"
     },
-    "rotate": {
-      "expr": "tradeRotate"
-    },
-    "translate": [
-      280,
-      155
-    ]
+    "center": {
+      "expr": "tradeCenter"
+    }
   },
   "params": [
     {
       "name": "tradeZoom",
-      "value": 94
+      "value": 130
     },
     {
-      "name": "tradeRotate",
+      "name": "tradeCenter",
       "value": [
-        0,
         0,
         0
       ]
