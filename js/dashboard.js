@@ -237,14 +237,64 @@ function setupAtlanticTradeFlows(container, spec, view) {
   if(positions.size<2){console.warn("Flow anchors unavailable");}
   // Route-specific lanes: distribute long-haul links to reduce overlapping strokes.
   // This is recomputed from visible anchors when the projection pans or zooms.
-  const routeBend = (route, length) => {
-    const from=route.from.country,to=route.to.country;
-    const lane = from === "China" ? (["Chile","Ecuador","Bolivia","Costa Rica","Mexico"].indexOf(to)+1) :
-      from === "Vietnam" ? (["Peru","United Kingdom","United States","Philippines"].indexOf(to)+1) :
-      from === "United States" ? (["Malaysia","Costa Rica","Bolivia","Ecuador"].indexOf(to)+1) : 0;
-    const spread = lane > 0 ? (lane-3)*12 : 0;
-    return Math.max(12,Math.min(105,Math.max(20,length*.17)+spread));
+  // Choose moderate curve lanes that minimise crossings and crowding in the
+  // *current projected map*. Re-run on pan/zoom so endpoints stay attached.
+  const planRouteBends = points => {
+    const candidates = [...routes.values()].filter(r=>points.has(r.from.country)&&points.has(r.to.country));
+    const sampleCurve = (route,bend) => {
+      const [x1,y1]=points.get(route.from.country),[x2,y2]=points.get(route.to.country);
+      const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L;
+      const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend],p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
+      return Array.from({length:13},(_,i)=>{
+        const t=i/12,u=1-t;
+        return [u*u*u*x1+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*x2,
+          u*u*u*y1+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*y2];
+      });
+    };
+    const segmentCrosses=(a,b,c,d)=>{
+      const cross=(p,q,r)=>(q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0]);
+      const e=cross(a,b,c),f=cross(a,b,d),g=cross(c,d,a),h=cross(c,d,b);
+      return e*f<0 && g*h<0;
+    };
+    const penalty=(a,b)=>{
+      let score=0;
+      // Do not penalise intersections close to the common origin/destination.
+      for(let i=1;i<11;i++)for(let j=1;j<11;j++){
+        if(segmentCrosses(a[i],a[i+1],b[j],b[j+1]))score+=85;
+        const mx=(a[i][0]+a[i+1][0])/2,my=(a[i][1]+a[i+1][1])/2;
+        const nx=(b[j][0]+b[j+1][0])/2,ny=(b[j][1]+b[j+1][1])/2;
+        const d=Math.hypot(mx-nx,my-ny);
+        if(d<13)score+=(13-d)*.65;
+      }
+      return score;
+    };
+    // Give thick/high-count links their lanes first; keep order deterministic.
+    candidates.sort((a,b)=>b.count-a.count || (a.from.country+"-"+a.to.country).localeCompare(b.from.country+"-"+b.to.country));
+    const chosen=[],result=new Map();
+    for(const route of candidates){
+      const p=points.get(route.from.country),q=points.get(route.to.country);
+      const L=Math.hypot(q[0]-p[0],q[1]-p[1]);
+      const base=Math.min(72,Math.max(17,L*.15));
+      // Signed curves are considered on both sides, but extreme detours cost more.
+      const options=[base,-base,base+19,-base-19,base+38,-base-38,0];
+      let best=options[0],bestScore=Infinity,bestSamples=null;
+      for(const offset of options){
+        const samples=sampleCurve(route,offset);
+        let score=Math.abs(offset)*.24 + (offset===0?10:0);
+        for(const prior of chosen){
+          score+=penalty(samples,prior.samples);
+          // Separate same origin-destination routes in opposite directions.
+          if(prior.route.from.country===route.to.country && prior.route.to.country===route.from.country
+             && Math.sign(offset)===-Math.sign(prior.offset))score+=30;
+        }
+        if(score<bestScore){bestScore=score;best=offset;bestSamples=samples;}
+      }
+      result.set(route,best);
+      chosen.push({route,offset:best,samples:bestSamples});
+    }
+    return result;
   };
+  const initialBends=planRouteBends(positions);
   // Opposite directions take opposite curve lanes, while parallel records share one line.
   for(const [key,r] of routes) {
     if(!positions.has(r.from.country)||!positions.has(r.to.country))continue;
@@ -255,7 +305,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
     // Use the same signed offset in each route's OWN travel direction.
     // Reversing a route reverses its perpendicular, placing Malaysia → US
     // and US → Malaysia on opposite sides rather than on top of each other.
-    const bend=routeBend(r,dist);
+    const bend=initialBends.get(r) ?? 0;
     const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend];
     const p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
     const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1;
@@ -307,11 +357,12 @@ function setupAtlanticTradeFlows(container, spec, view) {
       if(b.width<2||b.height<2||b.width>40||b.height>40)continue;
       points.set(country,[(b.left+b.width/2-rect.left)/rect.width*width,(b.top+b.height/2-rect.top)/rect.height*height]);
     }
-    // Existing geometry only recalculated for visible endpoint pairs.
+    // Recompute route lanes from the updated projection.
+    const bends=planRouteBends(points);
     for(const route of routes.values()){
       if(!points.has(route.from.country)||!points.has(route.to.country))continue;
       const [x1,y1]=points.get(route.from.country),[x2,y2]=points.get(route.to.country);
-      const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L,bend=routeBend(route,L);
+      const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L,bend=bends.get(route) ?? 0;
       const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend],p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
       const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1,ux=vx/vlen,uy=vy/vlen;
       const tx=x2-11*ux,ty=y2-11*uy,bx=tx-7*ux,by=ty-7*uy;
