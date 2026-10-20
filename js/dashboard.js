@@ -140,8 +140,8 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const filter=controls?.querySelector("#trade-map-filter");
   const reset=controls?.querySelector("#trade-map-reset");
   const output=controls?.querySelector("#trade-map-zoom-value");
-  const rotation={World:[0,0,0],Americas:[95,-10,0],Europe:[-15,-43,0],"Asia-Pacific":[-110,-7,0]};
-  const updateZoomLabel=()=>{if(output&&zoom)output.textContent=Math.round(Number(zoom.value)/94*100)+"%";};
+  const centers={World:[0,0],Americas:[-95,15],Europe:[15,48],"Asia-Pacific":[105,5]};
+  const updateZoomLabel=()=>{if(output&&zoom)output.textContent=Math.round(Number(zoom.value)/130*100)+"%";};
   const align=()=>{
     const cr=base.getBoundingClientRect(),pr=root.getBoundingClientRect();
     overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";
@@ -191,7 +191,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const refresh=()=>{
     hide();
     if(zoom)view.signal("tradeZoom",Number(zoom.value));
-    if(region)view.signal("tradeRotate",rotation[region.value]||rotation.World);
+    if(region)view.signal("tradeCenter",centers[region.value]||centers.World);
     view.runAsync().then(()=>requestAnimationFrame(draw)).catch(console.error);
     updateZoomLabel();
   };
@@ -199,7 +199,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
   region?.addEventListener("change",refresh);
   filter?.addEventListener("change",()=>{hide();draw();});
   reset?.addEventListener("click",()=>{
-    if(zoom)zoom.value="94";
+    if(zoom)zoom.value="130";
     if(region)region.value="World";
     if(filter)filter.value="1";
     refresh();
