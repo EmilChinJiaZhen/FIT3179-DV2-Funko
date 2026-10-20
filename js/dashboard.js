@@ -93,22 +93,58 @@ function setupTradeMapControls(container, baseSpec) {
   const reset=panel.querySelector("#trade-nav-reset");
   const filter=panel.querySelector("#trade-nav-filter");
   const centers={World:[0,0],Americas:[-95,15],Europe:[15,48],"Asia-Pacific":[105,5]};
-  let request=0;
+  let center=[0,0],request=0;
+  const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+  const attachDrag=()=>{
+    const svg=container.querySelector("svg.marks");
+    if(!svg)return;
+    svg.classList.add("draggable-funko-map");
+    let drag=null;
+    svg.addEventListener("pointerdown",event=>{
+      if(event.button!==0||!event.isPrimary)return;
+      drag={id:event.pointerId,x:event.clientX,y:event.clientY,center:[...center]};
+      svg.setPointerCapture(event.pointerId);
+      svg.classList.add("is-dragging");
+      event.preventDefault();
+    });
+    svg.addEventListener("pointermove",event=>{
+      if(!drag||event.pointerId!==drag.id)return;
+      const scale=94*Number(zoom.value)/100;
+      const factor=180/(Math.PI*scale);
+      const rect=svg.getBoundingClientRect();
+      const pixelRatio=Number(baseSpec.width)/Math.max(1,rect.width);
+      center=[clamp(drag.center[0]-(event.clientX-drag.x)*factor*pixelRatio,-180,180),
+              clamp(drag.center[1]+(event.clientY-drag.y)*factor*pixelRatio,-80,80)];
+      event.preventDefault();
+    });
+    const finish=event=>{
+      if(!drag||event.pointerId!==drag.id)return;
+      const changed=Math.hypot(event.clientX-drag.x,event.clientY-drag.y)>3;
+      drag=null;
+      svg.classList.remove("is-dragging");
+      if(svg.hasPointerCapture(event.pointerId))svg.releasePointerCapture(event.pointerId);
+      if(changed)update();
+    };
+    svg.addEventListener("pointerup",finish);
+    svg.addEventListener("pointercancel",finish);
+  };
   const update=async()=>{
-    const thisRequest=++request;
+    const sequence=++request;
     if(output)output.textContent=zoom.value+"%";
     const next=JSON.parse(JSON.stringify(baseSpec));
-    next.projection={type:"equalEarth",scale:94*Number(zoom.value)/100,center:centers[region.value]||[0,0]};
-    try {
+    next.projection={type:"equalEarth",scale:94*Number(zoom.value)/100,center:[...center]};
+    try{
       const result=await vegaEmbed(container,next,{actions:true,renderer:"svg",tooltip:false});
-      if(thisRequest!==request){result.finalize?.();return;}
+      if(sequence!==request){result.finalize?.();return;}
       document.querySelectorAll(".trade-map-tooltip").forEach(t=>t.remove());
       setupAtlanticTradeFlows(container,next,result.view);
-    } catch(err) {console.error("Trade map navigation failed",err);}
+      attachDrag();
+    }catch(err){console.error("Trade map navigation failed",err);}
   };
   zoom.addEventListener("change",update);
-  region.addEventListener("change",update);
-  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";if(filter)filter.value="1";update();});
+  region.addEventListener("change",()=>{center=[...(centers[region.value]||[0,0])];update();});
+  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";center=[0,0];if(filter)filter.value="1";update();});
+  attachDrag();
 }
 
 function setupAtlanticTradeFlows(container, spec, view) {
@@ -178,10 +214,11 @@ function setupAtlanticTradeFlows(container, spec, view) {
   });
   view.addEventListener("mouseout",hideTip);
   const overlay = document.createElementNS(ns,"svg");
+  overlay.classList.add("atlantic-trade-flows");
   overlay.setAttribute("viewBox",`0 0 ${width} ${height}`);
   overlay.setAttribute("preserveAspectRatio","none");
   overlay.setAttribute("aria-label","Directional example trade links; width represents record count");
-  overlay.style.cssText="position:absolute;pointer-events:none;overflow:visible;z-index:2;";
+  overlay.style.cssText="position:absolute;pointer-events:none;overflow:hidden;z-index:2;";
   const wrapper=base.parentElement;
   wrapper.style.position="relative";
   wrapper.appendChild(overlay);
