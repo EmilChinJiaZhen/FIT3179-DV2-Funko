@@ -84,75 +84,57 @@ document.getElementById("global-product-reset")?.addEventListener("click", () =>
 // Keep the original, correctly-sized trade-map projection. Unlike bound
 // projection signals, these controls re-embed with literal geographic values.
 // This avoids Vega's projection auto-fit making the map tiny.
-function setupTradeMapControls(container, baseSpec) {
+function setupTradeMapControls(container, view, flow) {
   const panel=document.getElementById("trade-map-navigation");
   if(!panel)return;
-  const zoom=panel.querySelector("#trade-nav-zoom");
-  const region=panel.querySelector("#trade-nav-region");
-  const output=panel.querySelector("#trade-nav-value");
-  const reset=panel.querySelector("#trade-nav-reset");
+  const zoom=panel.querySelector("#trade-nav-zoom"),region=panel.querySelector("#trade-nav-region");
+  const output=panel.querySelector("#trade-nav-value"),reset=panel.querySelector("#trade-nav-reset");
   const filter=panel.querySelector("#trade-nav-filter");
   const centers={World:[0,0],Americas:[-95,15],Europe:[15,48],"Asia-Pacific":[105,5]};
-  let center=[0,0],request=0;
   const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
-  const attachDrag=()=>{
-    const svg=container.querySelector("svg.marks");
-    if(!svg)return;
-    svg.classList.add("draggable-funko-map");
-    let drag=null;
-    svg.addEventListener("pointerdown",event=>{
-      if(event.button!==0||!event.isPrimary)return;
-      drag={id:event.pointerId,x:event.clientX,y:event.clientY,center:[...center],startRect:svg.getBoundingClientRect(),overlay:container.querySelector("svg.atlantic-trade-flows")};
-      svg.setPointerCapture(event.pointerId);
-      svg.classList.add("is-dragging");
-      event.preventDefault();
+  const svg=container.querySelector("svg.marks");
+  if(!svg)return;
+  svg.classList.add("draggable-funko-map");
+  let drag=null, pending=null, frame=null, running=false;
+  const queue=()=>{
+    if(frame!==null)return;
+    frame=requestAnimationFrame(async()=>{
+      frame=null;
+      if(running||!pending)return;
+      running=true;
+      const next=pending;pending=null;
+      try {
+        view.signal("trade_pan_center",next.center);
+        view.signal("trade_zoom",next.scale);
+        await view.runAsync();
+        flow.redraw();
+      } catch(e){console.error("Trade map update failed",e);}
+      finally{running=false;if(pending)queue();}
     });
-    svg.addEventListener("pointermove",event=>{
-      if(!drag||event.pointerId!==drag.id)return;
-      const scale=94*Number(zoom.value)/100;
-      const factor=180/(Math.PI*scale);
-      const rect=drag.startRect;
-      const pixelRatio=Number(baseSpec.width)/Math.max(1,rect.width);
-      const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
-      center=[clamp(drag.center[0]-dx*factor*pixelRatio,-180,180),
-              clamp(drag.center[1]+dy*factor*pixelRatio,-80,80)];
-      // Smooth visual preview: move the map AND the flow overlay together.
-      // Commit the new geographic centre once on pointer release.
-      svg.style.transform=`translate(${dx}px, ${dy}px)`;
-      if(drag.overlay)drag.overlay.style.transform=`translate(${dx}px, ${dy}px)`;
-      event.preventDefault();
-    });
-    const finish=event=>{
-      if(!drag||event.pointerId!==drag.id)return;
-      const changed=Math.hypot(event.clientX-drag.x,event.clientY-drag.y)>3;
-      const ended=drag;
-      drag=null;
-      svg.classList.remove("is-dragging");
-      // Keep the translated preview visible until the re-render completes.
-      if(svg.hasPointerCapture(event.pointerId))svg.releasePointerCapture(event.pointerId);
-      if(changed)update();
-      else {svg.style.transform="";if(ended.overlay)ended.overlay.style.transform="";}
-    };
-    svg.addEventListener("pointerup",finish);
-    svg.addEventListener("pointercancel",finish);
   };
-  const update=async()=>{
-    const sequence=++request;
+  const apply=()=>{
     if(output)output.textContent=zoom.value+"%";
-    const next=JSON.parse(JSON.stringify(baseSpec));
-    next.projection={type:"equalEarth",scale:94*Number(zoom.value)/100,center:[...center]};
-    try{
-      const result=await vegaEmbed(container,next,{actions:true,renderer:"svg",tooltip:false});
-      if(sequence!==request){result.finalize?.();return;}
-      document.querySelectorAll(".trade-map-tooltip").forEach(t=>t.remove());
-      setupAtlanticTradeFlows(container,next,result.view);
-      attachDrag();
-    }catch(err){console.error("Trade map navigation failed",err);}
+    pending={center:view.signal("trade_pan_center"),scale:94*Number(zoom.value)/100};
+    queue();
   };
-  zoom.addEventListener("change",update);
-  region.addEventListener("change",()=>{center=[...(centers[region.value]||[0,0])];update();});
-  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";center=[0,0];if(filter)filter.value="1";update();});
-  attachDrag();
+  svg.addEventListener("pointerdown",event=>{
+    if(event.button!==0||!event.isPrimary)return;
+    drag={id:event.pointerId,x:event.clientX,y:event.clientY,center:[...view.signal("trade_pan_center")]};
+    svg.setPointerCapture(event.pointerId);svg.classList.add("is-dragging");event.preventDefault();
+  });
+  svg.addEventListener("pointermove",event=>{
+    if(!drag||event.pointerId!==drag.id)return;
+    const rect=svg.getBoundingClientRect(),factor=180/(Math.PI*(94*Number(zoom.value)/100));
+    const ratio=Number(view.width())/Math.max(rect.width,1);
+    const center=[clamp(drag.center[0]-(event.clientX-drag.x)*factor*ratio,-180,180),
+                  clamp(drag.center[1]+(event.clientY-drag.y)*factor*ratio,-85,85)];
+    pending={center,scale:94*Number(zoom.value)/100};queue();event.preventDefault();
+  });
+  const stop=event=>{if(!drag||event.pointerId!==drag.id)return;drag=null;svg.classList.remove("is-dragging");if(svg.hasPointerCapture(event.pointerId))svg.releasePointerCapture(event.pointerId);};
+  svg.addEventListener("pointerup",stop);svg.addEventListener("pointercancel",stop);
+  zoom.addEventListener("input",apply);
+  region.addEventListener("change",()=>{pending={center:centers[region.value]||centers.World,scale:94*Number(zoom.value)/100};queue();});
+  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";if(filter)filter.value="1";flow.applyFilter();pending={center:[0,0],scale:94};queue();apply();});
 }
 
 function setupAtlanticTradeFlows(container, spec, view) {
@@ -242,7 +224,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
     if(b.width<2||b.height<2||b.width>40||b.height>40)continue;
     positions.set(country,[(b.left+b.width/2-rect.left)/rect.width*width,(b.top+b.height/2-rect.top)/rect.height*height]);
   }
-  if(positions.size<2){console.warn("Flow anchors unavailable");return;}
+  if(positions.size<2){console.warn("Flow anchors unavailable");}
   // Opposite directions take opposite curve lanes, while parallel records share one line.
   for(const [key,r] of routes) {
     if(!positions.has(r.from.country)||!positions.has(r.to.country))continue;
@@ -293,10 +275,43 @@ function setupAtlanticTradeFlows(container, spec, view) {
   }
   for(const arrow of arrowheads) overlay.appendChild(arrow);
   applyRouteFilter();
+  const redraw=()=>{
+    const rect=base.getBoundingClientRect();
+    // Rebuild paths after Vega updates the projection, without moving the SVG
+    // beyond the map viewport or recreating the chart.
+    for(const el of routeElements.flatMap(r=>[r.line,r.hit,r.arrow]))el.remove();
+    routeElements.length=0;
+    const points=new Map();
+    for(const node of base.querySelectorAll("path[aria-label],circle[aria-label],symbol[aria-label]")){
+      const label=(node.getAttribute("aria-label")||"").toLowerCase();
+      const country=[...new Set(records.map(r=>r.country))].find(c=>label.includes("country: "+c.toLowerCase()));
+      if(!country)continue;
+      const b=node.getBoundingClientRect();
+      if(b.width<2||b.height<2||b.width>40||b.height>40)continue;
+      points.set(country,[(b.left+b.width/2-rect.left)/rect.width*width,(b.top+b.height/2-rect.top)/rect.height*height]);
+    }
+    // Existing geometry only recalculated for visible endpoint pairs.
+    for(const route of routes.values()){
+      if(!points.has(route.from.country)||!points.has(route.to.country))continue;
+      const [x1,y1]=points.get(route.from.country),[x2,y2]=points.get(route.to.country);
+      const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L,bend=Math.min(95,Math.max(25,L*.19));
+      const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend],p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
+      const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1,ux=vx/vlen,uy=vy/vlen;
+      const tx=x2-11*ux,ty=y2-11*uy,bx=tx-7*ux,by=ty-7*uy;
+      const d=`M${x1},${y1} C${p1[0]},${p1[1]} ${p2[0]},${p2[1]} ${bx},${by}`;
+      const line=document.createElementNS(ns,"path");line.setAttribute("d",d);line.setAttribute("fill","none");line.setAttribute("stroke","#C55358");line.setAttribute("stroke-width",String(Math.min(7.5,1.1+1.65*route.count)));line.setAttribute("opacity",".43");
+      const hit=document.createElementNS(ns,"path");hit.setAttribute("d",d);hit.setAttribute("fill","none");hit.setAttribute("stroke","transparent");hit.setAttribute("stroke-width","14");hit.style.pointerEvents="stroke";hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(route,e);});hit.addEventListener("mouseleave",hideTip);
+      const arrow=document.createElementNS(ns,"path"),half=3.4;arrow.setAttribute("d",`M${tx},${ty} L${bx+half*uy},${by-half*ux} L${bx-half*uy},${by+half*ux} Z`);arrow.setAttribute("fill","#C55358");arrow.setAttribute("opacity",".48");
+      overlay.appendChild(line);overlay.appendChild(hit);overlay.appendChild(arrow);
+      routeElements.push({count:route.count,line,hit,arrow});
+    }
+    applyRouteFilter();
+  };
   const align=()=>{const cr=base.getBoundingClientRect(),pr=wrapper.getBoundingClientRect();overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";overlay.style.width=cr.width+"px";overlay.style.height=cr.height+"px";};
   align();
   if(typeof ResizeObserver!=="undefined")new ResizeObserver(align).observe(base);
   window.addEventListener("resize",align);
+  return {redraw:()=>{align();redraw();},applyFilter:applyRouteFilter};
 }
 
 // Optional story annotations for the annual-sales chart. These emphasise
@@ -432,7 +447,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
     const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19","#idiom23"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
-    if (selector === "#idiom23") { setupAtlanticTradeFlows(container, spec, embedResult.view); setupTradeMapControls(container, spec); }
+    if (selector === "#idiom23") { const flow=setupAtlanticTradeFlows(container, spec, embedResult.view); setupTradeMapControls(container, embedResult.view, flow); }
     if (selector === "#idiom20") setupSalesStory(embedResult.view);
     if (selector === "#idiom21") setupRegionStory(embedResult.view);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
