@@ -2041,3 +2041,13 @@ body {
 
 /* Present the trade-record line legend as unobtrusive labels and examples. */
 .trade-width-legend { background:transparent; border:0; box-shadow:none; padding:4px 0; border-radius:0; }
+
+/* Trade-map navigation: the same compact arrangement used by other Place maps.
+   The original chart width and legend remain untouched. */
+.trade-map-navigation {display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin:10px 0 0;font:600 12px/1.5 "Inter",Arial,sans-serif;color:#263c5c;}
+.trade-map-navigation label{display:flex;align-items:center;gap:7px;}
+.trade-map-navigation input[type=range]{width:105px;accent-color:#8060bb;}
+.trade-map-navigation output{min-width:40px;font-weight:500;color:#4a5873;}
+.trade-map-navigation select{padding:6px 10px;border:1px solid #bdc6d4;border-radius:7px;background:#fffdfa;color:#203452;font:inherit;}
+.trade-map-navigation button{padding:6px 11px;border:1px solid #a895c7;border-radius:8px;background:transparent;color:#624f96;font:600 12px "Inter",Arial,sans-serif;cursor:pointer;}
+.trade-map-navigation button:hover{background:#ede7f4;}
