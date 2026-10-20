@@ -1609,25 +1609,26 @@ body {
   .funko-map-controls {width:100% !important; flex-wrap:wrap;}
 }
 
-/* The event map has four controls: keep them in two tidy rows, never
-   widen the Vega wrapper or clip the final Reset view button. */
+/* Event map now has three controls; keep zoom, region and reset on one row.
+   Use wrapping only when the screen is too narrow to fit them. */
 #idiom09 .funko-map-controls {
-  display: grid !important;
-  grid-template-columns: max-content max-content;
-  justify-content: start;
+  display: flex !important;
+  flex-wrap: nowrap !important;
   align-items: center;
-  column-gap: 16px !important;
-  row-gap: 12px !important;
+  justify-content: flex-start;
+  gap: 10px !important;
   width: min(750px, 100%) !important;
   max-width: 100% !important;
 }
-#idiom09 .funko-map-control--zoom { grid-column: 1; grid-row: 1; }
-#idiom09 .funko-map-control--zoom + .funko-map-control { grid-column: 2; grid-row: 1; }
-#idiom09 .funko-map-control:nth-child(3) { grid-column: 1; grid-row: 2; }
-#idiom09 .funko-map-reset { grid-column: 2; grid-row: 2; justify-self: start; }
-@media (max-width: 600px) {
-  #idiom09 .funko-map-controls { grid-template-columns: 1fr; }
-  #idiom09 .funko-map-controls > * { grid-column: 1 !important; grid-row: auto !important; }
+#idiom09 .funko-map-control--zoom,
+#idiom09 .funko-map-control--select,
+#idiom09 .funko-map-reset {
+  grid-column: auto;
+  grid-row: auto;
+  flex: 0 0 auto;
+}
+@media (max-width: 700px) {
+  #idiom09 .funko-map-controls { flex-wrap: wrap !important; }
 }
 
 /* Franchise-origin map: move Vega's action menu above the legend column,
