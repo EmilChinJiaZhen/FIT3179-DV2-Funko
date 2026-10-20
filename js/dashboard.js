@@ -134,7 +134,7 @@ function setupTradeMapControls(container, view, flow) {
   svg.addEventListener("pointerup",stop);svg.addEventListener("pointercancel",stop);
   zoom.addEventListener("input",apply);
   region.addEventListener("change",()=>{pending={center:centers[region.value]||centers.World,scale:94*Number(zoom.value)/100};queue();});
-  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";if(filter)filter.value="1";flow.applyFilter();pending={center:[0,0],scale:94};queue();apply();});
+  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";if(filter)filter.value="1";flow.applyFilter();if(output)output.textContent="100%";pending={center:[0,0],scale:94};queue();});
 }
 
 function setupAtlanticTradeFlows(container, spec, view) {
