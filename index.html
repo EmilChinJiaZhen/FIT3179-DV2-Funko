@@ -289,23 +289,15 @@
             <p><strong>Data coverage:</strong> These are individual publicly visible trade-record examples, not a complete Funko shipment dataset. Curves connect approximate country centres—not shipping ports or actual transport paths. Line widths encode the number of records in this dataset, not the quantity or value of shipments.</p>
           </aside>
           <div class="story-chart funko-map-layout">
-            <div class="trade-map-main">
-              <div id="idiom23" class="vis-container"></div>
-              <div class="trade-width-legend" aria-label="Trade flow width legend">
-                <strong>Number of records</strong>
-                <span class="trade-width-legend__note">Thicker lines = more records</span>
-                <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="2.75"/></svg><span>1 record</span></div>
-                <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="4.4"/></svg><span>2 records</span></div>
-                <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="6.05"/></svg><span>3 records</span></div>
-                <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="7.5"/></svg><span>4+ records</span></div>
-                <span class="trade-width-legend__note">Schematic connections, not shipping paths</span>
-              </div>
-            </div>
-            <div class="trade-map-controls" aria-label="Trade flow map controls">
-              <label>Zoom: <input id="trade-map-zoom" type="range" min="100" max="450" value="130" step="10"/><output id="trade-map-zoom-value">100%</output></label>
-              <label>Map region: <select id="trade-map-region"><option>World</option><option>Americas</option><option>Europe</option><option>Asia-Pacific</option></select></label>
-              <label>Routes: <select id="trade-map-filter"><option value="1">All routes</option><option value="2">2+ records</option><option value="3">3+ records</option><option value="4">4+ records</option></select></label>
-              <button id="trade-map-reset" type="button">↺ Reset view</button>
+            <div id="idiom23" class="vis-container"></div>
+            <div class="trade-width-legend" aria-label="Trade flow width legend">
+              <strong>Number of records</strong>
+              <span class="trade-width-legend__note">Thicker lines = more records in this dataset</span>
+              <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="2.75"/></svg><span>1 record</span></div>
+              <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="4.4"/></svg><span>2 records</span></div>
+              <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="6.05"/></svg><span>3 records</span></div>
+              <div class="trade-width-legend__item"><svg viewBox="0 0 62 16" aria-hidden="true"><path d="M3 8 H58" stroke="#C55358" stroke-opacity=".43" stroke-width="7.5"/></svg><span>4+ records</span></div>
+              <span class="trade-width-legend__note">Curves show schematic connections, not shipment paths.</span>
             </div>
           </div>
         </article>
