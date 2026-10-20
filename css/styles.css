@@ -2051,3 +2051,24 @@ body {
 .trade-map-navigation select{padding:6px 10px;border:1px solid #bdc6d4;border-radius:7px;background:#fffdfa;color:#203452;font:inherit;}
 .trade-map-navigation button{padding:6px 11px;border:1px solid #a895c7;border-radius:8px;background:transparent;color:#624f96;font:600 12px "Inter",Arial,sans-serif;cursor:pointer;}
 .trade-map-navigation button:hover{background:#ede7f4;}
+
+/* Flow map controls belong on a full-width row below the map and legend. */
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23 { grid-column:1; grid-row:1; }
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-width-legend { grid-column:2; grid-row:1; }
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
+  grid-column:1 / -1;
+  grid-row:2;
+  position:static;
+  width:100%;
+  justify-self:stretch;
+  margin:12px 0 0;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px 18px;
+}
+@media(max-width:700px){
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-width-legend {grid-column:1;grid-row:2;}
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {grid-column:1;grid-row:3;}
+}
