@@ -679,29 +679,7 @@
         "latitude": {
           "field": "latitude",
           "type": "quantitative"
-        },
-        "tooltip": [
-          {
-            "field": "country",
-            "type": "nominal",
-            "title": "Country"
-          },
-          {
-            "field": "trade_role",
-            "type": "nominal",
-            "title": "Role in selected records"
-          },
-          {
-            "field": "export_count",
-            "type": "quantitative",
-            "title": "Exporting records"
-          },
-          {
-            "field": "import_count",
-            "type": "quantitative",
-            "title": "Importing records"
-          }
-        ]
+        }
       }
     }
   ],
