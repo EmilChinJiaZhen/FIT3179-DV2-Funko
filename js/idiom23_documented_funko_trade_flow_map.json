@@ -3,7 +3,7 @@
   "width": 560,
   "height": 310,
   "autosize": {
-    "type": "fit",
+    "type": "pad",
     "contains": "padding"
   },
   "background": null,
@@ -21,7 +21,11 @@
     },
     "rotate": {
       "expr": "tradeRotate"
-    }
+    },
+    "translate": [
+      280,
+      155
+    ]
   },
   "params": [
     {
