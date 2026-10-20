@@ -2108,3 +2108,11 @@ body {
 .chapter--global #idiom23 .vega-embed > details { z-index: 1000 !important; }
 .chapter--global #idiom23 .vega-actions { position: relative; z-index: 1001 !important; }
 .chapter--global .story-chart.funko-map-layout:has(#idiom23) > .trade-width-legend { position: relative; z-index: 1; }
+
+/* Match the 45px desktop sightline of the other Place-map title and controls. */
+@media (min-width: 1101px) {
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title,
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
+    transform: translateX(45px);
+  }
+}
