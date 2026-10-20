@@ -140,11 +140,19 @@ function setupTradeMapControls(container, view, flow) {
 function setupAtlanticTradeFlows(container, spec, view) {
   const routeFilter = document.getElementById("trade-nav-filter");
   const routeElements = [];
+  let activeCountry = null;
+  let activeRoute = null;
   const applyRouteFilter = () => {
     const minimum = Number(routeFilter?.value || 1);
-    for (const {count, line, hit, arrow} of routeElements) {
+    for (const {route, count, line, hit, arrow} of routeElements) {
       const visible = count >= minimum;
+      const highlighted = activeRoute === route || (!activeRoute && activeCountry && (route.from.country === activeCountry || route.to.country === activeCountry));
+      const faded = (activeCountry || activeRoute) && !highlighted;
       for (const element of [line, hit, arrow]) element.style.display = visible ? "" : "none";
+      line.setAttribute("opacity", faded ? ".08" : highlighted ? ".9" : ".36");
+      arrow.setAttribute("opacity", faded ? ".08" : highlighted ? ".92" : ".43");
+      line.setAttribute("stroke-width", String(Math.min(6.3, .9 + 1.35 * count)));
+      hit.style.pointerEvents = visible && !faded ? "stroke" : "none";
     }
   };
   routeFilter?.addEventListener("change", applyRouteFilter);
@@ -189,18 +197,20 @@ function setupAtlanticTradeFlows(container, spec, view) {
     const counts=countryStats.get(country);
     if(!counts)return;
     tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Shows the country's recorded importing and exporting activity for Funko-branded products.</div>`;
+    activeCountry=country;activeRoute=null;applyRouteFilter();
     tip.hidden=false;positionTip(event);
   };
   const showRoute = (route,event) => {
     const from=route.from.country,to=route.to.country;
     tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Thicker lines indicate more recorded trade activity between the two countries.</div>`;
+    activeCountry=null;activeRoute=route;applyRouteFilter();
     tip.hidden=false;positionTip(event);
   };
-  const hideTip=()=>{tip.hidden=true;};
+  const hideTip=()=>{tip.hidden=true;activeCountry=null;activeRoute=null;applyRouteFilter();};
   view.addEventListener("mousemove",(event,item)=>{
     const country=item?.datum?.country;
     if(typeof country==="string" && countryStats.has(country))showCountry(country,event);
-    else hideTip();
+    else if (!activeRoute) hideTip();
   });
   view.addEventListener("mouseout",hideTip);
   const overlay = document.createElementNS(ns,"svg");
@@ -225,6 +235,16 @@ function setupAtlanticTradeFlows(container, spec, view) {
     positions.set(country,[(b.left+b.width/2-rect.left)/rect.width*width,(b.top+b.height/2-rect.top)/rect.height*height]);
   }
   if(positions.size<2){console.warn("Flow anchors unavailable");}
+  // Route-specific lanes: distribute long-haul links to reduce overlapping strokes.
+  // This is recomputed from visible anchors when the projection pans or zooms.
+  const routeBend = (route, length) => {
+    const from=route.from.country,to=route.to.country;
+    const lane = from === "China" ? (["Chile","Ecuador","Bolivia","Costa Rica","Mexico"].indexOf(to)+1) :
+      from === "Vietnam" ? (["Peru","United Kingdom","United States","Philippines"].indexOf(to)+1) :
+      from === "United States" ? (["Malaysia","Costa Rica","Bolivia","Ecuador"].indexOf(to)+1) : 0;
+    const spread = lane > 0 ? (lane-3)*12 : 0;
+    return Math.max(12,Math.min(105,Math.max(20,length*.17)+spread));
+  };
   // Opposite directions take opposite curve lanes, while parallel records share one line.
   for(const [key,r] of routes) {
     if(!positions.has(r.from.country)||!positions.has(r.to.country))continue;
@@ -235,7 +255,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
     // Use the same signed offset in each route's OWN travel direction.
     // Reversing a route reverses its perpendicular, placing Malaysia → US
     // and US → Malaysia on opposite sides rather than on top of each other.
-    const bend=Math.min(95,Math.max(25,dist*.19));
+    const bend=routeBend(r,dist);
     const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend];
     const p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
     const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1;
@@ -258,9 +278,6 @@ function setupAtlanticTradeFlows(container, spec, view) {
     arrow.setAttribute("fill","#C55358");
     arrow.setAttribute("opacity",".48");
     arrowheads.push(arrow);
-    const title=document.createElementNS(ns,"title");
-    title.textContent=key+" — "+r.count+" selected record"+(r.count===1?"":"s");
-    path.appendChild(title);
     overlay.appendChild(path);
     const hit=document.createElementNS(ns,"path");
     hit.setAttribute("d",path.getAttribute("d"));
@@ -271,7 +288,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
     hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(r,e);});
     hit.addEventListener("mouseleave",hideTip);
     overlay.appendChild(hit);
-    routeElements.push({count:r.count,line:path,hit,arrow});
+    routeElements.push({route:r,count:r.count,line:path,hit,arrow});
   }
   for(const arrow of arrowheads) overlay.appendChild(arrow);
   applyRouteFilter();
@@ -294,7 +311,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
     for(const route of routes.values()){
       if(!points.has(route.from.country)||!points.has(route.to.country))continue;
       const [x1,y1]=points.get(route.from.country),[x2,y2]=points.get(route.to.country);
-      const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L,bend=Math.min(95,Math.max(25,L*.19));
+      const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L,bend=routeBend(route,L);
       const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend],p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
       const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1,ux=vx/vlen,uy=vy/vlen;
       const tx=x2-11*ux,ty=y2-11*uy,bx=tx-7*ux,by=ty-7*uy;
@@ -303,7 +320,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
       const hit=document.createElementNS(ns,"path");hit.setAttribute("d",d);hit.setAttribute("fill","none");hit.setAttribute("stroke","transparent");hit.setAttribute("stroke-width","14");hit.style.pointerEvents="stroke";hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(route,e);});hit.addEventListener("mouseleave",hideTip);
       const arrow=document.createElementNS(ns,"path"),half=3.4;arrow.setAttribute("d",`M${tx},${ty} L${bx+half*uy},${by-half*ux} L${bx-half*uy},${by+half*ux} Z`);arrow.setAttribute("fill","#C55358");arrow.setAttribute("opacity",".48");
       overlay.appendChild(line);overlay.appendChild(hit);overlay.appendChild(arrow);
-      routeElements.push({count:route.count,line,hit,arrow});
+      routeElements.push({route,count:route.count,line,hit,arrow});
     }
     applyRouteFilter();
   };
