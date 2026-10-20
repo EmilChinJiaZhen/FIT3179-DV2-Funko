@@ -2121,3 +2121,6 @@ body {
 .chapter--global .trade-map-main #idiom23 .vega-embed > div {display:block;}
 .chapter--global .trade-map-main #idiom23 .vega-embed svg.marks {width:100% !important;height:auto !important;max-width:none !important;}
 .chapter--global .trade-map-main #idiom23 .vega-embed {min-width:0;}
+
+/* Do not display duplicated native Vega bindings for the flow map. */
+#idiom23 .vega-bindings {display:none!important;}
