@@ -82,135 +82,133 @@ document.getElementById("global-product-reset")?.addEventListener("click", () =>
 // Screen-space flows deliberately use a schematic arc rather than a geographic
 // great-circle: an Atlantic-centred world cannot show a continuous Pacific route.
 function setupAtlanticTradeFlows(container, spec, view) {
-  const base=container.querySelector("svg.marks");
-  const records=spec.layer.find(layer=>layer.data?.values?.some(v=>v.route_id&&v.role))?.data?.values;
-  if(!base||!records)return;
-  const ns="http://www.w3.org/2000/svg",width=Number(spec.width),height=Number(spec.height);
-  const endpointPairs=new Map(),countryStats=new Map(),countries=new Set();
-  for(const record of records){
-    countries.add(record.country);
-    if(!endpointPairs.has(record.route_id))endpointPairs.set(record.route_id,{});
-    endpointPairs.get(record.route_id)[record.role==="Exporting country"?"from":"to"]=record;
-    if(!countryStats.has(record.country))countryStats.set(record.country,{imports:0,exports:0});
-    countryStats.get(record.country)[record.role==="Exporting country"?"exports":"imports"]++;
+  const base = container.querySelector("svg.marks");
+  const records = spec.layer.find(layer => layer.data?.values?.some(v => v.route_id && v.role))?.data?.values;
+  if (!base || !records) return;
+  const width = Number(spec.width), height = Number(spec.height);
+  const ns = "http://www.w3.org/2000/svg";
+  const endpoints = new Map();
+  for (const rec of records) {
+    if (!endpoints.has(rec.route_id)) endpoints.set(rec.route_id, {});
+    endpoints.get(rec.route_id)[rec.role === "Exporting country" ? "from" : "to"] = rec;
   }
-  const routes=new Map();
-  for(const pair of endpointPairs.values()){
-    if(!pair.from||!pair.to)continue;
-    const key=pair.from.country+" → "+pair.to.country;
-    if(!routes.has(key))routes.set(key,{from:pair.from,to:pair.to,count:0});
+  const routes = new Map();
+  for (const pair of endpoints.values()) {
+    if (!pair.from || !pair.to) continue;
+    const key = pair.from.country + " → " + pair.to.country;
+    if (!routes.has(key)) routes.set(key,{from:pair.from,to:pair.to,count:0});
     routes.get(key).count++;
   }
-  const root=base.parentElement;
-  root.style.position="relative";
-  const overlay=document.createElementNS(ns,"svg");
-  overlay.classList.add("atlantic-trade-flows");
-  overlay.setAttribute("viewBox",`0 0 ${width} ${height}`);
-  overlay.setAttribute("preserveAspectRatio","none");
-  overlay.style.cssText="position:absolute;overflow:visible;pointer-events:none;z-index:2;";
-  root.appendChild(overlay);
-  const tooltip=document.createElement("div");
-  tooltip.className="trade-map-tooltip";tooltip.hidden=true;tooltip.setAttribute("role","tooltip");
-  document.body.appendChild(tooltip);
-  const esc=value=>String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
-  const hide=()=>{tooltip.hidden=true;};
-  const move=e=>{
-    const px=e.clientX+18,py=e.clientY+18;
-    tooltip.style.left=Math.max(12,Math.min(window.innerWidth-278,px))+"px";
-    tooltip.style.top=Math.max(12,py+tooltip.offsetHeight>window.innerHeight?e.clientY-tooltip.offsetHeight-14:py)+"px";
+  const countryStats = new Map();
+  for (const row of records) {
+    if (!countryStats.has(row.country)) countryStats.set(row.country, {imports:0,exports:0});
+    const entry=countryStats.get(row.country);
+    if (row.role === "Importing country") entry.imports++;
+    else entry.exports++;
+  }
+  const tip=document.createElement("div");
+  tip.className="trade-map-tooltip";
+  tip.hidden=true;
+  tip.setAttribute("role","tooltip");
+  document.body.appendChild(tip);
+  const escapeText = value => String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  const positionTip = event => {
+    const x=event.clientX,y=event.clientY;
+    const left=Math.max(12,Math.min(window.innerWidth-274,x+18));
+    const top=(y+18+tip.offsetHeight>window.innerHeight) ? Math.max(12,y-tip.offsetHeight-14):y+18;
+    tip.style.left=left+"px";tip.style.top=top+"px";
   };
-  const countryTip=(country,e)=>{
-    const stats=countryStats.get(country);if(!stats)return;
-    tooltip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${esc(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${stats.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${stats.imports}</b></div><div class="trade-map-tooltip__muted">Counts cover records in this dataset, not all national trade.</div>`;
-    tooltip.hidden=false;move(e);
+  const showCountry = (country,event) => {
+    const counts=countryStats.get(country);
+    if(!counts)return;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Counts cover the documented records in this dataset, not all national trade.</div>`;
+    tip.hidden=false;positionTip(event);
   };
-  const routeTip=(route,e)=>{
-    tooltip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Directional trade</p><div class="trade-map-tooltip__title">${esc(route.from.country)} <span class="trade-map-tooltip__route">→</span> ${esc(route.to.country)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Line width encodes records in this dataset, not shipment quantities or value.</div>`;
-    tooltip.hidden=false;move(e);
+  const showRoute = (route,event) => {
+    const from=route.from.country,to=route.to.country;
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Line width represents records in this dataset, not product units or shipment value.</div>`;
+    tip.hidden=false;positionTip(event);
   };
+  const hideTip=()=>{tip.hidden=true;};
   view.addEventListener("mousemove",(event,item)=>{
     const country=item?.datum?.country;
-    if(typeof country==="string"&&countryStats.has(country))countryTip(country,event);
-    else if(tooltip.hidden===false)hide();
+    if(typeof country==="string" && countryStats.has(country))showCountry(country,event);
+    else hideTip();
   });
-  view.addEventListener("mouseout",hide);
-  // Hide Vega's automatic bindings: the custom controls below own the same signals.
-  const generatedBindings=container.querySelector(".vega-bindings");
-  if(generatedBindings)generatedBindings.style.display="none";
-  const controls=document.querySelector(".trade-map-controls");
-  const zoom=controls?.querySelector("#trade-map-zoom");
-  const region=controls?.querySelector("#trade-map-region");
-  const filter=controls?.querySelector("#trade-map-filter");
-  const reset=controls?.querySelector("#trade-map-reset");
-  const output=controls?.querySelector("#trade-map-zoom-value");
-  const centers={World:[0,0],Americas:[-95,15],Europe:[15,48],"Asia-Pacific":[105,5]};
-  const updateZoomLabel=()=>{if(output&&zoom)output.textContent=Math.round(Number(zoom.value)/130*100)+"%";};
-  const align=()=>{
-    const cr=base.getBoundingClientRect(),pr=root.getBoundingClientRect();
-    overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";
-    overlay.style.width=cr.width+"px";overlay.style.height=cr.height+"px";
-  };
-  const draw=()=>{
-    overlay.replaceChildren();
-    align();
-    const positions=new Map(),chart=base.getBoundingClientRect();
-    if(!chart.width||!chart.height)return;
-    for(const node of base.querySelectorAll("path[aria-label],circle[aria-label],symbol[aria-label]")){
-      const label=(node.getAttribute("aria-label")||"").toLowerCase();
-      const country=[...countries].find(c=>label.includes("country: "+c.toLowerCase()));
-      if(!country)continue;
-      const b=node.getBoundingClientRect();
-      if(b.width<2||b.height<2||b.width>45||b.height>45)continue;
-      positions.set(country,[(b.left+b.width/2-chart.left)/chart.width*width,(b.top+b.height/2-chart.top)/chart.height*height]);
-    }
-    const minCount=Number(filter?.value||1),heads=[];
-    for(const route of routes.values()){
-      if(route.count<minCount||!positions.has(route.from.country)||!positions.has(route.to.country))continue;
-      const [x1,y1]=positions.get(route.from.country),[x2,y2]=positions.get(route.to.country);
-      const dx=x2-x1,dy=y2-y1,dist=Math.hypot(dx,dy)||1,nx=-dy/dist,ny=dx/dist;
-      const bend=Math.min(95,Math.max(25,dist*.19));
-      const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend];
-      const p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
-      const vx=x2-p2[0],vy=y2-p2[1],L=Math.hypot(vx,vy)||1,ux=vx/L,uy=vy/L;
-      const tipX=x2-11*ux,tipY=y2-11*uy,baseX=tipX-7*ux,baseY=tipY-7*uy;
-      const d=`M${x1.toFixed(2)},${y1.toFixed(2)} C${p1[0].toFixed(2)},${p1[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)} ${baseX.toFixed(2)},${baseY.toFixed(2)}`;
-      const line=document.createElementNS(ns,"path");
-      line.setAttribute("d",d);line.setAttribute("fill","none");
-      line.setAttribute("stroke","#C55358");line.setAttribute("stroke-width",String(Math.min(7.5,1.1+1.65*route.count)));
-      line.setAttribute("opacity",".43");overlay.appendChild(line);
-      const hit=document.createElementNS(ns,"path");hit.setAttribute("d",d);
-      hit.setAttribute("fill","none");hit.setAttribute("stroke","transparent");
-      hit.setAttribute("stroke-width",String(Math.max(13,8+1.65*route.count)));
-      hit.style.pointerEvents="stroke";
-      hit.addEventListener("mousemove",e=>{e.stopPropagation();routeTip(route,e);});
-      hit.addEventListener("mouseleave",hide);
-      overlay.appendChild(hit);
-      const head=document.createElementNS(ns,"path"),half=3.4;
-      head.setAttribute("d",`M${tipX},${tipY} L${baseX+half*uy},${baseY-half*ux} L${baseX-half*uy},${baseY+half*ux} Z`);
-      head.setAttribute("fill","#C55358");head.setAttribute("opacity",".48");heads.push(head);
-    }
-    for(const head of heads)overlay.appendChild(head);
-  };
-  const refresh=()=>{
-    hide();
-    if(zoom)view.signal("trade_zoom",Number(zoom.value));
-    if(region)view.signal("trade_pan_center",centers[region.value]||centers.World);
-    view.runAsync().then(()=>requestAnimationFrame(draw)).catch(console.error);
-    updateZoomLabel();
-  };
-  zoom?.addEventListener("input",refresh);
-  region?.addEventListener("change",refresh);
-  filter?.addEventListener("change",()=>{hide();draw();});
-  reset?.addEventListener("click",()=>{
-    if(zoom)zoom.value="130";
-    if(region)region.value="World";
-    if(filter)filter.value="1";
-    refresh();
-  });
-  updateZoomLabel();
-  requestAnimationFrame(draw);
-  if(typeof ResizeObserver!=="undefined")new ResizeObserver(()=>requestAnimationFrame(draw)).observe(base);
-  window.addEventListener("resize",()=>requestAnimationFrame(draw));
+  view.addEventListener("mouseout",hideTip);
+  const overlay = document.createElementNS(ns,"svg");
+  overlay.setAttribute("viewBox",`0 0 ${width} ${height}`);
+  overlay.setAttribute("preserveAspectRatio","none");
+  overlay.setAttribute("aria-label","Directional example trade links; width represents record count");
+  overlay.style.cssText="position:absolute;pointer-events:none;overflow:visible;z-index:2;";
+  const wrapper=base.parentElement;
+  wrapper.style.position="relative";
+  wrapper.appendChild(overlay);
+  // Render arrowheads after all flow paths so lines cannot obscure them.
+  const arrowheads=[];
+  const positions=new Map();
+  const rect=base.getBoundingClientRect();
+  for(const node of base.querySelectorAll("path[aria-label],circle[aria-label],symbol[aria-label]")) {
+    const label=(node.getAttribute("aria-label")||"").toLowerCase();
+    const country=[...new Set(records.map(r=>r.country))].find(name=>label.includes("country: "+name.toLowerCase()));
+    if(!country)continue;
+    const b=node.getBoundingClientRect();
+    if(b.width<2||b.height<2||b.width>40||b.height>40)continue;
+    positions.set(country,[(b.left+b.width/2-rect.left)/rect.width*width,(b.top+b.height/2-rect.top)/rect.height*height]);
+  }
+  if(positions.size<2){console.warn("Flow anchors unavailable");return;}
+  // Opposite directions take opposite curve lanes, while parallel records share one line.
+  for(const [key,r] of routes) {
+    if(!positions.has(r.from.country)||!positions.has(r.to.country))continue;
+    const [x1,y1]=positions.get(r.from.country),[x2,y2]=positions.get(r.to.country);
+    const dx=x2-x1,dy=y2-y1,dist=Math.hypot(dx,dy)||1;
+    const nx=-dy/dist,ny=dx/dist;
+    // Signed offsets are consistent for both orientations so reverse connections separate.
+    // Use the same signed offset in each route's OWN travel direction.
+    // Reversing a route reverses its perpendicular, placing Malaysia → US
+    // and US → Malaysia on opposite sides rather than on top of each other.
+    const bend=Math.min(95,Math.max(25,dist*.19));
+    const p1=[x1+dx*.33+nx*bend,y1+dy*.33+ny*bend];
+    const p2=[x1+dx*.68+nx*bend,y1+dy*.68+ny*bend];
+    const vx=x2-p2[0],vy=y2-p2[1],vlen=Math.hypot(vx,vy)||1;
+    const ux=vx/vlen,uy=vy/vlen;
+    // The line stops BEFORE the arrow, leaving its entire triangle unobstructed.
+    // Keep the arrow tip clear of the destination circle as well.
+    const tipGap=11,headLength=7,halfWidth=3.4;
+    const tipX=x2-tipGap*ux,tipY=y2-tipGap*uy;
+    const baseX=tipX-headLength*ux,baseY=tipY-headLength*uy;
+    const endX=baseX,endY=baseY;
+    const path=document.createElementNS(ns,"path");
+    path.setAttribute("d",`M${x1.toFixed(2)},${y1.toFixed(2)} C${p1[0].toFixed(2)},${p1[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)} ${endX.toFixed(2)},${endY.toFixed(2)}`);
+    path.setAttribute("fill","none");
+    path.setAttribute("stroke","#C55358");
+    path.setAttribute("stroke-width",String(Math.min(7.5,1.1+1.65*r.count)));
+    path.setAttribute("opacity",".43");
+    path.setAttribute("stroke-linecap","butt");
+    const arrow=document.createElementNS(ns,"path");
+    arrow.setAttribute("d",`M${tipX.toFixed(2)},${tipY.toFixed(2)} L${(baseX+halfWidth*uy).toFixed(2)},${(baseY-halfWidth*ux).toFixed(2)} L${(baseX-halfWidth*uy).toFixed(2)},${(baseY+halfWidth*ux).toFixed(2)} Z`);
+    arrow.setAttribute("fill","#C55358");
+    arrow.setAttribute("opacity",".48");
+    arrowheads.push(arrow);
+    const title=document.createElementNS(ns,"title");
+    title.textContent=key+" — "+r.count+" selected record"+(r.count===1?"":"s");
+    path.appendChild(title);
+    overlay.appendChild(path);
+    const hit=document.createElementNS(ns,"path");
+    hit.setAttribute("d",path.getAttribute("d"));
+    hit.setAttribute("fill","none");
+    hit.setAttribute("stroke","transparent");
+    hit.setAttribute("stroke-width",String(Math.max(13,8+1.65*r.count)));
+    hit.style.pointerEvents="stroke";
+    hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(r,e);});
+    hit.addEventListener("mouseleave",hideTip);
+    overlay.appendChild(hit);
+  }
+  for(const arrow of arrowheads) overlay.appendChild(arrow);
+  const align=()=>{const cr=base.getBoundingClientRect(),pr=wrapper.getBoundingClientRect();overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";overlay.style.width=cr.width+"px";overlay.style.height=cr.height+"px";};
+  align();
+  if(typeof ResizeObserver!=="undefined")new ResizeObserver(align).observe(base);
+  window.addEventListener("resize",align);
 }
 
 // Optional story annotations for the annual-sales chart. These emphasise
