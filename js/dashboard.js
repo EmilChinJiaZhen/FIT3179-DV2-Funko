@@ -91,6 +91,7 @@ function setupTradeMapControls(container, baseSpec) {
   const region=panel.querySelector("#trade-nav-region");
   const output=panel.querySelector("#trade-nav-value");
   const reset=panel.querySelector("#trade-nav-reset");
+  const filter=panel.querySelector("#trade-nav-filter");
   const centers={World:[0,0],Americas:[-95,15],Europe:[15,48],"Asia-Pacific":[105,5]};
   let request=0;
   const update=async()=>{
@@ -107,10 +108,21 @@ function setupTradeMapControls(container, baseSpec) {
   };
   zoom.addEventListener("change",update);
   region.addEventListener("change",update);
-  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";update();});
+  reset.addEventListener("click",()=>{zoom.value="100";region.value="World";if(filter)filter.value="1";update();});
 }
 
 function setupAtlanticTradeFlows(container, spec, view) {
+  const routeFilter = document.getElementById("trade-nav-filter");
+  const routeElements = [];
+  const applyRouteFilter = () => {
+    const minimum = Number(routeFilter?.value || 1);
+    for (const {count, line, hit, arrow} of routeElements) {
+      const visible = count >= minimum;
+      for (const element of [line, hit, arrow]) element.style.display = visible ? "" : "none";
+    }
+  };
+  routeFilter?.addEventListener("change", applyRouteFilter);
+
   const base = container.querySelector("svg.marks");
   const records = spec.layer.find(layer => layer.data?.values?.some(v => v.route_id && v.role))?.data?.values;
   if (!base || !records) return;
@@ -232,8 +244,10 @@ function setupAtlanticTradeFlows(container, spec, view) {
     hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(r,e);});
     hit.addEventListener("mouseleave",hideTip);
     overlay.appendChild(hit);
+    routeElements.push({count:r.count,line:path,hit,arrow});
   }
   for(const arrow of arrowheads) overlay.appendChild(arrow);
+  applyRouteFilter();
   const align=()=>{const cr=base.getBoundingClientRect(),pr=wrapper.getBoundingClientRect();overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";overlay.style.width=cr.width+"px";overlay.style.height=cr.height+"px";};
   align();
   if(typeof ResizeObserver!=="undefined")new ResizeObserver(align).observe(base);
