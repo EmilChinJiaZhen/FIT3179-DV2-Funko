@@ -17,19 +17,61 @@
   "projection": {
     "type": "equalEarth",
     "scale": {
-      "expr": "tradeZoom"
+      "expr": "trade_zoom"
     },
     "center": {
-      "expr": "tradeCenter"
+      "expr": "trade_pan_center"
     }
   },
   "params": [
     {
-      "name": "tradeZoom",
-      "value": 130
+      "name": "trade_zoom",
+      "value": 130,
+      "bind": {
+        "input": "range",
+        "min": 100,
+        "max": 450,
+        "step": 10,
+        "name": "Zoom: "
+      }
     },
     {
-      "name": "tradeCenter",
+      "name": "trade_center",
+      "value": [
+        0,
+        0
+      ],
+      "bind": {
+        "input": "select",
+        "name": "Map region: ",
+        "options": [
+          [
+            0,
+            0
+          ],
+          [
+            -95,
+            15
+          ],
+          [
+            15,
+            48
+          ],
+          [
+            105,
+            5
+          ]
+        ],
+        "labels": [
+          "World",
+          "Americas",
+          "Europe",
+          "Asia-Pacific"
+        ]
+      }
+    },
+    {
+      "name": "trade_pan_center",
       "value": [
         0,
         0
