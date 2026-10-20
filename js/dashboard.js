@@ -140,14 +140,26 @@ function setupTradeMapControls(container, view, flow) {
 function setupAtlanticTradeFlows(container, spec, view) {
   const routeFilter = document.getElementById("trade-nav-filter");
   const routeElements = [];
+  const tradeRegion = country => (["China","Vietnam","Malaysia","Philippines","Kazakhstan"].includes(country) ? "Asia" : country==="United Kingdom" ? "Europe" : "Americas");
+  const tradeColours = {Asia:"#1F8C83",Europe:"#C05792",Americas:"#5C4FA3"};
+  const countryLabel = country => `<span style="color:${tradeColours[tradeRegion(country)]}">${escapeText(country)}</span>`;
+  const focusButtons=[...document.querySelectorAll("[data-trade-export-focus]")];
+  let exportFocus=null;
+  const syncFocus=()=>focusButtons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.tradeExportFocus===(exportFocus||"all"))));
+  focusButtons.forEach(button=>button.addEventListener("click",()=>{
+    exportFocus=button.dataset.tradeExportFocus==="all"?null:button.dataset.tradeExportFocus;
+    activeCountry=null;activeRoute=null;tip.hidden=true;syncFocus();applyRouteFilter();
+  }));
+  syncFocus();
   let activeCountry = null;
   let activeRoute = null;
   const applyRouteFilter = () => {
     const minimum = Number(routeFilter?.value || 1);
     for (const {route, count, line, hit, arrow} of routeElements) {
       const visible = count >= minimum;
+      const focusMatch = !exportFocus || route.from.country===exportFocus;
       const highlighted = activeRoute === route || (!activeRoute && activeCountry && (route.from.country === activeCountry || route.to.country === activeCountry));
-      const faded = (activeCountry || activeRoute) && !highlighted;
+      const faded = !focusMatch || ((activeCountry || activeRoute) && !highlighted);
       for (const element of [line, hit, arrow]) element.style.display = visible ? "" : "none";
       line.setAttribute("opacity", faded ? ".08" : highlighted ? ".9" : ".36");
       arrow.setAttribute("opacity", faded ? ".08" : highlighted ? ".92" : ".43");
@@ -196,13 +208,15 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const showCountry = (country,event) => {
     const counts=countryStats.get(country);
     if(!counts)return;
-    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${escapeText(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Shows the country's recorded importing and exporting activity for Funko-branded products.</div>`;
+    tip.style.borderTop="4px solid "+tradeColours[tradeRegion(country)];
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Country trade profile</p><div class="trade-map-tooltip__title">${countryLabel(country)}</div><div class="trade-map-tooltip__stat-row"><span>Exporting records</span><b>${counts.exports}</b></div><div class="trade-map-tooltip__stat-row"><span>Importing records</span><b>${counts.imports}</b></div><div class="trade-map-tooltip__muted">Shows the country's recorded importing and exporting activity for Funko-branded products.</div>`;
     activeCountry=country;activeRoute=null;applyRouteFilter();
     tip.hidden=false;positionTip(event);
   };
   const showRoute = (route,event) => {
     const from=route.from.country,to=route.to.country;
-    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${escapeText(from)} <span class="trade-map-tooltip__route">→</span> ${escapeText(to)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Thicker lines indicate more recorded trade activity between the two countries.</div>`;
+    tip.style.borderTop="4px solid "+tradeColours[tradeRegion(from)];
+    tip.innerHTML=`<p class="trade-map-tooltip__eyebrow">Documented directional trade</p><div class="trade-map-tooltip__title">${countryLabel(from)} <span class="trade-map-tooltip__route">→</span> ${countryLabel(to)}</div><div class="trade-map-tooltip__stat-row"><span>Trade records</span><b>${route.count}</b></div><div class="trade-map-tooltip__muted">Thicker lines indicate more recorded trade activity between the two countries.</div>`;
     activeCountry=null;activeRoute=route;applyRouteFilter();
     tip.hidden=false;positionTip(event);
   };
