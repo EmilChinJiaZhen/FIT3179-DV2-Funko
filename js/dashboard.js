@@ -102,7 +102,7 @@ function setupTradeMapControls(container, baseSpec) {
     let drag=null;
     svg.addEventListener("pointerdown",event=>{
       if(event.button!==0||!event.isPrimary)return;
-      drag={id:event.pointerId,x:event.clientX,y:event.clientY,center:[...center]};
+      drag={id:event.pointerId,x:event.clientX,y:event.clientY,center:[...center],startRect:svg.getBoundingClientRect(),overlay:container.querySelector("svg.atlantic-trade-flows")};
       svg.setPointerCapture(event.pointerId);
       svg.classList.add("is-dragging");
       event.preventDefault();
@@ -111,19 +111,27 @@ function setupTradeMapControls(container, baseSpec) {
       if(!drag||event.pointerId!==drag.id)return;
       const scale=94*Number(zoom.value)/100;
       const factor=180/(Math.PI*scale);
-      const rect=svg.getBoundingClientRect();
+      const rect=drag.startRect;
       const pixelRatio=Number(baseSpec.width)/Math.max(1,rect.width);
-      center=[clamp(drag.center[0]-(event.clientX-drag.x)*factor*pixelRatio,-180,180),
-              clamp(drag.center[1]+(event.clientY-drag.y)*factor*pixelRatio,-80,80)];
+      const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
+      center=[clamp(drag.center[0]-dx*factor*pixelRatio,-180,180),
+              clamp(drag.center[1]+dy*factor*pixelRatio,-80,80)];
+      // Smooth visual preview: move the map AND the flow overlay together.
+      // Commit the new geographic centre once on pointer release.
+      svg.style.transform=`translate(${dx}px, ${dy}px)`;
+      if(drag.overlay)drag.overlay.style.transform=`translate(${dx}px, ${dy}px)`;
       event.preventDefault();
     });
     const finish=event=>{
       if(!drag||event.pointerId!==drag.id)return;
       const changed=Math.hypot(event.clientX-drag.x,event.clientY-drag.y)>3;
+      const ended=drag;
       drag=null;
       svg.classList.remove("is-dragging");
+      // Keep the translated preview visible until the re-render completes.
       if(svg.hasPointerCapture(event.pointerId))svg.releasePointerCapture(event.pointerId);
       if(changed)update();
+      else {svg.style.transform="";if(ended.overlay)ended.overlay.style.transform="";}
     };
     svg.addEventListener("pointerup",finish);
     svg.addEventListener("pointercancel",finish);
