@@ -83,12 +83,30 @@
       "mark": {
         "type": "bar",
         "size": 3
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.Rank <= 3",
+            "value": "#4E79A7"
+          },
+          "value": "#C9D3E1"
+        }
       }
     },
     {
       "mark": {
         "type": "circle",
         "size": 130
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.Rank <= 3",
+            "value": "#4E79A7"
+          },
+          "value": "#C9D3E1"
+        }
       }
     },
     {
@@ -104,6 +122,13 @@
         "text": {
           "field": "Product_Count",
           "type": "quantitative"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Rank <= 3",
+            "value": "#132341"
+          },
+          "value": "#8C96A8"
         }
       }
     }
