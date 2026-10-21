@@ -148,23 +148,26 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const syncFocus=()=>focusButtons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.tradeExportFocus===(exportFocus||"all"))));
   focusButtons.forEach(button=>button.addEventListener("click",()=>{
     exportFocus=button.dataset.tradeExportFocus==="all"?null:button.dataset.tradeExportFocus;
-    activeCountry=null;activeRoute=null;tip.hidden=true;syncFocus();applyRouteFilter();
+    activeCountry=null;activeRoute=null;selectedRoute=null;tip.hidden=true;syncFocus();applyRouteFilter();
   }));
   syncFocus();
   let activeCountry = null;
   let activeRoute = null;
+  let selectedRoute = null;
   const applyRouteFilter = () => {
     const minimum = Number(routeFilter?.value || 1);
     for (const {route, count, line, hit, arrow} of routeElements) {
       const visible = count >= minimum;
       const focusMatch = !exportFocus || route.from.country===exportFocus;
-      const highlighted = activeRoute === route || (!activeRoute && activeCountry && (route.from.country === activeCountry || route.to.country === activeCountry));
-      const faded = !focusMatch || ((activeCountry || activeRoute) && !highlighted);
+      const highlighted = selectedRoute ? selectedRoute===route :
+        activeRoute === route || (!activeRoute && activeCountry && (route.from.country === activeCountry || route.to.country === activeCountry));
+      const faded = !focusMatch || ((selectedRoute || activeCountry || activeRoute) && !highlighted);
       for (const element of [line, hit, arrow]) element.style.display = visible ? "" : "none";
       line.setAttribute("opacity", faded ? ".08" : highlighted ? ".9" : ".36");
       arrow.setAttribute("opacity", faded ? ".08" : highlighted ? ".92" : ".43");
       line.setAttribute("stroke-width", String(Math.min(6.3, .9 + 1.35 * count)));
-      hit.style.pointerEvents = visible && !faded ? "stroke" : "none";
+      hit.style.pointerEvents = visible && focusMatch ? "stroke" : "none";
+      hit.style.cursor = "pointer";
     }
   };
   routeFilter?.addEventListener("change", applyRouteFilter);
@@ -221,6 +224,21 @@ function setupAtlanticTradeFlows(container, spec, view) {
     tip.hidden=false;positionTip(event);
   };
   const hideTip=()=>{tip.hidden=true;activeCountry=null;activeRoute=null;applyRouteFilter();};
+  const selectRoute=(route,event)=>{
+    event.stopPropagation();
+    selectedRoute = selectedRoute === route ? null : route;
+    activeRoute=null;activeCountry=null;
+    applyRouteFilter();
+    if(selectedRoute)showRoute(route,event);
+    else tip.hidden=true;
+  };
+  // Click on the map background to clear a pinned route, but not when dragging.
+  let clickStart=null;
+  base.addEventListener("pointerdown",e=>{clickStart=[e.clientX,e.clientY];});
+  base.addEventListener("click",e=>{
+    if(!selectedRoute || (clickStart && Math.hypot(e.clientX-clickStart[0],e.clientY-clickStart[1])>5))return;
+    selectedRoute=null;hideTip();
+  });
   view.addEventListener("mousemove",(event,item)=>{
     const country=item?.datum?.country;
     if(typeof country==="string" && countryStats.has(country))showCountry(country,event);
@@ -351,6 +369,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
     hit.style.pointerEvents="stroke";
     hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(r,e);});
     hit.addEventListener("mouseleave",hideTip);
+    hit.addEventListener("click",e=>selectRoute(r,e));
     overlay.appendChild(hit);
     routeElements.push({route:r,count:r.count,line:path,hit,arrow});
   }
@@ -382,7 +401,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
       const tx=x2-11*ux,ty=y2-11*uy,bx=tx-7*ux,by=ty-7*uy;
       const d=`M${x1},${y1} C${p1[0]},${p1[1]} ${p2[0]},${p2[1]} ${bx},${by}`;
       const line=document.createElementNS(ns,"path");line.setAttribute("d",d);line.setAttribute("fill","none");line.setAttribute("stroke","#C55358");line.setAttribute("stroke-width",String(Math.min(7.5,1.1+1.65*route.count)));line.setAttribute("opacity",".43");
-      const hit=document.createElementNS(ns,"path");hit.setAttribute("d",d);hit.setAttribute("fill","none");hit.setAttribute("stroke","transparent");hit.setAttribute("stroke-width","14");hit.style.pointerEvents="stroke";hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(route,e);});hit.addEventListener("mouseleave",hideTip);
+      const hit=document.createElementNS(ns,"path");hit.setAttribute("d",d);hit.setAttribute("fill","none");hit.setAttribute("stroke","transparent");hit.setAttribute("stroke-width","14");hit.style.pointerEvents="stroke";hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(route,e);});hit.addEventListener("mouseleave",hideTip);hit.addEventListener("click",e=>selectRoute(route,e));
       const arrow=document.createElementNS(ns,"path"),half=3.4;arrow.setAttribute("d",`M${tx},${ty} L${bx+half*uy},${by-half*ux} L${bx-half*uy},${by+half*ux} Z`);arrow.setAttribute("fill","#C55358");arrow.setAttribute("opacity",".48");
       overlay.appendChild(line);overlay.appendChild(hit);overlay.appendChild(arrow);
       routeElements.push({route,count:route.count,line,hit,arrow});
