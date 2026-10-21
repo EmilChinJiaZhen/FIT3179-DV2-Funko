@@ -898,7 +898,7 @@ function setupAnalyticsTooltip(view, selector) {
     if(selector==="#idiom06"){
       if(!d.product_type)return false;
       tip.style.setProperty("--analytics-accent","#A47B00");
-      head(d.product_type,"Exclusive vs. non-exclusive pricing");
+      head(d.product_type,"Exclusive and non-exclusive pricing");
       const exclusive=Number(d.Exclusive_Average);
       const regular=Number(d.No_Exclusive_Average);
       if(Number.isFinite(exclusive)&&Number.isFinite(regular)) {
