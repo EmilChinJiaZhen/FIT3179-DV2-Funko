@@ -1681,8 +1681,13 @@ body {
 #idiom20 .vega-bindings,
 #idiom15 .vega-bindings {font-family:"Inter",Arial,sans-serif;color:#324157;font-size:12px;}
 #idiom06 .vega-bindings select {padding:6px 10px;border:1px solid #d4ced2;border-radius:7px;background:#fff;color:#263149;}
-#idiom15 .vega-bindings {display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:10px;}
-#idiom15 .vega-bindings input[type=range] {width:115px;accent-color:#C9A227;}
+/* Keep both raincloud price filters on one horizontal row. */
+#idiom15 .vega-bindings {display:flex;flex-wrap:nowrap;align-items:center;gap:10px;margin-top:10px;}
+#idiom15 .vega-bindings .vega-bind {display:flex;align-items:center;gap:4px;white-space:nowrap;min-width:0;margin:0;}
+#idiom15 .vega-bindings input[type=range] {width:92px;min-width:70px;accent-color:#C9A227;}
+@media (max-width: 540px) {
+  #idiom15 .vega-bindings {flex-wrap:wrap;gap:8px 12px;}
+}
 
 /* Remove browser focus rectangle from clickable SVG chart canvases. */
 .interactive-chart-selection:focus,
