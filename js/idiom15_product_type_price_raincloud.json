@@ -439,6 +439,11 @@
               "interpolate": {
                 "value": "monotone"
               }
+            },
+            "update": {
+              "opacity": {
+                "signal": "linkedPriceType === '' || datum.ProductType === linkedPriceType ? 1 : 0.17"
+              }
             }
           }
         }
