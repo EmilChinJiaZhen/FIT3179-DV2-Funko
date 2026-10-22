@@ -286,7 +286,7 @@
           "as": "PlotLatitude"
         },
         {
-          "calculate": "'https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/funko-pop-transparent-fixed.png'",
+          "calculate": "datum.EventType === 'Official Funko store' ? 'https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/license-tooltips/batman.png' : datum.EventType === 'Store / fan event' ? 'https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/license-tooltips/nba.png' : 'https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/funko-pop-transparent-fixed.png'",
           "as": "MarkerImage"
         }
       ],
@@ -330,10 +330,39 @@
       },
       "encoding": {
         "x": {
-          "value": 775
+          "value": 757
         },
         "y": {
-          "value": 53
+          "value": 49
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "1 icon = 1 location"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 757
+        },
+        "y": {
+          "value": 70
         },
         "text": {
           "field": "label"
@@ -350,15 +379,15 @@
       },
       "mark": {
         "type": "image",
-        "width": 26,
-        "height": 26
+        "width": 25,
+        "height": 25
       },
       "encoding": {
         "x": {
-          "value": 785
+          "value": 787
         },
         "y": {
-          "value": 91
+          "value": 102
         },
         "url": {
           "field": "url"
@@ -369,7 +398,7 @@
       "data": {
         "values": [
           {
-            "label": "1 verified"
+            "label": "Convention"
           }
         ]
       },
@@ -378,16 +407,16 @@
         "align": "left",
         "baseline": "middle",
         "font": "Inter",
-        "fontSize": 12,
+        "fontSize": 11,
         "fontWeight": "normal",
         "color": "#132341"
       },
       "encoding": {
         "x": {
-          "value": 810
+          "value": 809
         },
         "y": {
-          "value": 81
+          "value": 102
         },
         "text": {
           "field": "label"
@@ -398,7 +427,32 @@
       "data": {
         "values": [
           {
-            "label": "Funko store"
+            "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/license-tooltips/nba.png"
+          }
+        ]
+      },
+      "mark": {
+        "type": "image",
+        "width": 25,
+        "height": 25
+      },
+      "encoding": {
+        "x": {
+          "value": 787
+        },
+        "y": {
+          "value": 141
+        },
+        "url": {
+          "field": "url"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Store /"
           }
         ]
       },
@@ -407,16 +461,16 @@
         "align": "left",
         "baseline": "middle",
         "font": "Inter",
-        "fontSize": 12,
+        "fontSize": 11,
         "fontWeight": "normal",
         "color": "#132341"
       },
       "encoding": {
         "x": {
-          "value": 810
+          "value": 809
         },
         "y": {
-          "value": 97
+          "value": 135
         },
         "text": {
           "field": "label"
@@ -427,7 +481,7 @@
       "data": {
         "values": [
           {
-            "label": "or event"
+            "label": "fan event"
           }
         ]
       },
@@ -436,16 +490,99 @@
         "align": "left",
         "baseline": "middle",
         "font": "Inter",
-        "fontSize": 12,
+        "fontSize": 11,
         "fontWeight": "normal",
         "color": "#132341"
       },
       "encoding": {
         "x": {
-          "value": 810
+          "value": 809
         },
         "y": {
-          "value": 113
+          "value": 149
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/assets/license-tooltips/batman.png"
+          }
+        ]
+      },
+      "mark": {
+        "type": "image",
+        "width": 25,
+        "height": 25
+      },
+      "encoding": {
+        "x": {
+          "value": 787
+        },
+        "y": {
+          "value": 184
+        },
+        "url": {
+          "field": "url"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Official Funko"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 809
+        },
+        "y": {
+          "value": 178
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "store"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#132341"
+      },
+      "encoding": {
+        "x": {
+          "value": 809
+        },
+        "y": {
+          "value": 192
         },
         "text": {
           "field": "label"
