@@ -1,3 +1,0 @@
-GitHub Pages redeployment trigger
-This file is a harmless placeholder used to trigger a new deployment.
-Source commit: 2f55d0b6bb024c4f90a365a0b7e92d3f355e4708
