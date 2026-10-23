@@ -2377,3 +2377,12 @@ body {
     transform: translateX(-25px);
   }
 }
+
+/* Align Place maps 1 and 3 with the 45px rightward sightline of maps 2 and 4.
+   Shift the whole chart region so titles, maps and controls stay together. */
+@media (min-width: 1101px) {
+  .chapter--global .story-row--map:has(#idiom08) > .story-chart,
+  .chapter--global .story-row--map:has(#idiom18) > .story-chart {
+    transform: translateX(45px);
+  }
+}
