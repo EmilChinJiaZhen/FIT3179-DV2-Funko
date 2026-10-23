@@ -2205,3 +2205,11 @@ body {
     transform: none;
   }
 }
+
+/* Match the flow-map heading and controls to its unshifted Vega-Lite canvas. */
+@media (min-width: 1101px) {
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title,
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
+    transform: none;
+  }
+}
