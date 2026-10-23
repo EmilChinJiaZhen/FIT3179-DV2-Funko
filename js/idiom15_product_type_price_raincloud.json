@@ -381,10 +381,10 @@
       "domainColor": "#999999",
       "tickColor": "#999999",
       "labelFont": "Inter",
-      "labelFontSize": 12,
+      "labelFontSize": 20,
       "labelPadding": 6,
       "titleFont": "Inter",
-      "titleFontSize": 13,
+      "titleFontSize": 21,
       "titleFontWeight": 400,
       "titlePadding": 12,
       "labelFontWeight": 400
@@ -648,7 +648,7 @@
             "value": "Inter"
           },
           "fontSize": {
-            "value": 12
+            "value": 20
           },
           "fontWeight": {
             "value": "normal"
@@ -670,8 +670,8 @@
     "axis": {
       "labelFont": "Inter",
       "titleFont": "Inter",
-      "labelFontSize": 12,
-      "titleFontSize": 13,
+      "labelFontSize": 20,
+      "titleFontSize": 21,
       "titleFontWeight": 400,
       "labelFontWeight": 400
     },
