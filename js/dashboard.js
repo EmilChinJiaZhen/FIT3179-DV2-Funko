@@ -114,7 +114,7 @@ function setupTradeMapControls(container, view, flow) {
   };
   const apply=()=>{
     if(output)output.textContent=zoom.value+"%";
-    pending={center:view.signal("trade_pan_center"),scale:94*Number(zoom.value)/100};
+    pending={center:view.signal("trade_pan_center"),scale:130*Number(zoom.value)/100};
     queue();
   };
   svg.addEventListener("pointerdown",event=>{
@@ -124,16 +124,16 @@ function setupTradeMapControls(container, view, flow) {
   });
   svg.addEventListener("pointermove",event=>{
     if(!drag||event.pointerId!==drag.id)return;
-    const rect=svg.getBoundingClientRect(),factor=180/(Math.PI*(94*Number(zoom.value)/100));
+    const rect=svg.getBoundingClientRect(),factor=180/(Math.PI*(130*Number(zoom.value)/100));
     const ratio=Number(view.width())/Math.max(rect.width,1);
     const center=[clamp(drag.center[0]-(event.clientX-drag.x)*factor*ratio,-180,180),
                   clamp(drag.center[1]+(event.clientY-drag.y)*factor*ratio,-85,85)];
-    pending={center,scale:94*Number(zoom.value)/100};queue();event.preventDefault();
+    pending={center,scale:130*Number(zoom.value)/100};queue();event.preventDefault();
   });
   const stop=event=>{if(!drag||event.pointerId!==drag.id)return;drag=null;svg.classList.remove("is-dragging");if(svg.hasPointerCapture(event.pointerId))svg.releasePointerCapture(event.pointerId);};
   svg.addEventListener("pointerup",stop);svg.addEventListener("pointercancel",stop);
   zoom.addEventListener("input",apply);
-  region.addEventListener("change",()=>{pending={center:centers[region.value]||centers.World,scale:94*Number(zoom.value)/100};queue();});
+  region.addEventListener("change",()=>{pending={center:centers[region.value]||centers.World,scale:130*Number(zoom.value)/100};queue();});
   reset.addEventListener("click",()=>{zoom.value="100";region.value="World";if(filter)filter.value="1";flow.applyFilter();if(output)output.textContent="100%";pending={center:[0,0],scale:94};queue();});
 }
 
