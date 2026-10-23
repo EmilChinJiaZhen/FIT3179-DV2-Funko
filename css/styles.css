@@ -2231,17 +2231,23 @@ body {
   top: 0 !important;
 }
 
-/* Match Map 4's SVG display scale to Maps 2 and 3. The route overlay is
-   positioned from the rendered SVG bounds by setupAtlanticTradeFlows(). */
+/* Map 4 must fit inside its 720px content column. A 135% SVG width plus
+   a 45px translation pushed the map and its legend outside the dashboard. */
 @media (min-width: 1101px) {
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title,
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23,
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
+    transform: none;
+  }
   .chapter--global .funko-map-layout #idiom23 .vega-embed svg.marks,
   .chapter--global .funko-map-layout #idiom23.vega-embed svg.marks {
-    width: 135% !important;
-    max-width: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
     height: auto !important;
   }
-  .chapter--global #idiom23,
-  .chapter--global .story-chart.funko-map-layout:has(#idiom23) {
-    overflow: visible;
-  }
+}
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23 {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
