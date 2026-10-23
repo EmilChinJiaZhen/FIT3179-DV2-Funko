@@ -897,7 +897,7 @@
             "value": 12
           },
           "fontWeight": {
-            "value": "bold"
+            "value": "normal"
           },
           "fill": {
             "value": "#333333"
@@ -942,7 +942,7 @@
             "value": 12
           },
           "fontWeight": {
-            "value": "bold"
+            "value": "normal"
           },
           "fill": {
             "value": "#333333"
@@ -987,7 +987,7 @@
             "value": 12
           },
           "fontWeight": {
-            "value": "bold"
+            "value": "normal"
           },
           "fill": {
             "value": "#333333"
