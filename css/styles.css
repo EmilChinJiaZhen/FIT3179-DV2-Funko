@@ -2267,9 +2267,10 @@ body {
 /* Keep the overview's enlarged year labels visible below its SVG bounds. */
 #idiom20, #idiom20 svg.marks { overflow: visible; }
 
-/* Override older p:last-child rules with sufficient specificity.
-   Narrow finding paragraphs only; keep headings, controls and charts intact. */
-.chapter--catalogue .story-row .story-insight p:last-child,
-.chapter--time .story-row .story-insight p:last-child {
-  max-width: 42ch;
+/* All finding paragraphs in Catalogue and Time, including the first
+   paragraph in multi-paragraph findings and paragraphs followed by controls.
+   Override older more-specific :not(...)/:last-child width rules. */
+.chapter--catalogue .story-row .story-insight > p,
+.chapter--time .story-row .story-insight > p {
+  max-width: 40ch !important;
 }
