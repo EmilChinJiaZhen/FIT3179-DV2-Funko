@@ -2137,3 +2137,53 @@ body {
 /* Keep the event map's location-type filters beside its findings. */
 .event-location-story {flex-direction:column;align-items:flex-start;gap:7px;margin-top:22px;}
 .event-location-story .sales-story__actions {width:100%;}
+
+
+/* Section 2 Place sightline refinements — keep map projections and controls unchanged. */
+.chapter--global .story-row--map {
+  align-items: start;
+  margin-bottom: 56px;
+}
+.chapter--global .story-row--map:last-child {
+  margin-bottom: 0;
+}
+/* Both column headings share the same top edge without matching their font sizes. */
+.chapter--global .story-row--map > .story-insight,
+.chapter--global .story-row--map > .story-chart {
+  padding-top: 8px;
+}
+.chapter--global .story-row--map .story-insight h3 {
+  margin-top: 0;
+}
+.chapter--global .story-row--map .idiom-html-title {
+  margin-top: 0;
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+/* Keep legends visually quiet and consistent with the other map keys. */
+.chapter--global .trade-width-legend,
+.chapter--global .origin-map-legend--side,
+.chapter--global .funko-map-legend--side {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+}
+@media (min-width: 1101px) {
+  /* Give each map the same reserved chart column; retain existing SVG sizing and
+     map-specific transforms so panning/zooming geometry is unaffected. */
+  .chapter--global .story-row--map.story-row--reverse {
+    grid-template-columns: minmax(0, 720px) minmax(0, 1fr);
+  }
+  .chapter--global .story-row--map:not(.story-row--reverse) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 720px);
+  }
+  .chapter--global .story-row--map .story-chart {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+@media (max-width: 1100px) {
+  .chapter--global .story-row--map {
+    margin-bottom: 40px;
+  }
+}
