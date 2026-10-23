@@ -381,12 +381,13 @@
       "domainColor": "#999999",
       "tickColor": "#999999",
       "labelFont": "Inter",
-      "labelFontSize": 16,
+      "labelFontSize": 12,
       "labelPadding": 6,
       "titleFont": "Inter",
-      "titleFontSize": 18,
-      "titleFontWeight": "normal",
-      "titlePadding": 12
+      "titleFontSize": 13,
+      "titleFontWeight": 400,
+      "titlePadding": 12,
+      "labelFontWeight": 400
     }
   ],
   "marks": [
@@ -669,9 +670,10 @@
     "axis": {
       "labelFont": "Inter",
       "titleFont": "Inter",
-      "labelFontSize": 16,
-      "titleFontSize": 18,
-      "titleFontWeight": 600
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleFontWeight": 400,
+      "labelFontWeight": 400
     },
     "legend": {
       "labelFont": "Inter",
