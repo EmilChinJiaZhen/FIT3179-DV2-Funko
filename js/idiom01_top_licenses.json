@@ -9,7 +9,7 @@
     "offset": 16
   },
   "width": "container",
-  "height": 420,
+  "height": 600,
   "data": {
     "url": "https://raw.githubusercontent.com/EmilChinJiaZhen/FIT3179-DV2-Funko/refs/heads/main/data/data_cleaned_wide.csv",
     "format": {
@@ -51,6 +51,16 @@
   ],
   "encoding": {
     "x": {
+      "field": "Product_Count",
+      "type": "quantitative",
+      "title": "Number of Funko products",
+      "axis": {
+        "grid": true,
+        "tickMinStep": 1,
+        "tickCount": 5
+      }
+    },
+    "y": {
       "field": "license",
       "type": "nominal",
       "sort": {
@@ -59,27 +69,10 @@
       },
       "title": "License",
       "axis": {
-        "labelFontSize": 12,
-        "labelAngle": -35,
-        "labelAlign": "right",
-        "labelBaseline": "top",
-        "labelLimit": 220,
+        "labelLimit": 260,
         "labelOverlap": false,
-        "titlePadding": 18,
-        "labelFont": "Inter",
-        "labelFontWeight": 400,
-        "titleFont": "Inter",
-        "titleFontSize": 13,
-        "titleFontWeight": 400
-      }
-    },
-    "y": {
-      "field": "Product_Count",
-      "type": "quantitative",
-      "title": "Number of Funko products",
-      "axis": {
-        "grid": true,
-        "tickMinStep": 1
+        "titlePadding": 12,
+        "labelExpr": "indexof(datum.label, 'Nightmare') >= 0 ? ['The Nightmare','Before Christmas'] : indexof(datum.label, 'Five Nights') >= 0 ? ['Five Nights at',\"Freddy's\"] : datum.label === 'My Hero Academia' ? ['My Hero','Academia'] : datum.label"
       }
     }
   },
@@ -117,11 +110,12 @@
     {
       "mark": {
         "type": "text",
-        "align": "center",
-        "baseline": "bottom",
-        "dy": -8,
+        "align": "left",
+        "baseline": "middle",
+        "dy": 0,
         "fontSize": 11,
-        "font": "Inter"
+        "font": "Inter",
+        "dx": 8
       },
       "encoding": {
         "text": {
@@ -129,11 +123,7 @@
           "type": "quantitative"
         },
         "color": {
-          "condition": {
-            "test": "datum.Rank <= 3",
-            "value": "#132341"
-          },
-          "value": "#8C96A8"
+          "value": "#35445e"
         }
       }
     }

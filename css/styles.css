@@ -2242,3 +2242,25 @@ body {
     overflow: visible;
   }
 }
+
+/* Visual audit: preserve the chart-title hierarchy and align occupied columns. */
+.story-row--feature { gap: 18px; }
+#idiom14 { margin: 0; }
+.story-row--brand-chart .story-chart {
+  width: 100%; max-width: none; margin-top: 0; left: 0;
+}
+.story-row--brand-chart .idiom-html-title { margin-left: 0; }
+#idiom21 { padding-bottom: 0; }
+#idiom21 .region-story-chart-note {
+  font-weight: 600; font-size: 11px; white-space: normal;
+  width: 80px; text-align: center; line-height: 1.35;
+}
+#idiom15 .vega-bindings { margin-top: 0; }
+.funko-map-controls .funko-map-control--select,
+.funko-map-controls .funko-map-control--zoom { font-weight: 600; }
+.event-location-story .sales-story__actions {
+  display: grid; grid-template-columns: repeat(2, max-content); gap: 8px;
+}
+@media (max-width: 540px) {
+  .event-location-story .sales-story__actions { grid-template-columns: 1fr; }
+}

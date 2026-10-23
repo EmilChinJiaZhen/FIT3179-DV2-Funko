@@ -277,7 +277,12 @@
               100
             ],
             "titleFontWeight": 700,
-            "labelFontWeight": 400
+            "labelFontWeight": 400,
+            "title": [
+              "Relative",
+              "search",
+              "interest"
+            ]
           }
         }
       }
