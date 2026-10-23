@@ -874,9 +874,6 @@
           "y": {
             "signal": "height - 3"
           },
-          "text": {
-            "value": "Wider ribbons represent more products"
-          },
           "align": {
             "value": "center"
           },
