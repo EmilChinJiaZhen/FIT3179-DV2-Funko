@@ -1645,6 +1645,7 @@ body {
 .funko-map-layout,
 .origin-map-layout { grid-template-columns: minmax(0, 1fr); }
 .funko-map-layout #idiom09,
+.funko-map-layout #idiom23,
 .origin-map-layout #idiom18 { width: 910px; max-width: 100%; }
 .funko-map-layout #idiom09.vega-embed > details,
 .origin-map-layout #idiom18.vega-embed > details {
@@ -2188,9 +2189,14 @@ body {
   }
 }
 
-/* Map 4 legend now belongs to Vega-Lite; give the plot its full map-and-key row. */
+/* Map 4 uses the same chart sizing and visual offset as Map 2.
+   Keep only the grid row assignments and one desktop alignment rule. */
 .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) {
   grid-template-columns: minmax(0, 1fr);
+}
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title {
+  grid-column: 1;
+  grid-row: 1;
 }
 .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23 {
   grid-column: 1;
@@ -2200,21 +2206,6 @@ body {
   grid-column: 1;
   grid-row: 3;
 }
-@media (min-width: 1101px) {
-  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23 {
-    transform: none;
-  }
-}
-
-/* Match the flow-map heading and controls to its unshifted Vega-Lite canvas. */
-@media (min-width: 1101px) {
-  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title,
-  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
-    transform: none;
-  }
-}
-
-/* Align trade-map title, map and controls with Map 2's 45px desktop offset. */
 @media (min-width: 1101px) {
   .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title,
   .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23,
