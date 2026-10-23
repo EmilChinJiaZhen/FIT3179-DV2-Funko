@@ -721,7 +721,7 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 12,
+        "fontSize": 11,
         "fontWeight": 700,
         "color": "#132341",
         "align": "left",
