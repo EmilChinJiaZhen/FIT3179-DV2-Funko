@@ -971,9 +971,10 @@
     "legend": {
       "labelFont": "Inter",
       "titleFont": "Inter",
-      "labelFontSize": 12,
-      "titleFontSize": 13,
-      "titleFontWeight": 700
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titleFontWeight": 700,
+      "labelFontWeight": 400
     }
   },
   "description": "Selected public trade-record examples from 2024–2025. Arrow width encodes count of selected records between country pairs, not shipment volumes. Arcs are schematic and do not show routes taken.",
