@@ -266,7 +266,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const clipRect=document.createElementNS(ns,"rect");
   clipRect.setAttribute("x","0");
   clipRect.setAttribute("y","0");
-  clipRect.setAttribute("width",String(width-160));
+  clipRect.setAttribute("width",String(width-210)); // fallback until actual legend bounds are measured
   clipRect.setAttribute("height",String(height));
   clip.appendChild(clipRect);
   defs.appendChild(clip);
@@ -428,7 +428,21 @@ function setupAtlanticTradeFlows(container, spec, view) {
     }
     applyRouteFilter();
   };
-  const align=()=>{const cr=base.getBoundingClientRect(),pr=wrapper.getBoundingClientRect();overlay.style.left=(cr.left-pr.left)+"px";overlay.style.top=(cr.top-pr.top)+"px";overlay.style.width=cr.width+"px";overlay.style.height=cr.height+"px";};
+  const align=()=>{
+    const cr=base.getBoundingClientRect(),pr=wrapper.getBoundingClientRect();
+    overlay.style.left=(cr.left-pr.left)+"px";
+    overlay.style.top=(cr.top-pr.top)+"px";
+    overlay.style.width=cr.width+"px";
+    overlay.style.height=cr.height+"px";
+    // SVG scaling differs between maps. Clip before the *rendered* legend,
+    // not at a fixed chart-coordinate width that can overlap at high zoom.
+    const legendLabel=[...base.querySelectorAll("text")].find(node=>node.textContent?.trim()==="Number of records");
+    if(legendLabel&&cr.width>0){
+      const legendLeft=legendLabel.getBoundingClientRect().left;
+      const boundary=(legendLeft-cr.left-12)*width/cr.width;
+      clipRect.setAttribute("width",String(Math.max(0,Math.min(width,boundary))));
+    }
+  };
   align();
   if(typeof ResizeObserver!=="undefined")new ResizeObserver(align).observe(base);
   window.addEventListener("resize",align);
