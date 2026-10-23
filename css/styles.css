@@ -2473,3 +2473,62 @@ body {
   .dashboard-sources__intro { max-width: 100%; }
   .dashboard-sources__note { grid-column: 1 / -1; }
 }
+
+/* Alternative hero: narrative in the left third, KPIs in a 2x2 grid on
+   the right two-thirds. Preserve the original artwork and card styling. */
+@media (min-width: 1101px) {
+  .dashboard-hero-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    column-gap: 32px;
+    align-items: center;
+    margin: 32px 0 36px;
+  }
+  .dashboard-hero-layout .hero {
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+  }
+  .dashboard-hero-layout .eyebrow { margin-bottom: 20px; }
+  .dashboard-hero-layout .hero h1.hero-title {
+    max-width: 100%;
+    margin: 0 0 26px;
+    font-size: clamp(38px, 3.4vw, 46px);
+    line-height: 1.03;
+  }
+  .dashboard-hero-layout .hero-title-line--top,
+  .dashboard-hero-layout .hero-title-line--bottom {
+    justify-content: flex-start;
+  }
+  .dashboard-hero-layout .hero-title-line--top { gap: 7px; }
+  .dashboard-hero-layout .hero-title-line--bottom { gap: 8px; margin-top: 2px; }
+  .dashboard-hero-layout .hero-title .hero-title-icon--top {
+    width: 51px;
+    height: 60px;
+  }
+  .dashboard-hero-layout .hero-funko-wordmark { width: 133px; max-height: 56px; }
+  .dashboard-hero-layout .hero-copy {
+    max-width: 100%;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .dashboard-hero-layout .dashboard-kpis {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    align-self: stretch;
+  }
+  .dashboard-hero-layout .dashboard-kpi {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 142px;
+    padding: 20px 22px;
+  }
+}
+@media (max-width: 1100px) {
+  .dashboard-hero-layout { display: block; }
+}
