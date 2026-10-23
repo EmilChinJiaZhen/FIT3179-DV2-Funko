@@ -2222,12 +2222,14 @@ body {
   top: 0 !important;
 }
 
-/* Match Map 4's SVG display scale to Maps 2 and 3. The route overlay is
-   positioned from the rendered SVG bounds by setupAtlanticTradeFlows(). */
+/* Maps 2 and 4 have different computed parent widths. At the reference
+   desktop viewport, Map 4's 135% SVG was 920.7px wide while Map 2 was
+   765.44px. Use the measured ratio for Map 4 rather than reusing 135%.
+   The separate SVG route overlay tracks the rendered SVG bounding box. */
 @media (min-width: 1101px) {
   .chapter--global .funko-map-layout #idiom23 .vega-embed svg.marks,
   .chapter--global .funko-map-layout #idiom23.vega-embed svg.marks {
-    width: 135% !important;
+    width: 112.25% !important;
     max-width: none !important;
     height: auto !important;
   }
