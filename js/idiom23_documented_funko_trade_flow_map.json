@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": 750,
-  "height": 310,
+  "height": 354,
   "autosize": {
-    "type": "fit",
+    "type": "pad",
     "contains": "padding"
   },
   "background": null,
@@ -22,11 +22,7 @@
     },
     "center": {
       "expr": "trade_pan_center"
-    },
-    "translate": [
-      280,
-      155
-    ]
+    }
   },
   "params": [
     {
