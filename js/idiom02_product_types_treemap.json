@@ -680,9 +680,10 @@
     "legend": {
       "labelFont": "Inter",
       "titleFont": "Inter",
-      "labelFontSize": 12,
-      "titleFontSize": 13,
-      "titleFontWeight": 700
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titleFontWeight": 700,
+      "labelFontWeight": 400
     },
     "title": {
       "font": "Inter",
@@ -715,12 +716,13 @@
       "symbolType": "square",
       "symbolSize": 120,
       "labelFont": "Inter",
-      "labelFontSize": 12,
+      "labelFontSize": 11,
       "titleFont": "Inter",
-      "titleFontSize": 13,
-      "titleFontWeight": "bold",
+      "titleFontSize": 12,
+      "titleFontWeight": 700,
       "labelLimit": 120,
-      "padding": 8
+      "padding": 8,
+      "labelFontWeight": 400
     }
   ],
   "signals": [
