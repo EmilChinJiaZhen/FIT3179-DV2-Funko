@@ -554,11 +554,15 @@ function setupTreemapStory(view) {
 // Its chart data, tick position, and other labels are not modified.
 function shiftNightmareAxisLabel(container) {
   const apply = () => {
-    const nodes = container.querySelectorAll("svg.marks .role-axis-label text");
+    // Vega may put role-axis-label on the text itself, not on its parent.
+    // Match the actual rendered SVG text, including multiline <tspan> labels.
+    const nodes = container.querySelectorAll("svg.marks text");
     for (const node of nodes) {
       const text = (node.textContent || "").replace(/\s+/g, " ").trim();
-      if (text.includes("The Nightmare") && text.includes("Before Christmas")) {
-        node.setAttribute("dx", "-15");
+      if (text.includes("The Nightmare") || text.includes("Before Christmas")) {
+        // CSS translate moves the rendered label in screen coordinates without
+        // changing its axis tick, rotation, or the lollipop data position.
+        node.style.translate = "-15px 0px";
       }
     }
   };
