@@ -8,7 +8,7 @@ function prepareChartTypography(source, selector) {
   function visit(group) {
     for (const axis of group.axes || []) {
       Object.assign(axis, {labelFont: 'Inter', titleFont: 'Inter',
-        labelFontSize: size(12), titleFontSize: size(12),
+        labelFontSize: size(12), titleFontSize: size(12), labelLineHeight: size(15),
         labelFontWeight: 400, titleFontWeight: 400});
     }
     for (const legend of group.legends || []) {
@@ -64,6 +64,17 @@ async function fitChartTypography(view, container) {
         if (!(scale > 0) || Math.abs(view.signal('screenTextScale') - scale) < 0.002) break;
         await view.signal('screenTextScale', scale).runAsync();
       }
+      // Vega's SVG renderer caches tspan content by text alone. Font-scale
+      // changes update font-size but can leave the old multiline dy in place.
+      // Match those spans to the line height already used by the scenegraph.
+      const svg = container.querySelector('svg.marks');
+      svg?.querySelectorAll('text').forEach(text => {
+        const fontSize = parseFloat(text.getAttribute('font-size'));
+        if (!(fontSize > 0)) return;
+        text.querySelectorAll('tspan').forEach((span, index) => {
+          if (index) span.setAttribute('dy', fontSize * 1.25);
+        });
+      });
       container.dispatchEvent(new Event('charttypographychange'));
     } finally { running = false; }
   };
