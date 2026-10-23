@@ -1104,7 +1104,8 @@
       "titleFont": "Inter",
       "labelFontSize": 12,
       "titleFontSize": 13,
-      "titleFontWeight": 600
+      "titleFontWeight": 400,
+      "labelFontWeight": 400
     },
     "legend": {
       "labelFont": "Inter",
