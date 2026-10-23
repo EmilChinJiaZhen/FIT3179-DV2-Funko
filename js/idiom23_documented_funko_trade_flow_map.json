@@ -69,6 +69,152 @@
     },
     {
       "data": {
+        "values": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -180,
+                  0
+                ],
+                [
+                  -150,
+                  0
+                ],
+                [
+                  -120,
+                  0
+                ],
+                [
+                  -90,
+                  0
+                ],
+                [
+                  -60,
+                  0
+                ],
+                [
+                  -30,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  30,
+                  0
+                ],
+                [
+                  60,
+                  0
+                ],
+                [
+                  90,
+                  0
+                ],
+                [
+                  120,
+                  0
+                ],
+                [
+                  150,
+                  0
+                ],
+                [
+                  180,
+                  0
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#8C8C8C",
+        "strokeWidth": 1.15,
+        "opacity": 1
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  0,
+                  -90
+                ],
+                [
+                  0,
+                  -75
+                ],
+                [
+                  0,
+                  -60
+                ],
+                [
+                  0,
+                  -45
+                ],
+                [
+                  0,
+                  -30
+                ],
+                [
+                  0,
+                  -15
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  15
+                ],
+                [
+                  0,
+                  30
+                ],
+                [
+                  0,
+                  45
+                ],
+                [
+                  0,
+                  60
+                ],
+                [
+                  0,
+                  75
+                ],
+                [
+                  0,
+                  90
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#8C8C8C",
+        "strokeWidth": 1.15,
+        "opacity": 1
+      }
+    },
+    {
+      "data": {
         "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
         "format": {
           "type": "topojson",
