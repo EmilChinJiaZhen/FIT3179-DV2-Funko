@@ -2187,3 +2187,21 @@ body {
     margin-bottom: 40px;
   }
 }
+
+/* Map 4 legend now belongs to Vega-Lite; give the plot its full map-and-key row. */
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23 {
+  grid-column: 1;
+  grid-row: 2;
+}
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
+  grid-column: 1;
+  grid-row: 3;
+}
+@media (min-width: 1101px) {
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23 {
+    transform: none;
+  }
+}
