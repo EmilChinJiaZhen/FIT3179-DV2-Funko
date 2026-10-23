@@ -2370,3 +2370,10 @@ body {
     margin-right: 0;
   }
 }
+
+/* Catalogue chord only: nudge the rendered idiom 25px left on desktop. */
+@media (min-width: 1101px) {
+  .chapter--catalogue #idiom12 {
+    transform: translateX(-25px);
+  }
+}
