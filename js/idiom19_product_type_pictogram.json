@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "description": "Funko product-type pictogram; each full symbol represents 25 products. Transforms calculate partial groups from the live catalogue.",
   "width": 585,
-  "height": 430,
+  "height": 390,
   "padding": {
     "top": 6,
     "left": 2,
@@ -135,7 +135,7 @@
         {
           "type": "formula",
           "as": "y",
-          "expr": "(datum.Rank == 1 ? 82 + floor(datum.slot / 20) * 25 : 151 + (datum.Rank - 2) * 39) - 18"
+          "expr": "(datum.Rank == 1 ? 82 + floor(datum.slot / 20) * 25 : 151 + (datum.Rank - 2) * 39) - 58"
         }
       ]
     },
@@ -172,7 +172,7 @@
             "signal": "18 + ((datum.Rank-1)%3)*190"
           },
           "y": {
-            "signal": "327 + floor((datum.Rank-1)/3)*32"
+            "signal": "287 + floor((datum.Rank-1)/3)*32"
           },
           "fill": {
             "value": "transparent"
@@ -205,7 +205,7 @@
             "signal": "31 + ((datum.Rank-1)%3)*190"
           },
           "y": {
-            "signal": "327 + floor((datum.Rank-1)/3)*32"
+            "signal": "287 + floor((datum.Rank-1)/3)*32"
           },
           "text": {
             "field": "product_type"
@@ -375,7 +375,7 @@
             "value": 539
           },
           "y": {
-            "signal": "(datum.Rank == 1 ? 97 : 151 + (datum.Rank-2)*39) - 18"
+            "signal": "(datum.Rank == 1 ? 97 : 151 + (datum.Rank-2)*39) - 58"
           },
           "text": {
             "field": "Count"
@@ -414,7 +414,7 @@
             "value": 4
           },
           "y": {
-            "value": 402
+            "value": 362
           },
           "text": {
             "value": "1 icon = 25 products. Half icons show incomplete groups."
