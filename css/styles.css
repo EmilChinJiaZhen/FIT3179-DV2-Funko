@@ -2230,3 +2230,18 @@ body {
   right: 170px !important;
   top: 0 !important;
 }
+
+/* Match Map 4's SVG display scale to Maps 2 and 3. The route overlay is
+   positioned from the rendered SVG bounds by setupAtlanticTradeFlows(). */
+@media (min-width: 1101px) {
+  .chapter--global .funko-map-layout #idiom23 .vega-embed svg.marks,
+  .chapter--global .funko-map-layout #idiom23.vega-embed svg.marks {
+    width: 135% !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+  .chapter--global #idiom23,
+  .chapter--global .story-chart.funko-map-layout:has(#idiom23) {
+    overflow: visible;
+  }
+}
