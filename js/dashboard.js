@@ -254,6 +254,26 @@ function setupAtlanticTradeFlows(container, spec, view) {
   const wrapper=base.parentElement;
   wrapper.style.position="relative";
   wrapper.appendChild(overlay);
+  // Clip only trade routes (including hit paths and arrowheads) to the map
+  // viewport. The last 160 chart units are reserved for the Vega legend.
+  // Keeping the clip on the overlay's route group leaves map labels,
+  // legends, zoom controls and tooltip positioning unaffected.
+  const clipId = "trade-route-map-viewport";
+  const defs = document.createElementNS(ns,"defs");
+  const clip = document.createElementNS(ns,"clipPath");
+  clip.setAttribute("id",clipId);
+  clip.setAttribute("clipPathUnits","userSpaceOnUse");
+  const clipRect=document.createElementNS(ns,"rect");
+  clipRect.setAttribute("x","0");
+  clipRect.setAttribute("y","0");
+  clipRect.setAttribute("width",String(width-160));
+  clipRect.setAttribute("height",String(height));
+  clip.appendChild(clipRect);
+  defs.appendChild(clip);
+  overlay.appendChild(defs);
+  const flowLayer=document.createElementNS(ns,"g");
+  flowLayer.setAttribute("clip-path",`url(#${clipId})`);
+  overlay.appendChild(flowLayer);
   // Render arrowheads after all flow paths so lines cannot obscure them.
   const arrowheads=[];
   const positions=new Map();
@@ -360,7 +380,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
     arrow.setAttribute("fill","#C55358");
     arrow.setAttribute("opacity",".48");
     arrowheads.push(arrow);
-    overlay.appendChild(path);
+    flowLayer.appendChild(path);
     const hit=document.createElementNS(ns,"path");
     hit.setAttribute("d",path.getAttribute("d"));
     hit.setAttribute("fill","none");
@@ -370,10 +390,10 @@ function setupAtlanticTradeFlows(container, spec, view) {
     hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(r,e);});
     hit.addEventListener("mouseleave",hideTip);
     hit.addEventListener("click",e=>selectRoute(r,e));
-    overlay.appendChild(hit);
+    flowLayer.appendChild(hit);
     routeElements.push({route:r,count:r.count,line:path,hit,arrow});
   }
-  for(const arrow of arrowheads) overlay.appendChild(arrow);
+  for(const arrow of arrowheads) flowLayer.appendChild(arrow);
   applyRouteFilter();
   const redraw=()=>{
     const rect=base.getBoundingClientRect();
@@ -403,7 +423,7 @@ function setupAtlanticTradeFlows(container, spec, view) {
       const line=document.createElementNS(ns,"path");line.setAttribute("d",d);line.setAttribute("fill","none");line.setAttribute("stroke","#C55358");line.setAttribute("stroke-width",String(Math.min(7.5,1.1+1.65*route.count)));line.setAttribute("opacity",".43");
       const hit=document.createElementNS(ns,"path");hit.setAttribute("d",d);hit.setAttribute("fill","none");hit.setAttribute("stroke","transparent");hit.setAttribute("stroke-width","14");hit.style.pointerEvents="stroke";hit.addEventListener("mousemove",e=>{e.stopPropagation();showRoute(route,e);});hit.addEventListener("mouseleave",hideTip);hit.addEventListener("click",e=>selectRoute(route,e));
       const arrow=document.createElementNS(ns,"path"),half=3.4;arrow.setAttribute("d",`M${tx},${ty} L${bx+half*uy},${by-half*ux} L${bx-half*uy},${by+half*ux} Z`);arrow.setAttribute("fill","#C55358");arrow.setAttribute("opacity",".48");
-      overlay.appendChild(line);overlay.appendChild(hit);overlay.appendChild(arrow);
+      flowLayer.appendChild(line);flowLayer.appendChild(hit);flowLayer.appendChild(arrow);
       routeElements.push({route,count:route.count,line,hit,arrow});
     }
     applyRouteFilter();
