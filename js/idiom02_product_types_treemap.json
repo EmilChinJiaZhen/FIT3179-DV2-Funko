@@ -579,7 +579,7 @@
             "value": 600
           },
           "fill": {
-            "value": "#132341"
+            "value": "#FFFFFF"
           },
           "limit": {
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
@@ -634,7 +634,7 @@
             "value": 10
           },
           "fill": {
-            "value": "#132341"
+            "value": "#FFFFFF"
           },
           "limit": {
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
