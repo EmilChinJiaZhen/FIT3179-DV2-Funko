@@ -34,7 +34,7 @@
     },
     {
       "name": "trade_zoom",
-      "value": 94
+      "value": 130
     }
   ],
   "layer": [
@@ -976,5 +976,11 @@
       "titleFontWeight": 700
     }
   },
-  "description": "Selected public trade-record examples from 2024–2025. Arrow width encodes count of selected records between country pairs, not shipment volumes. Arcs are schematic and do not show routes taken."
+  "description": "Selected public trade-record examples from 2024–2025. Arrow width encodes count of selected records between country pairs, not shipment volumes. Arcs are schematic and do not show routes taken.",
+  "padding": {
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "right": 160
+  }
 }
