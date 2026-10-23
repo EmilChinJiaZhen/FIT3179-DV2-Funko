@@ -2474,62 +2474,49 @@ body {
   .dashboard-sources__note { grid-column: 1 / -1; }
 }
 
-/* Alternative hero: title and introduction occupy two-thirds; compact KPIs
-   use the right third. Preserve artwork and card styling. */
+/* Centred full-width hero title with a 2/3 introduction and 1/3 KPI grid. */
 @media (min-width: 1101px) {
   .dashboard-hero-layout {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     column-gap: 32px;
+    row-gap: 36px;
     align-items: center;
     margin: 32px 0 36px;
   }
   .dashboard-hero-layout .hero {
-    min-width: 0;
+    grid-column: 1 / -1;
     padding: 0;
     margin: 0;
-    text-align: left;
+    text-align: center;
   }
-  .dashboard-hero-layout .eyebrow { margin-bottom: 20px; }
+  .dashboard-hero-layout .eyebrow { margin-bottom: 18px; }
   .dashboard-hero-layout .hero h1.hero-title {
-    max-width: 100%;
-    margin: 0 0 26px;
-    font-size: clamp(38px, 3.4vw, 46px);
+    max-width: max-content;
+    margin: 0 auto;
+    font-size: 68px;
     line-height: 1.03;
   }
   .dashboard-hero-layout .hero-title-line--top,
-  .dashboard-hero-layout .hero-title-line--bottom {
-    justify-content: flex-start;
-  }
-  .dashboard-hero-layout .hero-title-line--top { gap: 7px; }
-  .dashboard-hero-layout .hero-title-line--bottom { gap: 8px; margin-top: 2px; }
-  .dashboard-hero-layout .hero-title .hero-title-icon--top {
-    width: 51px;
-    height: 60px;
-  }
-  .dashboard-hero-layout .hero-funko-wordmark { width: 133px; max-height: 56px; }
-  .dashboard-hero-layout .hero-copy {
-    max-width: 100%;
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.65;
-  }
-  .dashboard-hero-layout .hero h1.hero-title {
-    font-size: clamp(48px, 4.6vw, 64px);
-  }
-  .dashboard-hero-layout .hero-title .hero-title-icon--top {
-    width: 67px;
-    height: 79px;
-  }
-  .dashboard-hero-layout .hero-funko-wordmark {
-    width: 190px;
-    max-height: 78px;
+  .dashboard-hero-layout .hero-title-line--bottom { justify-content: center; }
+  .dashboard-hero-layout .hero-title-line--top { gap: 12px; }
+  .dashboard-hero-layout .hero-title-line--bottom { gap: 10px; margin-top: -4px; }
+  .dashboard-hero-layout .hero-title .hero-title-icon--top { width: 78px; height: 88px; }
+  .dashboard-hero-layout .hero-funko-wordmark { width: 207px; max-height: 82px; }
+  .dashboard-hero-layout .dashboard-hero-intro {
+    grid-column: 1;
+    min-width: 0;
+    align-self: center;
   }
   .dashboard-hero-layout .hero-copy {
     max-width: 53ch;
+    margin: 0;
+    text-align: left;
     font-size: 17px;
+    line-height: 1.65;
   }
   .dashboard-hero-layout .dashboard-kpis {
+    grid-column: 2;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
@@ -2544,16 +2531,11 @@ body {
     min-height: 130px;
     padding: 14px 12px;
   }
-  .dashboard-hero-layout .dashboard-kpi__number {
-    font-size: clamp(23px, 2vw, 29px);
-  }
-  .dashboard-hero-layout .dashboard-kpi__label {
-    font-size: 11px;
-  }
-  .dashboard-hero-layout .dashboard-kpi__detail {
-    font-size: 11px;
-  }
+  .dashboard-hero-layout .dashboard-kpi__number { font-size: clamp(23px, 2vw, 29px); }
+  .dashboard-hero-layout .dashboard-kpi__label,
+  .dashboard-hero-layout .dashboard-kpi__detail { font-size: 11px; }
 }
 @media (max-width: 1100px) {
   .dashboard-hero-layout { display: block; }
+  .dashboard-hero-layout .dashboard-hero-intro { margin: 0 0 22px; }
 }
