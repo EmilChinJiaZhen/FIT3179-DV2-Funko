@@ -2267,9 +2267,9 @@ body {
 /* Keep the overview's enlarged year labels visible below its SVG bounds. */
 #idiom20, #idiom20 svg.marks { overflow: visible; }
 
-/* Keep Catalogue (01) and Time (04) findings at a slightly shorter reading measure
-   at the reference desktop viewport. Titles and controls retain their widths. */
-.chapter--catalogue .story-row .story-insight p,
-.chapter--time .story-row .story-insight p {
-  max-width: 45ch;
+/* Override older p:last-child rules with sufficient specificity.
+   Narrow finding paragraphs only; keep headings, controls and charts intact. */
+.chapter--catalogue .story-row .story-insight p:last-child,
+.chapter--time .story-row .story-insight p:last-child {
+  max-width: 42ch;
 }
