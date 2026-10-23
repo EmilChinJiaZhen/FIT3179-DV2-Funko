@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 560,
+  "width": 720,
   "height": 310,
   "autosize": {
     "type": "fit",
@@ -21,7 +21,11 @@
     },
     "center": {
       "expr": "trade_pan_center"
-    }
+    },
+    "translate": [
+      280,
+      155
+    ]
   },
   "params": [
     {
@@ -703,6 +707,255 @@
             ]
           },
           "legend": null
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "Number of records"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#132341",
+        "align": "left",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "value": 573
+        },
+        "y": {
+          "value": 52
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "one": 1
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "stroke": "#C55358",
+        "strokeOpacity": 0.43,
+        "strokeWidth": 2.75
+      },
+      "encoding": {
+        "x": {
+          "value": 575
+        },
+        "x2": {
+          "value": 624
+        },
+        "y": {
+          "value": 78
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "1 record"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#132341",
+        "align": "left",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "value": 636
+        },
+        "y": {
+          "value": 78
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "one": 1
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "stroke": "#C55358",
+        "strokeOpacity": 0.43,
+        "strokeWidth": 4.4
+      },
+      "encoding": {
+        "x": {
+          "value": 575
+        },
+        "x2": {
+          "value": 624
+        },
+        "y": {
+          "value": 105
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "2 records"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#132341",
+        "align": "left",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "value": 636
+        },
+        "y": {
+          "value": 105
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "one": 1
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "stroke": "#C55358",
+        "strokeOpacity": 0.43,
+        "strokeWidth": 6.05
+      },
+      "encoding": {
+        "x": {
+          "value": 575
+        },
+        "x2": {
+          "value": 624
+        },
+        "y": {
+          "value": 132
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "3 records"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#132341",
+        "align": "left",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "value": 636
+        },
+        "y": {
+          "value": 132
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "one": 1
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "stroke": "#C55358",
+        "strokeOpacity": 0.43,
+        "strokeWidth": 7.5
+      },
+      "encoding": {
+        "x": {
+          "value": 575
+        },
+        "x2": {
+          "value": 624
+        },
+        "y": {
+          "value": 159
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "4+ records"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Inter",
+        "fontSize": 11,
+        "fontWeight": "normal",
+        "color": "#132341",
+        "align": "left",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "value": 636
+        },
+        "y": {
+          "value": 159
+        },
+        "text": {
+          "field": "label"
         }
       }
     }
