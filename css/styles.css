@@ -2275,3 +2275,98 @@ body {
   max-width: 40ch !important;
 }
 
+
+/* Chapter-level 2:1 storytelling layout (desktop).
+   01 & 03: chart left / findings right.
+   02 & 04: findings left / chart right.
+   Keep the Sankey full-width and leave map SVG scaling/route overlay intact. */
+@media (min-width: 1101px) {
+  .chapter--catalogue .story-row:not(.story-row--feature),
+  .chapter--pricing .story-row:not(.story-row--feature) {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    column-gap: 32px;
+    align-items: start;
+  }
+
+  .chapter--global .story-row:not(.story-row--feature),
+  .chapter--time .story-row:not(.story-row--feature) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    column-gap: 32px;
+    align-items: start;
+  }
+
+  .chapter--catalogue .story-row:not(.story-row--feature) > .story-chart,
+  .chapter--pricing .story-row:not(.story-row--feature) > .story-chart,
+  .chapter--global .story-row:not(.story-row--feature) > .story-insight,
+  .chapter--time .story-row:not(.story-row--feature) > .story-insight {
+    grid-column: 1;
+    grid-row: 1;
+    order: 0;
+  }
+
+  .chapter--catalogue .story-row:not(.story-row--feature) > .story-insight,
+  .chapter--pricing .story-row:not(.story-row--feature) > .story-insight,
+  .chapter--global .story-row:not(.story-row--feature) > .story-chart,
+  .chapter--time .story-row:not(.story-row--feature) > .story-chart {
+    grid-column: 2;
+    grid-row: 1;
+    order: 0;
+  }
+
+  .chapter--catalogue .story-row:not(.story-row--feature) > .story-chart,
+  .chapter--pricing .story-row:not(.story-row--feature) > .story-chart,
+  .chapter--global .story-row:not(.story-row--feature) > .story-chart,
+  .chapter--time .story-row:not(.story-row--feature) > .story-chart {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    justify-self: stretch;
+  }
+
+  .chapter--catalogue .story-row:not(.story-row--feature) > .story-insight,
+  .chapter--pricing .story-row:not(.story-row--feature) > .story-insight,
+  .chapter--global .story-row:not(.story-row--feature) > .story-insight,
+  .chapter--time .story-row:not(.story-row--feature) > .story-insight {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+    padding-top: 0;
+  }
+
+  /* The new one-third narrative column defines its own readable measure. */
+  .chapter--catalogue .story-row .story-insight > p,
+  .chapter--time .story-row .story-insight > p {
+    max-width: 100% !important;
+  }
+
+  /* Avoid the old fixed map columns and allow the full two-thirds chart area. */
+  .chapter--global .story-row--map,
+  .chapter--global .story-row--map.story-row--reverse,
+  .chapter--global .story-row--map:not(.story-row--reverse) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .chapter--global .story-row--map > .story-chart,
+  .chapter--global .story-row--map.story-row--reverse > .story-chart {
+    width: 100%;
+    max-width: none;
+  }
+
+  .chapter--global .story-row--map .vis-container,
+  .chapter--global .story-row--map .vega-embed,
+  .chapter--global .story-row--map .vega-embed > div {
+    max-width: 100%;
+  }
+
+  /* Remove offsets designed for alternating 50/50 rows. */
+  .chapter--catalogue .story-row--chord-50 > .story-chart,
+  .chapter--pricing .story-row--reverse > .story-chart,
+  .chapter--time .story-row--brand-chart > .story-chart {
+    left: auto;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
