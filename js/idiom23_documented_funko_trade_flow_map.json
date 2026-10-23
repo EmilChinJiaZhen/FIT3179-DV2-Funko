@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 720,
+  "width": 750,
   "height": 310,
   "autosize": {
     "type": "fit",
@@ -12,7 +12,8 @@
     "anchor": "start",
     "font": "Inter",
     "fontSize": 20,
-    "fontWeight": "bold"
+    "fontWeight": "bold",
+    "offset": 16
   },
   "projection": {
     "type": "equalEarth",
@@ -721,18 +722,18 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 10,
-        "fontWeight": 700,
+        "fontSize": 12,
+        "fontWeight": "bold",
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
       },
       "encoding": {
         "x": {
-          "value": 573
+          "value": 757
         },
         "y": {
-          "value": 52
+          "value": 49
         },
         "text": {
           "field": "label"
@@ -755,13 +756,13 @@
       },
       "encoding": {
         "x": {
-          "value": 575
+          "value": 757
         },
         "x2": {
-          "value": 624
+          "value": 802
         },
         "y": {
-          "value": 78
+          "value": 102
         }
       }
     },
@@ -776,18 +777,18 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 9,
-        "fontWeight": 400,
+        "fontSize": 11,
+        "fontWeight": "normal",
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
       },
       "encoding": {
         "x": {
-          "value": 636
+          "value": 809
         },
         "y": {
-          "value": 78
+          "value": 102
         },
         "text": {
           "field": "label"
@@ -810,13 +811,13 @@
       },
       "encoding": {
         "x": {
-          "value": 575
+          "value": 757
         },
         "x2": {
-          "value": 624
+          "value": 802
         },
         "y": {
-          "value": 105
+          "value": 134
         }
       }
     },
@@ -831,18 +832,18 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 9,
-        "fontWeight": 400,
+        "fontSize": 11,
+        "fontWeight": "normal",
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
       },
       "encoding": {
         "x": {
-          "value": 636
+          "value": 809
         },
         "y": {
-          "value": 105
+          "value": 134
         },
         "text": {
           "field": "label"
@@ -865,13 +866,13 @@
       },
       "encoding": {
         "x": {
-          "value": 575
+          "value": 757
         },
         "x2": {
-          "value": 624
+          "value": 802
         },
         "y": {
-          "value": 132
+          "value": 166
         }
       }
     },
@@ -886,18 +887,18 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 9,
-        "fontWeight": 400,
+        "fontSize": 11,
+        "fontWeight": "normal",
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
       },
       "encoding": {
         "x": {
-          "value": 636
+          "value": 809
         },
         "y": {
-          "value": 132
+          "value": 166
         },
         "text": {
           "field": "label"
@@ -920,13 +921,13 @@
       },
       "encoding": {
         "x": {
-          "value": 575
+          "value": 757
         },
         "x2": {
-          "value": 624
+          "value": 802
         },
         "y": {
-          "value": 159
+          "value": 198
         }
       }
     },
@@ -941,18 +942,18 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 9,
-        "fontWeight": 400,
+        "fontSize": 11,
+        "fontWeight": "normal",
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
       },
       "encoding": {
         "x": {
-          "value": 636
+          "value": 809
         },
         "y": {
-          "value": 159
+          "value": 198
         },
         "text": {
           "field": "label"
@@ -974,10 +975,8 @@
     "legend": {
       "labelFont": "Inter",
       "titleFont": "Inter",
-      "orient": "right",
-      "direction": "vertical",
-      "labelFontSize": 11,
-      "titleFontSize": 12,
+      "labelFontSize": 12,
+      "titleFontSize": 13,
       "titleFontWeight": 700
     }
   },
