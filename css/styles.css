@@ -2397,3 +2397,35 @@ body {
     justify-self: start;
   }
 }
+
+/* Continue the chapter-level three-column sightlines into the footer sections.
+   Conclusion: one-third heading, two-thirds text. Sources: three equal columns. */
+@media (min-width: 1101px) {
+  .dashboard-conclusion {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    column-gap: 32px;
+    align-items: start;
+  }
+  .dashboard-conclusion__heading,
+  .dashboard-conclusion__body { min-width: 0; }
+  .dashboard-conclusion h2 { margin-bottom: 0; }
+  .dashboard-conclusion__body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .dashboard-conclusion__body p { max-width: 100%; }
+  .dashboard-sources__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .dashboard-conclusion__body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-sources__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .dashboard-conclusion { display: block; }
+  .dashboard-sources__grid { grid-template-columns: 1fr; }
+}
