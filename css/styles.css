@@ -2266,3 +2266,10 @@ body {
 }
 /* Keep the overview's enlarged year labels visible below its SVG bounds. */
 #idiom20, #idiom20 svg.marks { overflow: visible; }
+
+/* Keep Catalogue (01) and Time (04) findings near ten words per line
+   at the reference desktop viewport. Titles and controls retain their widths. */
+.chapter--catalogue .story-row .story-insight p,
+.chapter--time .story-row .story-insight p {
+  max-width: 48ch;
+}
