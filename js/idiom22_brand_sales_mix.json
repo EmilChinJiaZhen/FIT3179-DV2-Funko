@@ -483,11 +483,12 @@
       "title": "Year",
       "titleFont": "Inter",
       "titleFontSize": 13,
-      "titleFontWeight": "normal",
+      "titleFontWeight": 400,
       "labelFont": "Inter",
       "labelFontSize": 12,
       "grid": false,
-      "format": "d"
+      "format": "d",
+      "labelFontWeight": 400
     },
     {
       "orient": "left",
@@ -495,12 +496,13 @@
       "title": "Sales relative to 2021 (2021 = 100)",
       "titleFont": "Inter",
       "titleFontSize": 13,
-      "titleFontWeight": "normal",
+      "titleFontWeight": 400,
       "labelFont": "Inter",
       "labelFontSize": 12,
       "grid": true,
       "gridColor": "#d1d5db",
-      "gridOpacity": 0.55
+      "gridOpacity": 0.55,
+      "labelFontWeight": 400
     }
   ],
   "signals": [
