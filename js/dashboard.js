@@ -550,6 +550,22 @@ function setupTreemapStory(view) {
   }));
 }
 
+// Move only the long, wrapped second licence tick label to the left.
+// Its chart data, tick position, and other labels are not modified.
+function shiftNightmareAxisLabel(container) {
+  const apply = () => {
+    const nodes = container.querySelectorAll("svg.marks .role-axis-label text");
+    for (const node of nodes) {
+      const text = (node.textContent || "").replace(/\\s+/g, " ").trim();
+      if (text.includes("The Nightmare") && text.includes("Before Christmas")) {
+        node.setAttribute("dx", "-15");
+      }
+    }
+  };
+  apply();
+  window.addEventListener("resize", apply, { passive: true });
+}
+
 // Render chart titles as normal HTML, outside the SVG. This keeps their
 // typography consistent even when wide maps and custom diagrams are scaled.
 visualisations.forEach(async ([selector, specPath]) => {
@@ -588,6 +604,7 @@ visualisations.forEach(async ([selector, specPath]) => {
     if (selector === "#idiom20") setupSalesStory(embedResult.view);
     if (selector === "#idiom21") setupRegionStory(embedResult.view);
     if (selector === "#idiom01") setupLicenseShareTooltip(embedResult.view);
+    if (selector === "#idiom01") shiftNightmareAxisLabel(container);
     if (selector === "#idiom02") setupTreemapDetailTooltip(embedResult.view);
     if (selector === "#idiom02") setupTreemapStory(embedResult.view);
     if (selector === "#idiom19") setupPictogramPartialTooltip(embedResult.view);
