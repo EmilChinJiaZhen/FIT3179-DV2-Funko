@@ -70,7 +70,9 @@
         "labelFontWeight": 400,
         "titleFont": "Inter",
         "titleFontSize": 13,
-        "titleFontWeight": 400
+        "titleFontWeight": 400,
+        "labelExpr": "datum.label === 'The Nightmare Before Christmas' ? 'The Nightmare\\nBefore Christmas' : datum.label",
+        "labelLineHeight": 13
       }
     },
     "y": {
