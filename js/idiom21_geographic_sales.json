@@ -10,7 +10,8 @@
       "titleFont": "Inter",
       "labelFontSize": 12,
       "titleFontSize": 13,
-      "titleFontWeight": "normal"
+      "titleFontWeight": 400,
+      "labelFontWeight": 400
     },
     "title": {
       "font": "Inter",
