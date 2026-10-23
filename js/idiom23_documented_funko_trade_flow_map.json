@@ -722,7 +722,7 @@
         "type": "text",
         "font": "Inter",
         "fontSize": 12,
-        "fontWeight": "bold",
+        "fontWeight": 700,
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
@@ -777,7 +777,7 @@
         "type": "text",
         "font": "Inter",
         "fontSize": 11,
-        "fontWeight": "normal",
+        "fontWeight": 400,
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
@@ -832,7 +832,7 @@
         "type": "text",
         "font": "Inter",
         "fontSize": 11,
-        "fontWeight": "normal",
+        "fontWeight": 400,
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
@@ -887,7 +887,7 @@
         "type": "text",
         "font": "Inter",
         "fontSize": 11,
-        "fontWeight": "normal",
+        "fontWeight": 400,
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
@@ -942,7 +942,7 @@
         "type": "text",
         "font": "Inter",
         "fontSize": 11,
-        "fontWeight": "normal",
+        "fontWeight": 400,
         "color": "#132341",
         "align": "left",
         "baseline": "middle"
@@ -970,6 +970,15 @@
     },
     "axis": {
       "labelFont": "Inter"
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "titleFont": "Inter",
+      "orient": "right",
+      "direction": "vertical",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titleFontWeight": 700
     }
   },
   "description": "Selected public trade-record examples from 2024–2025. Arrow width encodes count of selected records between country pairs, not shipment volumes. Arcs are schematic and do not show routes taken."
