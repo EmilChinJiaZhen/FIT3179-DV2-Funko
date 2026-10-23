@@ -557,7 +557,7 @@ visualisations.forEach(async ([selector, specPath]) => {
   if (!container) return;
 
   try {
-    const response = await fetch(specPath);
+    const response = await fetch(`${specPath}?v=visual-type-20261023-2`);
     if (!response.ok) throw new Error(`Could not load ${specPath}: ${response.status}`);
     const spec = await response.json();
     const title = spec.title;
