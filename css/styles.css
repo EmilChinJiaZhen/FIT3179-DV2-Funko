@@ -2213,3 +2213,12 @@ body {
     transform: none;
   }
 }
+
+/* Match trade-map sightline to the nearby event map without changing its projection. */
+@media (min-width: 1101px) {
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title,
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > #idiom23,
+  .chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .trade-map-navigation {
+    transform: translateX(-14px);
+  }
+}
