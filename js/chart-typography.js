@@ -21,6 +21,9 @@ function prepareChartTypography(source, selector) {
         mark.encode ||= {};
         const enter = mark.encode.enter ||= {};
         const update = mark.encode.update ||= {};
+        for (const [key, value] of Object.entries(enter)) {
+          if (value?.signal?.includes('screenTextScale')) { update[key] = value; delete enter[key]; }
+        }
         const text = {...enter.text, ...update.text};
         const originalWeight = update.fontWeight || enter.fontWeight;
         const heading = ['bold', 600, 700].includes(originalWeight?.value);

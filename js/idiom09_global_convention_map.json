@@ -452,7 +452,7 @@
       "data": {
         "values": [
           {
-            "label": "Store /"
+            "label": "Store / fan event"
           }
         ]
       },
@@ -470,36 +470,7 @@
           "value": 809
         },
         "y": {
-          "value": 135
-        },
-        "text": {
-          "field": "label"
-        }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "label": "fan event"
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 11,
-        "fontWeight": "normal",
-        "color": "#132341"
-      },
-      "encoding": {
-        "x": {
-          "value": 809
-        },
-        "y": {
-          "value": 149
+          "value": 145
         },
         "text": {
           "field": "label"
@@ -535,7 +506,7 @@
       "data": {
         "values": [
           {
-            "label": "Official Funko"
+            "label": "Official Funko store"
           }
         ]
       },
@@ -553,36 +524,7 @@
           "value": 809
         },
         "y": {
-          "value": 178
-        },
-        "text": {
-          "field": "label"
-        }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
-            "label": "store"
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 11,
-        "fontWeight": "normal",
-        "color": "#132341"
-      },
-      "encoding": {
-        "x": {
-          "value": 809
-        },
-        "y": {
-          "value": 192
+          "value": 185
         },
         "text": {
           "field": "label"

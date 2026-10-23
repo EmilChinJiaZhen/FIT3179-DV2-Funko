@@ -537,7 +537,7 @@
       "data": {
         "values": [
           {
-            "label": "Funko product"
+            "label": "Product records"
           }
         ]
       },
@@ -566,35 +566,6 @@
       "data": {
         "values": [
           {
-            "label": "records"
-          }
-        ]
-      },
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "middle",
-        "font": "Inter",
-        "fontSize": 12,
-        "fontWeight": "bold",
-        "color": "#132341"
-      },
-      "encoding": {
-        "x": {
-          "value": 774
-        },
-        "y": {
-          "value": 191
-        },
-        "text": {
-          "field": "label"
-        }
-      }
-    },
-    {
-      "data": {
-        "values": [
-          {
             "label": "▲"
           }
         ]
@@ -612,7 +583,7 @@
           "value": 776
         },
         "y": {
-          "value": 225
+          "value": 210
         },
         "url": {
           "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C32%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
@@ -641,7 +612,7 @@
           "value": 816
         },
         "y": {
-          "value": 225
+          "value": 210
         },
         "text": {
           "field": "label"
@@ -669,7 +640,7 @@
           "value": 776
         },
         "y": {
-          "value": 265
+          "value": 250
         },
         "url": {
           "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C26%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
@@ -698,7 +669,7 @@
           "value": 816
         },
         "y": {
-          "value": 265
+          "value": 250
         },
         "text": {
           "field": "label"
@@ -726,7 +697,7 @@
           "value": 776
         },
         "y": {
-          "value": 310
+          "value": 290
         },
         "url": {
           "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C13%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
@@ -755,7 +726,7 @@
           "value": 816
         },
         "y": {
-          "value": 310
+          "value": 290
         },
         "text": {
           "field": "label"
@@ -783,7 +754,7 @@
           "value": 776
         },
         "y": {
-          "value": 356
+          "value": 330
         },
         "url": {
           "value": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2040%22%3E%3Cpolygon%20points%3D%228%2C2%201%2C40%2015%2C40%22%20fill%3D%22%23848484%22%2F%3E%3C%2Fsvg%3E"
@@ -812,7 +783,7 @@
           "value": 816
         },
         "y": {
-          "value": 356
+          "value": 330
         },
         "text": {
           "field": "label"

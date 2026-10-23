@@ -411,6 +411,31 @@
           ]
         }
       ]
+    },
+    {
+      "name": "legend_labels",
+      "values": [
+        {
+          "label": "Pop!",
+          "x": 8
+        },
+        {
+          "label": "Apparel",
+          "x": 77
+        },
+        {
+          "label": "Keychains",
+          "x": 174
+        },
+        {
+          "label": "Vinyl GOLD",
+          "x": 287
+        },
+        {
+          "label": "Plush",
+          "x": 402
+        }
+      ]
     }
   ],
   "scales": [
@@ -541,9 +566,6 @@
           "y": {
             "signal": "datum.y0 + 6"
           },
-          "text": {
-            "field": "license"
-          },
           "align": {
             "value": "left"
           },
@@ -578,6 +600,9 @@
           },
           "fillOpacity": {
             "value": 1
+          },
+          "text": {
+            "signal": "(datum.x1-datum.x0)*screenTextScale >= 95 && (datum.y1-datum.y0)*screenTextScale >= 32 ? (datum.license) : ''"
           }
         }
       }
@@ -595,9 +620,6 @@
           },
           "y": {
             "signal": "datum.y0 + 6 + 16 / screenTextScale"
-          },
-          "text": {
-            "signal": "format(datum.ProductCount, ',') + ' products'"
           },
           "align": {
             "value": "left"
@@ -633,6 +655,9 @@
           },
           "fontSize": {
             "value": 11
+          },
+          "text": {
+            "signal": "(datum.x1-datum.x0)*screenTextScale >= 95 && (datum.y1-datum.y0)*screenTextScale >= 47 ? (format(datum.ProductCount, ',') + ' products') : ''"
           }
         }
       }
@@ -670,6 +695,79 @@
         "update": {
           "opacity": {
             "signal": "(treeMoment === 'nba-pop' && datum.product_type === 'Pop!' && datum.license === 'NBA') || (treeMoment === 'nba-gold' && datum.product_type === 'Vinyl GOLD' && datum.license === 'NBA') || (treeMoment === 'star-apparel' && datum.product_type === 'Apparel' && datum.license === 'Star Wars') ? 1 : 0"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "update": {
+          "x": {
+            "value": 6
+          },
+          "y": {
+            "signal": "height + 23 / screenTextScale"
+          },
+          "text": {
+            "value": "Product type"
+          },
+          "fontWeight": {
+            "value": 600
+          },
+          "fill": {
+            "value": "#132341"
+          }
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "from": {
+        "data": "legend_labels"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "signal": "datum.x / screenTextScale"
+          },
+          "y": {
+            "signal": "height + 40 / screenTextScale"
+          },
+          "shape": {
+            "value": "square"
+          },
+          "size": {
+            "signal": "64 / pow(screenTextScale, 2)"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "label"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "legend_labels"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "signal": "(datum.x + 8) / screenTextScale"
+          },
+          "y": {
+            "signal": "height + 40 / screenTextScale"
+          },
+          "text": {
+            "field": "label"
+          },
+          "baseline": {
+            "value": "middle"
+          },
+          "fill": {
+            "value": "#132341"
           }
         }
       }
@@ -713,25 +811,6 @@
       "stroke": null
     }
   },
-  "legends": [
-    {
-      "fill": "color",
-      "title": "Product type",
-      "orient": "bottom",
-      "direction": "horizontal",
-      "columns": 5,
-      "symbolType": "square",
-      "symbolSize": 120,
-      "labelFont": "Inter",
-      "labelFontSize": 11,
-      "titleFont": "Inter",
-      "titleFontSize": 12,
-      "titleFontWeight": 700,
-      "labelLimit": 120,
-      "padding": 8,
-      "labelFontWeight": 400
-    }
-  ],
   "signals": [
     {
       "name": "selectedTreeType",

@@ -9,8 +9,7 @@
     "bottom": 10
   },
   "autosize": {
-    "type": "pad",
-    "resize": true
+    "type": "none"
   },
   "signals": [
     {
