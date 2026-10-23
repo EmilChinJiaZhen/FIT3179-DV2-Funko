@@ -2407,8 +2407,25 @@ body {
     column-gap: 32px;
     align-items: start;
   }
-  .dashboard-conclusion__heading,
-  .dashboard-conclusion__body { min-width: 0; }
+  /* The decorative accent must not consume a grid cell. */
+  .dashboard-conclusion__accent {
+    position: absolute;
+    top: 40px;
+    left: 44px;
+    margin: 0;
+  }
+  .dashboard-conclusion__heading {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    padding-top: 24px;
+  }
+  .dashboard-conclusion__body {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    padding-top: 24px;
+  }
   .dashboard-conclusion h2 { margin-bottom: 0; }
   .dashboard-conclusion__body {
     display: flex;
