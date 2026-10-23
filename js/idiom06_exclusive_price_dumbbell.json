@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 340,
+  "height": 450,
   "title": {
     "text": "Do Exclusive Funko Products Cost More?",
     "anchor": "start",
@@ -162,9 +162,6 @@
     },
     {
       "filter": "datum.ProductType_Rank <= 6"
-    },
-    {
-      "filter": "chosenPriceType === 'All' || datum.product_type === chosenPriceType"
     }
   ],
   "encoding": {
@@ -444,24 +441,6 @@
   },
   "background": "transparent",
   "params": [
-    {
-      "name": "chosenPriceType",
-      "value": "All",
-      "bind": {
-        "input": "select",
-        "name": "Product type: ",
-        "options": [
-          "All",
-          "Pop!",
-          "Apparel",
-          "Board Games",
-          "Keychains",
-          "Plush",
-          "Pop! Jumbo",
-          "Action Figures"
-        ]
-      }
-    },
     {
       "name": "linkedProductType",
       "value": ""
