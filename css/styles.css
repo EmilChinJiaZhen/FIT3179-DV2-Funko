@@ -2275,12 +2275,3 @@ body {
   max-width: 40ch !important;
 }
 
-/* Map 1 only: slightly reduce its rendered SVG so the right-side colour
-   legend has breathing room instead of being clipped at the chart edge. */
-@media (min-width: 761px) {
-  .chapter--global #idiom08 .vega-embed svg.marks,
-  .chapter--global #idiom08.vega-embed svg.marks {
-    width: 96% !important;
-    height: auto !important;
-  }
-}
