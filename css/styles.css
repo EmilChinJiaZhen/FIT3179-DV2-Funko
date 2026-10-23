@@ -585,7 +585,9 @@ body {
 .origin-map-legend--side {
   align-self: start;
   margin-top: 54px;
-  font-size: 12px;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
   color: #132341;
 }
 
