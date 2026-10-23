@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "width": 1160,
-  "height": 620,
+  "height": 570,
   "padding": {
     "top": 10,
     "left": 10,
@@ -19,7 +19,7 @@
     },
     {
       "name": "flowHeight",
-      "value": 560
+      "value": 500
     },
     {
       "name": "nodeWidth",
@@ -27,7 +27,7 @@
     },
     {
       "name": "x1",
-      "update": "width * 0.10"
+      "update": "width * 0.16"
     },
     {
       "name": "x2",
@@ -35,7 +35,7 @@
     },
     {
       "name": "x3",
-      "update": "width * 0.86"
+      "update": "width * 0.79"
     },
     {
       "name": "selectedFlow",
@@ -320,7 +320,7 @@
         },
         {
           "type": "formula",
-          "expr": "datum.PriceBand + ' ($' + format(datum.MinPrice, '.2f') + '–$' + format(datum.MaxPrice, '.2f') + ')'",
+          "expr": "datum.PriceBand + '\\n$' + format(datum.MinPrice, '.2f') + '–$' + format(datum.MaxPrice, '.2f')",
           "as": "PriceBandLabel"
         }
       ]
@@ -901,9 +901,6 @@
           },
           "fill": {
             "value": "#333333"
-          },
-          "limit": {
-            "value": 125
           }
         },
         "update": {
@@ -947,8 +944,8 @@
           "fill": {
             "value": "#333333"
           },
-          "limit": {
-            "value": 125
+          "lineBreak": {
+            "value": "\n"
           }
         },
         "update": {
@@ -1135,5 +1132,6 @@
       "stroke": null
     }
   },
-  "background": "transparent"
+  "background": "transparent",
+  "title": "How Do Product Types Connect to Price Bands and Exclusivity?"
 }

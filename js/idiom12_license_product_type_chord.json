@@ -312,7 +312,7 @@
         },
         {
           "type": "formula",
-          "expr": "datum.license === 'The Nightmare Before Christmas' ? 'The Nightmare Before\\nChristmas' : datum.license === '\"Five Nights at Freddy\\'s\"' ? 'Five Nights at\\nFreddy\\'s' : datum.license === \"Five Nights at Freddy's\" ? 'Five Nights at\\nFreddy\\'s' : datum.license",
+          "expr": "datum.license === 'The Nightmare Before Christmas' ? 'The Nightmare\\nBefore Christmas' : replace(datum.license, /\"/g, '') === 'Five Nights at Freddys' || replace(datum.license, /\"/g, '') === \"Five Nights at Freddy's\" ? \"Five Nights at\\nFreddy's\" : datum.license",
           "as": "LabelText"
         }
       ]
@@ -739,6 +739,9 @@
           },
           "fill": {
             "value": "#222222"
+          },
+          "lineBreak": {
+            "value": "\n"
           }
         },
         "update": {
@@ -772,6 +775,9 @@
           },
           "fill": {
             "value": "#555555"
+          },
+          "lineBreak": {
+            "value": "\n"
           }
         },
         "update": {}
@@ -827,6 +833,9 @@
           },
           "fill": {
             "value": "#555555"
+          },
+          "lineBreak": {
+            "value": "\n"
           }
         },
         "update": {}
@@ -879,6 +888,9 @@
           },
           "fill": {
             "value": "#666666"
+          },
+          "lineBreak": {
+            "value": "\n"
           }
         },
         "update": {}

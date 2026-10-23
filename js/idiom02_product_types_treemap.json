@@ -554,10 +554,10 @@
             "value": "Inter"
           },
           "fontWeight": {
-            "value": "bold"
+            "value": 600
           },
           "fill": {
-            "value": "white"
+            "value": "#132341"
           },
           "limit": {
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
@@ -568,16 +568,16 @@
         },
         "update": {
           "fontSize": {
-            "signal": "(datum.x1 - datum.x0) > 150 && (datum.y1 - datum.y0) > 80 ? 14 : 11"
+            "value": 12
           },
           "opacity": {
-            "signal": "((datum.x1 - datum.x0) >= 85 &&\n            (datum.y1 - datum.y0) >= 32 &&\n            datum.license !== \"Five Nights at Freddy's\" &&\n            datum.license !== \"The Nightmare Before Christmas\")\n           ? 1 : 0"
+            "signal": "(datum.x1-datum.x0)*screenTextScale >= 95 && (datum.y1-datum.y0)*screenTextScale >= 32 ? 1 : 0"
           },
           "font": {
             "value": "Inter"
           },
           "fillOpacity": {
-            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
+            "value": 1
           }
         }
       }
@@ -594,7 +594,7 @@
             "signal": "datum.x0 + 6"
           },
           "y": {
-            "signal": "datum.y0 + 24"
+            "signal": "datum.y0 + 6 + 16 / screenTextScale"
           },
           "text": {
             "signal": "format(datum.ProductCount, ',') + ' products'"
@@ -612,21 +612,27 @@
             "value": 10
           },
           "fill": {
-            "value": "white"
+            "value": "#132341"
           },
           "limit": {
             "signal": "max(0, datum.x1 - datum.x0 - 12)"
+          },
+          "fontWeight": {
+            "value": 400
           }
         },
         "update": {
           "opacity": {
-            "signal": "(datum.x1 - datum.x0) >= 85 && (datum.y1 - datum.y0) >= 45 ? 0.95 : 0"
+            "signal": "(datum.x1-datum.x0)*screenTextScale >= 95 && (datum.y1-datum.y0)*screenTextScale >= 47 ? 1 : 0"
           },
           "font": {
             "value": "Inter"
           },
           "fillOpacity": {
-            "signal": "selectedTreeType === '' || datum.product_type === selectedTreeType ? 0.88 : 0.14"
+            "value": 1
+          },
+          "fontSize": {
+            "value": 11
           }
         }
       }

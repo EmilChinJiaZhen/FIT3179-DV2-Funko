@@ -51,6 +51,16 @@
   ],
   "encoding": {
     "x": {
+      "field": "Product_Count",
+      "type": "quantitative",
+      "title": "Number of Funko products",
+      "axis": {
+        "grid": true,
+        "tickMinStep": 1,
+        "tickCount": 5
+      }
+    },
+    "y": {
       "field": "license",
       "type": "nominal",
       "sort": {
@@ -59,27 +69,9 @@
       },
       "title": "License",
       "axis": {
-        "labelFontSize": 12,
-        "labelAngle": -35,
-        "labelAlign": "right",
-        "labelBaseline": "top",
-        "labelLimit": 220,
+        "labelLimit": 180,
         "labelOverlap": false,
-        "titlePadding": 18,
-        "labelFont": "Inter",
-        "labelFontWeight": 400,
-        "titleFont": "Inter",
-        "titleFontSize": 13,
-        "titleFontWeight": 400
-      }
-    },
-    "y": {
-      "field": "Product_Count",
-      "type": "quantitative",
-      "title": "Number of Funko products",
-      "axis": {
-        "grid": true,
-        "tickMinStep": 1
+        "titlePadding": 12
       }
     }
   },
@@ -117,11 +109,12 @@
     {
       "mark": {
         "type": "text",
-        "align": "center",
-        "baseline": "bottom",
-        "dy": -8,
+        "align": "left",
+        "baseline": "middle",
+        "dy": 0,
         "fontSize": 11,
-        "font": "Inter"
+        "font": "Inter",
+        "dx": 8
       },
       "encoding": {
         "text": {
@@ -129,11 +122,7 @@
           "type": "quantitative"
         },
         "color": {
-          "condition": {
-            "test": "datum.Rank <= 3",
-            "value": "#132341"
-          },
-          "value": "#8C96A8"
+          "value": "#35445e"
         }
       }
     }

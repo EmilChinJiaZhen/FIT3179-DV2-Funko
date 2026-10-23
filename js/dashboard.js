@@ -472,8 +472,7 @@ function setupRegionStory(view) {
   const container = document.getElementById("idiom21");
   if (!container || !buttons.length) return;
 
-  // Callout text lives below the entire plot/legend. Only a thin pointer
-  // crosses the plotted area; it never obscures bars or axis labels.
+  // Keep the callout inside the highlighted Europe segment, clear of axes and legend.
   const note = document.createElement("div");
   note.className = "region-story-chart-note";
   note.setAttribute("role", "status");
@@ -519,14 +518,15 @@ function setupRegionStory(view) {
     const barRect = europeBars[yearIndex].getBoundingClientRect();
     const x = (barRect.left + barRect.right) / 2 - containerRect.left;
     const y = (barRect.top + barRect.bottom) / 2 - containerRect.top;
-    const labelY = Math.max(plotRect.bottom - containerRect.top + 16, container.clientHeight - 27);
-    const labelX = Math.max(100, Math.min(container.clientWidth - 100, x));
+    const labelY = y - note.offsetHeight / 2;
+    const labelX = Math.max(note.offsetWidth / 2 + 6, Math.min(container.clientWidth - note.offsetWidth / 2 - 6, x));
     note.style.left = labelX + "px";
     note.style.top = labelY + "px";
     pointer.setAttribute("viewBox", `0 0 ${container.clientWidth} ${container.clientHeight}`);
     pointer.setAttribute("width", container.clientWidth);
     pointer.setAttribute("height", container.clientHeight);
-    line.setAttribute("d", `M ${labelX} ${labelY - 4} L ${x} ${y}`);
+    line.setAttribute("d", "");
+    dot.setAttribute("r", "0");
     dot.setAttribute("cx", x);
     dot.setAttribute("cy", y);
   };
@@ -536,6 +536,7 @@ function setupRegionStory(view) {
     render();
   }));
   window.addEventListener("resize", render);
+  container.addEventListener("charttypographychange", render);
   render();
 }
 
@@ -581,7 +582,8 @@ visualisations.forEach(async ([selector, specPath]) => {
 
     // Preserve the chart itself, but never draw a second title inside Vega SVG.
     delete spec.title;
-    const embedResult = await vegaEmbed(container, spec, (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19","#idiom23"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
+    const embedResult = await vegaEmbed(container, prepareChartTypography(spec, selector), (["#idiom01","#idiom02","#idiom12","#idiom08","#idiom09","#idiom18","#idiom14","#idiom06","#idiom15","#idiom20","#idiom21","#idiom22","#idiom19","#idiom23"].includes(selector)) ? { ...embedOptions, tooltip: false } : embedOptions);
+    await fitChartTypography(embedResult.view, container);
     if (selector === "#idiom23") { const flow=setupAtlanticTradeFlows(container, spec, embedResult.view); setupTradeMapControls(container, embedResult.view, flow); }
     if (selector === "#idiom20") setupSalesStory(embedResult.view);
     if (selector === "#idiom21") setupRegionStory(embedResult.view);

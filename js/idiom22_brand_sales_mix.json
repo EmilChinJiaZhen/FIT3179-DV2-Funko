@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
-  "width": 780,
-  "height": 450,
+  "width": 760,
+  "height": 470,
   "padding": {
-    "left": 72,
-    "right": 126,
-    "top": 46,
-    "bottom": 49
+    "left": 78,
+    "right": 190,
+    "top": 25,
+    "bottom": 50
   },
   "autosize": {
     "type": "fit",
@@ -404,8 +404,7 @@
             "value": 600
           },
           "fill": {
-            "scale": "brandColor",
-            "field": "reported_brand_category"
+            "value": "#35445e"
           },
           "baseline": {
             "value": "bottom"
@@ -438,7 +437,7 @@
             "signal": "scale('y',datum.index) + (datum.reported_brand_category === 'Loungefly' ? -15 : datum.reported_brand_category === 'Core Collectible' ? 18 : -7)"
           },
           "text": {
-            "signal": "(datum.changePct >= 0 ? '+' : '') + format(datum.changePct,'.1f') + '% compared with 2021'"
+            "signal": "(datum.changePct >= 0 ? '+' : '') + format(datum.changePct,'.1f') + '% vs 2021'"
           },
           "font": {
             "value": "Inter"
@@ -447,7 +446,7 @@
             "value": 11
           },
           "fill": {
-            "value": "#686868"
+            "value": "#35445e"
           },
           "baseline": {
             "value": "top"
