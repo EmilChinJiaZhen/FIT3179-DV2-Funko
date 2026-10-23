@@ -556,7 +556,7 @@ function shiftNightmareAxisLabel(container) {
   const apply = () => {
     const nodes = container.querySelectorAll("svg.marks .role-axis-label text");
     for (const node of nodes) {
-      const text = (node.textContent || "").replace(/\\s+/g, " ").trim();
+      const text = (node.textContent || "").replace(/\s+/g, " ").trim();
       if (text.includes("The Nightmare") && text.includes("Before Christmas")) {
         node.setAttribute("dx", "-15");
       }
