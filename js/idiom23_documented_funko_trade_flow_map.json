@@ -721,7 +721,7 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 11,
+        "fontSize": 10,
         "fontWeight": 700,
         "color": "#132341",
         "align": "left",
@@ -776,7 +776,7 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 11,
+        "fontSize": 9,
         "fontWeight": 400,
         "color": "#132341",
         "align": "left",
@@ -831,7 +831,7 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 11,
+        "fontSize": 9,
         "fontWeight": 400,
         "color": "#132341",
         "align": "left",
@@ -886,7 +886,7 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 11,
+        "fontSize": 9,
         "fontWeight": 400,
         "color": "#132341",
         "align": "left",
@@ -941,7 +941,7 @@
       "mark": {
         "type": "text",
         "font": "Inter",
-        "fontSize": 11,
+        "fontSize": 9,
         "fontWeight": 400,
         "color": "#132341",
         "align": "left",
