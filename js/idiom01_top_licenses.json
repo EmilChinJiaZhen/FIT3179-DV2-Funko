@@ -65,7 +65,12 @@
         "labelBaseline": "top",
         "labelLimit": 220,
         "labelOverlap": false,
-        "titlePadding": 18
+        "titlePadding": 18,
+        "labelFont": "Inter",
+        "labelFontWeight": 400,
+        "titleFont": "Inter",
+        "titleFontSize": 13,
+        "titleFontWeight": 400
       }
     },
     "y": {
@@ -143,7 +148,8 @@
       "titleFont": "Inter",
       "titleFontSize": 13,
       "labelFontSize": 12,
-      "titleFontWeight": 600
+      "titleFontWeight": 400,
+      "labelFontWeight": 400
     },
     "title": {
       "font": "Inter",
