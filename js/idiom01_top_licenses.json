@@ -62,7 +62,7 @@
         "labelAngle": -35,
         "labelAlign": "right",
         "labelBaseline": "top",
-        "labelLimit": 220,
+        "labelLimit": 0,
         "labelOverlap": false,
         "titlePadding": 18,
         "labelFont": "Inter",

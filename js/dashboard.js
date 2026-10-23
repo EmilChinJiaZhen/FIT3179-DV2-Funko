@@ -557,7 +557,7 @@ visualisations.forEach(async ([selector, specPath]) => {
   if (!container) return;
 
   try {
-    const response = await fetch(`${specPath}?v=vertical-lollipop-20261023`);
+    const response = await fetch(`${specPath}?v=full-license-labels-20261023`);
     if (!response.ok) throw new Error(`Could not load ${specPath}: ${response.status}`);
     const spec = await response.json();
     const title = spec.title;
