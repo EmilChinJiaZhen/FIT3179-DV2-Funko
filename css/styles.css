@@ -2474,12 +2474,12 @@ body {
   .dashboard-sources__note { grid-column: 1 / -1; }
 }
 
-/* Alternative hero: narrative in the left third, KPIs in a 2x2 grid on
-   the right two-thirds. Preserve the original artwork and card styling. */
+/* Alternative hero: title and introduction occupy two-thirds; compact KPIs
+   use the right third. Preserve artwork and card styling. */
 @media (min-width: 1101px) {
   .dashboard-hero-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     column-gap: 32px;
     align-items: center;
     margin: 32px 0 36px;
@@ -2514,19 +2514,37 @@ body {
     font-size: 15px;
     line-height: 1.65;
   }
+  .dashboard-hero-layout .hero h1.hero-title {
+    font-size: clamp(48px, 4.6vw, 64px);
+  }
+  .dashboard-hero-layout .hero-title .hero-title-icon--top {
+    width: 67px;
+    height: 79px;
+  }
+  .dashboard-hero-layout .hero-funko-wordmark {
+    width: 190px;
+    max-height: 78px;
+  }
+  .dashboard-hero-layout .hero-copy {
+    max-width: 53ch;
+    font-size: 17px;
+  }
   .dashboard-hero-layout .dashboard-kpis {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
     margin: 0;
-    align-self: stretch;
+    align-self: center;
   }
   .dashboard-hero-layout .dashboard-kpi {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 142px;
-    padding: 20px 22px;
+    min-height: 90px;
+    padding: 12px 18px;
+  }
+  .dashboard-hero-layout .dashboard-kpi__number {
+    font-size: 30px;
   }
 }
 @media (max-width: 1100px) {
