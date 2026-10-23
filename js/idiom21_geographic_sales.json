@@ -16,6 +16,14 @@
       "font": "Inter",
       "fontSize": 20,
       "fontWeight": "bold"
+    },
+    "legend": {
+      "labelFont": "Inter",
+      "titleFont": "Inter",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titleFontWeight": 700,
+      "labelFontWeight": 400
     }
   },
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
@@ -96,7 +104,13 @@
         ]
       },
       "legend": {
-        "orient": "bottom"
+        "orient": "bottom",
+        "labelFont": "Inter",
+        "titleFont": "Inter",
+        "labelFontSize": 11,
+        "titleFontSize": 12,
+        "titleFontWeight": 700,
+        "labelFontWeight": 400
       }
     },
     "order": {
