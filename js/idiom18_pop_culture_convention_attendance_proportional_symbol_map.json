@@ -831,9 +831,10 @@
       "titleFont": "Inter",
       "orient": "right",
       "direction": "vertical",
-      "labelFontSize": 12,
-      "titleFontSize": 13,
-      "titleFontWeight": 700
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titleFontWeight": 700,
+      "labelFontWeight": 400
     },
     "title": {
       "font": "Inter",
