@@ -2264,3 +2264,5 @@ body {
 @media (max-width: 540px) {
   .event-location-story .sales-story__actions { grid-template-columns: 1fr; }
 }
+/* Keep the overview's enlarged year labels visible below its SVG bounds. */
+#idiom20, #idiom20 svg.marks { overflow: visible; }
