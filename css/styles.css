@@ -2386,3 +2386,14 @@ body {
     transform: translateX(45px);
   }
 }
+
+/* Time chapter: align chart starts with the 45px inset used by Place maps.
+   Recover that inset from chart width rather than pushing charts beyond the page. */
+@media (min-width: 1101px) {
+  .chapter--time .story-row:not(.story-row--feature) > .story-chart {
+    width: calc(100% - 45px);
+    max-width: calc(100% - 45px);
+    margin-left: 45px;
+    justify-self: start;
+  }
+}
