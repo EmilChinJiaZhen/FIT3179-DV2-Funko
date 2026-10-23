@@ -966,7 +966,12 @@
       "font": "Inter"
     },
     "axis": {
-      "labelFont": "Inter"
+      "labelFont": "Inter",
+      "labelFontSize": 12,
+      "labelFontWeight": 400,
+      "titleFont": "Inter",
+      "titleFontSize": 13,
+      "titleFontWeight": 400
     },
     "legend": {
       "labelFont": "Inter",
