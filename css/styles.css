@@ -2222,3 +2222,11 @@ body {
     transform: translateX(45px);
   }
 }
+
+/* Map 4: reserve Map 2's right-hand legend area and keep Vega actions above
+   the map rather than over the legend. */
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) #idiom23.vega-embed > details,
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) #idiom23 .vega-embed > details {
+  right: 170px !important;
+  top: 0 !important;
+}
