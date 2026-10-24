@@ -2559,3 +2559,19 @@ body {
     height: 58px;
   }
 }
+
+/* Split footer metadata into left- and right-aligned groups. */
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+.page-footer__left { text-align: left; }
+.page-footer__right { text-align: right; margin-left: auto; }
+.page-footer__left p { margin-left: 0; margin-right: auto; text-align: left; }
+.page-footer__right p { margin-left: auto; margin-right: 0; text-align: right; }
+@media (max-width: 560px) {
+  .page-footer { flex-wrap: wrap; gap: 16px; }
+  .page-footer__right { margin-left: auto; }
+}
