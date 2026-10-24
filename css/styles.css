@@ -2539,8 +2539,8 @@ body {
   }
   .dashboard-hero-layout .hero-title-line--single .hero-title-icon {
     position: static;
-    width: 56px;
-    height: 68px;
+    width: 70px;
+    height: 85px;
     flex: 0 0 auto;
   }
   .dashboard-hero-layout .hero-copy {
