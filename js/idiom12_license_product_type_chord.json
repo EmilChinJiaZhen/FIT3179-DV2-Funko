@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "width": 600,
-  "height": 450,
+  "height": 425,
   "padding": {
     "top": 15,
     "left": 10,
     "right": 10,
-    "bottom": 25
+    "bottom": 8
   },
   "autosize": {
     "type": "pad",
@@ -859,35 +859,6 @@
           },
           "strokeWidth": {
             "value": 1
-          }
-        },
-        "update": {}
-      }
-    },
-    {
-      "type": "text",
-      "encode": {
-        "enter": {
-          "x": {
-            "signal": "width / 2"
-          },
-          "y": {
-            "signal": "height - 3"
-          },
-          "align": {
-            "value": "center"
-          },
-          "font": {
-            "value": "Inter"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fill": {
-            "value": "#666666"
-          },
-          "lineBreak": {
-            "value": "\n"
           }
         },
         "update": {}

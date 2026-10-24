@@ -2579,3 +2579,11 @@ body {
   .page-footer { flex-wrap: wrap; gap: 16px; }
   .page-footer__right { margin-left: auto; }
 }
+
+/* Consistent spacing within findings; keep chart and chapter sizing intact. */
+.chapter .story-row .story-insight > h3 { margin-bottom: 16px; }
+.chapter .story-row .story-insight > h3 + p { margin-top: 0; }
+.chapter .story-row .story-insight > .sales-story,
+.chapter .story-row .story-insight > .pictogram-compare { margin-top: 24px; }
+.chapter .story-row .story-insight > p:has(+ .sales-story),
+.chapter .story-row .story-insight > p:has(+ .pictogram-compare) { margin-bottom: 0; }
