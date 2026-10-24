@@ -972,7 +972,7 @@ body {
    The Sankey has an oversized Vega canvas, so compensate for its
    unused lower space without changing the visible diagram size. */
 :root {
-  --story-vertical-gap: 36px;
+  --story-vertical-gap: 56px;
 }
 
 .story-row,
