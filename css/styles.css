@@ -2587,3 +2587,10 @@ body {
 .chapter .story-row .story-insight > .pictogram-compare { margin-top: 24px; }
 .chapter .story-row .story-insight > p:has(+ .sales-story),
 .chapter .story-row .story-insight > p:has(+ .pictogram-compare) { margin-bottom: 0; }
+
+/* Give every Place-map title the same 16px gap above its canvas. */
+.chapter--global .story-row--map .idiom-html-title,
+.chapter--global .story-chart.funko-map-layout:has(#trade-map-navigation) > .idiom-html-title {
+  margin-bottom: 16px;
+}
+.chapter--global .origin-map-layout #idiom18 { margin-top: 0; }
