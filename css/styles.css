@@ -2511,3 +2511,51 @@ body {
   margin-right: 0;
   text-align: right;
 }
+
+/* Single-line hero experiment: title, Funko wordmark, then figurine.
+   Share the same centred reading measure with the left-aligned intro. */
+@media (min-width: 1101px) {
+  .dashboard-hero-layout .hero h1.hero-title {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 24px;
+    font-size: clamp(34px, 3.75vw, 50px);
+    line-height: 1.12;
+  }
+  .dashboard-hero-layout .hero-title-line--single {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+  .dashboard-hero-layout .hero-title-line--single .hero-funko-wordmark {
+    width: 164px;
+    max-height: 70px;
+  }
+  .dashboard-hero-layout .hero-title-line--single .hero-title-icon {
+    position: static;
+    width: 56px;
+    height: 68px;
+    flex: 0 0 auto;
+  }
+  .dashboard-hero-layout .hero-copy {
+    max-width: 760px;
+    width: min(100%, 760px);
+  }
+}
+@media (max-width: 1100px) {
+  .dashboard-hero-layout .hero-title-line--single {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    white-space: normal;
+  }
+  .dashboard-hero-layout .hero-title-line--single .hero-title-icon {
+    position: static;
+    width: 48px;
+    height: 58px;
+  }
+}
